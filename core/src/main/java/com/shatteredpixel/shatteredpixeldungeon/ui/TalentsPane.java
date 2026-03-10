@@ -100,7 +100,7 @@ public class TalentsPane extends ScrollPane {
 		sep = new ColorBlock(0, 1, 0xFF000000);
 		content.add(sep);
 
-		blocker = new ColorBlock(0, 0, 0xFF222222);
+		blocker = new ColorBlock(0, 0, 0x2E2C3822);
 		content.add(blocker);
 
 		if (tiersAvailable == 1) {

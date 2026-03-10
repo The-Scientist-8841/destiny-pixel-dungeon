@@ -113,7 +113,7 @@ public class ScrollingGridPane extends ScrollPane {
 						if (separators.size() > sepsUsed){
 							sep = separators.get(sepsUsed++);
 						} else {
-							sep = new ColorBlock(1, 1, 0xFF222222);
+							sep = new ColorBlock(1, 1, 0x2E2C3822);
 							separators.add(sep);
 							content.add(sep);
 							sepsUsed++;
@@ -201,7 +201,7 @@ public class ScrollingGridPane extends ScrollPane {
 
 		@Override
 		protected void createChildren() {
-			bg = new ColorBlock( 1, 1, 0x9953564D);
+			bg = new ColorBlock( 1, 1, 0x5C5C668C);
 			add(bg);
 		}
 
