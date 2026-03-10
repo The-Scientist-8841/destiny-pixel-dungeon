@@ -250,8 +250,9 @@ public class WndBag extends WndTabbed {
 		placeItem( stuff.artifact2 != null ? stuff.artifact2 : new Placeholder( ItemSpriteSheet.ARTIFACT_HOLDER));
 		placeItem( stuff.misc != null ? stuff.misc : new Placeholder( ItemSpriteSheet.SOMETHING ) );
 		placeItem( stuff.ring != null ? stuff.ring : new Placeholder( ItemSpriteSheet.RING_HOLDER ) );
+		placeItem( stuff.ring2 != null ? stuff.ring2 : new Placeholder( ItemSpriteSheet.RING_HOLDER));
 
-		int equipped = 6;
+		int equipped = 7;
 
 		//the container itself if it's not the root backpack
 		if (container != Dungeon.hero.belongings.backpack){
