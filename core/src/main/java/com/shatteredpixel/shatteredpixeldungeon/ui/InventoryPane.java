@@ -81,7 +81,7 @@ public class InventoryPane extends Component {
 	private ArrayList<BagButton> bags;
 
 	public static final int WIDTH = 187;
-	public static final int HEIGHT = 82;
+	public static final int HEIGHT = 154;
 
 	private static final int SLOT_WIDTH = 17;
 	private static final int SLOT_HEIGHT = 24;
@@ -176,7 +176,7 @@ public class InventoryPane extends Component {
 		add(promptTxt);
 
 		bagItems = new ArrayList<>();
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < 50; i++){
 			InventorySlot btn = new InventoryPaneSlot(null);
 			bagItems.add(btn);
 			add(btn);
