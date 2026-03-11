@@ -81,7 +81,7 @@ public class InventoryPane extends Component {
 	private ArrayList<BagButton> bags;
 
 	public static final int WIDTH = 187;
-	public static final int HEIGHT = 154;
+	public static final int HEIGHT = 157 + 24;
 
 	private static final int SLOT_WIDTH = 17;
 	private static final int SLOT_HEIGHT = 24;
@@ -214,38 +214,41 @@ public class InventoryPane extends Component {
 
 		float left = x+4;
 		for (InventorySlot i : equipped){
-			i.setRect(left, y+4, SLOT_WIDTH, SLOT_HEIGHT);
+			i.setRect(left, y + 4, SLOT_WIDTH, SLOT_HEIGHT);
 			left = i.right()+1;
 		}
 
+		left = x + 4;
 		promptTxt.maxWidth((int) (width - (left - x) - bg.marginRight()));
 		if (promptTxt.height() > 10){
-			promptTxt.setPos(left, y + 2 + (12 - promptTxt.height()) / 2);
+			promptTxt.setPos(left, y + 2 + (12 - promptTxt.height()) / 2 + 24);
 		} else {
-			promptTxt.setPos(left, y + 4 + (10 - promptTxt.height()) / 2);
+			promptTxt.setPos(left, y + 4 + (10 - promptTxt.height()) / 2 + 24);
 		}
 
+		left = x+4;
+
 		goldTxt.x = left;
-		goldTxt.y = y+5.5f;
+		goldTxt.y = y+5.5f + 24f;
 		PixelScene.align(goldTxt);
 
 		gold.x = goldTxt.x + goldTxt.width() + 1;
 		gold.y = goldTxt.y;
 
 		energyTxt.x = gold.x + gold.width() + 2;
-		energyTxt.y = y+5.5f;
+		energyTxt.y = y+5.5f + 24f;
 		PixelScene.align(energyTxt);
 
 		energy.x = energyTxt.x + energyTxt.width() + 1;
 		energy.y = energyTxt.y;
 
 		for (BagButton b : bags){
-			b.setRect(left, y + 14, SLOT_WIDTH, 14);
+			b.setRect(left, y + 14 + 24, SLOT_WIDTH, 14);
 			left = b.right()+1;
 		}
 
 		left = x+4;
-		float top = y+4+SLOT_HEIGHT+1;
+		float top = y+4+SLOT_HEIGHT+1+24;
 		for (InventorySlot b : bagItems){
 			b.setRect(left, top, SLOT_WIDTH, SLOT_HEIGHT);
 			left = b.right()+1;
