@@ -153,7 +153,7 @@ public class InventoryPane extends Component {
 		};
 
 		equipped = new ArrayList<>();
-		for (int i = 0; i < 9; i++){
+		for (int i = 0; i < 10; i++){
 			InventorySlot btn = new InventoryPaneSlot(null);
 			equipped.add(btn);
 			add(btn);
@@ -302,10 +302,11 @@ public class InventoryPane extends Component {
 		equipped.get(2).item(stuff.artifact == null ? new WndBag.Placeholder( ItemSpriteSheet.ARTIFACT_HOLDER ) : stuff.artifact);
 		equipped.get(3).item(stuff.artifact2 == null ? new WndBag.Placeholder( ItemSpriteSheet.ARTIFACT_HOLDER) : stuff.artifact2);
 		equipped.get(4).item(stuff.misc == null ? new WndBag.Placeholder( ItemSpriteSheet.SOMETHING ) : stuff.misc);
-		equipped.get(5).item(stuff.ring == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER ) : stuff.ring);
-		equipped.get(6).item(stuff.ring2 == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER) : stuff.ring2);
-		equipped.get(7).item(stuff.ring3 == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER) : stuff.ring3);
-		equipped.get(8).item(stuff.ring4 == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER) : stuff.ring4);
+		equipped.get(5).item(stuff.misc2 == null ? new WndBag.Placeholder( ItemSpriteSheet.SOMETHING ) : stuff.misc2);
+		equipped.get(6).item(stuff.ring == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER ) : stuff.ring);
+		equipped.get(7).item(stuff.ring2 == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER) : stuff.ring2);
+		equipped.get(8).item(stuff.ring3 == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER) : stuff.ring3);
+		equipped.get(9).item(stuff.ring4 == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER) : stuff.ring4);
 
 		ArrayList<Item> items = (ArrayList<Item>) lastBag.items.clone();
 
