@@ -37,8 +37,6 @@ import com.watabou.noosa.ui.Component;
 
 import java.util.ArrayList;
 
-import javax.swing.Icon;
-
 public class RightClickMenu extends Component {
 
 	private NinePatch bg;

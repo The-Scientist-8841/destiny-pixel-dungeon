@@ -564,6 +564,15 @@ public class ItemSpriteSheet {
 		for (int i = EXOTIC_SCROLLS; i < EXOTIC_SCROLLS+16; i++)
 			assignItemRect(i, 15, 14);
 	}
+
+	private static final int EVIL_BOOKS = xy(15,20);
+	public static final int EVIL_BOOK_INACTIVE = EVIL_BOOKS + 0;
+	public static final int EVIL_BOOK_ACTIVE = EVIL_BOOKS + 1;
+	static {
+		for (int i = EVIL_BOOKS; i < EVIL_BOOKS + 2; i += 1) {
+			assignItemRect(i, 14, 16);
+		}
+	}
 	
 	private static final int STONES             =                           xy(1, 22);  //16 slots
 	public static final int STONE_AGGRESSION    = STONES+0;
@@ -969,9 +978,7 @@ public class ItemSpriteSheet {
 			assignIconRect( POTION_CLEANSE,     7, 7 );
 			assignIconRect( POTION_DIVINE,      7, 7 );
 		}
-
 		                                                                                //16 free slots
-
 	}
 
 }

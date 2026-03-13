@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
+import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
@@ -149,7 +150,9 @@ public enum Catalog {
 	TIPPED_DARTS,
 	BREWS_ELIXIRS,
 	SPELLS,
-	MISC_CONSUMABLES;
+	MISC_CONSUMABLES,
+
+	EVIL_BOOK;
 
 	//tracks whether an item has been collected while identified
 	private final LinkedHashMap<Class<?>, Boolean> seen = new LinkedHashMap<>();
@@ -261,6 +264,8 @@ public enum Catalog {
 				LiquidMetal.class, ArcaneResin.class,
 				SealShard.class, BrokenStaff.class, CloakScrap.class, BowFragment.class, BrokenHilt.class, TornPage.class);
 
+		EVIL_BOOK.addItems(EvilBook.class);
+
 	}
 
 	//old badges for pre-2.5
@@ -287,6 +292,7 @@ public enum Catalog {
 		equipmentCatalogs.add(ARTIFACTS);
 		equipmentCatalogs.add(TRINKETS);
 		equipmentCatalogs.add(MISC_EQUIPMENT);
+		equipmentCatalogs.add(EVIL_BOOK);
 	}
 
 	public static ArrayList<Catalog> consumableCatalogs = new ArrayList<>();
