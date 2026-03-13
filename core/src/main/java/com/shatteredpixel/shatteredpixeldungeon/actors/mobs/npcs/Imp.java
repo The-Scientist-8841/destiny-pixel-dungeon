@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Golem;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
+import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DwarfToken;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -210,7 +211,9 @@ public class Imp extends NPC {
 		}
 
 		public static ArrayList<Room> spawn( ArrayList<Room> rooms ) {
-			if (!spawned && Dungeon.depth > 16 && Random.Int( 20 - Dungeon.depth ) == 0) {
+			int quest_depth = Dungeon.hero.belongings.getItem(EvilBook.class).quest_depths[3];
+			if ((quest_depth == 0 && !spawned && Dungeon.depth > 16 && Random.Int( 20 - Dungeon.depth ) == 0) ||
+					(quest_depth == Dungeon.depth)){
 
 				rooms.add(new AmbitiousImpRoom());
 				spawned = true;
