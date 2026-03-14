@@ -302,7 +302,7 @@ public class Ghost extends NPC {
 		}
 		
 		public static void spawn( SewerLevel level, Room room ) {
-			int quest_depth = Dungeon.hero.belongings.getItem(EvilBook.class).quest_depths[0];
+			int quest_depth = EvilBook.quest_depths[0];
 			if ((quest_depth == 0 && !spawned && Dungeon.depth > 1 && Random.Int( 5 - Dungeon.depth ) == 0) ||
 					quest_depth == Dungeon.depth) {
 				
@@ -311,7 +311,9 @@ public class Ghost extends NPC {
 					ghost.pos = level.pointToCell(room.random());
 				} while (ghost.pos == -1 || level.solid[ghost.pos] || !level.openSpace[ghost.pos] || ghost.pos == level.exit());
 				level.mobs.add( ghost );
-				
+
+				EvilBook.quest_depths[0] = Dungeon.depth;
+
 				spawned = true;
 				//dungeon depth determines type of quest.
 				//depth2=fetid rat, 3=gnoll trickster, 4=great crab

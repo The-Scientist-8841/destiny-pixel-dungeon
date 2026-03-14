@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.ShadowBox;
+import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LostBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SkeletonKey;
@@ -48,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TitleBackground;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndError;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.KeyEvent;
@@ -441,6 +443,11 @@ public class InterlevelScene extends PixelScene {
 							case RESET:
 								reset();
 								break;
+						}
+
+						if (Dungeon.hero.belongings.getItem(EvilBook.class) == null) {
+							new EvilBook().collect();
+							GLog.n(Messages.get(EvilBook.class, "lost_message"));
 						}
 						
 					} catch (Exception e) {

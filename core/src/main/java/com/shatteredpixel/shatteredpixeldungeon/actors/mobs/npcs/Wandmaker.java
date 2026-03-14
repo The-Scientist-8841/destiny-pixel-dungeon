@@ -330,6 +330,7 @@ public class Wandmaker extends NPC {
 				level.mobs.add( npc );
 
 				spawned = true;
+				EvilBook.quest_depths[1] = Dungeon.depth;
 
 				given = false;
 				wand1 = (Wand) Generator.random(Generator.Category.WAND);
@@ -353,7 +354,7 @@ public class Wandmaker extends NPC {
 		
 		public static ArrayList<Room> spawnRoom( ArrayList<Room> rooms) {
 			questRoomSpawned = false;
-			int quest_depth = Dungeon.hero.belongings.getItem(EvilBook.class).quest_depths[1];
+			int quest_depth = EvilBook.quest_depths[1];
 			if ((quest_depth == 0 && !spawned && (type != 0 || (Dungeon.depth > 6 && Random.Int( 10 - Dungeon.depth ) == 0))) ||
 					(quest_depth == Dungeon.depth)){
 

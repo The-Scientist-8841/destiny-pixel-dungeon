@@ -88,6 +88,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -2031,6 +2032,9 @@ public class Hero extends Char {
 				updateHT( true );
 				attackSkill++;
 				defenseSkill++;
+
+				EvilBook book = belongings.getItem(EvilBook.class);
+				if (book != null) belongings.getItem(EvilBook.class).levelUp();
 
 			} else {
 				Buff.prolong(this, Bless.class, Bless.DURATION);

@@ -211,12 +211,13 @@ public class Imp extends NPC {
 		}
 
 		public static ArrayList<Room> spawn( ArrayList<Room> rooms ) {
-			int quest_depth = Dungeon.hero.belongings.getItem(EvilBook.class).quest_depths[3];
+			int quest_depth = EvilBook.quest_depths[3];
 			if ((quest_depth == 0 && !spawned && Dungeon.depth > 16 && Random.Int( 20 - Dungeon.depth ) == 0) ||
 					(quest_depth == Dungeon.depth)){
 
 				rooms.add(new AmbitiousImpRoom());
 				spawned = true;
+				EvilBook.quest_depths[3] = Dungeon.depth;
 
 				//always assigns monks on floor 17, golems on floor 19, and 50/50 between either on 18
 				switch (Dungeon.depth){

@@ -30,7 +30,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -65,6 +67,21 @@ public class EvilBook extends Item {
     public static boolean active = false;
     public static int[] quest_depths = {0, 0, 0, 0, 0};
 
+    private int lvlsToUpgrade = 2;
+
+    public void levelUp() {
+        lvlsToUpgrade -= 1;
+        if (lvlsToUpgrade <= 0) {
+            new ScrollOfUpgrade().collect();
+
+            Flare flare = new Flare(6, 20).color(0xFF0000, true).show(Dungeon.hero.sprite, 3f);
+            Sample.INSTANCE.play( Assets.Sounds.DEATH );
+            GLog.n(Messages.get(this, "upgrade_message"));
+
+            lvlsToUpgrade = 2;
+        }
+    }
+
     @Override
     public boolean isUpgradable() {
         return false;
@@ -90,36 +107,41 @@ public class EvilBook extends Item {
         super.execute( hero, action );
 
         if (action.equals( AC_RESET )) {
-            switch (Dungeon.depth) {
-                case 2: case 3: case 4:
-                    for (Mob m: Dungeon.level.mobs) {
-                        if (m instanceof Ghost) {
-                            quest_depths[0] = Dungeon.depth;
-                            Ghost.Quest.reset();
-                        }
-                    }
-                case 7: case 8: case 9:
-                    for (Mob m: Dungeon.level.mobs) {
-                        if (m instanceof Wandmaker) {
-                            quest_depths[1] = Dungeon.depth;
-                            Wandmaker.Quest.reset();
-                        }
-                    }
-                case 12: case 13: case 14:
-                    for (Mob m: Dungeon.level.mobs) {
-                        if (m instanceof Blacksmith) {
-                            quest_depths[2] = Dungeon.depth;
-                            Blacksmith.Quest.reset();
-                        }
-                    }
-                case 17: case 18: case 19:
-                    for (Mob m: Dungeon.level.mobs) {
-                        if (m instanceof Imp) {
-                            quest_depths[3] = Dungeon.depth;
-                            Imp.Quest.reset();
-                        }
-                    }
-            }
+//            switch (Dungeon.depth) {
+//                case 2: case 3: case 4:
+//                    for (Mob m: Dungeon.level.mobs) {
+//                        if (m instanceof Ghost) {
+//                            quest_depths[0] = Dungeon.depth;
+//                            Ghost.Quest.reset();
+//                        }
+//                    }
+//                case 7: case 8: case 9:
+//                    for (Mob m: Dungeon.level.mobs) {
+//                        if (m instanceof Wandmaker) {
+//                            quest_depths[1] = Dungeon.depth;
+//                            Wandmaker.Quest.reset();
+//                        }
+//                    }
+//                case 12: case 13: case 14:
+//                    for (Mob m: Dungeon.level.mobs) {
+//                        if (m instanceof Blacksmith) {
+//                            quest_depths[2] = Dungeon.depth;
+//                            Blacksmith.Quest.reset();
+//                        }
+//                    }
+//                case 17: case 18: case 19:
+//                    for (Mob m: Dungeon.level.mobs) {
+//                        if (m instanceof Imp) {
+//                            quest_depths[3] = Dungeon.depth;
+//                            Imp.Quest.reset();
+//                        }
+//                    }
+//            }
+            if (Dungeon.depth == quest_depths[0]) Ghost.Quest.reset();
+            if (Dungeon.depth == quest_depths[1]) Wandmaker.Quest.reset();
+            if (Dungeon.depth == quest_depths[2]) Blacksmith.Quest.reset();
+            if (Dungeon.depth == quest_depths[3]) Imp.Quest.reset();
+
             InterlevelScene.mode = InterlevelScene.Mode.RESET;
             resets[Dungeon.depth - 1] += 1;
             Game.switchScene(InterlevelScene.class);

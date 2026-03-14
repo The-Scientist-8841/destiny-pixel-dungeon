@@ -353,12 +353,13 @@ public class Blacksmith extends NPC {
 		}
 		
 		public static ArrayList<Room> spawn( ArrayList<Room> rooms ) {
-			int quest_depth = Dungeon.hero.belongings.getItem(EvilBook.class).quest_depths[2];
+			int quest_depth = EvilBook.quest_depths[2];
 			if ((quest_depth == 0 && !spawned && Dungeon.depth > 11 && Random.Int( 15 - Dungeon.depth ) == 0) ||
 					(quest_depth == Dungeon.depth)) {
 				
 				rooms.add(new BlacksmithRoom());
 				spawned = true;
+				EvilBook.quest_depths[2] = Dungeon.depth;
 
 				//Currently cannot roll the fungi quest, as it is not fully implemented
 				type = Random.IntRange(1, 2);
