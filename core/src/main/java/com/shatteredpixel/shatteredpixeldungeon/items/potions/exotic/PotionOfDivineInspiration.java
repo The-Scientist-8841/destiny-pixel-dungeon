@@ -80,6 +80,13 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 
 			if (allBoosted){
 				GLog.w(Messages.get(this, "no_more_points"));
+				//Level up the hero several times and give some strength
+				int str = Random.Int(2);
+				for (int i = 0; i < str; i += 1) hero.STR++;
+				int levels = Random.Int(2, 5);
+				for (int i = 0; i < levels; i += 1) {
+					hero.earnExp( hero.maxExp(), getClass() );
+				}
 				return;
 			}
 		}

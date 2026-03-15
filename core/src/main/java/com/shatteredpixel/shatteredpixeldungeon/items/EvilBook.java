@@ -44,24 +44,32 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.SmokeBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.PhantomMeat;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.UnstableBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
@@ -216,41 +224,83 @@ public class EvilBook extends Item {
     }
 
     public static Item genItemDrop(int level) {
-        float roll = Random.Float();
-        //60% chance - 4% per level. Starting from +15: 0%
-        if (roll < (0.6f - 0.04f * level)) {
-            return genLowValueItem();
-            //30% chance + 2% per level. Starting from +15: 60%-2%*(lvl-15)
-        } else if (roll < (0.9f - 0.02f * level)) {
-            return genMidValueItem();
-            //10% chance + 2% per level. Starting from +15: 40%+2%*(lvl-15)
-        } else {
-            return genHighValueItem();
+        float lowThresh = 0;
+        float midThresh = 0;
+        float highThresh = 0;
+        float veryHighThresh = 0;
+        float maxThresh = 0;
+        float exaltedThresh = 0;
+        switch (level) {
+            case 5:
+                lowThresh = 0.1f;
+                midThresh = 0.25f;
+                highThresh = 0.5f;
+                veryHighThresh = 0.75f;
+                maxThresh = 0.9f;
+                exaltedThresh = 1f;
+                break;
+            case 4:
+                lowThresh = 0.15f;
+                midThresh = 0.4f;
+                highThresh = 0.6f;
+                veryHighThresh = 0.8f;
+                maxThresh = 0.925f;
+                exaltedThresh = 1f;
+                break;
+            case 3:
+                lowThresh = 0.25f;
+                midThresh = 0.6f;
+                highThresh = 0.75f;
+                veryHighThresh = 0.875f;
+                maxThresh = 0.95f;
+                exaltedThresh = 1f;
+                break;
+            case 2:
+                lowThresh = 0.4f;
+                midThresh = 0.75f;
+                highThresh = 0.9f;
+                veryHighThresh = 0.95f;
+                maxThresh = 1f;
+                exaltedThresh = 0f;
+                break;
+            case 1:
+                lowThresh = 0.6f;
+                midThresh = 0.9f;
+                highThresh = 0.95f;
+                veryHighThresh = 1f;
+                maxThresh = 0f;
+                exaltedThresh = 0f;
+                break;
         }
+        float roll = Random.Float();
+        if (roll < exaltedThresh && roll >= maxThresh) return genExaltedValueItem();
+        else if (roll < maxThresh && roll >= veryHighThresh) return genMaxValueItem();
+        else if (roll < veryHighThresh && roll >= highThresh) return genVeryHighValueItem();
+        else if (roll < highThresh && roll >= midThresh) return genHighValueItem();
+        else if (roll < midThresh && roll >= lowThresh) return genMidValueItem();
+        else return genLowValueItem();
     }
 
     private static Item genLowValueItem(){
-        switch (Random.Int(7)){
+        switch (Random.Int(6)){
             case 0: default:
                 Item i = new Gold().random();
                 return i.quantity(i.quantity()/2);
             case 1:
-                return Generator.randomUsingDefaults(Generator.Category.STONE);
+                return Generator.randomUsingDefaults(Generator.Category.SEED);
             case 2:
-                return Generator.randomUsingDefaults(Generator.Category.POTION);
-            case 3:
-                return Generator.randomUsingDefaults(Generator.Category.SCROLL);
-            case 4:
                 return new EnergyCrystal(Random.Int(2, 7));
-            case 5:
-                return new MysteryMeat();
-            case 6:
+            case 3:
+                return new SmallRation();
+            case 4:
                 return new Bomb();
+            case 5:
+                return new Dewdrop();
         }
     }
 
     private static Item genMidValueItem(){
-        switch (Random.Int(10)){
+        switch (Random.Int(7)){
             case 0: default:
                 Item i = genLowValueItem();
                 if (i instanceof Bomb){
@@ -259,65 +309,139 @@ public class EvilBook extends Item {
                     return i.quantity(i.quantity()*2);
                 }
             case 1:
-                i = Generator.randomUsingDefaults(Generator.Category.POTION);
-                if (!(i instanceof ExoticPotion)) {
-                    return Reflection.newInstance(ExoticPotion.regToExo.get(i.getClass()));
-                } else {
-                    return Reflection.newInstance(i.getClass());
-                }
+                return Random.Int(2) == 0 ? new Starflower.Seed() : new Sungrass.Seed();
             case 2:
-                i = Generator.randomUsingDefaults(Generator.Category.SCROLL);
-                if (!(i instanceof ExoticScroll)){
-                    return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
-                } else {
-                    return Reflection.newInstance(i.getClass());
-                }
+                return new GooBlob();
             case 3:
-                return Random.Int(2) == 0 ? new UnstableBrew() : new UnstableSpell();
+                return new MysteryMeat();
             case 4:
-                return new SmokeBomb();
+                return Generator.randomUsingDefaults(Generator.Category.STONE);
             case 5:
-                return new Honeypot();
+                return new Honeypot.ShatteredPot();
             case 6:
-                return new Food();
-            case 7:
-                return new Noisemaker();
-            case 8:
-                return new FlashBangBomb();
-            case 9:
                 return new Stylus();
         }
     }
 
     private static Item genHighValueItem(){
-        switch (Random.Int(11)){
+        switch (Random.Int(7)){
             case 0: default:
                 Item i = genMidValueItem();
                 if (i instanceof Bomb.DoubleBomb){
-                    return new HolyBomb();
+                    return Generator.randomUsingDefaults(Generator.Category.MIDTIERBOMB);
                 } else {
                     return i.quantity(i.quantity()*2);
                 }
             case 1:
                 return new StoneOfEnchantment();
             case 2:
-                return Random.Float() < ExoticCrystals.consumableExoticChance() ? new PotionOfDivineInspiration() : new PotionOfExperience();
+                return new MetalShard();
             case 3:
-                return Random.Float() < ExoticCrystals.consumableExoticChance() ? new ScrollOfMetamorphosis() : new ScrollOfTransmutation();
+                return new Food();
+            case 4:
+                return Generator.randomUsingDefaults(Generator.Category.POTION);
+            case 5:
+                return Generator.randomUsingDefaults(Generator.Category.SCROLL);
+            case 6:
+                return new Honeypot();
+        }
+    }
+
+    private static Item genVeryHighValueItem(){
+        switch (Random.Int(8)){
+            case 0: default:
+                Item i = genHighValueItem();
+                boolean isBomb = false;
+                for (Class<?> c : Generator.Category.MIDTIERBOMB.classes) {
+                    if (i.getClass() == c) {
+                        isBomb = true;
+                        break;
+                    }
+                }
+                if (isBomb){
+                    return Generator.randomUsingDefaults(Generator.Category.HIGHTIERBOMB);
+                } else {
+                    return i.quantity(i.quantity()*2);
+                }
+            case 1:
+                return new PotionOfExperience();
+            case 2:
+                return new ScrollOfUpgrade();
+            case 3:
+                return new LiquidMetal().quantity(Random.Int(3,10));
             case 4:
                 return new Pasty();
             case 5:
-                return new Firebomb();
+                Item j = Generator.randomUsingDefaults(Generator.Category.POTION);
+                if (!(j instanceof ExoticPotion)) {
+                    return Reflection.newInstance(ExoticPotion.regToExo.get(j.getClass()));
+                } else {
+                    return Reflection.newInstance(j.getClass());
+                }
             case 6:
-                return new FrostBomb();
+                Item k = Generator.randomUsingDefaults(Generator.Category.SCROLL);
+                if (!(k instanceof ExoticScroll)) {
+                    return Reflection.newInstance(ExoticScroll.regToExo.get(k.getClass()));
+                } else {
+                    return Reflection.newInstance(k.getClass());
+                }
             case 7:
-                return new ScrollOfUpgrade();
-            case 8:
-                return new GooBlob();
-            case 9:
-                return new MetalShard();
-            case 10:
-                return Generator.random(Generator.Category.ELIXIR);
+                return Generator.randomUsingDefaults(Generator.Category.BREW);
+        }
+    }
+
+    private static Item genMaxValueItem(){
+        switch (Random.Int(8)){
+            case 0: default:
+                Item i = genVeryHighValueItem();
+                boolean isBomb = false;
+                for (Class<?> c : Generator.Category.HIGHTIERBOMB.classes) {
+                    if (i.getClass() == c) {
+                        isBomb = true;
+                        break;
+                    }
+                }
+                if (isBomb){
+                    return new HolyBomb();
+                } else {
+                    return i.quantity(i.quantity()*2);
+                }
+            case 1:
+                return new PotionOfDivineInspiration();
+            case 2:
+                return new ScrollOfEnchantment();
+            case 3:
+                return new UnstableSpell();
+            case 4:
+                return new PhantomMeat();
+            case 5:
+                Item r = Generator.randomUsingDefaults(Generator.Category.RING);
+                r.cursed = false;
+                return r;
+            case 6:
+                return Generator.randomUsingDefaults(Generator.Category.ELIXIR);
+            case 7:
+                return new Ankh();
+        }
+    }
+
+    private static Item genExaltedValueItem(){
+        switch (Random.Int(5)){
+            case 0: default:
+                Item i = genMaxValueItem();
+                return i.quantity(i.quantity()*2);
+            case 1:
+                Ring r = new RingOfFuror();
+                r.cursed = false;
+                return r;
+            case 2:
+                return new MeatPie();
+            case 3:
+                return Generator.randomUsingDefaults(Generator.Category.ARTIFACT);
+            case 4:
+                Ankh a = new Ankh();
+                a.bless();
+                return a;
         }
     }
 

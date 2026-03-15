@@ -48,7 +48,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SkeletonKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.UnstableSpellbook;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ArcaneBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Firebomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlashBangBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FrostBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.RegrowthBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShrapnelBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.SmokeBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.WoollyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
@@ -65,7 +74,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.UnstableBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
@@ -259,7 +274,10 @@ public class Generator {
 		
 		GOLD	( 10, 10,   Gold.class ),
 
-		ELIXIR	(0, 0, Elixir.class);
+		ELIXIR	(0, 0, Elixir.class),
+		BREW	(0, 0, Brew.class),
+		MIDTIERBOMB (0, 0, Bomb.class),
+		HIGHTIERBOMB (0, 0, Bomb.class);
 		
 		public Class<?>[] classes;
 
@@ -619,7 +637,38 @@ public class Generator {
 					ElixirOfMight.class,
 					ElixirOfToxicEssence.class
 			};
-			ELIXIR.probs = new float[]{1, 1, 1, 1, 1, 1, 1, 1};
+			ELIXIR.defaultProbs = new float[]{1, 1, 1, 1, 1, 1, 1, 1};
+			ELIXIR.probs = ELIXIR.defaultProbs.clone();
+
+			BREW.classes = new Class<?>[] {
+					AquaBrew.class,
+					BlizzardBrew.class,
+					CausticBrew.class,
+					InfernalBrew.class,
+					ShockingBrew.class,
+					UnstableBrew.class
+			};
+			BREW.defaultProbs = new float[]{1,1,1,1,1,1};
+			BREW.probs = BREW.defaultProbs.clone();
+
+			MIDTIERBOMB.classes = new Class<?>[] {
+					FlashBangBomb.class,
+					Noisemaker.class,
+					SmokeBomb.class,
+					WoollyBomb.class
+			};
+			MIDTIERBOMB.defaultProbs = new float[]{1, 1, 1, 1};
+			MIDTIERBOMB.probs = MIDTIERBOMB.defaultProbs.clone();
+
+			HIGHTIERBOMB.classes = new Class<?>[] {
+					ArcaneBomb.class,
+					Firebomb.class,
+					FrostBomb.class,
+					RegrowthBomb.class,
+					ShrapnelBomb.class
+			};
+			HIGHTIERBOMB.defaultProbs = new float[]{1, 1, 1, 1, 1};
+			HIGHTIERBOMB.probs = HIGHTIERBOMB.defaultProbs.clone();
 
 			for (Category cat : Category.values()){
 				if (cat.defaultProbs2 != null){
