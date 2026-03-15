@@ -63,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
@@ -969,6 +970,18 @@ public abstract class Mob extends Char {
 			if (bonus != null && !bonus.isEmpty()) {
 				for (Item b : bonus) Dungeon.level.drop(b, pos).sprite.drop();
 				RingOfWealth.showFlareForBonusDrop(sprite);
+			}
+		}
+
+		//Evil Book logic
+		if (Dungeon.hero.belongings.getItem(EvilBook.class) != null) {
+			int rolls = 1;
+			if (properties.contains(Property.BOSS)) rolls = 20;
+			else if (properties.contains(Property.MINIBOSS)) rolls = 10;
+			ArrayList<Item> evil_bonus = EvilBook.tryForBonusDrop(Dungeon.hero, rolls);
+			if (evil_bonus != null && !evil_bonus.isEmpty()) {
+				for (Item b : evil_bonus) Dungeon.level.drop(b, pos).sprite.drop();
+				EvilBook.showFlareForBonusDrop(sprite);
 			}
 		}
 		

@@ -22,7 +22,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
@@ -32,7 +36,30 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Firebomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlashBangBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FrostBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.SmokeBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.UnstableBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -41,8 +68,11 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 
@@ -57,7 +87,7 @@ public class EvilBook extends Item {
         identify();
     }
 
-    public int[] resets = {0, 0, 0, 0, 0, //Sewers
+    public static int[] resets = {0, 0, 0, 0, 0, //Sewers
                             0, 0, 0, 0, 0, //Dungeon
                             0, 0, 0, 0, 0, //Caves
                             0, 0, 0, 0, 0, //City
@@ -67,7 +97,7 @@ public class EvilBook extends Item {
     public static boolean active = false;
     public static int[] quest_depths = {0, 0, 0, 0, 0};
 
-    private int lvlsToUpgrade = 2;
+    private int lvlsToUpgrade = 4;
 
     public void levelUp() {
         lvlsToUpgrade -= 1;
@@ -78,7 +108,7 @@ public class EvilBook extends Item {
             Sample.INSTANCE.play( Assets.Sounds.DEATH );
             GLog.n(Messages.get(this, "upgrade_message"));
 
-            lvlsToUpgrade = 2;
+            lvlsToUpgrade = 5;
         }
     }
 
@@ -173,6 +203,151 @@ public class EvilBook extends Item {
         image = ItemSpriteSheet.EVIL_BOOK_INACTIVE;
     }
 
+    public static void showFlareForBonusDrop( Visual vis ){
+        if (vis == null || vis.parent == null) return;
+
+        new Flare(6, 32).color(0xFF0000, true).show(vis, 4f);
+    }
+
+    public static class TriesToDropTracker extends CounterBuff {
+        {
+            revivePersists = true;
+        }
+    }
+
+    public static Item genItemDrop(int level) {
+        float roll = Random.Float();
+        //60% chance - 4% per level. Starting from +15: 0%
+        if (roll < (0.6f - 0.04f * level)) {
+            return genLowValueItem();
+            //30% chance + 2% per level. Starting from +15: 60%-2%*(lvl-15)
+        } else if (roll < (0.9f - 0.02f * level)) {
+            return genMidValueItem();
+            //10% chance + 2% per level. Starting from +15: 40%+2%*(lvl-15)
+        } else {
+            return genHighValueItem();
+        }
+    }
+
+    private static Item genLowValueItem(){
+        switch (Random.Int(7)){
+            case 0: default:
+                Item i = new Gold().random();
+                return i.quantity(i.quantity()/2);
+            case 1:
+                return Generator.randomUsingDefaults(Generator.Category.STONE);
+            case 2:
+                return Generator.randomUsingDefaults(Generator.Category.POTION);
+            case 3:
+                return Generator.randomUsingDefaults(Generator.Category.SCROLL);
+            case 4:
+                return new EnergyCrystal(Random.Int(2, 7));
+            case 5:
+                return new MysteryMeat();
+            case 6:
+                return new Bomb();
+        }
+    }
+
+    private static Item genMidValueItem(){
+        switch (Random.Int(10)){
+            case 0: default:
+                Item i = genLowValueItem();
+                if (i instanceof Bomb){
+                    return new Bomb.DoubleBomb();
+                } else {
+                    return i.quantity(i.quantity()*2);
+                }
+            case 1:
+                i = Generator.randomUsingDefaults(Generator.Category.POTION);
+                if (!(i instanceof ExoticPotion)) {
+                    return Reflection.newInstance(ExoticPotion.regToExo.get(i.getClass()));
+                } else {
+                    return Reflection.newInstance(i.getClass());
+                }
+            case 2:
+                i = Generator.randomUsingDefaults(Generator.Category.SCROLL);
+                if (!(i instanceof ExoticScroll)){
+                    return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+                } else {
+                    return Reflection.newInstance(i.getClass());
+                }
+            case 3:
+                return Random.Int(2) == 0 ? new UnstableBrew() : new UnstableSpell();
+            case 4:
+                return new SmokeBomb();
+            case 5:
+                return new Honeypot();
+            case 6:
+                return new Food();
+            case 7:
+                return new Noisemaker();
+            case 8:
+                return new FlashBangBomb();
+            case 9:
+                return new Stylus();
+        }
+    }
+
+    private static Item genHighValueItem(){
+        switch (Random.Int(11)){
+            case 0: default:
+                Item i = genMidValueItem();
+                if (i instanceof Bomb.DoubleBomb){
+                    return new HolyBomb();
+                } else {
+                    return i.quantity(i.quantity()*2);
+                }
+            case 1:
+                return new StoneOfEnchantment();
+            case 2:
+                return Random.Float() < ExoticCrystals.consumableExoticChance() ? new PotionOfDivineInspiration() : new PotionOfExperience();
+            case 3:
+                return Random.Float() < ExoticCrystals.consumableExoticChance() ? new ScrollOfMetamorphosis() : new ScrollOfTransmutation();
+            case 4:
+                return new Pasty();
+            case 5:
+                return new Firebomb();
+            case 6:
+                return new FrostBomb();
+            case 7:
+                return new ScrollOfUpgrade();
+            case 8:
+                return new GooBlob();
+            case 9:
+                return new MetalShard();
+            case 10:
+                return Generator.random(Generator.Category.ELIXIR);
+        }
+    }
+
+    public static ArrayList<Item> tryForBonusDrop(Char target, int tries ) {
+        int bonus = 5 - resets[Dungeon.depth - 1];
+
+        if (bonus <= 0) return null;
+
+        CounterBuff triesToDrop = target.buff(TriesToDropTracker.class);
+        if (triesToDrop == null){
+            triesToDrop = Buff.affect(target, TriesToDropTracker.class);
+            triesToDrop.countUp( Random.NormalIntRange(0, 10) );
+        }
+
+        //now handle reward logic
+        ArrayList<Item> drops = new ArrayList<>();
+
+        triesToDrop.countDown(tries);
+        while ( triesToDrop.count() <= 0 ){
+            Item i;
+            do {
+                i = genItemDrop(bonus - 1);
+            } while (Challenges.isItemBlocked(i));
+            drops.add(i);
+            triesToDrop.countUp( Random.NormalIntRange(0, 10) );
+        }
+
+        return drops;
+    }
+
     private static final Glowing RED = new Glowing( 0x550000 );
 
     @Override
@@ -184,6 +359,7 @@ public class EvilBook extends Item {
     private static final String RESETS = "resets";
     private static final String CAN_RESET = "can_reset";
     private static final String QUEST_DEPTHS = "quest_depths";
+    private static final String LEVELS_TO_UPGRADE = "levels_to_upgrade";
 
     @Override
     public void storeInBundle( Bundle bundle ) {
@@ -192,6 +368,7 @@ public class EvilBook extends Item {
         bundle.put( RESETS, resets );
         bundle.put( CAN_RESET, can_reset );
         bundle.put( QUEST_DEPTHS, quest_depths );
+        bundle.put(LEVELS_TO_UPGRADE, lvlsToUpgrade);
     }
 
     @Override
@@ -201,6 +378,7 @@ public class EvilBook extends Item {
         resets = bundle.getIntArray(RESETS);
         can_reset = bundle.getBoolean(CAN_RESET);
         quest_depths = bundle.getIntArray(QUEST_DEPTHS);
+        lvlsToUpgrade = bundle.getInt(LEVELS_TO_UPGRADE);
     }
 
     @Override
