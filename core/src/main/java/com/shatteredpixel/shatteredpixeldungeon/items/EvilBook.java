@@ -417,6 +417,7 @@ public class EvilBook extends Item {
             case 5:
                 Item r = Generator.randomUsingDefaults(Generator.Category.RING);
                 r.cursed = false;
+                r.cursedKnown = true;
                 return r;
             case 6:
                 return Generator.randomUsingDefaults(Generator.Category.ELIXIR);
@@ -433,11 +434,15 @@ public class EvilBook extends Item {
             case 1:
                 Ring r = new RingOfFuror();
                 r.cursed = false;
+                r.cursedKnown = true;
                 return r;
             case 2:
                 return new MeatPie();
             case 3:
-                return Generator.randomUsingDefaults(Generator.Category.ARTIFACT);
+                Item artifact = Generator.randomUsingDefaults(Generator.Category.ARTIFACT);
+                artifact.cursed = false;
+                artifact.cursedKnown = true;
+                return artifact;
             case 4:
                 Ankh a = new Ankh();
                 a.bless();
