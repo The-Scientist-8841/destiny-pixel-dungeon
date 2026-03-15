@@ -66,11 +66,11 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 		}
 		//Level up the hero several times and give some strength
 		int str = Random.Int(2);
+		if (str > 0) GLog.p( Messages.get(this, "msg") );
+
 		for (int i = 0; i < str; i += 1) {
 			hero.STR++;
 			hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.STRENGTH);
-
-			GLog.p( Messages.get(this, "msg", hero.STR()) );
 		}
 		int levels = Random.Int(2, 5);
 		for (int i = 0; i < levels; i += 1) {

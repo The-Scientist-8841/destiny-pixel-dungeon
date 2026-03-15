@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Firebomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlashBangBomb;
@@ -66,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMet
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
@@ -274,10 +276,10 @@ public class EvilBook extends Item {
         }
         float roll = Random.Float();
         if (roll < exaltedThresh && roll >= maxThresh) return genExaltedValueItem();
-        else if (roll < maxThresh && roll >= veryHighThresh) return genMaxValueItem();
-        else if (roll < veryHighThresh && roll >= highThresh) return genVeryHighValueItem();
-        else if (roll < highThresh && roll >= midThresh) return genHighValueItem();
-        else if (roll < midThresh && roll >= lowThresh) return genMidValueItem();
+        else if (roll < maxThresh && roll >= veryHighThresh) return genMaxValueItem(true);
+        else if (roll < veryHighThresh && roll >= highThresh) return genVeryHighValueItem(true);
+        else if (roll < highThresh && roll >= midThresh) return genHighValueItem(true);
+        else if (roll < midThresh && roll >= lowThresh) return genMidValueItem(true);
         else return genLowValueItem();
     }
 
@@ -299,8 +301,10 @@ public class EvilBook extends Item {
         }
     }
 
-    private static Item genMidValueItem(){
-        switch (Random.Int(7)){
+    private static Item genMidValueItem(boolean canBeEquipment){
+        int M = 9;
+        if (!canBeEquipment) M = 7;
+        switch (Random.Int(M)){
             case 0: default:
                 Item i = genLowValueItem();
                 if (i instanceof Bomb){
@@ -320,13 +324,29 @@ public class EvilBook extends Item {
                 return new Honeypot.ShatteredPot();
             case 6:
                 return new Stylus();
+            case 7:
+                Weapon w = Generator.randomWeapon(Dungeon.depth/5, true);
+                if (!w.hasGoodEnchant() && Random.Int(5) > resets[Dungeon.depth-1])      w.enchant();
+                else if (w.hasCurseEnchant())                           w.enchant(null);
+                w.cursed = false;
+                w.cursedKnown = true;
+                return w;
+            case 8:
+                Armor a = Generator.randomArmor(Dungeon.depth/5);
+                if (!a.hasGoodGlyph() && Random.Int(5) > resets[Dungeon.depth-1])        a.inscribe();
+                else if (a.hasCurseGlyph())                             a.inscribe(null);
+                a.cursed = false;
+                a.cursedKnown = true;
+                return a;
         }
     }
 
-    private static Item genHighValueItem(){
-        switch (Random.Int(7)){
+    private static Item genHighValueItem(boolean canBeEquipment){
+        int M = 10;
+        if (!canBeEquipment) M = 7;
+        switch (Random.Int(M)){
             case 0: default:
-                Item i = genMidValueItem();
+                Item i = genMidValueItem(false);
                 if (i instanceof Bomb.DoubleBomb){
                     return Generator.randomUsingDefaults(Generator.Category.MIDTIERBOMB);
                 } else {
@@ -344,13 +364,36 @@ public class EvilBook extends Item {
                 return Generator.randomUsingDefaults(Generator.Category.SCROLL);
             case 6:
                 return new Honeypot();
+            case 7:
+                Weapon w = Generator.randomWeapon(Dungeon.depth/5 + 1, true);
+                if (!w.hasGoodEnchant() && Random.Int(5) > resets[Dungeon.depth-1])      w.enchant();
+                else if (w.hasCurseEnchant())                           w.enchant(null);
+                w.cursed = false;
+                w.cursedKnown = true;
+                return w;
+            case 8:
+                Armor a = Generator.randomArmor(Dungeon.depth/5 + 1);
+                if (!a.hasGoodGlyph() && Random.Int(5) > resets[Dungeon.depth-1])        a.inscribe();
+                else if (a.hasCurseGlyph())                             a.inscribe(null);
+                a.cursed = false;
+                a.cursedKnown = true;
+                return a;
+            case 9:
+                Weapon m = Generator.randomMissile(Dungeon.depth/5, true);
+                if (!m.hasGoodEnchant() && Random.Int(5) > resets[Dungeon.depth-1])      m.enchant();
+                else if (m.hasCurseEnchant())                           m.enchant(null);
+                m.cursed = false;
+                m.cursedKnown = true;
+                return m;
         }
     }
 
-    private static Item genVeryHighValueItem(){
-        switch (Random.Int(8)){
+    private static Item genVeryHighValueItem(boolean canBeEquipment){
+        int M = 11;
+        if (!canBeEquipment) M = 8;
+        switch (Random.Int(M)){
             case 0: default:
-                Item i = genHighValueItem();
+                Item i = genHighValueItem(false);
                 boolean isBomb = false;
                 for (Class<?> c : Generator.Category.MIDTIERBOMB.classes) {
                     if (i.getClass() == c) {
@@ -387,13 +430,36 @@ public class EvilBook extends Item {
                 }
             case 7:
                 return Generator.randomUsingDefaults(Generator.Category.BREW);
+            case 8:
+                Weapon w = Generator.randomWeapon(Dungeon.depth/5 + 2, true);
+                if (!w.hasGoodEnchant() && Random.Int(5) > resets[Dungeon.depth-1])      w.enchant();
+                else if (w.hasCurseEnchant())                           w.enchant(null);
+                w.cursed = false;
+                w.cursedKnown = true;
+                return w;
+            case 9:
+                Armor a = Generator.randomArmor(Dungeon.depth/5 + 2);
+                if (!a.hasGoodGlyph() && Random.Int(5) > resets[Dungeon.depth-1])        a.inscribe();
+                else if (a.hasCurseGlyph())                             a.inscribe(null);
+                a.cursed = false;
+                a.cursedKnown = true;
+                return a;
+            case 10:
+                Weapon m = Generator.randomMissile(Dungeon.depth/5 + 1, true);
+                if (!m.hasGoodEnchant() && Random.Int(5) > resets[Dungeon.depth-1])      m.enchant();
+                else if (m.hasCurseEnchant())                           m.enchant(null);
+                m.cursed = false;
+                m.cursedKnown = true;
+                return m;
         }
     }
 
-    private static Item genMaxValueItem(){
-        switch (Random.Int(8)){
+    private static Item genMaxValueItem(boolean canBeEquipment){
+        int M = 9;
+        if (!canBeEquipment) M = 6;
+        switch (Random.Int(M)){
             case 0: default:
-                Item i = genVeryHighValueItem();
+                Item i = genVeryHighValueItem(false);
                 boolean isBomb = false;
                 for (Class<?> c : Generator.Category.HIGHTIERBOMB.classes) {
                     if (i.getClass() == c) {
@@ -415,21 +481,28 @@ public class EvilBook extends Item {
             case 4:
                 return new PhantomMeat();
             case 5:
+                return Generator.randomUsingDefaults(Generator.Category.ELIXIR);
+            case 6:
                 Item r = Generator.randomUsingDefaults(Generator.Category.RING);
                 r.cursed = false;
                 r.cursedKnown = true;
                 return r;
-            case 6:
-                return Generator.randomUsingDefaults(Generator.Category.ELIXIR);
             case 7:
                 return new Ankh();
+            case 8:
+                Weapon m = Generator.randomMissile(Dungeon.depth/5 + 2, true);
+                if (!m.hasGoodEnchant() && Random.Int(5) > resets[Dungeon.depth-1])      m.enchant();
+                else if (m.hasCurseEnchant())                           m.enchant(null);
+                m.cursed = false;
+                m.cursedKnown = true;
+                return m;
         }
     }
 
     private static Item genExaltedValueItem(){
-        switch (Random.Int(5)){
+        switch (Random.Int(6)){
             case 0: default:
-                Item i = genMaxValueItem();
+                Item i = genMaxValueItem(false);
                 return i.quantity(i.quantity()*2);
             case 1:
                 Ring r = new RingOfFuror();
@@ -447,6 +520,11 @@ public class EvilBook extends Item {
                 Ankh a = new Ankh();
                 a.bless();
                 return a;
+            case 5:
+                Item w = Generator.randomUsingDefaults(Generator.Category.WAND);
+                w.cursed = false;
+                w.cursedKnown = true;
+                return w;
         }
     }
 
