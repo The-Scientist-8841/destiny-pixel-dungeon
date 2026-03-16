@@ -96,7 +96,7 @@ import java.util.LinkedHashMap;
 public enum Talent {
 
 	//Warrior T1
-	HEARTY_MEAL(0), VETERANS_INTUITION(1), PROVOKED_ANGER(2), IRON_WILL(3),
+	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4),
 	//Warrior T2
 	IRON_STOMACH(4), LIQUID_WILLPOWER(5), RUNIC_TRANSFERENCE(6), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
 	//Warrior T3
@@ -432,8 +432,8 @@ public enum Talent {
 	int icon;
 	int maxPoints;
 
-	// tiers 1/2/3/4 start at levels 2/7/13/21
-	public static int[] tierLevelThresholds = new int[]{0, 2, 7, 13, 21, 31};
+	// tiers 1/2/3/4 start at levels 2/7/13/21 <-- Not anymore they don't!
+	public static int[] tierLevelThresholds = new int[]{0, 2, 26, 54, 82, 106};
 
 	Talent( int icon ){
 		this(icon, 2);
@@ -501,8 +501,23 @@ public enum Talent {
 		}
 
 		if (talent == VETERANS_INTUITION && hero.pointsInTalent(VETERANS_INTUITION) == 2){
-			if (hero.belongings.armor() != null && !ShardOfOblivion.passiveIDDisabled())  {
-				hero.belongings.armor.identify();
+			if (hero.belongings.armor() != null) {
+				if (ShardOfOblivion.passiveIDDisabled()) hero.belongings.armor.identify();
+				else hero.belongings.armor.setIDReady();
+			}
+		}
+		if (talent == VETERANS_INTUITION && hero.pointsInTalent(VETERANS_INTUITION) == 3) {
+			for (Item item : hero.belongings) {
+				if (item instanceof Armor) {
+					if (ShardOfOblivion.passiveIDDisabled()) ((Armor) item).setIDReady();
+					else item.identify();
+				}
+			}
+		}
+		if (talent == VETERANS_INTUITION && hero.pointsInTalent(VETERANS_INTUITION) == 4){
+			if (hero.belongings.weapon() != null && hero.belongings.weapon instanceof MeleeWeapon) {
+				if (!ShardOfOblivion.passiveIDDisabled()) hero.belongings.weapon.identify();
+				else ((MeleeWeapon) hero.belongings.weapon).setIDReady();
 			}
 		}
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
@@ -583,12 +598,13 @@ public enum Talent {
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
-			//4/6 HP healed, when hero is below 33% health (with a little rounding up)
-			if (hero.HP/(float)hero.HT < 0.334f) {
+			//4/6/8/10 HP healed, when hero is below 33%/33%/50%/50% health (with a little rounding up)
+			float HP_threshold = 0.334f;
+			if (hero.pointsInTalent(HEARTY_MEAL) >= 3) HP_threshold = 0.5f;
+			if (hero.HP/(float)hero.HT < HP_threshold) {
 				int healing = 2 + 2 * hero.pointsInTalent(HEARTY_MEAL);
 				hero.HP = Math.min(hero.HP + healing, hero.HT);
 				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healing), FloatingText.HEALING);
-
 			}
 		}
 		if (hero.hasTalent(IRON_STOMACH)){
@@ -683,7 +699,7 @@ public enum Talent {
 		// Affected by both Warrior(1.75x/2.5x) and Duelist(2.5x/inst.) talents
 		if (item instanceof MeleeWeapon){
 			factor *= 1f + 1.5f*hero.pointsInTalent(ADVENTURERS_INTUITION); //instant at +2 (see onItemEquipped)
-			factor *= 1f + 0.75f*hero.pointsInTalent(VETERANS_INTUITION);
+			factor *= 1f + 0.75f*Math.min(hero.pointsInTalent(VETERANS_INTUITION), 2); //instant at +4 (see onItemEquipped)
 		}
 		// Affected by both Warrior(2.5x/inst.) and Duelist(1.75x/2.5x) talents
 		if (item instanceof Armor){
@@ -828,9 +844,10 @@ public enum Talent {
 
 	public static void onItemEquipped( Hero hero, Item item ){
 		boolean identify = false;
-		if (hero.pointsInTalent(VETERANS_INTUITION) == 2 && item instanceof Armor){
+		if (hero.pointsInTalent(VETERANS_INTUITION) >= 2 && item instanceof Armor){
 			identify = true;
 		}
+		if (hero.pointsInTalent(VETERANS_INTUITION) == 4 && item instanceof MeleeWeapon) identify = true;
 		if (hero.hasTalent(THIEFS_INTUITION) && item instanceof Ring){
 			if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 				identify = true;
@@ -859,6 +876,12 @@ public enum Talent {
 	public static void onItemCollected( Hero hero, Item item ){
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
+		}
+		if (hero.pointsInTalent(VETERANS_INTUITION) >= 3) {
+			if (item instanceof Armor) {
+				if (ShardOfOblivion.passiveIDDisabled()) ((Armor) item).setIDReady();
+				else item.identify();
+			}
 		}
 	}
 

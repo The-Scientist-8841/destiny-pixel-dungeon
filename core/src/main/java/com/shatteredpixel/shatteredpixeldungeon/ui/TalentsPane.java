@@ -280,26 +280,26 @@ public class TalentsPane extends ScrollPane {
 		protected void layout() {
 			super.layout();
 
-			int regStars = Talent.tierLevelThresholds[tier+1] - Talent.tierLevelThresholds[tier];
-
 			float titleWidth = title.width();
-			titleWidth += 2 + Math.min(stars.size(), regStars)*6;
+			int maxStarsPerRow = 14;
+			titleWidth += 2 + Math.min(stars.size(), maxStarsPerRow)*6;
 			title.setPos(x + (width - titleWidth)/2f, y);
 
 			float left = title.right() + 2;
 
-			float starTop = title.top();
-			if (regStars < stars.size()) starTop -= 2;
+			float starTop = title.top() - 2;
+			int starsThisRow = 0;
 
 			for (Image star : stars){
 				star.x = left;
 				star.y = starTop;
 				PixelScene.align(star);
 				left += 6;
-				regStars--;
-				if (regStars == 0){
+				starsThisRow++;
+				if (starsThisRow >= maxStarsPerRow){
 					starTop += 6;
 					left = title.right() + 2;
+					starsThisRow = 0;
 				}
 			}
 
