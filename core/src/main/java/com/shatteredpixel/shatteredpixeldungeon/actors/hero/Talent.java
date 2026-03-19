@@ -98,7 +98,7 @@ public enum Talent {
 	//Warrior T1
 	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4),
 	//Warrior T2
-	IRON_STOMACH(4), LIQUID_WILLPOWER(5), RUNIC_TRANSFERENCE(6), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
+	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
 	//Warrior T3
 	HOLD_FAST(9, 3), STRONGMAN(10, 3),
 	//Berserker T3
@@ -609,7 +609,7 @@ public enum Talent {
 		}
 		if (hero.hasTalent(IRON_STOMACH)){
 			if (hero.cooldown() > 0) {
-				Buff.affect(hero, WarriorFoodImmunity.class, hero.cooldown());
+				Buff.affect(hero, WarriorFoodImmunity.class, hero.cooldown() + Math.max(hero.pointsInTalent(IRON_STOMACH) - 2, 0));
 			}
 		}
 		if (hero.hasTalent(EMPOWERING_MEAL)){

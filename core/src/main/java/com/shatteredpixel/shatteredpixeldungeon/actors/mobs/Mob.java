@@ -976,6 +976,7 @@ public abstract class Mob extends Char {
 		//Evil Book logic
 		if (Dungeon.hero.belongings.getItem(EvilBook.class) != null) {
 			int rolls = 100;
+			Dungeon.hero.earnExp(100, EvilBook.class);
 			if (properties.contains(Property.BOSS)) rolls = 20;
 			else if (properties.contains(Property.MINIBOSS)) rolls = 10;
 			ArrayList<Item> evil_bonus = EvilBook.tryForBonusDrop(Dungeon.hero, rolls);
