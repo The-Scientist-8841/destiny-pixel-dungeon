@@ -69,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
@@ -901,6 +902,13 @@ public abstract class Mob extends Char {
 					Buff.affect(Dungeon.hero, Talent.LethalHasteCooldown.class, 100f);
 					Buff.affect(Dungeon.hero, GreaterHaste.class).set(2 + 2*Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE));
 				}
+
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.05*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
+					GLog.n(Messages.get(EvilBook.class, "gift_message"));
+					PotionOfShielding reward = new PotionOfShielding();
+					reward.collect();
+					EvilBook.showFlareForBonusDrop(Dungeon.hero.sprite);
+				}
 			}
 
 		}
@@ -975,10 +983,10 @@ public abstract class Mob extends Char {
 
 		//Evil Book logic
 		if (Dungeon.hero.belongings.getItem(EvilBook.class) != null) {
-			int rolls = 100;
-			Dungeon.hero.earnExp(100, EvilBook.class);
-			if (properties.contains(Property.BOSS)) rolls = 20;
-			else if (properties.contains(Property.MINIBOSS)) rolls = 10;
+			int rolls = 1;
+			if (properties.contains(Property.BOSS)) rolls = 25;
+			else if (properties.contains(Property.MINIBOSS)) rolls = 15;
+			else if (properties.contains(Property.RARE)) rolls = 10;
 			ArrayList<Item> evil_bonus = EvilBook.tryForBonusDrop(Dungeon.hero, rolls);
 			if (evil_bonus != null && !evil_bonus.isEmpty()) {
 				for (Item b : evil_bonus) Dungeon.level.drop(b, pos).sprite.drop();

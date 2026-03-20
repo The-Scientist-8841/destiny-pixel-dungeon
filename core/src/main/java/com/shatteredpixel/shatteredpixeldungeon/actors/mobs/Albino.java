@@ -38,6 +38,8 @@ public class Albino extends Rat {
 		
 		loot = MysteryMeat.class;
 		lootChance = 1f;
+
+		properties.add(Property.RARE);
 	}
 	
 	@Override

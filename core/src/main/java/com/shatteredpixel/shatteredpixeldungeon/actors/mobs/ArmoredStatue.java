@@ -35,6 +35,7 @@ public class ArmoredStatue extends Statue {
 
 	{
 		spriteClass = StatueSprite.class;
+		properties.add(Property.RARE);
 	}
 
 	protected Armor armor;

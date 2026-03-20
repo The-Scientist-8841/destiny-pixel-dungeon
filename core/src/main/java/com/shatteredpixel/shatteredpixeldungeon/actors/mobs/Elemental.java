@@ -558,6 +558,7 @@ public abstract class Elemental extends Mob {
 			
 			loot = ScrollOfTransmutation.class;
 			lootChance = 1f;
+			properties.add(Property.RARE);
 		}
 		
 		@Override

@@ -38,6 +38,7 @@ public class Acidic extends Scorpio {
 
 		loot = PotionOfExperience.class;
 		lootChance = 1f;
+		properties.add(Property.RARE);
 	}
 	@Override
 	public int attackProc(Char enemy, int damage) {

@@ -32,6 +32,7 @@ public class Senior extends Monk {
 
 		loot = Pasty.class;
 		lootChance = 1f;
+		properties.add(Property.RARE);
 	}
 	
 	@Override

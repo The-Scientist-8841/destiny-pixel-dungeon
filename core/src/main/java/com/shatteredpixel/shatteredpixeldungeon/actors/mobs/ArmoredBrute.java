@@ -38,6 +38,7 @@ public class ArmoredBrute extends Brute {
 
 	{
 		spriteClass = ShieldedSprite.class;
+		properties.add(Property.RARE);
 		
 		//see rollToDropLoot
 		loot = Generator.Category.ARMOR;

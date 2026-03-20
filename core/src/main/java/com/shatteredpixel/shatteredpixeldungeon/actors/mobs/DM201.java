@@ -42,6 +42,7 @@ public class DM201 extends DM200 {
 		properties.add(Property.IMMOVABLE);
 
 		HUNTING = new Hunting();
+		properties.add(Property.RARE);
 	}
 
 	@Override

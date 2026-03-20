@@ -44,6 +44,7 @@ public class EbonyMimic extends Mimic {
 
 	{
 		spriteClass = MimicSprite.Ebony.class;
+		properties.add(Property.RARE);
 	}
 
 	@Override

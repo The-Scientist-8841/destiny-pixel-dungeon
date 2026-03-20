@@ -38,6 +38,7 @@ public class Bee extends Mob {
 	
 	{
 		spriteClass = BeeSprite.class;
+		properties.add(Property.RARE);
 		
 		viewDistance = 4;
 

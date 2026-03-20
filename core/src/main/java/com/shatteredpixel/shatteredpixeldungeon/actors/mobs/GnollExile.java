@@ -53,6 +53,7 @@ public class GnollExile extends Gnoll {
 		HP = HT = 24;
 
 		lootChance = 0f; //see rollToDropLoot
+		properties.add(Property.RARE);
 	}
 
 	@Override

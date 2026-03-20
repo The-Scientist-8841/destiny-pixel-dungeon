@@ -41,6 +41,7 @@ public class SpectralNecromancer extends Necromancer {
 
 	{
 		spriteClass = SpectralNecromancerSprite.class;
+		properties.add(Property.RARE);
 	}
 
 	private ArrayList<Integer> wraithIDs = new ArrayList<>();
