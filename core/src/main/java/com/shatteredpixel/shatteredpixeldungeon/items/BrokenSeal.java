@@ -69,11 +69,17 @@ public class BrokenSeal extends Item {
 
 	private Armor.Glyph glyph;
 
+	public int maxLevel() {
+		if (Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE) < 3) return 1;
+		else if (Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE) == 3) return 2;
+		else return 3;
+	}
+
 	public boolean canTransferGlyph(){
 		if (glyph == null){
 			return false;
 		}
-		if (Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE) == 2){
+		if (Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE) >= 2){
 			return true;
 		} else if (Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE) == 1
 			&& (Arrays.asList(Armor.Glyph.common).contains(glyph.getClass())
@@ -200,7 +206,7 @@ public class BrokenSeal extends Item {
 	@Override
 	//scroll of upgrade can be used directly once, same as upgrading armor the seal is affixed to then removing it.
 	public boolean isUpgradable() {
-		return level() == 0;
+		return level() < maxLevel();
 	}
 
 	protected static WndBag.ItemSelector armorSelector = new WndBag.ItemSelector() {

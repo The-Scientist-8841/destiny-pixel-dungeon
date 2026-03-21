@@ -903,7 +903,7 @@ public abstract class Mob extends Char {
 					Buff.affect(Dungeon.hero, GreaterHaste.class).set(2 + 2*Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE));
 				}
 
-				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.05*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
 					GLog.n(Messages.get(EvilBook.class, "gift_message"));
 					PotionOfShielding reward = new PotionOfShielding();
 					reward.collect();

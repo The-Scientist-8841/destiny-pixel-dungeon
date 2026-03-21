@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
@@ -98,7 +99,7 @@ public enum Talent {
 	//Warrior T1
 	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4), HEARTY_BREW(27, 4), WARRIORS_DESTINY(28, 4),
 	//Warrior T2
-	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
+	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
 	//Warrior T3
 	HOLD_FAST(9, 3), STRONGMAN(10, 3),
 	//Berserker T3
@@ -943,6 +944,19 @@ public enum Talent {
 		}
 
 		return dmg;
+	}
+
+	public static void onAlchemy( Hero hero, Item craftedItem ) {
+		if (hero.hasTalent(HEARTY_BREW)) {
+			float chance = 0.05f * hero.pointsInTalent(HEARTY_BREW);
+			if (craftedItem instanceof PotionOfHealing) chance *= 2;
+
+			if (Random.Float() < chance) {
+				PotionOfHealing reward = new PotionOfHealing();
+				reward.collect();
+				Sample.INSTANCE.play( Assets.Sounds.ITEM );
+			}
+		}
 	}
 
 	public static class ProvokedAngerTracker extends FlavourBuff{

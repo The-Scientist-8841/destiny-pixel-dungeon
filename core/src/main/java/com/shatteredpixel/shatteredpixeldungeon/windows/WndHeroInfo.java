@@ -50,7 +50,7 @@ public class WndHeroInfo extends WndTabbed {
 	private SubclassInfoTab subclassInfo;
 	private ArmorAbilityInfoTab abilityInfo;
 
-	private static int WIDTH = 120;
+	private static int WIDTH = 220;
 	private static int MIN_HEIGHT = 125;
 	private static int MARGIN = 2;
 

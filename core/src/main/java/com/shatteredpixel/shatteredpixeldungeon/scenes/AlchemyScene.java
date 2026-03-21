@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
@@ -790,6 +791,9 @@ public class AlchemyScene extends PixelScene {
 		//we reset the quantity in case the result was merged into another stack in the backpack
 		result.quantity(resultQuantity);
 		outputs[0].item(result);
+
+		//New Talents
+		Talent.onAlchemy(Dungeon.hero, result);
 	}
 	
 	public void populate(ArrayList<Item> toFind, Belongings inventory){

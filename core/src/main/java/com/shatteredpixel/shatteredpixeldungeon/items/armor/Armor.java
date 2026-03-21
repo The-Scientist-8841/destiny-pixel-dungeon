@@ -307,7 +307,7 @@ public class Armor extends EquipableItem {
 		this.seal = seal;
 		if (seal.level() > 0){
 			//doesn't trigger upgrading logic such as affecting curses/glyphs
-			int newLevel = trueLevel()+1;
+			int newLevel = trueLevel()+seal.level();
 			level(newLevel);
 			Badges.validateItemLevelAquired(this);
 		}
@@ -331,7 +331,7 @@ public class Armor extends EquipableItem {
 			seal = null;
 
 			if (detaching.level() > 0){
-				degrade();
+				level(level() - detaching.level());
 			}
 			if (detaching.canTransferGlyph()){
 				inscribe(null);
@@ -462,9 +462,13 @@ public class Armor extends EquipableItem {
 				inscribe( Glyph.random() );
 			}
 		} else if (glyph != null) {
-			//chance to lose harden buff is 10/20/40/80/100% when upgrading from +6/7/8/9/10
+			//chance to lose harden buff is 10/20/40/80/100% when upgrading from +6/7/8/9/10, unless you have the metamorphosed runic transference
+			int lossChanceStart = 4;
+			if (Dungeon.hero != null && Dungeon.hero.heroClass != HeroClass.WARRIOR && Dungeon.hero.hasTalent(Talent.RUNIC_TRANSFERENCE)){
+				lossChanceStart += 1+Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE);
+			}
 			if (glyphHardened) {
-				if (level() >= 6 && Random.Float(10) < Math.pow(2, level()-6)){
+				if (level() >= lossChanceStart + 2 && Random.Float(10) < Math.pow(2, level()-(lossChanceStart + 2))){
 					glyphHardened = false;
 				}
 
@@ -472,16 +476,10 @@ public class Armor extends EquipableItem {
 			} else if (hasCurseGlyph()){
 				if (Random.Int(3) == 0) inscribe(null);
 
-			//otherwise chance to lose glyph is 10/20/40/80/100% when upgrading from +4/5/6/7/8
+			//otherwise chance to lose glyph is 10/20/40/80/100% when upgrading from +4/5/6/7/8, unless you have the metamorphosed runic transference
 			} else {
 
-				//the chance from +4/5, and then +6 can be set to 0% with metamorphed runic transference
-				int lossChanceStart = 4;
-				if (Dungeon.hero != null && Dungeon.hero.heroClass != HeroClass.WARRIOR && Dungeon.hero.hasTalent(Talent.RUNIC_TRANSFERENCE)){
-					lossChanceStart += 1+Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE);
-				}
-
-				if (level() >= lossChanceStart && Random.Float(10) < Math.pow(2, level()-4)) {
+				if (level() >= lossChanceStart && Random.Float(10) < Math.pow(2, level()-lossChanceStart)) {
 					inscribe(null);
 				}
 			}
@@ -489,7 +487,7 @@ public class Armor extends EquipableItem {
 		
 		cursed = false;
 
-		if (seal != null && seal.level() == 0)
+		if (seal != null && seal.level() < seal.maxLevel())
 			seal.upgrade();
 
 		return super.upgrade();
