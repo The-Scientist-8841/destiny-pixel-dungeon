@@ -402,6 +402,14 @@ public class SpiritBow extends Weapon {
 					if (user.buff(Talent.LethalMomentumTracker.class) != null){
 						user.buff(Talent.LethalMomentumTracker.class).detach();
 						user.next();
+					} else if (user.buff(Talent.LethalMomentumTracker2.class) != null) {
+						user.buff(Talent.LethalMomentumTracker2.class).detach();
+						Buff.affect(user, Talent.LethalMomentumTracker.class, 0f);
+						user.next();
+					} else if (user.buff(Talent.LethalMomentumTracker3.class) != null) {
+						user.buff(Talent.LethalMomentumTracker3.class).detach();
+						Buff.affect(user, Talent.LethalMomentumTracker2.class, 0f);
+						user.next();
 					} else {
 						user.spendAndNext(castDelay(user, cell));
 					}
@@ -456,6 +464,14 @@ public class SpiritBow extends Weapon {
 										} else {
 											if (user.buff(Talent.LethalMomentumTracker.class) != null){
 												user.buff(Talent.LethalMomentumTracker.class).detach();
+												user.next();
+											} else if (user.buff(Talent.LethalMomentumTracker2.class) != null) {
+												user.buff(Talent.LethalMomentumTracker2.class).detach();
+												Buff.affect(user, Talent.LethalMomentumTracker.class, 0f);
+												user.next();
+											} else if (user.buff(Talent.LethalMomentumTracker3.class) != null) {
+												user.buff(Talent.LethalMomentumTracker3.class).detach();
+												Buff.affect(user, Talent.LethalMomentumTracker2.class, 0f);
 												user.next();
 											} else {
 												user.spendAndNext(castDelay(user, cell));

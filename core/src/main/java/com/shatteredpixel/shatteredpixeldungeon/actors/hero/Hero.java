@@ -765,6 +765,14 @@ public class Hero extends Char {
 		if (buff(Talent.LethalMomentumTracker.class) != null){
 			buff(Talent.LethalMomentumTracker.class).detach();
 			return 0;
+		} else if (buff(Talent.LethalMomentumTracker2.class) != null) {
+			buff(Talent.LethalMomentumTracker2.class).detach();
+			Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 0f);
+			return 0;
+		} else if (buff(Talent.LethalMomentumTracker3.class) != null) {
+			buff(Talent.LethalMomentumTracker3.class).detach();
+			Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker2.class, 0f);
+			return 0;
 		}
 
 		float delay = 1f;

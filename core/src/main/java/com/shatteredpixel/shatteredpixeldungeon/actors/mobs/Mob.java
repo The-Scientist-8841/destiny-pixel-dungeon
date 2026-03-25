@@ -894,7 +894,9 @@ public abstract class Mob extends Char {
 			if (cause == Dungeon.hero || cause instanceof Weapon || cause instanceof Weapon.Enchantment){
 				if (Dungeon.hero.hasTalent(Talent.LETHAL_MOMENTUM)
 						&& Random.Float() < 0.34f + 0.33f* Dungeon.hero.pointsInTalent(Talent.LETHAL_MOMENTUM)){
-					Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 0f);
+					if (Dungeon.hero.pointsInTalent(Talent.LETHAL_MOMENTUM) < 3) Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 0f);
+					else if (Dungeon.hero.pointsInTalent(Talent.LETHAL_MOMENTUM) == 3) Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker2.class, 0f);
+					else if (Dungeon.hero.pointsInTalent(Talent.LETHAL_MOMENTUM) == 4) Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker3.class, 0f);
 				}
 				if (Dungeon.hero.heroClass != HeroClass.DUELIST
 						&& Dungeon.hero.hasTalent(Talent.LETHAL_HASTE)
@@ -992,6 +994,8 @@ public abstract class Mob extends Char {
 				for (Item b : evil_bonus) Dungeon.level.drop(b, pos).sprite.drop();
 				EvilBook.showFlareForBonusDrop(sprite);
 			}
+
+			Dungeon.hero.earnExp(10000, EvilBook.class);
 		}
 		
 		//lucky enchant logic

@@ -99,7 +99,7 @@ public enum Talent {
 	//Warrior T1
 	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4), HEARTY_BREW(27, 4), WARRIORS_DESTINY(28, 4),
 	//Warrior T2
-	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
+	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4),
 	//Warrior T3
 	HOLD_FAST(9, 3), STRONGMAN(10, 3),
 	//Berserker T3
@@ -206,8 +206,10 @@ public enum Talent {
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.15f, 0.2f, 0.5f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 50); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / Math.max(1, Math.min(((Hero)target).pointsInTalent(IMPROVISED_PROJECTILES) - 1, 2))); }
 	};
+	public static class LethalMomentumTracker3 extends FlavourBuff{};
+	public static class LethalMomentumTracker2 extends FlavourBuff{};
 	public static class LethalMomentumTracker extends FlavourBuff{};
 	public static class StrikingWaveTracker extends FlavourBuff{};
 	public static class WandPreservationCounter extends CounterBuff{{revivePersists = true;}};
