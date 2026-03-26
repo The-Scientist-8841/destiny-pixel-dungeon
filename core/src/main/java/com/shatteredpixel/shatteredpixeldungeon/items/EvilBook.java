@@ -25,9 +25,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
@@ -188,6 +190,10 @@ public class EvilBook extends Item {
             Catalog.countUse(getClass());
             Sample.INSTANCE.play( Assets.Sounds.DEATH );
             GLog.n(Messages.get(this, "reset_message", resets[Dungeon.depth - 1]));
+
+            if (hero.hasTalent(Talent.WARRIORS_FATE)) {
+                Buff.affect(hero, Barrier.class).incShield((int)( hero.HT * 0.05 * hero.pointsInTalent(Talent.WARRIORS_FATE) ));
+            }
         }
     }
 
