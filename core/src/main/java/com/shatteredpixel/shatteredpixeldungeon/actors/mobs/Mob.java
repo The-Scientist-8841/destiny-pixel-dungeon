@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
@@ -74,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShi
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
@@ -912,6 +914,13 @@ public abstract class Mob extends Char {
 					reward.collect();
 					EvilBook.showFlareForBonusDrop(Dungeon.hero.sprite);
 				}
+
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_CALLING) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_CALLING)) {
+					GLog.n(Messages.get(EvilBook.class, "gift_message"));
+					ScrollOfChallenge reward = new ScrollOfChallenge();
+					reward.collect();
+					EvilBook.showFlareForBonusDrop(Dungeon.hero.sprite);
+				}
 			}
 
 		}
@@ -997,6 +1006,8 @@ public abstract class Mob extends Char {
 			}
 
 			Dungeon.hero.earnExp(10000, EvilBook.class);
+			TengusMask debugThing = new TengusMask();
+			debugThing.collect();
 		}
 		
 		//lucky enchant logic

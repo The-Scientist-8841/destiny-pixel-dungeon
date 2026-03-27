@@ -104,7 +104,7 @@ public enum Talent {
 	//Warrior T2
 	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4), MIGHTY_BLESSING(192, 4), WARRIORS_FATE(29, 4),
 	//Warrior T3
-	HOLD_FAST(9, 4), STRONGMAN(10, 3),
+	HOLD_FAST(9, 4), STRONGMAN(10, 4), WARRIORS_CALLING(30, 4),
 	//Berserker T3
 	ENDLESS_RAGE(11, 3), DEATHLESS_FURY(12, 3), ENRAGED_CATALYST(13, 3),
 	//Gladiator T3
@@ -1114,7 +1114,7 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN);
+				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN, WARRIORS_CALLING);
 				break;
 			case MAGE:
 				Collections.addAll(tierTalents, DESPERATE_POWER, ALLY_WARP);

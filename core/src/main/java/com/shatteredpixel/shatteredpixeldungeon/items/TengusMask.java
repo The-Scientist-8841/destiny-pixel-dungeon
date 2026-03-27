@@ -67,10 +67,23 @@ public class TengusMask extends Item {
 		super.execute( hero, action );
 
 		if (action.equals( AC_WEAR )) {
-			
+
 			curUser = hero;
 
-			GameScene.show( new WndChooseSubclass( this, hero ) );
+			if (curUser.subClass == HeroSubClass.NONE) GameScene.show( new WndChooseSubclass( this, hero ) );
+			else {
+				for (int i = 0; i < 5; i += 1) curUser.earnExp(curUser.maxExp(), getClass());
+				Emitter e = curUser.sprite.centerEmitter();
+				e.pos(e.x-2, e.y-6, 4, 4);
+				e.start(Speck.factory(Speck.MASK), 0.05f, 20);
+				Sample.INSTANCE.play( Assets.Sounds.MASTERY );
+
+				detach(curUser.belongings.backpack);
+				Catalog.countUse( getClass() );
+
+				curUser.spendAndNext( Actor.TICK );
+				curUser.sprite.operate(curUser.pos);
+			}
 			
 		}
 	}
