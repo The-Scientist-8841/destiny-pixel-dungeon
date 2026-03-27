@@ -66,7 +66,7 @@ public class HoldFast extends Buff {
 					return 0.5f;
 				case 2:
 					return 0.25f;
-				case 3:
+				case 3: case 4:
 					return 0;
 			}
 
@@ -91,7 +91,7 @@ public class HoldFast extends Buff {
 		return Messages.get(this, "desc",
 				Dungeon.hero.pointsInTalent(Talent.HOLD_FAST),
 				2*Dungeon.hero.pointsInTalent(Talent.HOLD_FAST),
-				25 + 25*Dungeon.hero.pointsInTalent(Talent.HOLD_FAST));
+				Math.min(25 + 25*Dungeon.hero.pointsInTalent(Talent.HOLD_FAST), 100));
 	}
 
 	private static final String POS = "pos";

@@ -104,7 +104,7 @@ public enum Talent {
 	//Warrior T2
 	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4), MIGHTY_BLESSING(192, 4), WARRIORS_FATE(29, 4),
 	//Warrior T3
-	HOLD_FAST(9, 3), STRONGMAN(10, 3),
+	HOLD_FAST(9, 4), STRONGMAN(10, 3),
 	//Berserker T3
 	ENDLESS_RAGE(11, 3), DEATHLESS_FURY(12, 3), ENRAGED_CATALYST(13, 3),
 	//Gladiator T3
@@ -440,10 +440,12 @@ public enum Talent {
 
 		@Override
 		public boolean act() {
+			float damageToAbsorb = 1f;
 
-			if (shielding() <= 10) absorbDamage(1);
-			else absorbDamage((int)(0.1f * shielding())); // Decays by 10% each round
+			if (HoldFast.buffDecayFactor(target) <= 0) damageToAbsorb = 0f;
+			else if (shielding() > 10) damageToAbsorb = 0.1f * shielding() * HoldFast.buffDecayFactor(target);
 
+			absorbDamage((int)damageToAbsorb);
 			if (shielding() <= 0) detach();
 
 			spend( TICK );
