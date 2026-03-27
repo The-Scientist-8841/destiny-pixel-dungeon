@@ -192,7 +192,7 @@ public class EvilBook extends Item {
             GLog.n(Messages.get(this, "reset_message", resets[Dungeon.depth - 1]));
 
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {
-                Buff.affect(hero, Barrier.class).incShield((int)( hero.HT * 0.05 * hero.pointsInTalent(Talent.WARRIORS_FATE) ));
+                Buff.affect(hero, Talent.WarriorsDestinyShieldBuff.class).incShield((int)( hero.HT * 0.05 * hero.pointsInTalent(Talent.WARRIORS_FATE) ));
             }
         }
     }

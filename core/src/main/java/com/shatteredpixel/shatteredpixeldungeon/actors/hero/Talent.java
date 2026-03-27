@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
@@ -41,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
@@ -70,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -99,7 +102,7 @@ public enum Talent {
 	//Warrior T1
 	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4), HEARTY_BREW(27, 4), WARRIORS_DESTINY(28, 4),
 	//Warrior T2
-	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4), WARRIORS_FATE(29, 4),
+	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4), MIGHTY_BLESSING(192, 4), WARRIORS_FATE(29, 4),
 	//Warrior T3
 	HOLD_FAST(9, 3), STRONGMAN(10, 3),
 	//Berserker T3
@@ -430,6 +433,44 @@ public enum Talent {
 		}
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0f, 1f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
+	}
+
+	public static class WarriorsDestinyShieldBuff extends ShieldBuff {
+		{ type = buffType.POSITIVE; }
+
+		@Override
+		public boolean act() {
+
+			if (shielding() <= 10) absorbDamage(1);
+			else absorbDamage((int)(0.1f * shielding())); // Decays by 10% each round
+
+			if (shielding() <= 0) detach();
+
+			spend( TICK );
+
+			return true;
+		}
+
+		@Override
+		public void fx(boolean on) {
+			if (on) {
+				target.sprite.add(CharSprite.State.SHIELDED);
+			} else if (target.buff(Blocking.BlockBuff.class) == null) {
+				target.sprite.remove(CharSprite.State.SHIELDED);
+			}
+		}
+
+		@Override
+		public int icon() { return BuffIndicator.ARMOR; }
+
+		@Override
+		public void tintIcon(Image icon) { icon.hardlight(1f, 0.25f, 0.25f); }
+
+		@Override
+		public String iconTextDisplay() { return Integer.toString(shielding()); }
+
+		@Override
+		public String desc() { return Messages.get(this, "desc", shielding()); }
 	}
 
 	int icon;
@@ -1042,7 +1083,7 @@ public enum Talent {
 		//tier 2
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, IRON_STOMACH, LIQUID_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, WARRIORS_FATE);
+				Collections.addAll(tierTalents, IRON_STOMACH, LIQUID_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, MIGHTY_BLESSING, WARRIORS_FATE);
 				break;
 			case MAGE:
 				Collections.addAll(tierTalents, ENERGIZING_MEAL, INSCRIBED_POWER, WAND_PRESERVATION, ARCANE_VISION, SHIELD_BATTERY);
