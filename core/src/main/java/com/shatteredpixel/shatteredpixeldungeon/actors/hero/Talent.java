@@ -109,6 +109,8 @@ public enum Talent {
 	ENDLESS_RAGE(11, 3), DEATHLESS_FURY(12, 3), ENRAGED_CATALYST(13, 3),
 	//Gladiator T3
 	CLEAVE(14, 3), LETHAL_DEFENSE(15, 3), ENHANCED_COMBO(16, 3),
+	//Global T4
+	WARRIORS_PURPOSE(31, 4),
 	//Heroic Leap T4
 	BODY_SLAM(17, 4), IMPACT_WAVE(18, 4), DOUBLE_JUMP(19, 4),
 	//Shockwave T4
@@ -1141,7 +1143,18 @@ public enum Talent {
 		tierTalents.clear();
 
 		//tier4
-		//TBD
+		switch (cls) {
+			case WARRIOR: default:
+				Collections.addAll(tierTalents, WARRIORS_PURPOSE);
+				break;
+		}
+		for (Talent talent : tierTalents){
+			if (replacements.containsKey(talent)){
+				talent = replacements.get(talent);
+			}
+			talents.get(3).put(talent, 0);
+		}
+		tierTalents.clear();
 	}
 
 	public static void initSubclassTalents( Hero hero ){

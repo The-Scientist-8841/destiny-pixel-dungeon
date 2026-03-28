@@ -39,6 +39,7 @@ public class WndInfoArmorAbility extends WndTitledMessage {
 		super( new HeroIcon(ability), Messages.titleCase(ability.name()), ability.desc());
 
 		ArrayList<LinkedHashMap<Talent, Integer>> talentList = new ArrayList<>();
+		Talent.initClassTalents(cls, talentList);
 		Talent.initArmorTalents(ability, talentList);
 
 		Ratmogrify.useRatroicEnergy = ability instanceof Ratmogrify;

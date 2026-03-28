@@ -28,6 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WellFed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -163,6 +165,21 @@ public class EvilBook extends Item {
 
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {
                 Buff.affect(hero, Talent.WarriorsDestinyShieldBuff.class).incShield((int)( hero.HT * 0.05 * hero.pointsInTalent(Talent.WARRIORS_FATE) ));
+            }
+
+            if (resets[Dungeon.depth - 1] == 5) {
+                if (hero.hasTalent(Talent.WARRIORS_PURPOSE)) {
+                    float energy = Hunger.HUNGRY / 2f;
+                    if (hero.pointsInTalent(Talent.WARRIORS_PURPOSE) == 2) energy = Hunger.HUNGRY;
+                    else if (hero.pointsInTalent(Talent.WARRIORS_PURPOSE) == 3) energy = Hunger.STARVING;
+                    else if (hero.pointsInTalent(Talent.WARRIORS_PURPOSE) == 4) {
+                        energy = Hunger.STARVING * 2;
+                        Buff.affect(hero, WellFed.class).reset();
+                    }
+
+                    Buff.affect(hero, Hunger.class).affectHunger(energy);
+                    Talent.onFoodEaten(hero, energy, null);
+                }
             }
         }
     }

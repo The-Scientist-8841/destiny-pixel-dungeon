@@ -1007,10 +1007,13 @@ public abstract class Mob extends Char {
 			}
 
 			Dungeon.hero.earnExp(10000, EvilBook.class);
-			TengusMask debugThing = new TengusMask();
-			debugThing.collect();
-			KingsCrown debugThing2 = new KingsCrown();
-			debugThing2.collect();
+
+			if (Dungeon.hero.subClass == HeroSubClass.NONE) {
+				TengusMask debugThing = new TengusMask();
+				debugThing.collect();
+				KingsCrown debugThing2 = new KingsCrown();
+				debugThing2.collect();
+			}
 		}
 		
 		//lucky enchant logic
