@@ -93,6 +93,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
@@ -2049,7 +2050,7 @@ public class Hero extends Char {
 				GLog.newLine();
 				GLog.p( Messages.get(this, "new_level") );
 				sprite.showStatus( CharSprite.POSITIVE, Messages.get(Hero.class, "level_up") );
-				if ((source != PotionOfDivineInspiration.class) && (source != TengusMask.class)) Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
+				if ((source != PotionOfDivineInspiration.class) && (source != TengusMask.class) && (source != KingsCrown.class)) Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
 				if (lvl < Talent.tierLevelThresholds[Talent.MAX_TALENT_TIERS+1]){
 					GLog.newLine();
 					GLog.p( Messages.get(this, "new_talent") );

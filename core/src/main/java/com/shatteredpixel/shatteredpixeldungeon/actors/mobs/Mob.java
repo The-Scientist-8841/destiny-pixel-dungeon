@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
@@ -1008,6 +1009,8 @@ public abstract class Mob extends Char {
 			Dungeon.hero.earnExp(10000, EvilBook.class);
 			TengusMask debugThing = new TengusMask();
 			debugThing.collect();
+			KingsCrown debugThing2 = new KingsCrown();
+			debugThing2.collect();
 		}
 		
 		//lucky enchant logic

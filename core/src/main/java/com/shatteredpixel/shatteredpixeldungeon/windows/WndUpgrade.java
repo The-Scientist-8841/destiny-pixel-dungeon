@@ -57,7 +57,7 @@ import com.watabou.utils.Reflection;
 
 public class WndUpgrade extends Window {
 
-	private static final int WIDTH = 120;
+	private static final int WIDTH = 150;
 
 	private static final float COL_1 = WIDTH/4f;
 	private static final float COL_2 = 5*WIDTH/8f;
@@ -70,6 +70,7 @@ public class WndUpgrade extends Window {
 	private boolean force;
 
 	private RedButton btnUpgrade;
+	private RedButton btnUpgradeAll;
 	private RedButton btnCancel;
 
 	public WndUpgrade( Item upgrader, Item toUpgrade, boolean force){
@@ -461,8 +462,44 @@ public class WndUpgrade extends Window {
 				}
 			}
 		};
-		btnUpgrade.setRect(0, bottom+2*GAP, WIDTH/2f, 16);
+		btnUpgrade.setRect(0, bottom+2*GAP, 5*WIDTH/12f, 16);
 		add(btnUpgrade);
+
+		btnUpgradeAll = new RedButton(Messages.get(this, "upgradeall")) {
+			@Override
+			protected void onClick() {
+				super.onClick();
+
+				ScrollOfUpgrade.upgrade(Dungeon.hero);
+
+				Item upgraded = toUpgrade;
+				if (upgrader instanceof ScrollOfUpgrade){
+					((ScrollOfUpgrade) upgrader).readAnimation();
+
+					Item moreUpgrades = upgrader;
+					while (moreUpgrades != null && upgraded.isUpgradable()) {
+						upgraded = ((ScrollOfUpgrade) moreUpgrades).upgradeItem(upgraded);
+						moreUpgrades.detach(Dungeon.hero.belongings.backpack);
+						moreUpgrades = Dungeon.hero.belongings.getItem(upgrader.getClass());
+					}
+					Sample.INSTANCE.play( Assets.Sounds.READ );
+				} else if (upgrader instanceof MagicalInfusion){
+					((MagicalInfusion) upgrader).useAnimation();
+
+					Item moreUpgrades = upgrader;
+					while (moreUpgrades != null && upgraded.isUpgradable()) {
+						upgraded = ((MagicalInfusion) moreUpgrades).upgradeItem(upgraded);
+						moreUpgrades.detach(Dungeon.hero.belongings.backpack);
+						moreUpgrades = Dungeon.hero.belongings.getItem(upgrader.getClass());
+					}
+					Sample.INSTANCE.play( Assets.Sounds.READ );
+				}
+
+				hide();
+			}
+		};
+		btnUpgradeAll.setRect(btnUpgrade.right() + 1, bottom+2*GAP, 7*WIDTH/12f, 16);
+		add(btnUpgradeAll);
 
 		btnCancel = new RedButton(Messages.get(this, "back")){
 			@Override
@@ -477,12 +514,13 @@ public class WndUpgrade extends Window {
 			}
 
 		};
-		btnCancel.setRect(btnUpgrade.right()+1, bottom+2*GAP, WIDTH/2f, 16);
+		btnCancel.setRect(0, bottom+16+3*GAP, WIDTH, 16);
 		add(btnCancel);
 
 		btnUpgrade.enable(Dungeon.hero.ready);
 
 		btnUpgrade.icon(new ItemSprite(upgrader));
+		btnUpgradeAll.icon(new ItemSprite(upgrader));
 		btnCancel.icon(Icons.EXIT.get());
 
 		bottom = (int)btnCancel.bottom();

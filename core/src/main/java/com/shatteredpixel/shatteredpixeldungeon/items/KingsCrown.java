@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndChooseAbility;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.particles.Emitter;
 
 import java.util.ArrayList;
 
@@ -69,11 +70,12 @@ public class KingsCrown extends Item {
 
 			curUser = hero;
 			if (hero.belongings.armor() != null){
-				GameScene.show( new WndChooseAbility(this, hero.belongings.armor(), hero));
+				if (curUser.armorAbility == null) GameScene.show( new WndChooseAbility(this, hero.belongings.armor(), hero));
+				else upgradeArmor(curUser, null, null);
 			} else {
 				GLog.w( Messages.get(this, "naked"));
 			}
-			
+
 		}
 	}
 	
@@ -96,31 +98,35 @@ public class KingsCrown extends Item {
 		hero.spend(Actor.TICK);
 		hero.busy();
 
-		if (armor != null){
+		if (hero.armorAbility == null) {
+			if (armor != null) {
 
-			if (ability instanceof Ratmogrify){
-				GLog.p(Messages.get(this, "ratgraded"));
-			} else {
-				GLog.p(Messages.get(this, "upgraded"));
+				if (ability instanceof Ratmogrify) {
+					GLog.p(Messages.get(this, "ratgraded"));
+				} else {
+					GLog.p(Messages.get(this, "upgraded"));
+				}
+
+				ClassArmor classArmor = ClassArmor.upgrade(hero, armor);
+				if (hero.belongings.armor == armor) {
+
+					hero.belongings.armor = classArmor;
+					((HeroSprite) hero.sprite).updateArmor();
+					classArmor.activate(hero);
+
+				} else {
+
+					armor.detach(hero.belongings.backpack);
+					classArmor.collect(hero.belongings.backpack);
+
+				}
 			}
 
-			ClassArmor classArmor = ClassArmor.upgrade(hero, armor);
-			if (hero.belongings.armor == armor) {
-
-				hero.belongings.armor = classArmor;
-				((HeroSprite) hero.sprite).updateArmor();
-				classArmor.activate(hero);
-
-			} else {
-
-				armor.detach(hero.belongings.backpack);
-				classArmor.collect(hero.belongings.backpack);
-
-			}
+			hero.armorAbility = ability;
+			Talent.initArmorTalents(hero);
+		} else {
+			for (int i = 0; i < 5; i += 1) curUser.earnExp(curUser.maxExp(), getClass());
 		}
-
-		hero.armorAbility = ability;
-		Talent.initArmorTalents(hero);
 
 		hero.sprite.operate( hero.pos );
 		Sample.INSTANCE.play( Assets.Sounds.MASTERY );
