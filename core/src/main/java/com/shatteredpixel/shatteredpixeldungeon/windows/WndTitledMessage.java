@@ -33,17 +33,25 @@ public class WndTitledMessage extends Window {
 	protected static final int WIDTH_MAX    = 220;
 	protected static final int GAP	= 2;
 
+	public WndTitledMessage(Image icon, String title, String message, int width_adj) {
+		this(new IconTitle(icon, title), message, width_adj);
+	}
+
 	public WndTitledMessage( Image icon, String title, String message ) {
 		
-		this( new IconTitle( icon, title ), message );
+		this( new IconTitle( icon, title ), message, 0 );
 
 	}
+
+	public WndTitledMessage(Component titlebar, String message) {
+		this(titlebar, message, 0);
+	}
 	
-	public WndTitledMessage( Component titlebar, String message ) {
+	public WndTitledMessage( Component titlebar, String message, int width_adj ) {
 
 		super();
 
-		int width = WIDTH_MIN;
+		int width = WIDTH_MIN + width_adj;
 
 		titlebar.setRect( 0, 0, width, 0 );
 		add(titlebar);
@@ -56,7 +64,7 @@ public class WndTitledMessage extends Window {
 
 		while (PixelScene.landscape()
 				&& text.bottom() > targetHeight()
-				&& width < WIDTH_MAX){
+				&& width < WIDTH_MAX + width_adj){
 			width += 20;
 			titlebar.setRect(0, 0, width, 0);
 			text.setPos( titlebar.left(), titlebar.bottom() + 2*GAP );
