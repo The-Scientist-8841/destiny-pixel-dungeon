@@ -239,19 +239,25 @@ public class Combo extends Buff implements ActionIndicator.Action {
 						return Messages.get(this, name() + ".desc", count*20);
 					}
 				case PARRY:
-					if (count >= 9 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 2){
+					if (count >= 12 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 4) {
+						return Messages.get(this, name() + ".empower4_desc");
+					} else if (count >= 9 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 2){
 						return Messages.get(this, name() + ".empower_desc");
 					} else {
 						return Messages.get(this, name() + ".desc");
 					}
 				case CRUSH:
-					if (count >= 3 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 3){
+					if (count >= 9 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 4) {
+						return Messages.get(this, name() + ".empower4_desc", count/3, count*25, Math.min(100, 50 + (count - 8)));
+					} else if (count >= 3 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 3){
 						return Messages.get(this, name() + ".empower_desc", count/3, count*25);
 					} else {
 						return Messages.get(this,  name() + ".desc", count*25);
 					}
 				case FURY:
-					if (count >= 3 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 3){
+					if (count >= 11 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 4){
+						return Messages.get(this, name() + ".empower4_desc", count/3, 60 + count - 10);
+					} else if (count >= 3 && Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 3){
 						return Messages.get(this, name() + ".empower_desc", count/3);
 					} else {
 						return Messages.get(this,  name() + ".desc");
@@ -287,7 +293,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 	public void useMove(ComboMove move){
 		if (move == ComboMove.PARRY){
 			parryUsed = true;
-			comboTime = 5f;
+			if ((Dungeon.hero.pointsInTalent(Talent.ENHANCED_COMBO) < 4) || (count < 12)) comboTime = 5f;
 			Invisibility.dispel();
 			Buff.affect(target, ParryTracker.class, Actor.TICK);
 			((Hero)target).spendAndNext(Actor.TICK);
@@ -305,7 +311,9 @@ public class Combo extends Buff implements ActionIndicator.Action {
 
 		@Override
 		public void detach() {
-			if (!parried && target.buff(Combo.class) != null) target.buff(Combo.class).detach();
+			if (!parried && target.buff(Combo.class) != null) {
+				if ((target.buff(Combo.class).count < 12) || ((Hero)target).pointsInTalent(Talent.ENHANCED_COMBO) < 4) target.buff(Combo.class).detach();
+			}
 			super.detach();
 		}
 	}
@@ -361,6 +369,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 				break;
 			case FURY:
 				dmgMulti = 0.6f;
+				if ((hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 4) && count > 10) dmgMulti += 0.01f * (count - 10);
 				break;
 		}
 
@@ -398,8 +407,11 @@ public class Combo extends Buff implements ActionIndicator.Action {
 					for (Char ch : Actor.chars()) {
 						if (ch != enemy && ch.alignment == Char.Alignment.ENEMY
 								&& PathFinder.distance[ch.pos] < Integer.MAX_VALUE) {
-							int aoeHit = Math.round(target.damageRoll() * 0.25f * count);
-							aoeHit /= 2;
+							float _aoeHit = target.damageRoll() * 0.25f * count;
+							float factor = 0.5f;
+							if ((hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 4) && (count > 8)) factor = Math.min(1f, factor + 0.01f*(count - 8));
+							_aoeHit *= factor;
+							int aoeHit = Math.round(_aoeHit);
 							aoeHit -= ch.drRoll();
 							if (ch.buff(Vulnerable.class) != null) aoeHit *= 1.33f;
 							if (ch instanceof DwarfKing){
@@ -412,7 +424,15 @@ public class Combo extends Buff implements ActionIndicator.Action {
 							ch.sprite.flash();
 
 							if (!ch.isAlive() && hero.hasTalent(Talent.LETHAL_DEFENSE)) {
-								Buff.affect(hero, BrokenSeal.WarriorShield.class).reduceCooldown(hero.pointsInTalent(Talent.LETHAL_DEFENSE)/3f);
+								Buff.affect(hero, BrokenSeal.WarriorShield.class).reduceCooldown(Math.min(hero.pointsInTalent(Talent.LETHAL_DEFENSE)/3f, 1f));
+							}
+							if (hero.pointsInTalent(Talent.LETHAL_DEFENSE) == 4) {
+								int amt = 0;
+								if (hero.belongings.armor.checkSeal() != null) amt = hero.belongings.armor.checkSeal().maxShield(
+										hero.belongings.armor.tier,
+										hero.belongings.armor.level()
+								);
+								if (amt > 0) Buff.affect(hero, Barrier.class).incShield(amt);
 							}
 						}
 					}
@@ -471,7 +491,15 @@ public class Combo extends Buff implements ActionIndicator.Action {
 
 		if (!enemy.isAlive() || (!wasAlly && enemy.alignment == target.alignment)) {
 			if (hero.hasTalent(Talent.LETHAL_DEFENSE)){
-				Buff.affect(hero, BrokenSeal.WarriorShield.class).reduceCooldown(hero.pointsInTalent(Talent.LETHAL_DEFENSE)/3f);
+				Buff.affect(hero, BrokenSeal.WarriorShield.class).reduceCooldown(Math.min(hero.pointsInTalent(Talent.LETHAL_DEFENSE)/3f, 1f));
+				if (hero.pointsInTalent(Talent.LETHAL_DEFENSE) == 4) {
+					int amt = 0;
+					if (hero.belongings.armor.checkSeal() != null) amt = hero.belongings.armor.checkSeal().maxShield(
+							hero.belongings.armor.tier,
+							hero.belongings.armor.level()
+					);
+                    Buff.affect(hero, Barrier.class).incShield(Math.max(amt, 5));
+				}
 			}
 		}
 
