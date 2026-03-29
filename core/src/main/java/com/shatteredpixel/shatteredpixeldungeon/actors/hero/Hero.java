@@ -590,8 +590,9 @@ public class Hero extends Char {
 				return 0;
 			}
 		}
-
-		return Math.max(1, Math.round(evasion));
+		//Debugging!
+		return 0;
+		//return Math.max(1, Math.round(evasion));
 	}
 
 	@Override

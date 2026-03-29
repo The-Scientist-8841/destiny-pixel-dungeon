@@ -194,9 +194,12 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 		if (target.HP > 0) {
 			turnRecovery = TURN_RECOVERY_START;
 			levelRecovery = 0;
-		} else {
+		} else if (((Hero)target).pointsInTalent(Talent.DEATHLESS_FURY) < 4){
 			levelRecovery = LEVEL_RECOVER_START - ((Hero)target).pointsInTalent(Talent.DEATHLESS_FURY);
 			turnRecovery = 0;
+		} else {
+			turnRecovery = (TURN_RECOVERY_START / 2);
+			levelRecovery = 0;
 		}
 
 		int shieldAmount = currentShieldBoost();
@@ -236,7 +239,9 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	public void damage(int damage){
 		if (state != State.NORMAL) return;
 		float maxPower = 1f + 0.1667f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
-		power = Math.min(maxPower, power + (damage/(float)target.HT)/4f );
+		power = Math.min(maxPower, power + Math.max((damage/(float)target.HT)/4f, 0.01f ));
+		//DebugThing!
+		power = Math.min(maxPower, power + 100f);
 		BuffIndicator.refreshHero(); //show new power immediately
 		powerLossBuffer = 3; //2 turns until rage starts dropping
 		if (power >= 1f){
@@ -322,7 +327,9 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 				return 1f - shielding() / (float)maxShieldBoost();
 			case RECOVERING:
 				if (levelRecovery > 0) {
-					return levelRecovery/(LEVEL_RECOVER_START-Dungeon.hero.pointsInTalent(Talent.DEATHLESS_FURY));
+					if (Dungeon.hero.pointsInTalent(Talent.DEATHLESS_FURY) < LEVEL_RECOVER_START) {
+						return levelRecovery/(LEVEL_RECOVER_START-Dungeon.hero.pointsInTalent(Talent.DEATHLESS_FURY));
+					} else return 1f;
 				} else {
 					return turnRecovery/(float)TURN_RECOVERY_START;
 				}
