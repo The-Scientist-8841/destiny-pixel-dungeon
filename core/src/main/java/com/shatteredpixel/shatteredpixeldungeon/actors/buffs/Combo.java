@@ -90,6 +90,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 	public void hit( Char enemy ) {
 
 		count++;
+		if (Math.random() < 0.1*((Hero)target).pointsInTalent(Talent.FIGHTING_SPIRIT)) count++;
 		comboTime = Math.max(comboTime, 5f);
 
 		if (!enemy.isAlive() || (enemy.buff(Corruption.class) != null && enemy.HP == enemy.HT)){
