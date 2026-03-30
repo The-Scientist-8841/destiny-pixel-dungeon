@@ -119,7 +119,7 @@ public enum Talent {
 	SUSTAINED_RETRIBUTION(23, 4), SHRUG_IT_OFF(24, 4), EVEN_THE_ODDS(25, 4),
 
 	//Mage T1
-	EMPOWERING_MEAL(32), SCHOLARS_INTUITION(33), LINGERING_MAGIC(34), BACKUP_BARRIER(35),
+	EMPOWERING_MEAL(32,4), SCHOLARS_INTUITION(33,4), LINGERING_MAGIC(34), BACKUP_BARRIER(35),
 	//Mage T2
 	ENERGIZING_MEAL(36), INSCRIBED_POWER(37), WAND_PRESERVATION(38), ARCANE_VISION(39), SHIELD_BATTERY(40),
 	//Mage T3
@@ -765,6 +765,7 @@ public enum Talent {
 		// 2x/instant for Rogue (see onItemEqupped), also id's type on equip/on pickup
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
+			if (hero.pointsInTalent(SCHOLARS_INTUITION) == 4) factor *= 1.75f;
 		}
 		return factor;
 	}
@@ -928,6 +929,12 @@ public enum Talent {
 		if (hero.pointsInTalent(VETERANS_INTUITION) >= 3) {
 			if (item instanceof Armor) {
 				if (ShardOfOblivion.passiveIDDisabled()) ((Armor) item).setIDReady();
+				else item.identify();
+			}
+		}
+		if (hero.pointsInTalent(SCHOLARS_INTUITION) >= 3) {
+			if (item instanceof Wand) {
+				if (ShardOfOblivion.passiveIDDisabled()) ((Wand) item).setIDReady();
 				else item.identify();
 			}
 		}

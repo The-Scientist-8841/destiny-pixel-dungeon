@@ -256,6 +256,7 @@ public class WndHeroInfo extends WndTabbed {
 			ArrayList<LinkedHashMap<Talent, Integer>> talents = new ArrayList<>();
 			Talent.initClassTalents(cls, talents);
 			talents.get(2).clear(); //we show T3 talents with subclasses
+			talents.get(3).clear();
 
 			talentPane = new TalentsPane(TalentButton.Mode.INFO, talents);
 			add(talentPane);

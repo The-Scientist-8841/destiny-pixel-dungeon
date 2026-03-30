@@ -119,13 +119,13 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 
 			IconTitle title = new IconTitle( curItem );
 			title.color( TITLE_COLOR );
-			title.setRect(0, 0, 120, 0);
+			title.setRect(0, 0, 150, 0);
 			add(title);
 
 			top = title.bottom() + 2;
 
 			RenderedTextBlock text = PixelScene.renderTextBlock(Messages.get(ScrollOfMetamorphosis.class, "choose_desc"), 6);
-			text.maxWidth(120);
+			text.maxWidth(150);
 			text.setPos(0, top);
 			add(text);
 
@@ -143,7 +143,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 			pane = new TalentsPane(TalentButton.Mode.METAMORPH_CHOOSE, talents);
 			add(pane);
 			pane.setPos(0, top);
-			pane.setSize(120, pane.content().height());
+			pane.setSize(150, pane.content().height());
 			resize((int)pane.width(), (int)pane.bottom());
 			pane.setPos(0, top);
 		}
