@@ -64,17 +64,20 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
@@ -910,17 +913,50 @@ public abstract class Mob extends Char {
 					Buff.affect(Dungeon.hero, GreaterHaste.class).set(2 + 2*Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE));
 				}
 
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_JOURNEY) && (Random.Float() <= 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.WARRIORS_JOURNEY))) {
+					int nDrops = Dungeon.hero.pointsInTalent(Talent.WARRIORS_JOURNEY) + Random.NormalIntRange(0, 2);
+
+					ArrayList<Integer> candidates = new ArrayList<>();
+					for (int i : PathFinder.NEIGHBOURS8){
+						if (Dungeon.level.passable[pos+i]
+								&& pos+i != Dungeon.level.entrance()
+								&& pos+i != Dungeon.level.exit()){
+							candidates.add(pos+i);
+						}
+					}
+
+					for (int i = 0; i < nDrops && !candidates.isEmpty(); i++){
+						Integer c = Random.element(candidates);
+						if (Dungeon.level.heaps.get(c) == null) {
+							Dungeon.level.drop(new Dewdrop(), c).sprite.drop(pos);
+						} else {
+							Dungeon.level.drop(new Dewdrop(), c).sprite.drop(c);
+						}
+						candidates.remove(c);
+					}
+				}
+
+				boolean evilBonus = false;
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_PLIGHT) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_PLIGHT)) {
+					evilBonus = true;
+					ScrollOfRage reward = new ScrollOfRage();
+					reward.collect();
+				}
+
 				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
-					GLog.n(Messages.get(EvilBook.class, "gift_message"));
+					evilBonus = true;
 					PotionOfShielding reward = new PotionOfShielding();
 					reward.collect();
-					EvilBook.showFlareForBonusDrop(Dungeon.hero.sprite);
 				}
 
 				if (Dungeon.hero.hasTalent(Talent.WARRIORS_CALLING) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_CALLING)) {
-					GLog.n(Messages.get(EvilBook.class, "gift_message"));
+					evilBonus = true;
 					ScrollOfChallenge reward = new ScrollOfChallenge();
 					reward.collect();
+				}
+
+				if (evilBonus) {
+					GLog.n(Messages.get(EvilBook.class, "gift_message"));
 					EvilBook.showFlareForBonusDrop(Dungeon.hero.sprite);
 				}
 			}
@@ -997,16 +1033,18 @@ public abstract class Mob extends Char {
 
 		//Evil Book logic
 		if (Dungeon.hero.belongings.getItem(EvilBook.class) != null) {
-			int rolls = 1;
-			if (properties.contains(Property.BOSS)) rolls = 25;
-			else if (properties.contains(Property.MINIBOSS)) rolls = 15;
-			else if (properties.contains(Property.RARE)) rolls = 10;
+			int rolls = 1 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 1 : 0);
+			if (properties.contains(Property.BOSS)) rolls = 25 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 7 : 0);
+			else if (properties.contains(Property.MINIBOSS)) rolls = 15 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 5 : 0);
+			else if (properties.contains(Property.RARE)) rolls = 10 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 3 : 0);
+
 			ArrayList<Item> evil_bonus = EvilBook.tryForBonusDrop(Dungeon.hero, rolls);
 			if (evil_bonus != null && !evil_bonus.isEmpty()) {
 				for (Item b : evil_bonus) Dungeon.level.drop(b, pos).sprite.drop();
 				EvilBook.showFlareForBonusDrop(sprite);
 			}
 
+			//Debugging
 			Dungeon.hero.earnExp(10000, EvilBook.class);
 
 			if (Dungeon.hero.subClass == HeroSubClass.NONE) {
@@ -1016,6 +1054,9 @@ public abstract class Mob extends Char {
 				debugThing2.collect();
 				ScrollOfMetamorphosis debugThing3 = new ScrollOfMetamorphosis();
 				debugThing3.collect();
+				AlchemistsToolkit debugThing4 = new AlchemistsToolkit();
+				debugThing4.cursed = false;
+				debugThing4.collect();
 			}
 		}
 		

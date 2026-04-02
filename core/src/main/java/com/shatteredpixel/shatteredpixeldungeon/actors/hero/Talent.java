@@ -61,14 +61,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.InventorySpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -100,17 +103,18 @@ import java.util.LinkedHashMap;
 public enum Talent {
 
 	//Warrior T1
-	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4), HEARTY_BREW(27, 4), WARRIORS_DESTINY(28, 4),
+	HEARTY_MEAL(0, 4), VETERANS_INTUITION(1, 4), PROVOKED_ANGER(2, 4), IRON_WILL(3, 4), FIELD_RATIONS(27,4), WARRIORS_JOURNEY(28,4),
 	//Warrior T2
-	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4), MIGHTY_BLESSING(192, 4), WARRIORS_FATE(29, 4),
+	IRON_STOMACH(4, 4), LIQUID_WILLPOWER(5, 4), RUNIC_TRANSFERENCE(6, 4), LETHAL_MOMENTUM(7, 4), IMPROVISED_PROJECTILES(8, 4), MIGHTY_BLESSING(192, 4), WARRIORS_TRIAL(29,4),
 	//Warrior T3
-	HOLD_FAST(9, 4), STRONGMAN(10, 4), WARRIORS_CALLING(30, 4),
+	HOLD_FAST(9, 4), STRONGMAN(10, 4), WARRIORS_STRUGGLE(30,4),
 	//Berserker T3
 	ENDLESS_RAGE(11, 4), DEATHLESS_FURY(12, 4), ENRAGED_CATALYST(13, 4), QUICK_TO_ANGER(199, 4),
 	//Gladiator T3
 	CLEAVE(14, 4), LETHAL_DEFENSE(15, 4), ENHANCED_COMBO(16, 4), FIGHTING_SPIRIT(200, 4),
 	//Global T4
-	WARRIORS_PURPOSE(31, 4),
+	WARRIORS_PLIGHT(31,4),
+
 	//Heroic Leap T4
 	BODY_SLAM(17, 4), IMPACT_WAVE(18, 4), DOUBLE_JUMP(19, 4),
 	//Shockwave T4
@@ -118,8 +122,18 @@ public enum Talent {
 	//Endure T4
 	SUSTAINED_RETRIBUTION(23, 4), SHRUG_IT_OFF(24, 4), EVEN_THE_ODDS(25, 4),
 
+	//Warrior T5
+	HEARTY_BREW(283, 4), WARRIORS_DESTINY(284, 4),
+	//Warrior T6
+	WARRIORS_FATE(285, 4),
+	//Warrior T7
+	WARRIORS_CALLING(286, 4),
+	//Warrior T8
+	WARRIORS_PURPOSE(287, 4),
+
+
 	//Mage T1
-	EMPOWERING_MEAL(32,4), SCHOLARS_INTUITION(33,4), LINGERING_MAGIC(34), BACKUP_BARRIER(35),
+	EMPOWERING_MEAL(32,4), SCHOLARS_INTUITION(33,4), LINGERING_MAGIC(34,4), BACKUP_BARRIER(35,4), SPELLCASTERS_INGENUITY(59,4),
 	//Mage T2
 	ENERGIZING_MEAL(36), INSCRIBED_POWER(37), WAND_PRESERVATION(38), ARCANE_VISION(39), SHIELD_BATTERY(40),
 	//Mage T3
@@ -134,6 +148,9 @@ public enum Talent {
 	WILD_POWER(52, 4), FIRE_EVERYTHING(53, 4), CONSERVED_MAGIC(54, 4),
 	//Warp Beacon T4
 	TELEFRAG(55, 4), REMOTE_BEACON(56, 4), LONGRANGE_WARP(57, 4),
+
+	//Mage T5
+	RESOURCEFUL_BREW(315,4),
 
 	//Rogue T1
 	CACHED_RATIONS(64), THIEFS_INTUITION(65), SUCKER_PUNCH(66), PROTECTIVE_SHADOWS(67),
@@ -950,7 +967,10 @@ public enum Talent {
 
 		if (hero.hasTalent(Talent.LINGERING_MAGIC)
 				&& hero.buff(LingeringMagicTracker.class) != null){
-			dmg += Random.IntRange(hero.pointsInTalent(Talent.LINGERING_MAGIC) , 2);
+			int m = hero.pointsInTalent(Talent.LINGERING_MAGIC);
+			int M = hero.pointsInTalent(Talent.LINGERING_MAGIC) + 2;
+			if (hero.pointsInTalent(Talent.LINGERING_MAGIC) >= 3) M += 1;
+			dmg += Random.IntRange(m , M);
 			hero.buff(LingeringMagicTracker.class).detach();
 		}
 
@@ -1001,6 +1021,60 @@ public enum Talent {
 	}
 
 	public static void onAlchemy( Hero hero, Item craftedItem ) {
+		if (hero.hasTalent(FIELD_RATIONS)) {
+			if (craftedItem instanceof Food) {
+				if (Random.Float() < 0.25f*hero.pointsInTalent(FIELD_RATIONS)) craftedItem.quantity(craftedItem.quantity() + 1);
+				Sample.INSTANCE.play( Assets.Sounds.ITEM );
+			}
+		}
+
+		if (hero.hasTalent(SPELLCASTERS_INGENUITY)) {
+			if (craftedItem instanceof InventorySpell) {
+				int curQuantity = craftedItem.quantity();
+				switch (hero.pointsInTalent(SPELLCASTERS_INGENUITY)) {
+					case 1: default:
+						if (curQuantity > 4) {
+							craftedItem.quantity(curQuantity + 1);
+							Sample.INSTANCE.play( Assets.Sounds.ITEM );
+						}
+						break;
+					case 2:
+						if (curQuantity > 4) {
+							craftedItem.quantity(curQuantity + 2);
+							Sample.INSTANCE.play( Assets.Sounds.ITEM );
+						}
+						else if (curQuantity > 2) {
+							craftedItem.quantity(curQuantity + 1);
+							Sample.INSTANCE.play(Assets.Sounds.ITEM);
+						}
+						break;
+					case 3:
+						if (curQuantity > 4) {
+							craftedItem.quantity(curQuantity + 3);
+							Sample.INSTANCE.play( Assets.Sounds.ITEM );
+						}
+						else if (curQuantity > 2) {
+							craftedItem.quantity(curQuantity + 1);
+							Sample.INSTANCE.play(Assets.Sounds.ITEM);
+						}
+						break;
+					case 4:
+						if (curQuantity > 4) {
+							craftedItem.quantity(curQuantity + 4);
+							Sample.INSTANCE.play( Assets.Sounds.ITEM );
+						}
+						else if (curQuantity > 2) {
+							craftedItem.quantity(curQuantity + 2);
+							Sample.INSTANCE.play(Assets.Sounds.ITEM);
+						} else {
+							craftedItem.quantity(curQuantity + 2);
+							Sample.INSTANCE.play(Assets.Sounds.ITEM);
+						}
+						break;
+				}
+			}
+		}
+
 		if (hero.hasTalent(HEARTY_BREW)) {
 			float chance = 0.05f * hero.pointsInTalent(HEARTY_BREW);
 			if (craftedItem instanceof PotionOfHealing) chance *= 2;
@@ -1008,6 +1082,14 @@ public enum Talent {
 			if (Random.Float() < chance) {
 				PotionOfHealing reward = new PotionOfHealing();
 				reward.collect();
+				Sample.INSTANCE.play( Assets.Sounds.ITEM );
+			}
+		}
+
+		if (hero.hasTalent(RESOURCEFUL_BREW)) {
+			float chance = 0.01f + 0.01f * hero.pointsInTalent(RESOURCEFUL_BREW);
+			if ((Random.Float() < chance) && !(craftedItem instanceof Trinket) && (craftedItem.stackable)) {
+				craftedItem.quantity(craftedItem.quantity() + 1);
 				Sample.INSTANCE.play( Assets.Sounds.ITEM );
 			}
 		}
@@ -1065,10 +1147,10 @@ public enum Talent {
 		//tier 1
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HEARTY_MEAL, VETERANS_INTUITION, PROVOKED_ANGER, IRON_WILL, HEARTY_BREW, WARRIORS_DESTINY);
+				Collections.addAll(tierTalents, HEARTY_MEAL, VETERANS_INTUITION, PROVOKED_ANGER, IRON_WILL, FIELD_RATIONS, WARRIORS_JOURNEY);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, EMPOWERING_MEAL, SCHOLARS_INTUITION, LINGERING_MAGIC, BACKUP_BARRIER);
+				Collections.addAll(tierTalents, EMPOWERING_MEAL, SCHOLARS_INTUITION, LINGERING_MAGIC, BACKUP_BARRIER, SPELLCASTERS_INGENUITY);
 				break;
 			case ROGUE:
 				Collections.addAll(tierTalents, CACHED_RATIONS, THIEFS_INTUITION, SUCKER_PUNCH, PROTECTIVE_SHADOWS);
@@ -1094,7 +1176,7 @@ public enum Talent {
 		//tier 2
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, IRON_STOMACH, LIQUID_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, MIGHTY_BLESSING, WARRIORS_FATE);
+				Collections.addAll(tierTalents, IRON_STOMACH, LIQUID_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, MIGHTY_BLESSING, WARRIORS_TRIAL);
 				break;
 			case MAGE:
 				Collections.addAll(tierTalents, ENERGIZING_MEAL, INSCRIBED_POWER, WAND_PRESERVATION, ARCANE_VISION, SHIELD_BATTERY);
@@ -1123,7 +1205,7 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN, WARRIORS_CALLING);
+				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN, WARRIORS_STRUGGLE);
 				break;
 			case MAGE:
 				Collections.addAll(tierTalents, DESPERATE_POWER, ALLY_WARP);
@@ -1152,7 +1234,7 @@ public enum Talent {
 		//tier4
 		switch (cls) {
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, WARRIORS_PURPOSE);
+				Collections.addAll(tierTalents, WARRIORS_PLIGHT);
 				break;
 		}
 		for (Talent talent : tierTalents){

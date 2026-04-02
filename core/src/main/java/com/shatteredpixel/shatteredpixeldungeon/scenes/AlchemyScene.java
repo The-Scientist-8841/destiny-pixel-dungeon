@@ -757,7 +757,11 @@ public class AlchemyScene extends PixelScene {
 		smokeEmitter.burst(Speck.factory( Speck.WOOL ), 10 );
 		Sample.INSTANCE.play( Assets.Sounds.PUFF );
 
+		//New Talents
+		Talent.onAlchemy(Dungeon.hero, result);
+
 		int resultQuantity = result.quantity();
+
 		if (!result.collect()){
 			Dungeon.level.drop(result, Dungeon.hero.pos);
 		}
@@ -791,9 +795,6 @@ public class AlchemyScene extends PixelScene {
 		//we reset the quantity in case the result was merged into another stack in the backpack
 		result.quantity(resultQuantity);
 		outputs[0].item(result);
-
-		//New Talents
-		Talent.onAlchemy(Dungeon.hero, result);
 	}
 	
 	public void populate(ArrayList<Item> toFind, Belongings inventory){

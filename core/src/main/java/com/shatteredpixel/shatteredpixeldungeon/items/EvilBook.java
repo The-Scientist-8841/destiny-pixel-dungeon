@@ -163,6 +163,10 @@ public class EvilBook extends Item {
             Sample.INSTANCE.play( Assets.Sounds.DEATH );
             GLog.n(Messages.get(this, "reset_message", resets[Dungeon.depth - 1]));
 
+            if (hero.hasTalent(Talent.WARRIORS_TRIAL)) {
+                hero.HP = Math.min(hero.HP + Math.max(1, (int)((0.05f + 0.025f*hero.pointsInTalent(Talent.WARRIORS_TRIAL)*hero.HT))), hero.HT);
+            }
+
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {
                 Buff.affect(hero, Talent.WarriorsDestinyShieldBuff.class).incShield((int)( hero.HT * 0.05 * hero.pointsInTalent(Talent.WARRIORS_FATE) ));
             }
@@ -267,12 +271,12 @@ public class EvilBook extends Item {
                 exaltedThresh = 0f;
                 break;
         }
-        float roll = Random.Float();
-        if (roll < exaltedThresh && roll >= maxThresh) return genExaltedValueItem();
-        else if (roll < maxThresh && roll >= veryHighThresh) return genMaxValueItem(true);
-        else if (roll < veryHighThresh && roll >= highThresh) return genVeryHighValueItem(true);
-        else if (roll < highThresh && roll >= midThresh) return genHighValueItem(true);
-        else if (roll < midThresh && roll >= lowThresh) return genMidValueItem(true);
+        float roll = Math.min(Random.Float() + 0.025f*Math.max(Dungeon.hero.pointsInTalent(Talent.WARRIORS_STRUGGLE) - 1, 0), 1f);
+        if (roll <= exaltedThresh && roll > maxThresh) return genExaltedValueItem();
+        else if (roll <= maxThresh && roll > veryHighThresh) return genMaxValueItem(true);
+        else if (roll <= veryHighThresh && roll > highThresh) return genVeryHighValueItem(true);
+        else if (roll <= highThresh && roll > midThresh) return genHighValueItem(true);
+        else if (roll <= midThresh && roll > lowThresh) return genMidValueItem(true);
         else return genLowValueItem();
     }
 
