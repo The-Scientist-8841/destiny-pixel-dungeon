@@ -71,7 +71,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMet
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
@@ -168,6 +170,13 @@ public class EvilBook extends Item {
 
             if (hero.hasTalent(Talent.WARRIORS_TRIAL)) {
                 hero.HP = Math.min(hero.HP + Math.max(1, (int)((0.05f + 0.025f*hero.pointsInTalent(Talent.WARRIORS_TRIAL)*hero.HT))), hero.HT);
+            }
+
+            if (hero.hasTalent(Talent.MAGES_TRIAL)) {
+                for (Item item : hero.belongings) {
+                    if (item instanceof MagesStaff) ((MagesStaff) item).gainCharge(0.5f * hero.pointsInTalent(Talent.MAGES_TRIAL));
+                    else if (item instanceof Wand) ((Wand) item).gainCharge(0.5f * hero.pointsInTalent(Talent.MAGES_TRIAL));
+                }
             }
 
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {

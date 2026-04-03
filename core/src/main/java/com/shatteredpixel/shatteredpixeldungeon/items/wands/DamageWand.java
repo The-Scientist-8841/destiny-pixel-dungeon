@@ -45,7 +45,9 @@ public abstract class DamageWand extends Wand{
 	public abstract int max(int lvl);
 
 	public int damageRoll(){
-		return damageRoll(buffedLvl());
+		if (curUser != null) {
+			return (int)(curUser.wandDmgBonusFactor * damageRoll(buffedLvl()));
+		} else return damageRoll(buffedLvl());
 	}
 
 	public int damageRoll(int lvl){

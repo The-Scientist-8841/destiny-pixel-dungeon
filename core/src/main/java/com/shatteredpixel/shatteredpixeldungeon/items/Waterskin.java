@@ -82,6 +82,9 @@ public class Waterskin extends Item {
 		if (hero.hasTalent(Talent.MIGHTY_BLESSING)) {
 			talentPoints[0] += hero.pointsInTalent(Talent.MIGHTY_BLESSING);
 		}
+		if (hero.hasTalent(Talent.EMPOWERING_BLESSING)) {
+			talentPoints[1] += hero.pointsInTalent(Talent.EMPOWERING_BLESSING);
+		}
 
 		boolean canStop = false;
 		int numTalents = 0;
@@ -181,6 +184,13 @@ public class Waterskin extends Item {
 				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.STRENGTH);
 
 				GLog.p( Messages.get(this, "mighty_blessing", hero.STR()) );
+			}
+
+			if (hero.hasTalent(Talent.EMPOWERING_BLESSING)) {
+				hero.wandDmgBonusFactor += 0.05f;
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.MAGIC_DMG);
+
+				GLog.p( Messages.get(this, "empowering_blessing", hero.wandDmgBonusFactor) );
 			}
 
 			volume = Math.max(0, volume - MAX_VOLUME + getVolDeduction(hero));

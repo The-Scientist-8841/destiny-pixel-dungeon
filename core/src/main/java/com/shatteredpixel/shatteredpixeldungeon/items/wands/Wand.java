@@ -691,8 +691,7 @@ public abstract class Wand extends Item {
 							return;
 						}
 
-						float shield = curUser.HT * (0.04f*curWand.curCharges);
-						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
+						float shield = curUser.HT * ((0.02f + 0.02f * curUser.pointsInTalent(Talent.SHIELD_BATTERY))*curWand.curCharges);
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
 						curUser.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(Math.round(shield)), FloatingText.SHIELDING);
 						curWand.curCharges = 0;
