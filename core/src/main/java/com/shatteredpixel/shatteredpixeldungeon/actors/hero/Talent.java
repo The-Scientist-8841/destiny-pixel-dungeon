@@ -585,6 +585,16 @@ public enum Talent {
 				else ((MeleeWeapon) hero.belongings.weapon).setIDReady();
 			}
 		}
+
+		if (talent == SCHOLARS_INTUITION && hero.pointsInTalent(SCHOLARS_INTUITION) == 3) {
+			for (Item item : hero.belongings) {
+				if (item instanceof Wand) {
+					if (ShardOfOblivion.passiveIDDisabled()) ((Wand) item).setIDReady();
+					else item.identify();
+				}
+			}
+		}
+
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (hero.belongings.ring instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
 				hero.belongings.ring.identify();
