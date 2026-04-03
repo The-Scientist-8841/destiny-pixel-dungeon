@@ -64,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -942,7 +943,7 @@ public abstract class Mob extends Char {
 				}
 
 				boolean evilBonus = false;
-				if (Dungeon.hero.hasTalent(Talent.WARRIORS_PLIGHT) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_PLIGHT)) {
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_PLIGHT) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.WARRIORS_PLIGHT)) {
 					evilBonus = true;
 					ScrollOfRage reward = new ScrollOfRage();
 					if (!reward.collect()) {
@@ -950,7 +951,7 @@ public abstract class Mob extends Char {
 					}
 				}
 
-				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
 					evilBonus = true;
 					PotionOfShielding reward = new PotionOfShielding();
 					if (!reward.collect()) {
@@ -958,7 +959,7 @@ public abstract class Mob extends Char {
 					}
 				}
 
-				if (Dungeon.hero.hasTalent(Talent.WARRIORS_CALLING) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_CALLING)) {
+				if (Dungeon.hero.hasTalent(Talent.WARRIORS_CALLING) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.WARRIORS_CALLING)) {
 					evilBonus = true;
 					ScrollOfChallenge reward = new ScrollOfChallenge();
 					if (!reward.collect()) {
@@ -1044,6 +1045,7 @@ public abstract class Mob extends Char {
 
 		//Evil Book logic
 		if (Dungeon.hero.belongings.getItem(EvilBook.class) != null) {
+			boolean didFlare = false;
 			int rolls = 1 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 1 : 0);
 			if (properties.contains(Property.BOSS)) rolls = 25 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 7 : 0);
 			else if (properties.contains(Property.MINIBOSS)) rolls = 15 + (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE) ? 5 : 0);
@@ -1052,7 +1054,34 @@ public abstract class Mob extends Char {
 			ArrayList<Item> evil_bonus = EvilBook.tryForBonusDrop(Dungeon.hero, rolls);
 			if (evil_bonus != null && !evil_bonus.isEmpty()) {
 				for (Item b : evil_bonus) Dungeon.level.drop(b, pos).sprite.drop();
-				EvilBook.showFlareForBonusDrop(sprite);
+				if (!didFlare) {
+					EvilBook.showFlareForBonusDrop(sprite);
+					didFlare = true;
+				}
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.MAGES_STRUGGLE)) {
+				if ((Dungeon.hero.pointsInTalent(Talent.MAGES_STRUGGLE) == 1) && (evil_bonus == null)) {
+					if (Random.Float() < 0.02f) {
+						Dungeon.level.drop(new ArcaneResin(), pos).sprite.drop();
+						if (!didFlare) {
+							EvilBook.showFlareForBonusDrop(sprite);
+							didFlare = true;
+						}
+					}
+				} else if (Dungeon.hero.pointsInTalent(Talent.MAGES_STRUGGLE) > 1) {
+					if (Random.Float() < 0.02f) {
+						int AmtToDrop = Random.Int(1, Dungeon.hero.pointsInTalent(Talent.MAGES_STRUGGLE) - 1);
+						ArcaneResin resinBonus = new ArcaneResin();
+						resinBonus.quantity(AmtToDrop);
+						Dungeon.level.drop(resinBonus, pos).sprite.drop();
+
+						if (!didFlare) {
+							EvilBook.showFlareForBonusDrop(sprite);
+							didFlare = true;
+						}
+					}
+				}
 			}
 
 			//Debugging

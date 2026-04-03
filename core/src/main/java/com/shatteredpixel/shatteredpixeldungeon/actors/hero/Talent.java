@@ -137,7 +137,7 @@ public enum Talent {
 	//Mage T2
 	ENERGIZING_MEAL(36,4), INSCRIBED_POWER(37,4), WAND_PRESERVATION(38,4), ARCANE_VISION(39,4), SHIELD_BATTERY(40,4), EMPOWERING_BLESSING(193,4), MAGES_TRIAL(61,4),
 	//Mage T3
-	DESPERATE_POWER(41, 3), ALLY_WARP(42, 3),
+	DESPERATE_POWER(41, 4), ALLY_WARP(42, 4), MAGES_STRUGGLE(62,4),
 	//Battlemage T3
 	EMPOWERED_STRIKE(43, 3), MYSTICAL_CHARGE(44, 3), EXCESS_CHARGE(45, 3),
 	//Warlock T3
@@ -1220,7 +1220,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN, WARRIORS_STRUGGLE);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, DESPERATE_POWER, ALLY_WARP);
+				Collections.addAll(tierTalents, DESPERATE_POWER, ALLY_WARP, MAGES_STRUGGLE);
 				break;
 			case ROGUE:
 				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK);

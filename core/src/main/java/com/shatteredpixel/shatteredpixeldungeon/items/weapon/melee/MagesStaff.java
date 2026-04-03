@@ -62,6 +62,7 @@ import java.util.ArrayList;
 public class MagesStaff extends MeleeWeapon {
 
 	private Wand wand;
+	private int wandOriginalLvl;
 
 	public static final String AC_IMBUE = "IMBUE";
 	public static final String AC_ZAP	= "ZAP";
@@ -97,6 +98,7 @@ public class MagesStaff extends MeleeWeapon {
 		wand.identify();
 		wand.cursed = false;
 		this.wand = wand;
+		this.wandOriginalLvl = wand.level();
 		updateWand(false);
 		wand.curCharges = wand.maxCharges;
 	}
@@ -229,6 +231,7 @@ public class MagesStaff extends MeleeWeapon {
 				if (counter.count() == 0) {
 					counter.countUp(1);
 					this.wand.level(0);
+					this.wand.updateLevel();
 					if (!this.wand.collect()) {
 						Dungeon.level.drop(this.wand, owner.pos);
 					}
@@ -236,7 +239,8 @@ public class MagesStaff extends MeleeWeapon {
 					GLog.p(Messages.get(this, "preserved"));
 				}
 			} else {
-				this.wand.level(Math.min(1, this.wand.level()));
+				this.wand.level(Math.min(1, this.wandOriginalLvl));
+				this.wand.updateLevel();
 				if (!this.wand.collect()) {
 					Dungeon.level.drop(this.wand, owner.pos);
 				}
@@ -259,6 +263,7 @@ public class MagesStaff extends MeleeWeapon {
 		level(targetLevel);
 		this.wand = wand;
 		wand.levelKnown = wand.curChargeKnown = true;
+		this.wandOriginalLvl = wand.level();
 		updateWand(false);
 		wand.curCharges = Math.min(wand.maxCharges, wand.curCharges+oldStaffcharges);
 		if (owner != null){
@@ -381,11 +386,13 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	private static final String WAND = "wand";
+	private static final String WANDORIGINALLEVEL = "wandOriginalLvl";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put(WAND, wand);
+		bundle.put(WANDORIGINALLEVEL, wandOriginalLvl);
 	}
 
 	@Override
@@ -395,6 +402,7 @@ public class MagesStaff extends MeleeWeapon {
 		if (wand != null) {
 			wand.maxCharges = Math.min(wand.maxCharges + 1, 10);
 		}
+		wandOriginalLvl = bundle.getInt(WANDORIGINALLEVEL);
 	}
 
 	@Override
@@ -461,7 +469,7 @@ public class MagesStaff extends MeleeWeapon {
 					)){
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent");
 					} else if (Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 4) {
-						if (wand.level() >= 1) bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent4");
+						if (wandOriginalLvl >= 1) bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent4");
 						else bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent");
 					} else {
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_lost");
