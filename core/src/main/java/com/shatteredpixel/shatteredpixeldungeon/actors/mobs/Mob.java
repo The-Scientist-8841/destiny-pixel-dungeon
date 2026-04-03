@@ -936,23 +936,34 @@ public abstract class Mob extends Char {
 					}
 				}
 
+				if (Dungeon.hero.hasTalent(Talent.MAGES_JOURNEY) && (Random.Float() <= 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.MAGES_JOURNEY))) {
+					Item reward = Generator.randomUsingDefaults(Generator.Category.STONE);
+					Dungeon.level.drop(reward, pos).sprite.drop(pos);
+				}
+
 				boolean evilBonus = false;
 				if (Dungeon.hero.hasTalent(Talent.WARRIORS_PLIGHT) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_PLIGHT)) {
 					evilBonus = true;
 					ScrollOfRage reward = new ScrollOfRage();
-					reward.collect();
+					if (!reward.collect()) {
+						Dungeon.level.drop(reward, Dungeon.hero.pos);
+					}
 				}
 
 				if (Dungeon.hero.hasTalent(Talent.WARRIORS_DESTINY) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_DESTINY)) {
 					evilBonus = true;
 					PotionOfShielding reward = new PotionOfShielding();
-					reward.collect();
+					if (!reward.collect()) {
+						Dungeon.level.drop(reward, Dungeon.hero.pos);
+					}
 				}
 
 				if (Dungeon.hero.hasTalent(Talent.WARRIORS_CALLING) && Random.Float() < 0.025*Dungeon.hero.pointsInTalent(Talent.WARRIORS_CALLING)) {
 					evilBonus = true;
 					ScrollOfChallenge reward = new ScrollOfChallenge();
-					reward.collect();
+					if (!reward.collect()) {
+						Dungeon.level.drop(reward, Dungeon.hero.pos);
+					}
 				}
 
 				if (evilBonus) {
@@ -1057,6 +1068,8 @@ public abstract class Mob extends Char {
 				AlchemistsToolkit debugThing4 = new AlchemistsToolkit();
 				debugThing4.cursed = false;
 				debugThing4.collect();
+				Item debugThing5 = Generator.randomUsingDefaults(Generator.Category.WAND);
+				debugThing5.collect();
 			}
 		}
 		

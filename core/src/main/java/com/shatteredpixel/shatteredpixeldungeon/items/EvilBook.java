@@ -116,7 +116,10 @@ public class EvilBook extends Item {
     public void levelUp() {
         lvlsToUpgrade -= 1;
         if (lvlsToUpgrade <= 0) {
-            new ScrollOfUpgrade().collect();
+            ScrollOfUpgrade reward = new ScrollOfUpgrade();
+            if (!reward.collect()) {
+                Dungeon.level.drop(reward, Dungeon.hero.pos);
+            }
 
             Flare flare = new Flare(6, 20).color(0xFF0000, true).show(Dungeon.hero.sprite, 3f);
             Sample.INSTANCE.play( Assets.Sounds.DEATH );

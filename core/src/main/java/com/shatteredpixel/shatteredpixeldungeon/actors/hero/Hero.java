@@ -2014,7 +2014,7 @@ public class Hero extends Char {
 			this.exp -= maxExp();
 
 			if (buff(Talent.WandPreservationCounter.class) != null
-				&& pointsInTalent(Talent.WAND_PRESERVATION) == 2){
+				&& pointsInTalent(Talent.WAND_PRESERVATION) >= 2){
 				buff(Talent.WandPreservationCounter.class).detach();
 			}
 

@@ -224,10 +224,19 @@ public class MagesStaff extends MeleeWeapon {
 		int oldStaffcharges = this.wand != null ? this.wand.curCharges : 0;
 
 		if (owner == Dungeon.hero && Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)){
-			Talent.WandPreservationCounter counter = Buff.affect(Dungeon.hero, Talent.WandPreservationCounter.class);
-			if (counter.count() == 0){
-				counter.countUp(1);
-				this.wand.level(0);
+			if (Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) <= 2) {
+				Talent.WandPreservationCounter counter = Buff.affect(Dungeon.hero, Talent.WandPreservationCounter.class);
+				if (counter.count() == 0) {
+					counter.countUp(1);
+					this.wand.level(0);
+					if (!this.wand.collect()) {
+						Dungeon.level.drop(this.wand, owner.pos);
+					}
+					GLog.newLine();
+					GLog.p(Messages.get(this, "preserved"));
+				}
+			} else {
+				this.wand.level(Math.min(1, this.wand.level()));
 				if (!this.wand.collect()) {
 					Dungeon.level.drop(this.wand, owner.pos);
 				}
@@ -447,8 +456,13 @@ public class MagesStaff extends MeleeWeapon {
 					}
 
 					if (Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)
-						&& Dungeon.hero.buff(Talent.WandPreservationCounter.class) == null){
+						&& (Dungeon.hero.buff(Talent.WandPreservationCounter.class) == null ||
+							Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 3 ||
+							(Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 4 && wand.level() < 1)
+					)){
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent");
+					} else if (Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 4) {
+						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent4");
 					} else {
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_lost");
 					}
