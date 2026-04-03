@@ -455,14 +455,14 @@ public class MagesStaff extends MeleeWeapon {
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_cursed");
 					}
 
-					if (Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)
+					if (Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION) && Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) <= 3
 						&& (Dungeon.hero.buff(Talent.WandPreservationCounter.class) == null ||
-							Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 3 ||
-							(Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 4 && wand.level() < 1)
+							Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 3
 					)){
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent");
 					} else if (Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 4) {
-						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent4");
+						if (wand.level() >= 1) bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent4");
+						else bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent");
 					} else {
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_lost");
 					}
