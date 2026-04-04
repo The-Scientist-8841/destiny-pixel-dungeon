@@ -114,7 +114,6 @@ public enum Talent {
 	CLEAVE(14, 4), LETHAL_DEFENSE(15, 4), ENHANCED_COMBO(16, 4), FIGHTING_SPIRIT(200, 4),
 	//Global T4
 	WARRIORS_PLIGHT(31,4),
-
 	//Heroic Leap T4
 	BODY_SLAM(17, 4), IMPACT_WAVE(18, 4), DOUBLE_JUMP(19, 4),
 	//Shockwave T4
@@ -142,6 +141,8 @@ public enum Talent {
 	EMPOWERED_STRIKE(43, 4), MYSTICAL_CHARGE(44, 4), EXCESS_CHARGE(45, 4), PARRY(201,4),
 	//Warlock T3
 	SOUL_EATER(46, 4), SOUL_SIPHON(47, 4), NECROMANCERS_MINIONS(48, 4), REJUVINATION(202,4),
+	//Global T4
+	MAGES_PLIGHT(63,4),
 	//Elemental Blast T4
 	BLAST_RADIUS(49, 4), ELEMENTAL_POWER(50, 4), REACTIVE_BARRIER(51, 4),
 	//Wild Magic T4
@@ -1250,6 +1251,9 @@ public enum Talent {
 		switch (cls) {
 			case WARRIOR: default:
 				Collections.addAll(tierTalents, WARRIORS_PLIGHT);
+				break;
+			case MAGE:
+				Collections.addAll(tierTalents, MAGES_PLIGHT);
 				break;
 		}
 		for (Talent talent : tierTalents){
