@@ -97,11 +97,9 @@ public class Waterskin extends Item {
 			if (talentPoints[highestIndex] > 0) {
 				numTalents += 1;
 
-				int factor = 1;
-				if (numTalents > 2) factor = 2;
-				if (numTalents > 4) factor = 4;
-
-				volDeduction += (talentPoints[highestIndex] - 1) / factor;
+				if (numTalents <= 2) volDeduction += talentPoints[highestIndex] - 1;
+				else if (numTalents <= 4) volDeduction += Math.max(talentPoints[highestIndex] - 2, 0);
+				else volDeduction += Math.max(talentPoints[highestIndex] - 3, 0);
 
 				talentPoints[highestIndex] = 0;
 			} else canStop = true;
