@@ -497,6 +497,10 @@ public class Hero extends Char {
 				buff(Talent.LiquidAgilACCTracker.class).detach();
 			}
 		}
+
+		if (!enemy.isAlive() && hasTalent(Talent.PARRY) && belongings.attackingWeapon() instanceof MagesStaff) {
+			Buff.prolong(this, Talent.ParryBuff.class, this.cooldown());
+		}
 		return result;
 	}
 
@@ -583,6 +587,12 @@ public class Hero extends Char {
 			}
 		}
 
+		if (buff(Talent.ParryBuff.class) != null){
+			evasion *= 1f + (float)pointsInTalent(Talent.PARRY);
+
+			if (pointsInTalent(Talent.PARRY) == 4) return INFINITE_EVASION;
+		}
+
 		if (buff(Quarterstaff.DefensiveStance.class) != null){
 			evasion *= 3;
 		}
@@ -627,6 +637,11 @@ public class Hero extends Char {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
 			}
 			return Messages.get(Monk.class, "parried");
+		}
+
+		if (buff(Talent.ParryBuff.class) != null) {
+			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
+			return Messages.get(Talent.ParryBuff.class, "parried");
 		}
 
 		return super.defenseVerb();
