@@ -154,7 +154,7 @@ public enum Talent {
 	RESOURCEFUL_BREW(315,4),
 
 	//Rogue T1
-	CACHED_RATIONS(64,4), THIEFS_INTUITION(65), SUCKER_PUNCH(66), PROTECTIVE_SHADOWS(67),
+	CACHED_RATIONS(64,4), THIEFS_INTUITION(65,4), SUCKER_PUNCH(66), PROTECTIVE_SHADOWS(67),
 	//Rogue T2
 	MYSTICAL_MEAL(68), INSCRIBED_STEALTH(69), WIDE_SEARCH(70), SILENT_STEPS(71), ROGUES_FORESIGHT(72),
 	//Rogue T3
@@ -599,12 +599,39 @@ public enum Talent {
 			}
 		}
 
-		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
-			if (hero.belongings.ring instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
-				hero.belongings.ring.identify();
+		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 3) {
+			for (Item item : hero.belongings) {
+				if (item instanceof Ring) {
+					if (ShardOfOblivion.passiveIDDisabled()) ((Ring) item).setIDReady();
+					else item.identify();
+				}
 			}
-			if (hero.belongings.misc instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
-				hero.belongings.misc.identify();
+		}
+
+		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
+			if (hero.belongings.ring != null) {
+				if (ShardOfOblivion.passiveIDDisabled()) hero.belongings.ring.setIDReady();
+				else hero.belongings.ring.identify();
+			}
+			if (hero.belongings.ring2 != null) {
+				if (ShardOfOblivion.passiveIDDisabled()) hero.belongings.ring2.setIDReady();
+				else hero.belongings.ring2.identify();
+			}
+			if (hero.belongings.ring3 != null) {
+				if (ShardOfOblivion.passiveIDDisabled()) hero.belongings.ring3.setIDReady();
+				else hero.belongings.ring3.identify();
+			}
+			if (hero.belongings.ring4 != null) {
+				if (ShardOfOblivion.passiveIDDisabled()) hero.belongings.ring4.setIDReady();
+				else hero.belongings.ring4.identify();
+			}
+			if (hero.belongings.misc instanceof Ring) {
+				if (ShardOfOblivion.passiveIDDisabled()) ((Ring) hero.belongings.misc).setIDReady();
+				else ((Ring) hero.belongings.misc).identify();
+			}
+			if (hero.belongings.misc instanceof Ring) {
+				if (ShardOfOblivion.passiveIDDisabled()) ((Ring) hero.belongings.misc).setIDReady();
+				else ((Ring) hero.belongings.misc).identify();
 			}
 			for (Item item : Dungeon.hero.belongings){
 				if (item instanceof Ring){
@@ -614,7 +641,11 @@ public enum Talent {
 		}
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
+			if (hero.belongings.ring2 instanceof Ring) hero.belongings.ring2.setKnown();
+			if (hero.belongings.ring3 instanceof Ring) hero.belongings.ring3.setKnown();
+			if (hero.belongings.ring4 instanceof Ring) hero.belongings.ring4.setKnown();
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
+			if (hero.belongings.misc2 instanceof Ring) ((Ring) hero.belongings.misc2).setKnown();
 		}
 		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 2){
 			if (hero.belongings.weapon() != null && !ShardOfOblivion.passiveIDDisabled()){
@@ -792,6 +823,7 @@ public enum Talent {
 		// 3x/instant speed with Huntress talent (see MissileWeapon.proc)
 		if (item instanceof MissileWeapon){
 			factor *= 1f + 2.0f*hero.pointsInTalent(SURVIVALISTS_INTUITION);
+			if (hero.pointsInTalent(THIEFS_INTUITION) == 4) factor *= 1.75f;
 		}
 		// 2x/instant for Rogue (see onItemEqupped), also id's type on equip/on pickup
 		if (item instanceof Ring){
