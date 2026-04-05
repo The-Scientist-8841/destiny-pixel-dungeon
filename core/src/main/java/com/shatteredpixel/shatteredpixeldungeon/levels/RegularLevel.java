@@ -525,14 +525,14 @@ public abstract class RegularLevel extends Level {
 			}
 		Random.popGenerator();
 
-		//cached rations try to drop in a special room on floors 2/4/7, to a max of 2/3
-		//we increment dropped by 2 for compatibility with old saves, when the talent dropped 4/6 items
+		//cached rations try to drop in a special room on floors 2/4/7/9, to a max of 2/3
+		//we increment dropped by 2 for compatibility with old saves, when the talent dropped 4/6 items <- I'm going to not do that
 		Random.pushGenerator( Random.Long() );
 			if (Dungeon.hero.hasTalent(Talent.CACHED_RATIONS)){
 				Talent.CachedRationsDropped dropped = Buff.affect(Dungeon.hero, Talent.CachedRationsDropped.class);
-				int targetFloor = (int)(2 + dropped.count());
-				if (dropped.count() > 4) targetFloor++;
-				if (Dungeon.depth >= targetFloor && dropped.count() < 2 + 2*Dungeon.hero.pointsInTalent(Talent.CACHED_RATIONS)){
+				int targetFloor = (int)(2 + 2*dropped.count());
+				if (dropped.count() >= 2) targetFloor++;
+				if (Dungeon.depth >= targetFloor && dropped.count() < 1 + Dungeon.hero.pointsInTalent(Talent.CACHED_RATIONS)){
 					int cell;
 					int tries = 100;
 					boolean valid;
@@ -550,7 +550,7 @@ public abstract class RegularLevel extends Level {
 							losBlocking[cell] = false;
 						}
 						drop(new SupplyRation(), cell).type = Heap.Type.CHEST;
-						dropped.countUp(2);
+						dropped.countUp(1);
 					}
 				}
 			}
