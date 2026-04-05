@@ -154,7 +154,7 @@ public enum Talent {
 	RESOURCEFUL_BREW(315,4),
 
 	//Rogue T1
-	CACHED_RATIONS(64,4), THIEFS_INTUITION(65,4), SUCKER_PUNCH(66), PROTECTIVE_SHADOWS(67),
+	CACHED_RATIONS(64,4), THIEFS_INTUITION(65,4), SUCKER_PUNCH(66,4), PROTECTIVE_SHADOWS(67,4), SMOOTH_TALKER(91,4),
 	//Rogue T2
 	MYSTICAL_MEAL(68), INSCRIBED_STEALTH(69), WIDE_SEARCH(70), SILENT_STEPS(71), ROGUES_FORESIGHT(72),
 	//Rogue T3
@@ -249,12 +249,13 @@ public enum Talent {
 			//barrier every 2/1 turns, to a max of 3/5
 			if (((Hero)target).hasTalent(Talent.PROTECTIVE_SHADOWS) && target.invisible > 0){
 				Barrier barrier = Buff.affect(target, Barrier.class);
-				if (barrier.shielding() < 1 + 2*((Hero)target).pointsInTalent(Talent.PROTECTIVE_SHADOWS)) {
-					barrierInc += 0.5f * ((Hero) target).pointsInTalent(Talent.PROTECTIVE_SHADOWS);
+				int maxBarrier = 1 + 2*((Hero)target).pointsInTalent(Talent.PROTECTIVE_SHADOWS);
+				if (barrier.shielding() < maxBarrier) {
+					barrierInc = Math.min(maxBarrier - barrier.shielding(), barrierInc + 0.5f * ((Hero) target).pointsInTalent(Talent.PROTECTIVE_SHADOWS));
 				}
 				if (barrierInc >= 1){
-					barrierInc = 0;
-					barrier.incShield(1);
+					barrier.incShield((int)barrierInc);
+					barrierInc -= (int)barrierInc;
 				} else {
 					barrier.incShield(0); //resets barrier decay
 				}
@@ -1023,7 +1024,7 @@ public enum Talent {
 		if (hero.hasTalent(Talent.SUCKER_PUNCH)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 				&& enemy.buff(SuckerPunchTracker.class) == null){
-			dmg += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH) , 2);
+			dmg += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH) , hero.pointsInTalent(Talent.SUCKER_PUNCH));
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
@@ -1201,7 +1202,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, EMPOWERING_MEAL, SCHOLARS_INTUITION, LINGERING_MAGIC, BACKUP_BARRIER, SPELLCASTERS_INGENUITY, MAGES_JOURNEY);
 				break;
 			case ROGUE:
-				Collections.addAll(tierTalents, CACHED_RATIONS, THIEFS_INTUITION, SUCKER_PUNCH, PROTECTIVE_SHADOWS);
+				Collections.addAll(tierTalents, CACHED_RATIONS, THIEFS_INTUITION, SUCKER_PUNCH, PROTECTIVE_SHADOWS, SMOOTH_TALKER);
 				break;
 			case HUNTRESS:
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID);
