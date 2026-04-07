@@ -68,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
@@ -949,6 +950,11 @@ public abstract class Mob extends Char {
 
 				if (Dungeon.hero.hasTalent(Talent.MAGES_JOURNEY) && (Random.Float() <= 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.MAGES_JOURNEY))) {
 					Item reward = Generator.randomUsingDefaults(Generator.Category.STONE);
+					Dungeon.level.drop(reward, pos).sprite.drop(pos);
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.ROGUES_JOURNEY) && (Random.Float() < 0.01f + 0.01f*Dungeon.hero.pointsInTalent(Talent.ROGUES_JOURNEY))) {
+					Gold reward = new Gold(Random.Int(10*Dungeon.hero.pointsInTalent(Talent.ROGUES_JOURNEY),15*Dungeon.hero.pointsInTalent(Talent.ROGUES_JOURNEY)));
 					Dungeon.level.drop(reward, pos).sprite.drop(pos);
 				}
 
