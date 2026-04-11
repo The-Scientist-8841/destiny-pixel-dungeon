@@ -156,7 +156,7 @@ public enum Talent {
 	//Rogue T1
 	CACHED_RATIONS(64,4), THIEFS_INTUITION(65,4), SUCKER_PUNCH(66,4), PROTECTIVE_SHADOWS(67,4), SMOOTH_TALKER(91,4), ROGUES_JOURNEY(92,4),
 	//Rogue T2
-	MYSTICAL_MEAL(68,4), INSCRIBED_STEALTH(69,4), WIDE_SEARCH(70), SILENT_STEPS(71), ROGUES_FORESIGHT(72),
+	MYSTICAL_MEAL(68,4), INSCRIBED_STEALTH(69,4), WIDE_SEARCH(70,4), SILENT_STEPS(71), ROGUES_FORESIGHT(72),
 	//Rogue T3
 	ENHANCED_RINGS(73, 3), LIGHT_CLOAK(74, 3),
 	//Assassin T3
@@ -999,6 +999,15 @@ public enum Talent {
 		if (hero.pointsInTalent(SCHOLARS_INTUITION) >= 3) {
 			if (item instanceof Wand) {
 				if (ShardOfOblivion.passiveIDDisabled()) ((Wand) item).setIDReady();
+				else item.identify();
+			}
+		}
+		if (hero.pointsInTalent(THIEFS_INTUITION) >= 3) {
+			if (item instanceof Ring) {
+				if (ShardOfOblivion.passiveIDDisabled()) {
+					((Ring) item).setIDReady();
+					((Ring) item).setKnown();
+				}
 				else item.identify();
 			}
 		}
