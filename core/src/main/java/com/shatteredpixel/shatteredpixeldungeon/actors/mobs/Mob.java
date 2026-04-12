@@ -1255,7 +1255,9 @@ public abstract class Mob extends Char {
 						if ((ch instanceof Hero || ch instanceof ShadowClone.ShadowAlly)
 								&& Dungeon.hero.hasTalent(Talent.SILENT_STEPS)){
 							if (distance(ch) >= 4 - Dungeon.hero.pointsInTalent(Talent.SILENT_STEPS)) {
-								bestChance = Float.POSITIVE_INFINITY;
+								if ((Dungeon.hero.pointsInTalent(Talent.SILENT_STEPS) < 3) || (distance(ch) >= 2) || (Random.Float() < 0.15f*Dungeon.hero.pointsInTalent(Talent.SILENT_STEPS))) {
+									bestChance = Float.POSITIVE_INFINITY;
+								}
 							}
 						}
 						//flying characters are naturally stealthy
