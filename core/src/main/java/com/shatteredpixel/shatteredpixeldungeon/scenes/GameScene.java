@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.InventoryScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.DimensionalSundial;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
@@ -644,6 +645,40 @@ public class GameScene extends PixelScene {
 						GLog.p(Messages.get(this, "secret_hint"));
 					}
 				Random.popGenerator();
+
+				if (reqSecrets <= 0 && Random.Int(3,5) <= Dungeon.hero.pointsInTalent(Talent.ROGUES_FORESIGHT)) {
+					int L = Dungeon.level.length();
+					int[] map = Dungeon.level.map;
+					boolean[] mapped = Dungeon.level.mapped;
+					boolean[] discoverable = Dungeon.level.discoverable;
+
+					for (int i=0; i < L; i++) {
+
+						int terr = map[i];
+
+						if (discoverable[i]) {
+
+							boolean isInSecretRoom = false;
+							for (Room r : ((RegularLevel) Dungeon.level).rooms()) {
+								if ((r instanceof SecretRoom) && (r.inside(Dungeon.level.cellToPoint(i)))) {
+									isInSecretRoom = true;
+									break;
+								}
+							}
+
+							if (isInSecretRoom) {
+								mapped[i] = true;
+								Dungeon.level.discover(i);
+
+								if (Dungeon.level.heroFOV[i]) {
+									GameScene.discoverTile(i, terr);
+									ScrollOfMagicMapping.discover(i);
+								}
+							}
+						}
+					}
+					updateFog();
+				}
 			}
 
 			boolean unspentTalents = false;
