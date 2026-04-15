@@ -236,6 +236,7 @@ public class Hero extends Char {
 	public int exp = 0;
 
 	public float wandDmgBonusFactor = 1f;
+	public float evasionBonusFactor = 1f;
 	
 	public int HTBoost = 0;
 	
@@ -303,6 +304,7 @@ public class Hero extends Char {
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
 	private static final String WANDDMGBONUSFACTOR = "wandDmgBonusFactor";
+	private static final String EVASIONBONUSFACTOR = "evasionBonusFactor";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -325,7 +327,7 @@ public class Hero extends Char {
 		bundle.put( HTBOOST, HTBoost );
 
 		bundle.put(WANDDMGBONUSFACTOR, wandDmgBonusFactor);
-
+		bundle.put(EVASIONBONUSFACTOR, evasionBonusFactor);
 		belongings.storeInBundle( bundle );
 	}
 	
@@ -352,6 +354,7 @@ public class Hero extends Char {
 		belongings.restoreFromBundle( bundle );
 
 		wandDmgBonusFactor = bundle.getFloat(WANDDMGBONUSFACTOR);
+		evasionBonusFactor = bundle.getFloat(EVASIONBONUSFACTOR);
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
@@ -575,7 +578,7 @@ public class Hero extends Char {
 			return INFINITE_EVASION;
 		}
 		
-		float evasion = defenseSkill;
+		float evasion = defenseSkill * evasionBonusFactor;
 		
 		evasion *= RingOfEvasion.evasionMultiplier( this );
 

@@ -188,7 +188,14 @@ public class Waterskin extends Item {
 				hero.wandDmgBonusFactor += 0.05f;
 				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.MAGIC_DMG);
 
-				GLog.p( Messages.get(this, "empowering_blessing", hero.wandDmgBonusFactor) );
+				GLog.p( Messages.get(this, "empowering_blessing", (int)(hero.wandDmgBonusFactor*100)) );
+			}
+
+			if (hero.hasTalent(Talent.EVASIVE_BLESSING)) {
+				hero.evasionBonusFactor += 0.05f;
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.MISS_EVA);
+
+				GLog.p( Messages.get(this, "evasive_blessing", (int)(hero.evasionBonusFactor*100)) );
 			}
 
 			volume = Math.max(0, volume - MAX_VOLUME + getVolDeduction(hero));

@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WellFed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -177,6 +178,10 @@ public class EvilBook extends Item {
                     if (item instanceof MagesStaff) ((MagesStaff) item).gainCharge(0.5f * hero.pointsInTalent(Talent.MAGES_TRIAL));
                     else if (item instanceof Wand) ((Wand) item).gainCharge(0.5f * hero.pointsInTalent(Talent.MAGES_TRIAL));
                 }
+            }
+
+            if (hero.hasTalent(Talent.ROGUES_TRIAL)) {
+                Buff.affect(hero, Invisibility.class, 15f * hero.pointsInTalent(Talent.ROGUES_TRIAL));
             }
 
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {
