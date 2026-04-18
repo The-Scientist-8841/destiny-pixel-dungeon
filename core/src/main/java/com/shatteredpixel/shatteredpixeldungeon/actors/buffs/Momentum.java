@@ -107,9 +107,10 @@ public class Momentum extends Buff implements ActionIndicator.Action {
 	}
 	
 	public float speedMultiplier(){
-		if (freerunning()){
-			return 2;
-		} else if (target.invisible > 0 && Dungeon.hero.pointsInTalent(Talent.SPEEDY_STEALTH) == 3){
+		if (freerunning()) {
+			if (target.invisible <= 0) return 2;
+			else return 2 + Math.max(0, Dungeon.hero.pointsInTalent(Talent.SPEEDY_STEALTH) - 3);
+		} else if (target.invisible > 0 && Dungeon.hero.pointsInTalent(Talent.SPEEDY_STEALTH) >= 3){
 			return 2;
 		} else {
 			return 1;
@@ -235,7 +236,14 @@ public class Momentum extends Buff implements ActionIndicator.Action {
 	public void doAction() {
 		freerunTurns = 2*momentumStacks;
 		//cooldown is functionally 10+2*stacks when active effect ends
-		freerunCooldown = 10 + 4*momentumStacks;
+		int baseCooldown = 10;
+		int cooldownScalingFactor = 4;
+		if (Dungeon.hero.hasTalent(Talent.SPEEDY_RECOVERY)) {
+			cooldownScalingFactor -= Math.min(Dungeon.hero.pointsInTalent(Talent.SPEEDY_RECOVERY),2);
+			if (Dungeon.hero.pointsInTalent(Talent.SPEEDY_RECOVERY) == 3) baseCooldown = 5;
+			else if (Dungeon.hero.pointsInTalent(Talent.SPEEDY_RECOVERY) == 4) baseCooldown = 0;
+		}
+		freerunCooldown = baseCooldown + cooldownScalingFactor*momentumStacks;
 		Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
 		target.sprite.emitter().burst(Speck.factory(Speck.JET), 5+ momentumStacks);
 		SpellSprite.show(target, SpellSprite.HASTE, 1, 1, 0);

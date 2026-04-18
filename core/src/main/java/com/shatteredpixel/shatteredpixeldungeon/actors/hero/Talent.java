@@ -162,7 +162,9 @@ public enum Talent {
 	//Assassin T3
 	ENHANCED_LETHALITY(75, 4), ASSASSINS_REACH(76, 4), BOUNTY_HUNTER(77, 4), SILENT_TAKEDOWN(203,4),
 	//Freerunner T3
-	EVASIVE_ARMOR(78, 3), PROJECTILE_MOMENTUM(79, 3), SPEEDY_STEALTH(80, 3),
+	EVASIVE_ARMOR(78, 4), PROJECTILE_MOMENTUM(79, 4), SPEEDY_STEALTH(80, 4), SPEEDY_RECOVERY(204, 4),
+	//Global T4
+	ROGUES_PLIGHT(95,4),
 	//Smoke Bomb T4
 	HASTY_RETREAT(81, 4), BODY_REPLACEMENT(82, 4), SHADOW_STEP(83, 4),
 	//Death Mark T4
@@ -1297,6 +1299,9 @@ public enum Talent {
 			case MAGE:
 				Collections.addAll(tierTalents, MAGES_PLIGHT);
 				break;
+			case ROGUE:
+				Collections.addAll(tierTalents, ROGUES_PLIGHT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1338,7 +1343,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER, SILENT_TAKEDOWN);
 				break;
 			case FREERUNNER:
-				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH);
+				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH, SPEEDY_RECOVERY);
 				break;
 			case SNIPER:
 				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES);
