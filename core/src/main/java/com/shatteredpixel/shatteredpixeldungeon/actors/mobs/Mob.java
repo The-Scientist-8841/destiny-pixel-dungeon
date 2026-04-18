@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
@@ -994,6 +995,17 @@ public abstract class Mob extends Char {
 				if (evilBonus) {
 					GLog.n(Messages.get(EvilBook.class, "gift_message"));
 					EvilBook.showFlareForBonusDrop(Dungeon.hero.sprite);
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.SILENT_TAKEDOWN)) {
+					Preparation prep = Dungeon.hero.buff(Preparation.class);
+
+					if (prep != null) {
+						if (prep.attackLevel() > 0) {
+							float charge = Dungeon.hero.pointsInTalent(Talent.SILENT_TAKEDOWN) * (prep.attackLevel() - 1) / 2f;
+							Dungeon.hero.belongings.getItem(CloakOfShadows.class).charge(Dungeon.hero, charge);
+						}
+					}
 				}
 			}
 
