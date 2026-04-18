@@ -158,7 +158,7 @@ public enum Talent {
 	//Rogue T2
 	MYSTICAL_MEAL(68,4), INSCRIBED_STEALTH(69,4), WIDE_SEARCH(70,4), SILENT_STEPS(71,4), ROGUES_FORESIGHT(72,4), EVASIVE_BLESSING(194,4), ROGUES_TRIAL(93,4),
 	//Rogue T3
-	ENHANCED_RINGS(73, 3), LIGHT_CLOAK(74, 3),
+	ENHANCED_RINGS(73, 4), LIGHT_CLOAK(74, 4), ROGUES_STRUGGLE(94,4),
 	//Assassin T3
 	ENHANCED_LETHALITY(75, 3), ASSASSINS_REACH(76, 3), BOUNTY_HUNTER(77, 3),
 	//Freerunner T3
@@ -1269,7 +1269,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, DESPERATE_POWER, ALLY_WARP, MAGES_STRUGGLE);
 				break;
 			case ROGUE:
-				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK);
+				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK, ROGUES_STRUGGLE);
 				break;
 			case HUNTRESS:
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);

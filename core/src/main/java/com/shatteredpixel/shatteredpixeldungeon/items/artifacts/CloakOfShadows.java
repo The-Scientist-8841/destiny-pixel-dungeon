@@ -179,7 +179,7 @@ public class CloakOfShadows extends Artifact {
 		if (cursed || target.buff(MagicImmune.class) != null) return;
 
 		if (charge < chargeCap) {
-			if (!isEquipped(target)) amount *= 0.75f*target.pointsInTalent(Talent.LIGHT_CLOAK)/3f;
+			if (!isEquipped(target)) amount *= 0.25f*target.pointsInTalent(Talent.LIGHT_CLOAK);
 			partialCharge += 0.25f*amount;
 			while (partialCharge >= 1f) {
 				charge++;
@@ -238,7 +238,7 @@ public class CloakOfShadows extends Artifact {
 					turnsToCharge /= RingOfEnergy.artifactChargeMultiplier(target);
 					float chargeToGain = (1f / turnsToCharge);
 					if (!isEquipped(Dungeon.hero)){
-						chargeToGain *= 0.75f*Dungeon.hero.pointsInTalent(Talent.LIGHT_CLOAK)/3f;
+						chargeToGain *= 0.25f*Dungeon.hero.pointsInTalent(Talent.LIGHT_CLOAK);
 					}
 					partialCharge += chargeToGain;
 				}

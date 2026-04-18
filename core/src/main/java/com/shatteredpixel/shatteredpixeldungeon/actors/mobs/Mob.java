@@ -1108,6 +1108,29 @@ public abstract class Mob extends Char {
 				}
 			}
 
+			if (Dungeon.hero.hasTalent(Talent.ROGUES_STRUGGLE)) {
+				if ((Dungeon.hero.pointsInTalent(Talent.ROGUES_STRUGGLE) == 1) && (evil_bonus == null)) {
+					if (Random.Float() < 0.01f) {
+						Item reward = Generator.randomUsingDefaults(Generator.Category.RING);
+						Dungeon.level.drop(reward, pos).sprite.drop();
+						if (!didFlare) {
+							EvilBook.showFlareForBonusDrop(sprite);
+							didFlare = true;
+						}
+					}
+				} else if (Dungeon.hero.pointsInTalent(Talent.ROGUES_STRUGGLE) > 1) {
+					if (Random.Float() < 0.005f*Dungeon.hero.pointsInTalent(Talent.ROGUES_STRUGGLE)) {
+						Item reward = Generator.randomUsingDefaults(Generator.Category.RING);
+						Dungeon.level.drop(reward, pos).sprite.drop();
+
+						if (!didFlare) {
+							EvilBook.showFlareForBonusDrop(sprite);
+							didFlare = true;
+						}
+					}
+				}
+			}
+
 			//Debugging
 			Dungeon.hero.earnExp(10000, EvilBook.class);
 
