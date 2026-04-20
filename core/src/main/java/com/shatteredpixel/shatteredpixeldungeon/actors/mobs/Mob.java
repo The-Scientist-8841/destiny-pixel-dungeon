@@ -1172,6 +1172,8 @@ public abstract class Mob extends Char {
 				debugThing4.collect();
 				Item debugThing5 = Generator.randomUsingDefaults(Generator.Category.WAND);
 				debugThing5.collect();
+				Item debugThing6 = Generator.randomUsingDefaults(Generator.Category.POTION);
+				debugThing6.collect();
 			}
 		}
 		

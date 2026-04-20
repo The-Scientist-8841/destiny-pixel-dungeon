@@ -175,7 +175,7 @@ public enum Talent {
 	//Huntress T1
 	NATURES_BOUNTY(96,4), SURVIVALISTS_INTUITION(97,4), FOLLOWUP_STRIKE(98,4), NATURES_AID(99,4), HAGGLER(123,4), HUNTRESS_JOURNEY(124,4),
 	//Huntress T2
-	INVIGORATING_MEAL(100), LIQUID_NATURE(101), REJUVENATING_STEPS(102), HEIGHTENED_SENSES(103), DURABLE_PROJECTILES(104),
+	INVIGORATING_MEAL(100,4), LIQUID_NATURE(101,4), REJUVENATING_STEPS(102), HEIGHTENED_SENSES(103), DURABLE_PROJECTILES(104),
 	//Huntress T3
 	POINT_BLANK(105, 3), SEER_SHOT(106, 3),
 	//Sniper T3
@@ -859,6 +859,11 @@ public enum Talent {
 			ArrayList<Integer> grassCells = new ArrayList<>();
 			for (int i : PathFinder.NEIGHBOURS9){
 				grassCells.add(cell+i);
+				if (hero.pointsInTalent(LIQUID_NATURE) > 2) {
+					for (int j : PathFinder.NEIGHBOURS9) {
+						if (!grassCells.contains(cell + i + j)) grassCells.add(cell+i+j);
+					}
+				}
 			}
 			Random.shuffle(grassCells);
 			for (int grassCell : grassCells){
