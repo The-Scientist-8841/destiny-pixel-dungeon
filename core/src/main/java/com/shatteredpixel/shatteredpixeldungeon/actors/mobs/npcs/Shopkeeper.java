@@ -204,7 +204,10 @@ public class Shopkeeper extends NPC {
 		if (Dungeon.hero.hasTalent(Talent.SMOOTH_TALKER)) {
 			factor -= 0.05f*Dungeon.hero.pointsInTalent(Talent.SMOOTH_TALKER);
 		}
-		return (int)(item.value() * 5 * (Dungeon.depth / 5 + 1) * factor);
+		if (Dungeon.hero.hasTalent(Talent.HAGGLER) && item instanceof MissileWeapon) {
+			factor -= 0.1f*Dungeon.hero.pointsInTalent(Talent.HAGGLER);
+		}
+		return (int)(item.value() * 5 * (Dungeon.depth / 5 + 1) * Math.max(factor, 0f));
 	}
 	
 	public static WndBag sell() {

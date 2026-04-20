@@ -173,7 +173,7 @@ public enum Talent {
 	SHADOW_BLADE(87, 4), CLONED_ARMOR(88, 4), PERFECT_COPY(89, 4),
 
 	//Huntress T1
-	NATURES_BOUNTY(96), SURVIVALISTS_INTUITION(97), FOLLOWUP_STRIKE(98), NATURES_AID(99),
+	NATURES_BOUNTY(96,4), SURVIVALISTS_INTUITION(97,4), FOLLOWUP_STRIKE(98,4), NATURES_AID(99,4), HAGGLER(123,4), HUNTRESS_JOURNEY(124,4),
 	//Huntress T2
 	INVIGORATING_MEAL(100), LIQUID_NATURE(101), REJUVENATING_STEPS(102), HEIGHTENED_SENSES(103), DURABLE_PROJECTILES(104),
 	//Huntress T3
@@ -642,6 +642,16 @@ public enum Talent {
 				}
 			}
 		}
+
+		if (talent == SURVIVALISTS_INTUITION && hero.pointsInTalent(SURVIVALISTS_INTUITION) == 3) {
+			for (Item item : hero.belongings) {
+				if (item instanceof MissileWeapon) {
+					if (ShardOfOblivion.passiveIDDisabled()) ((MissileWeapon) item).setIDReady();
+					else item.identify();
+				}
+			}
+		}
+
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
 			if (hero.belongings.ring2 instanceof Ring) hero.belongings.ring2.setKnown();
@@ -813,6 +823,8 @@ public enum Talent {
 		if (item instanceof MeleeWeapon){
 			factor *= 1f + 1.5f*hero.pointsInTalent(ADVENTURERS_INTUITION); //instant at +2 (see onItemEquipped)
 			factor *= 1f + 0.75f*Math.min(hero.pointsInTalent(VETERANS_INTUITION), 2); //instant at +4 (see onItemEquipped)
+
+			if (hero.hasTalent(SURVIVALISTS_INTUITION) && hero.pointsInTalent(SURVIVALISTS_INTUITION) == 4) factor *= 1.75f;
 		}
 		// Affected by both Warrior(2.5x/inst.) and Duelist(1.75x/2.5x) talents
 		if (item instanceof Armor){
@@ -1010,6 +1022,12 @@ public enum Talent {
 					((Ring) item).setIDReady();
 					((Ring) item).setKnown();
 				}
+				else item.identify();
+			}
+		}
+		if (hero.pointsInTalent(SURVIVALISTS_INTUITION) >= 3) {
+			if (item instanceof MissileWeapon) {
+				if (ShardOfOblivion.passiveIDDisabled()) ((MissileWeapon) item).setIDReady();
 				else item.identify();
 			}
 		}
@@ -1216,7 +1234,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, CACHED_RATIONS, THIEFS_INTUITION, SUCKER_PUNCH, PROTECTIVE_SHADOWS, SMOOTH_TALKER, ROGUES_JOURNEY);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID);
+				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID, HAGGLER, HUNTRESS_JOURNEY);
 				break;
 			case DUELIST:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER);

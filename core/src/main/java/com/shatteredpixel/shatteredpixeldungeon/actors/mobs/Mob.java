@@ -960,6 +960,11 @@ public abstract class Mob extends Char {
 					Dungeon.level.drop(reward, pos).sprite.drop(pos);
 				}
 
+				if (Dungeon.hero.hasTalent(Talent.HUNTRESS_JOURNEY) && (Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.HUNTRESS_JOURNEY))) {
+					Item reward = Generator.randomUsingDefaults(Generator.Category.SEED);
+					Dungeon.level.drop(reward, pos).sprite.drop(pos);
+				}
+
 				boolean evilBonus = false;
 				if (Dungeon.hero.hasTalent(Talent.WARRIORS_PLIGHT) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.WARRIORS_PLIGHT)) {
 					evilBonus = true;
