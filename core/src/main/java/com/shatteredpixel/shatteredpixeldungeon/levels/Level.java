@@ -1173,7 +1173,14 @@ public abstract class Level implements Bundlable {
 					Buff.count(ch, Talent.RejuvenatingStepsFurrow.class, 3 - Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS));
 				}
 				GameScene.updateMap(ch.pos);
-				Buff.affect(ch, Talent.RejuvenatingStepsCooldown.class, 15f - 5f*Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS));
+				float dur = 0f;
+				switch (Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS)) {
+					case 1: default: dur = 10f; break;
+					case 2: dur = 5f; break;
+					case 3: dur = 3f; break;
+					case 4: dur = 1f; break;
+				}
+				Buff.affect(ch, Talent.RejuvenatingStepsCooldown.class, dur);
 			}
 			
 			if (pit[ch.pos]){

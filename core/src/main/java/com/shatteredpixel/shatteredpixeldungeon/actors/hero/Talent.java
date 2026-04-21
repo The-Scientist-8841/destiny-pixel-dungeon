@@ -175,7 +175,7 @@ public enum Talent {
 	//Huntress T1
 	NATURES_BOUNTY(96,4), SURVIVALISTS_INTUITION(97,4), FOLLOWUP_STRIKE(98,4), NATURES_AID(99,4), HAGGLER(123,4), HUNTRESS_JOURNEY(124,4),
 	//Huntress T2
-	INVIGORATING_MEAL(100,4), LIQUID_NATURE(101,4), REJUVENATING_STEPS(102), HEIGHTENED_SENSES(103), DURABLE_PROJECTILES(104),
+	INVIGORATING_MEAL(100,4), LIQUID_NATURE(101,4), REJUVENATING_STEPS(102,4), HEIGHTENED_SENSES(103), DURABLE_PROJECTILES(104),
 	//Huntress T3
 	POINT_BLANK(105, 3), SEER_SHOT(106, 3),
 	//Sniper T3
@@ -285,7 +285,16 @@ public enum Talent {
 	public static class RejuvenatingStepsCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0.35f, 0.15f); }
-		public float iconFadePercent() { return GameMath.gate(0, visualcooldown() / (15 - 5*Dungeon.hero.pointsInTalent(REJUVENATING_STEPS)), 1); }
+		public float iconFadePercent() {
+			int dur = 0;
+			switch (Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS)) {
+				case 1: default: dur = 10; break;
+				case 2: dur = 5; break;
+				case 3: dur = 3; break;
+				case 4: dur = 1; break;
+			}
+			return GameMath.gate(0, visualcooldown() / dur, 1);
+		}
 	};
 	public static class RejuvenatingStepsFurrow extends CounterBuff{{revivePersists = true;}};
 	public static class SeerShotCooldown extends FlavourBuff{
