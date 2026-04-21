@@ -770,8 +770,8 @@ public abstract class Mob extends Char {
 
 				if (Dungeon.hero.HP < Dungeon.hero.HT) {
 					float factor = 0.4f; // 2/5
-					if (Dungeon.hero.hasTalent(Talent.REJUVINATION)) {
-						switch (Dungeon.hero.pointsInTalent(Talent.REJUVINATION)) {
+					if (Dungeon.hero.hasTalent(Talent.REJUVENATION)) {
+						switch (Dungeon.hero.pointsInTalent(Talent.REJUVENATION)) {
 							case 1: factor = 0.5f; break; // 2/4
 							case 2: factor = 0.67f; break; // 2/3
 							case 3: factor = 1f; break; // 2/2
