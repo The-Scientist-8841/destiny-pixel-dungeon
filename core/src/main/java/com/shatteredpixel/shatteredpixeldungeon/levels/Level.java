@@ -1419,6 +1419,16 @@ public abstract class Level implements Bundlable {
 					}
 					for (int i : PathFinder.NEIGHBOURS9) {
 						heroMindFov[mob.pos + i] = true;
+						if (c.buff(MindVision.class).mobDistance > 1) {
+							for (int j : PathFinder.NEIGHBOURS9) {
+								heroMindFov[mob.pos + i + j] = true;
+								if (c.buff(MindVision.class).mobDistance > 2) {
+									for (int k : PathFinder.NEIGHBOURS9) {
+										heroMindFov[mob.pos + i + j + k] = true;
+									}
+								}
+							}
+						}
 					}
 				}
 			} else {

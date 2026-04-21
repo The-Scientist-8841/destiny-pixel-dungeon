@@ -30,6 +30,7 @@ public class MindVision extends FlavourBuff {
 	public static final float DURATION = 20f;
 	
 	public int distance = 2;
+	public int mobDistance = 1;
 
 	{
 		type = buffType.POSITIVE;
@@ -50,5 +51,6 @@ public class MindVision extends FlavourBuff {
 		super.detach();
 		Dungeon.observe();
 		GameScene.updateFog();
+		mobDistance = 1;
 	}
 }

@@ -237,6 +237,7 @@ public class Hero extends Char {
 
 	public float wandDmgBonusFactor = 1f;
 	public float evasionBonusFactor = 1f;
+	public float accuracyBonusFactor = 1f;
 	
 	public int HTBoost = 0;
 	
@@ -305,7 +306,8 @@ public class Hero extends Char {
 	private static final String HTBOOST     = "htboost";
 	private static final String WANDDMGBONUSFACTOR = "wandDmgBonusFactor";
 	private static final String EVASIONBONUSFACTOR = "evasionBonusFactor";
-	
+	private static final String ACCURACYBONUSFACTOR = "accuracyBonusFactor";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 
@@ -328,6 +330,7 @@ public class Hero extends Char {
 
 		bundle.put(WANDDMGBONUSFACTOR, wandDmgBonusFactor);
 		bundle.put(EVASIONBONUSFACTOR, evasionBonusFactor);
+		bundle.put(ACCURACYBONUSFACTOR, accuracyBonusFactor);
 		belongings.storeInBundle( bundle );
 	}
 	
@@ -355,6 +358,7 @@ public class Hero extends Char {
 
 		wandDmgBonusFactor = bundle.getFloat(WANDDMGBONUSFACTOR);
 		evasionBonusFactor = bundle.getFloat(EVASIONBONUSFACTOR);
+		accuracyBonusFactor = bundle.getFloat(ACCURACYBONUSFACTOR);
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
@@ -511,7 +515,7 @@ public class Hero extends Char {
 	public int attackSkill( Char target ) {
 		KindOfWeapon wep = belongings.attackingWeapon();
 		
-		float accuracy = 1;
+		float accuracy = 1 * accuracyBonusFactor;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );
 		
 		//precise assault and liquid agility
