@@ -177,7 +177,7 @@ public enum Talent {
 	//Huntress T2
 	INVIGORATING_MEAL(100,4), LIQUID_NATURE(101,4), REJUVENATING_STEPS(102,4), HEIGHTENED_SENSES(103,4), DURABLE_PROJECTILES(104,4), KEEN_BLESSING(195,4), HUNTRESS_TRIAL(125,4),
 	//Huntress T3
-	POINT_BLANK(105, 3), SEER_SHOT(106, 3),
+	POINT_BLANK(105, 4), SEER_SHOT(106, 4), HUNTRESS_STRUGGLE(126,4),
 	//Sniper T3
 	FARSIGHT(107, 3), SHARED_ENCHANTMENT(108, 3), SHARED_UPGRADES(109, 3),
 	//Warden T3
@@ -1306,7 +1306,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK, ROGUES_STRUGGLE);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
+				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT, HUNTRESS_STRUGGLE);
 				break;
 			case DUELIST:
 				Collections.addAll(tierTalents, PRECISE_ASSAULT, DEADLY_FOLLOWUP);

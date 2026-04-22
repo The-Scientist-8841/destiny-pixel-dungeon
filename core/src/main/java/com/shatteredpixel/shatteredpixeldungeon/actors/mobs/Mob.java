@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -1148,6 +1149,32 @@ public abstract class Mob extends Char {
 					if (Random.Float() < 0.005f*Dungeon.hero.pointsInTalent(Talent.ROGUES_STRUGGLE)) {
 						Item reward = Generator.randomUsingDefaults(Generator.Category.RING);
 						Dungeon.level.drop(reward, pos).sprite.drop();
+
+						if (!didFlare) {
+							EvilBook.showFlareForBonusDrop(sprite);
+							didFlare = true;
+						}
+					}
+				}
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.HUNTRESS_STRUGGLE)) {
+				if ((Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) == 1) && (evil_bonus == null)) {
+					if (Random.Float() < 0.02f) {
+						LiquidMetal metalBonus = new LiquidMetal();
+						metalBonus.quantity(Random.Int(5,11));
+						Dungeon.level.drop(metalBonus, pos).sprite.drop();
+						if (!didFlare) {
+							EvilBook.showFlareForBonusDrop(sprite);
+							didFlare = true;
+						}
+					}
+				} else if (Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) > 1) {
+					if (Random.Float() < 0.02f) {
+						int baseAmt = 5*Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE);
+						LiquidMetal metalBonus = new LiquidMetal();
+						metalBonus.quantity(Random.Int(baseAmt, 5 + baseAmt));
+						Dungeon.level.drop(metalBonus, pos).sprite.drop();
 
 						if (!didFlare) {
 							EvilBook.showFlareForBonusDrop(sprite);
