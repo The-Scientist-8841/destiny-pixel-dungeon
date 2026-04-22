@@ -329,9 +329,7 @@ public class SpiritBow extends Weapon {
 		}
 
 		@Override
-		public int damageRoll(Char owner) {
-			return SpiritBow.this.damageRoll(owner);
-		}
+		public int damageRoll(Char owner) { return SpiritBow.this.damageRoll(owner); }
 		
 		@Override
 		public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
@@ -340,6 +338,20 @@ public class SpiritBow extends Weapon {
 		
 		@Override
 		public int proc(Char attacker, Char defender, int damage) {
+			if (Dungeon.hero.pointsInTalent(Talent.SHARED_ENCHANTMENT) == 4) {
+				ArrayList<MissileWeapon> missiles = new ArrayList<>();
+
+				for (Item i : Dungeon.hero.belongings.backpack) {
+					if (i instanceof MissileWeapon && !((MissileWeapon)i).hasCurseEnchant() && ((MissileWeapon)i).enchantment != null) {
+						missiles.add((MissileWeapon)i);
+					}
+				}
+
+				if (!missiles.isEmpty()) {
+					MissileWeapon chosen = missiles.get(Random.Int(missiles.size()));
+					damage = chosen.enchantment.proc(this, attacker, defender, damage);
+				}
+			}
 			return SpiritBow.this.proc(attacker, defender, damage);
 		}
 		

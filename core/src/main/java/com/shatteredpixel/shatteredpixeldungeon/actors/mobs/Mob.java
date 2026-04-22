@@ -86,6 +86,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
@@ -1192,15 +1193,12 @@ public abstract class Mob extends Char {
 				debugThing.collect();
 				KingsCrown debugThing2 = new KingsCrown();
 				debugThing2.collect();
-				ScrollOfMetamorphosis debugThing3 = new ScrollOfMetamorphosis();
-				debugThing3.collect();
-				AlchemistsToolkit debugThing4 = new AlchemistsToolkit();
-				debugThing4.cursed = false;
-				debugThing4.collect();
-				Item debugThing5 = Generator.randomUsingDefaults(Generator.Category.WAND);
-				debugThing5.collect();
 				Item debugThing6 = Generator.randomUsingDefaults(Generator.Category.POTION);
 				debugThing6.collect();
+				Item debugThing7 = Generator.randomUsingDefaults(Generator.Category.MISSILE);
+				debugThing7.collect();
+				ScrollOfEnchantment debugThing8 = new ScrollOfEnchantment();
+				debugThing8.collect();
 			}
 		}
 		
