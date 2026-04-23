@@ -28,11 +28,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ToxicImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class Sorrowmoss extends Plant {
 
@@ -45,6 +47,13 @@ public class Sorrowmoss extends Plant {
 	public void activate( Char ch ) {
 		if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
 			Buff.affect(ch, ToxicImbue.class).set(ToxicImbue.DURATION*0.3f);
+
+			if (((Hero) ch).hasTalent(Talent.CIRCLE_OF_LIFE)) {
+				if (Random.Int(10) <= ((Hero) ch).pointsInTalent(Talent.CIRCLE_OF_LIFE)) {
+					Seed seed = new Seed();
+					Dungeon.level.drop(seed, pos);
+				}
+			}
 		}
 		
 		if (ch != null) {

@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -37,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,13 @@ public class Swiftthistle extends Plant {
 			Buff.affect(ch, TimeBubble.class).reset();
 			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
 				Buff.affect(ch, Haste.class, 1f);
+
+				if (((Hero) ch).hasTalent(Talent.CIRCLE_OF_LIFE)) {
+					if (Random.Int(10) <= ((Hero) ch).pointsInTalent(Talent.CIRCLE_OF_LIFE)) {
+						Seed seed = new Seed();
+						Dungeon.level.drop(seed, pos);
+					}
+				}
 			}
 		}
 	}

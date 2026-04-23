@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
@@ -35,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 public class Sungrass extends Plant {
 	
@@ -49,6 +51,13 @@ public class Sungrass extends Plant {
 		if (ch != null){
 			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
 				Buff.affect(ch, Healing.class).setHeal(ch.HT, 0, 1);
+
+				if (((Hero) ch).hasTalent(Talent.CIRCLE_OF_LIFE)) {
+					if (Random.Int(10) <= ((Hero) ch).pointsInTalent(Talent.CIRCLE_OF_LIFE)) {
+						Seed seed = new Seed();
+						Dungeon.level.drop(seed, pos);
+					}
+				}
 			} else {
 				Buff.affect(ch, Health.class).boost(ch.HT);
 			}

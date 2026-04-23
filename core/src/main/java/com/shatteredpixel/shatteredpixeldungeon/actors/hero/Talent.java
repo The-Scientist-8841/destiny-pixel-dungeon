@@ -181,7 +181,7 @@ public enum Talent {
 	//Sniper T3
 	FARSIGHT(107, 4), SHARED_ENCHANTMENT(108, 4), SHARED_UPGRADES(109, 4), MARKED_FOR_DEATH(205,4),
 	//Warden T3
-	DURABLE_TIPS(110, 3), BARKSKIN(111, 3), SHIELDING_DEW(112, 3),
+	DURABLE_TIPS(110, 4), BARKSKIN(111, 4), SHIELDING_DEW(112, 4), CIRCLE_OF_LIFE(206,4),
 	//Spectral Blades T4
 	FAN_OF_BLADES(113, 4), PROJECTING_BLADES(114, 4), SPIRIT_BLADES(115, 4),
 	//Natures Power T4
@@ -1381,7 +1381,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES, MARKED_FOR_DEATH);
 				break;
 			case WARDEN:
-				Collections.addAll(tierTalents, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW);
+				Collections.addAll(tierTalents, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW, CIRCLE_OF_LIFE);
 				break;
 			case CHAMPION:
 				Collections.addAll(tierTalents, VARIED_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);

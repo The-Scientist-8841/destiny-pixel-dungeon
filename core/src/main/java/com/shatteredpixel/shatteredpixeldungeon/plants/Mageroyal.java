@@ -21,15 +21,18 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.plants;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.utils.Random;
 
 public class Mageroyal extends Plant {
 
@@ -49,6 +52,13 @@ public class Mageroyal extends Plant {
 
 				if (((Hero) ch).subClass == HeroSubClass.WARDEN){
 					Buff.affect(ch, BlobImmunity.class, BlobImmunity.DURATION/2f);
+
+					if (((Hero) ch).hasTalent(Talent.CIRCLE_OF_LIFE)) {
+						if (Random.Int(10) <= ((Hero) ch).pointsInTalent(Talent.CIRCLE_OF_LIFE)) {
+							Seed seed = new Seed();
+							Dungeon.level.drop(seed, pos);
+						}
+					}
 				}
 			}
 		}

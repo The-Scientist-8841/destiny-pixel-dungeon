@@ -28,9 +28,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class Starflower extends Plant {
 
@@ -50,6 +52,13 @@ public class Starflower extends Plant {
 			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
 				Buff.prolong(ch, Recharging.class, Recharging.DURATION);
 				SpellSprite.show( ch, SpellSprite.CHARGE );
+
+				if (((Hero) ch).hasTalent(Talent.CIRCLE_OF_LIFE)) {
+					if (Random.Int(10) <= ((Hero) ch).pointsInTalent(Talent.CIRCLE_OF_LIFE)) {
+						Seed seed = new Seed();
+						Dungeon.level.drop(seed, pos);
+					}
+				}
 			}
 		}
 
