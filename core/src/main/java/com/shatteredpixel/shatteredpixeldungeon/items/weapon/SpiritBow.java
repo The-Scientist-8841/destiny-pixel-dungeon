@@ -222,18 +222,35 @@ public class SpiritBow extends Weapon {
 		if (sniperSpecial){
 			damage = Math.round(damage * (1f + sniperSpecialBonusDamage));
 
+			float factor = 1f;
 			switch (augment){
 				case NONE:
-					damage = Math.round(damage * 0.667f);
+					factor = 0.667f;
+					if (owner instanceof Hero && ((Hero) owner).hasTalent(Talent.MARKED_FOR_DEATH)) {
+						factor += 0.33f*((Hero) owner).pointsInTalent(Talent.MARKED_FOR_DEATH);
+					}
+					damage = Math.round(damage * factor);
 					break;
 				case SPEED:
-					damage = Math.round(damage * 0.5f);
+					factor = 0.5f;
+					if (owner instanceof Hero && ((Hero) owner).hasTalent(Talent.MARKED_FOR_DEATH)) {
+						factor += 0.125f*((Hero) owner).pointsInTalent(Talent.MARKED_FOR_DEATH);
+					}
+					damage = Math.round(damage * factor);
 					break;
 				case DAMAGE:
 					//as distance increases so does damage, capping at 3x:
 					//1.20x|1.35x|1.52x|1.71x|1.92x|2.16x|2.43x|2.74x|3.00x
 					int distance = Dungeon.level.distance(owner.pos, targetPos) - 1;
-					float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
+					float m = 3f;
+					float a = 1.2f;
+					float b = 1.125f;
+					if (owner instanceof Hero && ((Hero) owner).hasTalent(Talent.MARKED_FOR_DEATH)) {
+						m += 1f*((Hero) owner).pointsInTalent(Talent.MARKED_FOR_DEATH);
+						a += 0.2f*((Hero) owner).pointsInTalent(Talent.MARKED_FOR_DEATH);
+						b += 0.02f*((Hero) owner).pointsInTalent(Talent.MARKED_FOR_DEATH);
+					}
+					float multiplier = Math.min(m, a * (float)Math.pow(b, distance));
 					damage = Math.round(damage * multiplier);
 					break;
 			}

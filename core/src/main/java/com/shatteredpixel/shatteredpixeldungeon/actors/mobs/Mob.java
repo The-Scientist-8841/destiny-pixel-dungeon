@@ -1172,9 +1172,9 @@ public abstract class Mob extends Char {
 					}
 				} else if (Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) > 1) {
 					if (Random.Float() < 0.02f) {
-						int baseAmt = 5*Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE);
+						int baseAmt = 5*(Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) - 1);
 						LiquidMetal metalBonus = new LiquidMetal();
-						metalBonus.quantity(Random.Int(baseAmt, 5 + baseAmt));
+						metalBonus.quantity(Random.Int(baseAmt, 5 + baseAmt + 1));
 						Dungeon.level.drop(metalBonus, pos).sprite.drop();
 
 						if (!didFlare) {
