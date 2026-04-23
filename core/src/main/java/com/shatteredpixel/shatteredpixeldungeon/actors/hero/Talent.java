@@ -182,6 +182,8 @@ public enum Talent {
 	FARSIGHT(107, 4), SHARED_ENCHANTMENT(108, 4), SHARED_UPGRADES(109, 4), MARKED_FOR_DEATH(205,4),
 	//Warden T3
 	DURABLE_TIPS(110, 4), BARKSKIN(111, 4), SHIELDING_DEW(112, 4), CIRCLE_OF_LIFE(206,4),
+	//Global T4
+	HUNTRESS_PLIGHT(127,4),
 	//Spectral Blades T4
 	FAN_OF_BLADES(113, 4), PROJECTING_BLADES(114, 4), SPIRIT_BLADES(115, 4),
 	//Natures Power T4
@@ -1333,6 +1335,9 @@ public enum Talent {
 				break;
 			case ROGUE:
 				Collections.addAll(tierTalents, ROGUES_PLIGHT);
+				break;
+			case HUNTRESS:
+				Collections.addAll(tierTalents, HUNTRESS_PLIGHT);
 				break;
 		}
 		for (Talent talent : tierTalents){
