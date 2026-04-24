@@ -442,7 +442,8 @@ public class MeleeWeapon extends Weapon {
 				int points = ((Hero)target).pointsInTalent(Talent.WEAPON_RECHARGING);
 				if (points > 0 && target.buff(Recharging.class) != null || target.buff(ArtifactRecharge.class) != null){
 					//1 every 15 turns at +1, 10 turns at +2
-					partialCharge += 1/(20f - 5f*points);
+					partialCharge += 1/(20f - 5f*Math.min(points,3));
+					if (points == 4) partialCharge += 0.3;
 				}
 
 				if (partialCharge >= 1){
