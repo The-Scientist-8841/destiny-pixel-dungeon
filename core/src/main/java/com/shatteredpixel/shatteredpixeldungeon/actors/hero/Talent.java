@@ -192,9 +192,9 @@ public enum Talent {
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
 
 	//Duelist T1
-	STRENGTHENING_MEAL(128,4), ADVENTURERS_INTUITION(129,4), PATIENT_STRIKE(130,4), AGGRESSIVE_BARRIER(131,4), ADVENTURING_GEAR(155,4),
+	STRENGTHENING_MEAL(128,4), ADVENTURERS_INTUITION(129,4), PATIENT_STRIKE(130,4), AGGRESSIVE_BARRIER(131,4), ADVENTURING_GEAR(155,4), ADVENTURERS_JOURNEY(156,4),
 	//Duelist T2
-	FOCUSED_MEAL(132), LIQUID_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136),
+	FOCUSED_MEAL(132,4), LIQUID_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136),
 	//Duelist T3
 	PRECISE_ASSAULT(137, 3), DEADLY_FOLLOWUP(138, 3),
 	//Champion T3
@@ -790,7 +790,13 @@ public enum Talent {
 				ScrollOfRecharging.charge( hero );
 			} else {
 				// lvl/3 / lvl/2 bonus dmg on next hit for other classes
-				Buff.affect( hero, PhysicalEmpower.class).set(Math.round(hero.lvl / (4f - hero.pointsInTalent(FOCUSED_MEAL))), 1);
+				float factor = 0.33f;
+				switch (hero.pointsInTalent(FOCUSED_MEAL)) {
+					case 2: factor = 0.5f; break;
+					case 3: factor = 1f; break;
+					case 4: factor = 1.25f; break;
+				}
+				Buff.affect( hero, PhysicalEmpower.class).set(Math.round(hero.lvl * factor), 1);
 			}
 		}
 		if (hero.hasTalent(SATIATED_SPELLS)){
@@ -1274,7 +1280,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID, HAGGLER, HUNTRESS_JOURNEY);
 				break;
 			case DUELIST:
-				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, ADVENTURING_GEAR);
+				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, ADVENTURING_GEAR, ADVENTURERS_JOURNEY);
 				break;
 			case CLERIC:
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT);

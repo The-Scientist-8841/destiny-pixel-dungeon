@@ -77,6 +77,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolki
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -965,6 +966,11 @@ public abstract class Mob extends Char {
 
 				if (Dungeon.hero.hasTalent(Talent.HUNTRESS_JOURNEY) && (Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.HUNTRESS_JOURNEY))) {
 					Item reward = Generator.randomUsingDefaults(Generator.Category.SEED);
+					Dungeon.level.drop(reward, pos).sprite.drop(pos);
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.ADVENTURERS_JOURNEY) && (Random.Float() < 0.01f + 0.01f*Dungeon.hero.pointsInTalent(Talent.ADVENTURERS_JOURNEY))) {
+					Item reward = new MysteryMeat();
 					Dungeon.level.drop(reward, pos).sprite.drop(pos);
 				}
 
