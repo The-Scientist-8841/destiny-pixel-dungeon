@@ -37,6 +37,11 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -206,6 +211,9 @@ public class Shopkeeper extends NPC {
 		}
 		if (Dungeon.hero.hasTalent(Talent.HAGGLER) && item instanceof MissileWeapon) {
 			factor -= 0.1f*Dungeon.hero.pointsInTalent(Talent.HAGGLER);
+		}
+		if (Dungeon.hero.hasTalent(Talent.ADVENTURING_GEAR) && (item instanceof MeleeWeapon || item instanceof Armor || item instanceof StoneOfAugmentation)) {
+			factor -= 0.1f*Dungeon.hero.pointsInTalent(Talent.ADVENTURING_GEAR);
 		}
 		return (int)(item.value() * 5 * (Dungeon.depth / 5 + 1) * Math.max(factor, 0f));
 	}
