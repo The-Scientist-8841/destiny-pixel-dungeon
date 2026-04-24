@@ -546,7 +546,7 @@ public class Hero extends Char {
 					}
 				} else if (buff(Talent.LiquidAgilACCTracker.class) != null){
 					// 3x/inf. ACC, depending on talent level
-					accuracy *= pointsInTalent(Talent.LIQUID_AGILITY) == 2 ? Float.POSITIVE_INFINITY : 3f;
+					accuracy *= pointsInTalent(Talent.LIQUID_AGILITY) >= 2 ? Float.POSITIVE_INFINITY : 3f;
 					Talent.LiquidAgilACCTracker buff = buff(Talent.LiquidAgilACCTracker.class);
 					buff.uses--;
 				}
@@ -589,7 +589,7 @@ public class Hero extends Char {
 		if (buff(Talent.LiquidAgilEVATracker.class) != null){
 			if (pointsInTalent(Talent.LIQUID_AGILITY) == 1){
 				evasion *= 3f;
-			} else if (pointsInTalent(Talent.LIQUID_AGILITY) == 2){
+			} else if (pointsInTalent(Talent.LIQUID_AGILITY) >= 2){
 				return INFINITE_EVASION;
 			}
 		}

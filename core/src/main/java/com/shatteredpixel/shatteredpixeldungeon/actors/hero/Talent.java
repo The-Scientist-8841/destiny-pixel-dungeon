@@ -194,7 +194,7 @@ public enum Talent {
 	//Duelist T1
 	STRENGTHENING_MEAL(128,4), ADVENTURERS_INTUITION(129,4), PATIENT_STRIKE(130,4), AGGRESSIVE_BARRIER(131,4), ADVENTURING_GEAR(155,4), ADVENTURERS_JOURNEY(156,4),
 	//Duelist T2
-	FOCUSED_MEAL(132,4), LIQUID_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136),
+	FOCUSED_MEAL(132,4), LIQUID_AGILITY(133,4), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136),
 	//Duelist T3
 	PRECISE_ASSAULT(137, 3), DEADLY_FOLLOWUP(138, 3),
 	//Champion T3
@@ -928,9 +928,10 @@ public enum Talent {
 			Dungeon.observe();
 		}
 		if (hero.hasTalent(LIQUID_AGILITY)){
-			Buff.prolong(hero, LiquidAgilEVATracker.class, hero.cooldown() + Math.max(0, factor-1));
+			Buff.prolong(hero, LiquidAgilEVATracker.class, hero.cooldown() + Math.max(0, factor-1) + Math.max(0, hero.pointsInTalent(LIQUID_AGILITY) - 2));
 			if (factor >= 0.5f){
-				Buff.prolong(hero, LiquidAgilACCTracker.class, 5f).uses = Math.round(factor);
+				int baseAmt = Math.max(1, hero.pointsInTalent(LIQUID_AGILITY) - 2);
+				Buff.prolong(hero, LiquidAgilACCTracker.class, 5f).uses = Math.round(factor * baseAmt);
 			}
 		}
 	}

@@ -57,9 +57,7 @@ public class Rat extends Mob {
 	}
 	
 	@Override
-	public int attackSkill( Char target ) {
-		return 8;
-	}
+	public int attackSkill( Char target ) { return 8; }
 	
 	@Override
 	public int drRoll() {
