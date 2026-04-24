@@ -192,7 +192,7 @@ public enum Talent {
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
 
 	//Duelist T1
-	STRENGTHENING_MEAL(128), ADVENTURERS_INTUITION(129), PATIENT_STRIKE(130), AGGRESSIVE_BARRIER(131),
+	STRENGTHENING_MEAL(128,4), ADVENTURERS_INTUITION(129,4), PATIENT_STRIKE(130,4), AGGRESSIVE_BARRIER(131,4),
 	//Duelist T2
 	FOCUSED_MEAL(132), LIQUID_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136),
 	//Duelist T3
@@ -676,6 +676,20 @@ public enum Talent {
 				hero.belongings.weapon().identify();
 			}
 		}
+		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 3) {
+			for (Item item : hero.belongings) {
+				if (item instanceof Weapon) {
+					if (ShardOfOblivion.passiveIDDisabled()) ((Weapon) item).setIDReady();
+					else item.identify();
+				}
+			}
+		}
+		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 4){
+			if (hero.belongings.armor() != null) {
+				if (!ShardOfOblivion.passiveIDDisabled()) hero.belongings.armor.identify();
+				else hero.belongings.armor.setIDReady();
+			}
+		}
 
 		if (talent == PROTECTIVE_SHADOWS && hero.invisible > 0){
 			Buff.affect(hero, Talent.ProtectiveShadowsTracker.class);
@@ -839,7 +853,7 @@ public enum Talent {
 		}
 		// Affected by both Warrior(2.5x/inst.) and Duelist(1.75x/2.5x) talents
 		if (item instanceof Armor){
-			factor *= 1f + 0.75f*hero.pointsInTalent(ADVENTURERS_INTUITION);
+			factor *= 1f + 0.75f*Math.min(hero.pointsInTalent(ADVENTURERS_INTUITION), 2); //instant at +4 (see onItemEquipped)
 			factor *= 1f + hero.pointsInTalent(VETERANS_INTUITION); //instant at +2 (see onItemEquipped)
 		}
 		// 3x/instant for Mage (see Wand.wandUsed())
@@ -997,9 +1011,10 @@ public enum Talent {
 			}
 			((Ring) item).setKnown();
 		}
-		if (hero.pointsInTalent(ADVENTURERS_INTUITION) == 2 && item instanceof Weapon){
+		if (hero.pointsInTalent(ADVENTURERS_INTUITION) >= 2 && item instanceof Weapon){
 			identify = true;
 		}
+		if (hero.pointsInTalent(ADVENTURERS_INTUITION) == 4 && item instanceof Armor) identify = true;
 
 		if (identify) {
 			if (ShardOfOblivion.passiveIDDisabled()) {
@@ -1044,6 +1059,12 @@ public enum Talent {
 		if (hero.pointsInTalent(SURVIVALISTS_INTUITION) >= 3) {
 			if (item instanceof MissileWeapon) {
 				if (ShardOfOblivion.passiveIDDisabled()) ((MissileWeapon) item).setIDReady();
+				else item.identify();
+			}
+		}
+		if (hero.pointsInTalent(ADVENTURERS_INTUITION) >= 3) {
+			if (item instanceof MeleeWeapon) {
+				if (ShardOfOblivion.passiveIDDisabled()) ((MeleeWeapon) item).setIDReady();
 				else item.identify();
 			}
 		}
@@ -1094,7 +1115,7 @@ public enum Talent {
 			if (hero.buff(PatientStrikeTracker.class) != null
 					&& !(hero.belongings.attackingWeapon() instanceof MissileWeapon)){
 				hero.buff(PatientStrikeTracker.class).detach();
-				dmg += Random.IntRange(hero.pointsInTalent(Talent.PATIENT_STRIKE), 2);
+				dmg += Random.IntRange(hero.pointsInTalent(PATIENT_STRIKE), Math.max(2, hero.pointsInTalent(PATIENT_STRIKE)));
 			}
 		}
 
