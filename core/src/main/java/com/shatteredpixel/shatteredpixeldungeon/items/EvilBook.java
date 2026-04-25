@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -188,6 +189,10 @@ public class EvilBook extends Item {
             if (hero.hasTalent(Talent.HUNTRESS_TRIAL)) {
                 MindVision buff = Buff.affect(hero, MindVision.class, 15f*Math.min(hero.pointsInTalent(Talent.HUNTRESS_TRIAL), 2));
                 buff.mobDistance = Math.max(1, hero.pointsInTalent(Talent.HUNTRESS_TRIAL) - 1);
+            }
+
+            if (hero.hasTalent(Talent.DUELISTS_TRIAL)) {
+                Buff.affect(hero, Haste.class, 5f*hero.pointsInTalent(Talent.DUELISTS_TRIAL));
             }
 
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {
