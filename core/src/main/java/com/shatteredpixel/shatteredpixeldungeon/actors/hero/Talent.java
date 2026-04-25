@@ -196,7 +196,7 @@ public enum Talent {
 	//Duelist T2
 	FOCUSED_MEAL(132,4), LIQUID_AGILITY(133,4), WEAPON_RECHARGING(134,4), LETHAL_HASTE(135,4), SWIFT_EQUIP(136,4), FERVENT_BLESSING(196,4), DUELISTS_TRIAL(157,4),
 	//Duelist T3
-	PRECISE_ASSAULT(137, 3), DEADLY_FOLLOWUP(138, 3),
+	PRECISE_ASSAULT(137, 4), DEADLY_FOLLOWUP(138, 4),
 	//Champion T3
 	VARIED_CHARGE(139, 3), TWIN_UPGRADES(140, 3), COMBINED_LETHALITY(141, 3),
 	//Monk T3
@@ -411,10 +411,22 @@ public enum Talent {
 		}
 	}
 	public static class PreciseAssaultTracker extends FlavourBuff{
+		public int uses = 1;
 		{ type = buffType.POSITIVE; }
 		public int icon() { return BuffIndicator.INVERT_MARK; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 1f, 0.0f); }
 		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+		private static final String USES = "uses";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(USES, uses);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			uses = bundle.getInt(USES);
+		}
 	};
 	public static class VariedChargeTracker extends Buff{
 		public Class weapon;

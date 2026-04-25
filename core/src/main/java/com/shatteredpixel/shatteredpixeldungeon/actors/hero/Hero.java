@@ -505,7 +505,9 @@ public class Hero extends Char {
 		boolean result = super.attack(enemy, dmgMulti, dmgBonus, accMulti);
 		if (!(belongings.attackingWeapon() instanceof MissileWeapon)){
 			if (buff(Talent.PreciseAssaultTracker.class) != null){
-				buff(Talent.PreciseAssaultTracker.class).detach();
+				Talent.PreciseAssaultTracker tracker = (Talent.PreciseAssaultTracker) buff(Talent.PreciseAssaultTracker.class);
+				tracker.uses -= 1;
+				if (tracker.uses <= 0) buff(Talent.PreciseAssaultTracker.class).detach();
 			} else if (buff(Talent.LiquidAgilACCTracker.class) != null
 						&& buff(Talent.LiquidAgilACCTracker.class).uses <= 0){
 				buff(Talent.LiquidAgilACCTracker.class).detach();
