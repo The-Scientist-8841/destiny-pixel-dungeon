@@ -238,6 +238,7 @@ public class Hero extends Char {
 	public float wandDmgBonusFactor = 1f;
 	public float evasionBonusFactor = 1f;
 	public float accuracyBonusFactor = 1f;
+	public float meleeDmgBonusFactor = 1f;
 	
 	public int HTBoost = 0;
 	
@@ -256,6 +257,9 @@ public class Hero extends Char {
 		belongings = new Belongings( this );
 
 		wandDmgBonusFactor = 1f;
+		evasionBonusFactor = 1f;
+		accuracyBonusFactor = 1f;
+		meleeDmgBonusFactor = 1f;
 		
 		visibleEnemies = new ArrayList<>();
 	}
@@ -307,6 +311,7 @@ public class Hero extends Char {
 	private static final String WANDDMGBONUSFACTOR = "wandDmgBonusFactor";
 	private static final String EVASIONBONUSFACTOR = "evasionBonusFactor";
 	private static final String ACCURACYBONUSFACTOR = "accuracyBonusFactor";
+	private static final String MELEEDMGBONUSFACTOR = "meleeDmgBonusFactor";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -331,6 +336,7 @@ public class Hero extends Char {
 		bundle.put(WANDDMGBONUSFACTOR, wandDmgBonusFactor);
 		bundle.put(EVASIONBONUSFACTOR, evasionBonusFactor);
 		bundle.put(ACCURACYBONUSFACTOR, accuracyBonusFactor);
+		bundle.put(MELEEDMGBONUSFACTOR, meleeDmgBonusFactor);
 		belongings.storeInBundle( bundle );
 	}
 	
@@ -359,6 +365,7 @@ public class Hero extends Char {
 		wandDmgBonusFactor = bundle.getFloat(WANDDMGBONUSFACTOR);
 		evasionBonusFactor = bundle.getFloat(EVASIONBONUSFACTOR);
 		accuracyBonusFactor = bundle.getFloat(ACCURACYBONUSFACTOR);
+		meleeDmgBonusFactor = bundle.getFloat(MELEEDMGBONUSFACTOR);
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
@@ -713,6 +720,9 @@ public class Hero extends Char {
 		}
 
 		if (dmg < 0) dmg = 0;
+
+		if (wep instanceof MeleeWeapon) dmg = Math.round(dmg * meleeDmgBonusFactor);
+
 		return dmg;
 	}
 
