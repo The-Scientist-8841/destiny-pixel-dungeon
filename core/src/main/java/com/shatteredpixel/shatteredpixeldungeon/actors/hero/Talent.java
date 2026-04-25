@@ -194,7 +194,7 @@ public enum Talent {
 	//Duelist T1
 	STRENGTHENING_MEAL(128,4), ADVENTURERS_INTUITION(129,4), PATIENT_STRIKE(130,4), AGGRESSIVE_BARRIER(131,4), ADVENTURING_GEAR(155,4), ADVENTURERS_JOURNEY(156,4),
 	//Duelist T2
-	FOCUSED_MEAL(132,4), LIQUID_AGILITY(133,4), WEAPON_RECHARGING(134,4), LETHAL_HASTE(135), SWIFT_EQUIP(136),
+	FOCUSED_MEAL(132,4), LIQUID_AGILITY(133,4), WEAPON_RECHARGING(134,4), LETHAL_HASTE(135,4), SWIFT_EQUIP(136,4),
 	//Duelist T3
 	PRECISE_ASSAULT(137, 3), DEADLY_FOLLOWUP(138, 3),
 	//Champion T3
@@ -368,28 +368,28 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 100); }
 	};
 	public static class SwiftEquipCooldown extends FlavourBuff{
-		public boolean secondUse;
-		public boolean hasSecondUse(){
-			return secondUse;
+		public int extraUses;
+		public boolean hasExtraUse(){
+			return extraUses > 0;
 		}
 
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) {
-			if (hasSecondUse()) icon.hardlight(0.85f, 0f, 1.0f);
+			if (hasExtraUse()) icon.hardlight(0.85f, 0f, 1.0f);
 			else                icon.hardlight(0.35f, 0f, 0.7f);
 		}
 		public float iconFadePercent() { return GameMath.gate(0, visualcooldown() / 20f, 1); }
 
-		private static final String SECOND_USE = "second_use";
+		private static final String EXTRA_USES = "extra_uses";
 		@Override
 		public void storeInBundle(Bundle bundle) {
 			super.storeInBundle(bundle);
-			bundle.put(SECOND_USE, secondUse);
+			bundle.put(EXTRA_USES, extraUses);
 		}
 		@Override
 		public void restoreFromBundle(Bundle bundle) {
 			super.restoreFromBundle(bundle);
-			secondUse = bundle.getBoolean(SECOND_USE);
+			extraUses = bundle.getInt(EXTRA_USES);
 		}
 	};
 	public static class DeadlyFollowupTracker extends FlavourBuff{

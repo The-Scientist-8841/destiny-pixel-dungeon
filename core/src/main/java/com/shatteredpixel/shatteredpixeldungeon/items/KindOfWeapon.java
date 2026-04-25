@@ -108,7 +108,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 		isSwiftEquipping = false;
 		if (hero.belongings.contains(this) && hero.hasTalent(Talent.SWIFT_EQUIP)){
 			if (hero.buff(Talent.SwiftEquipCooldown.class) == null
-					|| hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()){
+					|| hero.buff(Talent.SwiftEquipCooldown.class).hasExtraUse()){
 				isSwiftEquipping = true;
 			}
 		}
@@ -142,10 +142,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 			if (isSwiftEquipping) {
 				GLog.i(Messages.get(this, "swift_equip"));
 				if (hero.buff(Talent.SwiftEquipCooldown.class) == null){
-					Buff.affect(hero, Talent.SwiftEquipCooldown.class, 19f)
-							.secondUse = hero.pointsInTalent(Talent.SWIFT_EQUIP) == 2;
-				} else if (hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()) {
-					hero.buff(Talent.SwiftEquipCooldown.class).secondUse = false;
+					Buff.affect(hero, Talent.SwiftEquipCooldown.class, 19f).extraUses = hero.pointsInTalent(Talent.SWIFT_EQUIP) - 1;
+				} else if (hero.buff(Talent.SwiftEquipCooldown.class).hasExtraUse()) {
+					hero.buff(Talent.SwiftEquipCooldown.class).extraUses -= 1;
 				}
 				isSwiftEquipping = false;
 			}
@@ -163,7 +162,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 		isSwiftEquipping = false;
 		if (hero.belongings.contains(this) && hero.hasTalent(Talent.SWIFT_EQUIP)){
 			if (hero.buff(Talent.SwiftEquipCooldown.class) == null
-					|| hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()){
+					|| hero.buff(Talent.SwiftEquipCooldown.class).hasExtraUse()){
 				isSwiftEquipping = true;
 			}
 		}
@@ -189,10 +188,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 			if (isSwiftEquipping) {
 				GLog.i(Messages.get(this, "swift_equip"));
 				if (hero.buff(Talent.SwiftEquipCooldown.class) == null){
-					Buff.affect(hero, Talent.SwiftEquipCooldown.class, 19f)
-							.secondUse = hero.pointsInTalent(Talent.SWIFT_EQUIP) == 2;
-				} else if (hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()) {
-					hero.buff(Talent.SwiftEquipCooldown.class).secondUse = false;
+					Buff.affect(hero, Talent.SwiftEquipCooldown.class, 19f).extraUses = hero.pointsInTalent(Talent.SWIFT_EQUIP) - 1;
+				} else if (hero.buff(Talent.SwiftEquipCooldown.class).hasExtraUse()) {
+					hero.buff(Talent.SwiftEquipCooldown.class).extraUses -= 1;
 				}
 				isSwiftEquipping = false;
 			}

@@ -108,7 +108,7 @@ public class MeleeWeapon extends Weapon {
 			if (!isEquipped(hero)) {
 				if (hero.hasTalent(Talent.SWIFT_EQUIP)){
 					if (hero.buff(Talent.SwiftEquipCooldown.class) == null
-						|| hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()){
+						|| hero.buff(Talent.SwiftEquipCooldown.class).hasExtraUse()){
 						execute(hero, AC_EQUIP);
 					} else if (hero.heroClass == HeroClass.DUELIST) {
 						GLog.w(Messages.get(this, "ability_need_equip"));
