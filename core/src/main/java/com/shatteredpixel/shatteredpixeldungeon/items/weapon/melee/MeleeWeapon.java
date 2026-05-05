@@ -56,6 +56,7 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -226,6 +227,22 @@ public class MeleeWeapon extends Weapon {
 			charger.gainCharge(hero.pointsInTalent(Talent.COUNTER_ABILITY)*0.375f);
 			hero.buff(Talent.CounterAbilityTacker.class).detach();
 		}
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+
+		if (attacker == Dungeon.hero && Dungeon.hero.hasTalent(Talent.TWIN_ENCHANTMENT) && Dungeon.hero.belongings.secondWep() != null) {
+			if (Dungeon.hero.belongings.secondWep instanceof MeleeWeapon) {
+				MeleeWeapon wep = (MeleeWeapon) Dungeon.hero.belongings.secondWep;
+
+				if (wep.enchantment != null && Random.Int(4) < Dungeon.hero.pointsInTalent(Talent.TWIN_ENCHANTMENT)) {
+					damage = wep.enchantment.proc(this, attacker, defender, damage);
+				}
+			}
+		}
+
+		return super.proc(attacker, defender, damage);
 	}
 
 	public static void onAbilityKill( Hero hero, Char killed ){
