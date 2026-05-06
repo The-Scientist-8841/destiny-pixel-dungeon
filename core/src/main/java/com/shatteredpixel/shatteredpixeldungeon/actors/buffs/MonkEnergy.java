@@ -173,6 +173,8 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 					} else if (hero.belongings.armor().tier <= 3 && points >= 1){
 						enGainMulti += 0.50f;
 					}
+
+					if (points == 4) enGainMulti += 0.25f;
 				}
 
 				if (hero.belongings.weapon() instanceof MeleeWeapon
@@ -185,6 +187,8 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 					} else if (((MeleeWeapon) hero.belongings.weapon()).tier <= 3 && points >= 1){
 						enGainMulti += 0.50f;
 					}
+
+					if (points == 4) enGainMulti += 0.25f;
 				}
 
 			}
