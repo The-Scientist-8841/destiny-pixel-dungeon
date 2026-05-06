@@ -209,7 +209,11 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 	//10 at base, 20 at level 30
 	public int energyCap(){
-		return Math.max(10, 5 + Dungeon.hero.lvl/2);
+		int bns = 0;
+		if (Dungeon.hero.hasTalent(Talent.SPIRITUAL_TRAINING)) {
+			bns = 1 + Dungeon.hero.pointsInTalent(Talent.SPIRITUAL_TRAINING);
+		}
+		return Math.min(Math.max(10, 5 + Dungeon.hero.lvl/5), 20) + bns;
 	}
 
 	public void abilityUsed( MonkAbility abil ){

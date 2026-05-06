@@ -200,7 +200,9 @@ public enum Talent {
 	//Champion T3
 	VARIED_CHARGE(139, 4), TWIN_UPGRADES(140, 4), COMBINED_LETHALITY(141, 4), TWIN_ENCHANTMENT(207,4),
 	//Monk T3
-	UNENCUMBERED_SPIRIT(142, 4), MONASTIC_VIGOR(143, 4), COMBINED_ENERGY(144, 4),
+	UNENCUMBERED_SPIRIT(142, 4), MONASTIC_VIGOR(143, 4), COMBINED_ENERGY(144, 4), SPIRITUAL_TRAINING(208, 4),
+	//Global T4
+	DUELISTS_PLIGHT(159,4),
 	//Challenge T4
 	CLOSE_THE_GAP(145, 4), INVIGORATING_VICTORY(146, 4), ELIMINATION_MATCH(147, 4),
 	//Elemental Strike T4
@@ -1379,6 +1381,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, HUNTRESS_PLIGHT);
 				break;
+			case DUELIST:
+				Collections.addAll(tierTalents, DUELISTS_PLIGHT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1432,7 +1437,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, VARIED_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY, TWIN_ENCHANTMENT);
 				break;
 			case MONK:
-				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
+				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY, SPIRITUAL_TRAINING);
 				break;
 			case PRIEST:
 				Collections.addAll(tierTalents, HOLY_LANCE, HALLOWED_GROUND, MNEMONIC_PRAYER);

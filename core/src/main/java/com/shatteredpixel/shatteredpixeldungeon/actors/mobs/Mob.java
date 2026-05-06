@@ -81,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShi
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
@@ -998,6 +999,14 @@ public abstract class Mob extends Char {
 				if (Dungeon.hero.hasTalent(Talent.HUNTRESS_PLIGHT) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.HUNTRESS_PLIGHT)) {
 					evilBonus = true;
 					ScrollOfLullaby reward = new ScrollOfLullaby();
+					if (!reward.collect()) {
+						Dungeon.level.drop(reward, Dungeon.hero.pos);
+					}
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.DUELISTS_PLIGHT) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.DUELISTS_PLIGHT)) {
+					evilBonus = true;
+					ScrollOfMirrorImage reward = new ScrollOfMirrorImage();
 					if (!reward.collect()) {
 						Dungeon.level.drop(reward, Dungeon.hero.pos);
 					}
