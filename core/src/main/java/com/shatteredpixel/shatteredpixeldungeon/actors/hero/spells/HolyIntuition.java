@@ -50,7 +50,8 @@ public class HolyIntuition extends InventoryClericSpell {
 
 	@Override
 	public float chargeUse(Hero hero) {
-		return 4 - hero.pointsInTalent(Talent.HOLY_INTUITION);
+		if (hero.pointsInTalent(Talent.HOLY_INTUITION) < 4) return 4 - hero.pointsInTalent(Talent.HOLY_INTUITION);
+		else return 0.5f;
 	}
 
 	@Override
