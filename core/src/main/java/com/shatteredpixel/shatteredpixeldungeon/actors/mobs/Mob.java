@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
+import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
@@ -73,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
@@ -83,6 +85,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
@@ -969,6 +972,22 @@ public abstract class Mob extends Char {
 				if (Dungeon.hero.hasTalent(Talent.DUELISTS_JOURNEY) && (Random.Float() < 0.01f + 0.01f*Dungeon.hero.pointsInTalent(Talent.DUELISTS_JOURNEY))) {
 					Item reward = new MysteryMeat();
 					Dungeon.level.drop(reward, pos).sprite.drop(pos);
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.CLERICS_JOURNEY)) {
+					if ((Dungeon.hero.heroClass == HeroClass.CLERIC)) {
+						if (Random.Float() < 0.025f + 0.025f*Dungeon.hero.pointsInTalent(Talent.CLERICS_JOURNEY)) {
+							HolyTome tome = Dungeon.hero.belongings.getItem(HolyTome.class);
+							if (tome != null) {
+								tome.directCharge(1f);
+								ScrollOfRecharging.charge(Dungeon.hero);
+							}
+						}
+					} else if (Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.CLERICS_JOURNEY)) {
+						Item reward = new EnergyCrystal();
+						reward.quantity(Random.Int(5,10));
+						Dungeon.level.drop(reward, pos).sprite.drop(pos);
+					}
 				}
 
 				boolean evilBonus = false;
