@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -214,6 +215,9 @@ public class Shopkeeper extends NPC {
 		}
 		if (Dungeon.hero.hasTalent(Talent.ADVENTURING_GEAR) && (item instanceof MeleeWeapon || item instanceof Armor || item instanceof StoneOfAugmentation)) {
 			factor -= 0.1f*Dungeon.hero.pointsInTalent(Talent.ADVENTURING_GEAR);
+		}
+		if (Dungeon.hero.hasTalent(Talent.CLERGYMANS_DISCOUNT) && (item instanceof Scroll)) {
+			factor -= 0.1f*Dungeon.hero.pointsInTalent(Talent.CLERGYMANS_DISCOUNT);
 		}
 		return (int)(item.value() * 5 * (Dungeon.depth / 5 + 1) * Math.max(factor, 0f));
 	}

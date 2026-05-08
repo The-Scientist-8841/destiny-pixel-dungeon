@@ -300,7 +300,12 @@ public class EvilBook extends Item {
                 break;
         }
         float roll = Random.Float();
-        if (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE)) roll = Math.min(roll + 0.025f*(Dungeon.hero.pointsInTalent(Talent.WARRIORS_STRUGGLE) - 1), 1f);
+        if (Dungeon.hero.hasTalent(Talent.WARRIORS_STRUGGLE)) {
+            int extraRolls = Math.max(0, Dungeon.hero.pointsInTalent(Talent.WARRIORS_STRUGGLE) - 1);
+            for (int i = 0; i < extraRolls; i += 1) {
+                roll = Math.max(roll, Random.Float());
+            }
+        }
         if (roll <= exaltedThresh && roll > maxThresh) return genExaltedValueItem();
         else if (roll <= maxThresh && roll > veryHighThresh) return genMaxValueItem(true);
         else if (roll <= veryHighThresh && roll > highThresh) return genVeryHighValueItem(true);
