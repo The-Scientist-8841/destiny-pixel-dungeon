@@ -56,7 +56,7 @@ public class RecallInscription extends ClericSpell {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", Dungeon.hero.pointsInTalent(Talent.RECALL_INSCRIPTION) == 2 ? 300 : 10) + "\n\n" + Messages.get(this, "charge_cost", (int)chargeUse(Dungeon.hero));
+		return Messages.get(this, "desc", Dungeon.hero.pointsInTalent(Talent.RECALL_INSCRIPTION) >= 2 ? 300 : 10) + "\n\n" + Messages.get(this, "charge_cost", (int)chargeUse(Dungeon.hero));
 	}
 
 	@Override
@@ -102,27 +102,28 @@ public class RecallInscription extends ClericSpell {
 
 	@Override
 	public float chargeUse(Hero hero) {
+		int base = 0;
+		float factor = 1f;
 		if (hero.buff(UsedItemTracker.class) != null){
 			Class<? extends Item> item = hero.buff(UsedItemTracker.class).item;
 			if (ExoticScroll.class.isAssignableFrom(item)){
+				base = 4;
 				if (item == ScrollOfMetamorphosis.class || item == ScrollOfEnchantment.class){
-					return 8;
-				} else {
-					return 4;
+					factor = 2f;
 				}
 			} else if (Scroll.class.isAssignableFrom(item)){
+				base = 3;
 				if (item == ScrollOfTransmutation.class){
-					return 6;
-				} else {
-					return 3;
+					factor = 2f;
 				}
 			} else if (Runestone.class.isAssignableFrom(item)){
+				base = 2;
 				if (item == StoneOfAugmentation.class || item == StoneOfEnchantment.class){
-					return 4;
-				} else {
-					return 2;
+					factor = 2f;
 				}
 			}
+
+			return factor *(base - 0.5f*Math.max(0,hero.pointsInTalent(Talent.RECALL_INSCRIPTION) - 2));
 		}
 		return 0;
 	}
@@ -149,7 +150,7 @@ public class RecallInscription extends ClericSpell {
 
 		@Override
 		public float iconFadePercent() {
-			float duration = Dungeon.hero.pointsInTalent(Talent.RECALL_INSCRIPTION) == 2 ? 300 : 10;
+			float duration = Dungeon.hero.pointsInTalent(Talent.RECALL_INSCRIPTION) >= 2 ? 300 : 10;
 			return Math.max(0, (duration - visualcooldown()) / duration);
 		}
 

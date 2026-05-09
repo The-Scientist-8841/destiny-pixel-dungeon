@@ -213,7 +213,7 @@ public enum Talent {
 	//Cleric T1
 	SATIATED_SPELLS(160,4), HOLY_INTUITION(161,4), SEARING_LIGHT(162,4), SHIELD_OF_LIGHT(163,4), CLERGYMANS_DISCOUNT(187,4), CLERICS_JOURNEY(188,4),
 	//Cleric T2
-	ENLIGHTENING_MEAL(164), RECALL_INSCRIPTION(165), SUNRAY(166), DIVINE_SENSE(167), BLESS(168),
+	ENLIGHTENING_MEAL(164, 4), RECALL_INSCRIPTION(165,4), SUNRAY(166), DIVINE_SENSE(167), BLESS(168),
 	//Cleric T3
 	CLEANSE(169, 3), LIGHT_READING(170, 3),
 	//Priest T3
@@ -962,9 +962,9 @@ public enum Talent {
 		}
 		if (hero.hasTalent(RECALL_INSCRIPTION) && Scroll.class.isAssignableFrom(cls) && cls != ScrollOfUpgrade.class){
 			if (hero.heroClass == HeroClass.CLERIC){
-				Buff.prolong(hero, RecallInscription.UsedItemTracker.class, hero.pointsInTalent(RECALL_INSCRIPTION) == 2 ? 300 : 10).item = cls;
+				Buff.prolong(hero, RecallInscription.UsedItemTracker.class, hero.pointsInTalent(RECALL_INSCRIPTION) >= 2 ? 300 : 10).item = cls;
 			} else {
-				// 10/15%
+				// 10/15/20/25%
 				if (Random.Int(20) < 1 + hero.pointsInTalent(RECALL_INSCRIPTION)){
 					Reflection.newInstance(cls).collect();
 					GLog.p(Messages.get(Talent.class, RECALL_INSCRIPTION.name() + ".refunded"));
