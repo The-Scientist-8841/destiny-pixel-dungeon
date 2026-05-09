@@ -77,7 +77,7 @@ public class Waterskin extends Item {
 	private int getVolDeduction(Hero hero) {
 		int volDeduction = 0;
 
-		int[] talentPoints = { 0, 0, 0, 0, 0, 0 };
+		int[] talentPoints = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		if (hero.hasTalent(Talent.MIGHTY_BLESSING)) {
 			talentPoints[0] += hero.pointsInTalent(Talent.MIGHTY_BLESSING);
@@ -94,12 +94,15 @@ public class Waterskin extends Item {
 		if (hero.hasTalent(Talent.FERVENT_BLESSING)) {
 			talentPoints[4] += hero.pointsInTalent(Talent.FERVENT_BLESSING);
 		}
+		if (hero.hasTalent(Talent.DIVINE_BLESSING)) {
+			talentPoints[5] += hero.pointsInTalent(Talent.DIVINE_BLESSING);
+		}
 
 		boolean canStop = false;
 		int numTalents = 0;
 		do {
 			int highestIndex = 0;
-			for (int i = 0; i < 6; i += 1) {
+			for (int i = 0; i < 8; i += 1) {
 				if (talentPoints[i] > talentPoints[highestIndex]) highestIndex = i;
 			}
 
@@ -195,30 +198,38 @@ public class Waterskin extends Item {
 
 			if (hero.hasTalent(Talent.EMPOWERING_BLESSING)) {
 				hero.wandDmgBonusFactor += 0.05f;
-				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.MAGIC_DMG);
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "5%", FloatingText.MAGIC_DMG);
 
 				GLog.p( Messages.get(this, "empowering_blessing", (int)(hero.wandDmgBonusFactor*100)) );
 			}
 
 			if (hero.hasTalent(Talent.EVASIVE_BLESSING)) {
 				hero.evasionBonusFactor += 0.05f;
-				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.MISS_EVA);
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "5%", FloatingText.MISS_EVA);
 
 				GLog.p( Messages.get(this, "evasive_blessing", (int)(hero.evasionBonusFactor*100)) );
 			}
 
 			if (hero.hasTalent(Talent.KEEN_BLESSING)) {
 				hero.accuracyBonusFactor += 0.05f;
-				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.MISS_ACC);
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "5%", FloatingText.MISS_ACC);
 
 				GLog.p( Messages.get(this, "keen_blessing", (int)(hero.accuracyBonusFactor*100)) );
 			}
 
 			if (hero.hasTalent(Talent.FERVENT_BLESSING)) {
 				hero.meleeDmgBonusFactor += 0.05f;
-				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.PHYS_DMG);
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "5%", FloatingText.PHYS_DMG);
 
 				GLog.p( Messages.get(this, "fervent_blessing", (int)(hero.accuracyBonusFactor*100)) );
+			}
+
+			if (hero.hasTalent(Talent.DIVINE_BLESSING)) {
+				hero.HT_bonus += 10;
+				hero.updateHT(true);
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, "10", FloatingText.HEALING);
+
+				GLog.p( Messages.get(this, "divine_blessing", hero.HT_bonus) );
 			}
 
 			volume = Math.max(0, volume - MAX_VOLUME + getVolDeduction(hero));

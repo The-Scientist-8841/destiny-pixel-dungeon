@@ -239,6 +239,7 @@ public class Hero extends Char {
 	public float evasionBonusFactor = 1f;
 	public float accuracyBonusFactor = 1f;
 	public float meleeDmgBonusFactor = 1f;
+	public int HT_bonus = 0;
 	
 	public int HTBoost = 0;
 	
@@ -260,6 +261,7 @@ public class Hero extends Char {
 		evasionBonusFactor = 1f;
 		accuracyBonusFactor = 1f;
 		meleeDmgBonusFactor = 1f;
+		HT_bonus = 0;
 		
 		visibleEnemies = new ArrayList<>();
 	}
@@ -267,7 +269,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = 20 + 5*(lvl-1) + HTBoost + HT_bonus;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -312,6 +314,7 @@ public class Hero extends Char {
 	private static final String EVASIONBONUSFACTOR = "evasionBonusFactor";
 	private static final String ACCURACYBONUSFACTOR = "accuracyBonusFactor";
 	private static final String MELEEDMGBONUSFACTOR = "meleeDmgBonusFactor";
+	private static final String HTBONUS = "HT_bonus";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -337,6 +340,7 @@ public class Hero extends Char {
 		bundle.put(EVASIONBONUSFACTOR, evasionBonusFactor);
 		bundle.put(ACCURACYBONUSFACTOR, accuracyBonusFactor);
 		bundle.put(MELEEDMGBONUSFACTOR, meleeDmgBonusFactor);
+		bundle.put(HTBONUS, HT_bonus);
 		belongings.storeInBundle( bundle );
 	}
 	
@@ -366,6 +370,7 @@ public class Hero extends Char {
 		evasionBonusFactor = bundle.getFloat(EVASIONBONUSFACTOR);
 		accuracyBonusFactor = bundle.getFloat(ACCURACYBONUSFACTOR);
 		meleeDmgBonusFactor = bundle.getFloat(MELEEDMGBONUSFACTOR);
+		HT_bonus = bundle.getInt(HTBONUS);
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
