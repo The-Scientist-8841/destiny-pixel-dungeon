@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WellFed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
@@ -44,6 +45,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Firebomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlashBangBomb;
@@ -66,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
@@ -180,6 +184,7 @@ public class EvilBook extends Item {
                     if (item instanceof MagesStaff) ((MagesStaff) item).gainCharge(0.5f * hero.pointsInTalent(Talent.MAGES_TRIAL));
                     else if (item instanceof Wand) ((Wand) item).gainCharge(0.5f * hero.pointsInTalent(Talent.MAGES_TRIAL));
                 }
+                ScrollOfRecharging.charge(hero);
             }
 
             if (hero.hasTalent(Talent.ROGUES_TRIAL)) {
@@ -193,6 +198,22 @@ public class EvilBook extends Item {
 
             if (hero.hasTalent(Talent.DUELISTS_TRIAL)) {
                 Buff.affect(hero, Haste.class, 5f*hero.pointsInTalent(Talent.DUELISTS_TRIAL));
+            }
+
+            if (hero.hasTalent(Talent.CLERICS_TRIAL)) {
+                if (hero.heroClass == HeroClass.CLERIC) {
+                    HolyTome tome = hero.belongings.getItem(HolyTome.class);
+                    if (tome != null) {
+                        tome.directCharge( hero.pointsInTalent(Talent.CLERICS_TRIAL)*0.5f );
+                        ScrollOfRecharging.charge(hero);
+                    }
+                } else {
+                    for (Item item : hero.belongings) {
+                        if (item instanceof MagesStaff) ((MagesStaff) item).gainCharge(0.5f * hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                        else if (item instanceof Wand) ((Wand) item).gainCharge(0.5f * hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                        else if ((item instanceof Artifact) && !((Artifact) item).cursed) ((Artifact) item).charge(Dungeon.hero, 0.5f*hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                    }
+                }
             }
 
             if (hero.hasTalent(Talent.WARRIORS_FATE)) {
