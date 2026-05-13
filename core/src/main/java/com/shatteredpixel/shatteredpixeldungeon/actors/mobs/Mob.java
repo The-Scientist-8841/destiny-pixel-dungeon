@@ -975,17 +975,8 @@ public abstract class Mob extends Char {
 				}
 
 				if (Dungeon.hero.hasTalent(Talent.CLERICS_JOURNEY)) {
-					if ((Dungeon.hero.heroClass == HeroClass.CLERIC)) {
-						if (Random.Float() < 0.025f + 0.025f*Dungeon.hero.pointsInTalent(Talent.CLERICS_JOURNEY)) {
-							HolyTome tome = Dungeon.hero.belongings.getItem(HolyTome.class);
-							if (tome != null) {
-								tome.directCharge(1f);
-								ScrollOfRecharging.charge(Dungeon.hero);
-							}
-						}
-					} else if (Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.CLERICS_JOURNEY)) {
-						Item reward = new EnergyCrystal();
-						reward.quantity(Random.Int(5,10));
+					if (Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.CLERICS_JOURNEY)) {
+						Item reward = Generator.randomUsingDefaults(Generator.Category.SPELL);
 						Dungeon.level.drop(reward, pos).sprite.drop(pos);
 					}
 				}
@@ -1153,7 +1144,7 @@ public abstract class Mob extends Char {
 
 			if (Dungeon.hero.hasTalent(Talent.MAGES_STRUGGLE)) {
 				if ((Dungeon.hero.pointsInTalent(Talent.MAGES_STRUGGLE) == 1) && (evil_bonus == null)) {
-					if (Random.Float() < 0.02f) {
+					if (Random.Float() < 0.025f) {
 						Dungeon.level.drop(new ArcaneResin(), pos).sprite.drop();
 						if (!didFlare) {
 							EvilBook.showFlareForBonusDrop(sprite);
@@ -1161,7 +1152,7 @@ public abstract class Mob extends Char {
 						}
 					}
 				} else if (Dungeon.hero.pointsInTalent(Talent.MAGES_STRUGGLE) > 1) {
-					if (Random.Float() < 0.02f) {
+					if (Random.Float() < 0.025f) {
 						int AmtToDrop = Random.Int(1, Dungeon.hero.pointsInTalent(Talent.MAGES_STRUGGLE) - 1);
 						ArcaneResin resinBonus = new ArcaneResin();
 						resinBonus.quantity(AmtToDrop);
@@ -1200,7 +1191,7 @@ public abstract class Mob extends Char {
 
 			if (Dungeon.hero.hasTalent(Talent.HUNTRESS_STRUGGLE)) {
 				if ((Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) == 1) && (evil_bonus == null)) {
-					if (Random.Float() < 0.02f) {
+					if (Random.Float() < 0.05f) {
 						LiquidMetal metalBonus = new LiquidMetal();
 						metalBonus.quantity(Random.Int(5,11));
 						Dungeon.level.drop(metalBonus, pos).sprite.drop();
@@ -1210,7 +1201,7 @@ public abstract class Mob extends Char {
 						}
 					}
 				} else if (Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) > 1) {
-					if (Random.Float() < 0.02f) {
+					if (Random.Float() < 0.05f) {
 						int baseAmt = 5*(Dungeon.hero.pointsInTalent(Talent.HUNTRESS_STRUGGLE) - 1);
 						LiquidMetal metalBonus = new LiquidMetal();
 						metalBonus.quantity(Random.Int(baseAmt, 5 + baseAmt + 1));

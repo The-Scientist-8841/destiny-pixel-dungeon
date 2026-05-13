@@ -119,7 +119,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.InventorySpell;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Spell;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
@@ -277,7 +288,8 @@ public class Generator {
 		ELIXIR	(0, 0, Elixir.class),
 		BREW	(0, 0, Brew.class),
 		MIDTIERBOMB (0, 0, Bomb.class),
-		HIGHTIERBOMB (0, 0, Bomb.class);
+		HIGHTIERBOMB (0, 0, Bomb.class),
+		SPELL (0,0, Spell.class);
 		
 		public Class<?>[] classes;
 
@@ -669,6 +681,21 @@ public class Generator {
 			};
 			HIGHTIERBOMB.defaultProbs = new float[]{1, 1, 1, 1, 1};
 			HIGHTIERBOMB.probs = HIGHTIERBOMB.defaultProbs.clone();
+
+			SPELL.classes = new Class<?>[] {
+					Alchemize.class,
+					BeaconOfReturning.class,
+					CurseInfusion.class,
+					MagicalInfusion.class,
+					PhaseShift.class,
+					ReclaimTrap.class,
+					Recycle.class,
+					SummonElemental.class,
+					TelekineticGrab.class,
+					WildEnergy.class
+			};
+			SPELL.defaultProbs = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+			SPELL.probs = SPELL.defaultProbs.clone();
 
 			for (Category cat : Category.values()){
 				if (cat.defaultProbs2 != null){
