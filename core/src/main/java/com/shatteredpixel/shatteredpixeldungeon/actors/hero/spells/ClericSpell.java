@@ -158,6 +158,9 @@ public abstract class ClericSpell {
 			if (cleric.hasTalent(Talent.MNEMONIC_PRAYER)){
 				spells.add(MnemonicPrayer.INSTANCE);
 			}
+			if (cleric.hasTalent(Talent.SICKENING_RADIANCE)){
+				spells.add(SickeningRadiance.INSTANCE);
+			}
 
 			if (cleric.hasTalent(Talent.LAY_ON_HANDS)){
 				spells.add(LayOnHands.INSTANCE);

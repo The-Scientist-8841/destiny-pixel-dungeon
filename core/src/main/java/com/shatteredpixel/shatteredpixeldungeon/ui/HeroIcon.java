@@ -84,6 +84,7 @@ public class HeroIcon extends Image {
 	public static final int BLESS           = 48;
 	public static final int CLEANSE         = 49;
 	public static final int RADIANCE        = 50;
+	public static final int SICKENING_RADIANCE = 67;
 	public static final int HOLY_LANCE      = 51;
 	public static final int HALLOWED_GROUND = 52;
 	public static final int MNEMONIC_PRAYER = 53;
