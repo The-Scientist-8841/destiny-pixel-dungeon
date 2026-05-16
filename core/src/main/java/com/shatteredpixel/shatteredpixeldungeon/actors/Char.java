@@ -83,6 +83,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Ch
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.AuraOfProtection;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.AuraOfWrath;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.BeamingRay;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.GuidingLight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.LifeLinkSpell;
@@ -440,6 +441,12 @@ public abstract class Char extends Actor {
 				} else {
 					dmg *= 1.25f;
 				}
+			}
+
+			if (Dungeon.hero.alignment == alignment
+					&& Dungeon.hero.buff(AuraOfWrath.AuraBuff.class) != null
+					&& (Dungeon.level.distance(pos, Dungeon.hero.pos) <= 2 || buff(LifeLinkSpell.LifeLinkSpellBuff.class) != null)){
+				dmg *= 1.05f + 0.05f*Dungeon.hero.pointsInTalent(Talent.AURA_OF_WRATH);
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){

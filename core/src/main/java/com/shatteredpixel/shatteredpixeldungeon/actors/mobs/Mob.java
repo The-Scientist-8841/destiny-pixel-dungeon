@@ -86,7 +86,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
@@ -1017,6 +1019,14 @@ public abstract class Mob extends Char {
 				if (Dungeon.hero.hasTalent(Talent.DUELISTS_PLIGHT) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.DUELISTS_PLIGHT)) {
 					evilBonus = true;
 					ScrollOfMirrorImage reward = new ScrollOfMirrorImage();
+					if (!reward.collect()) {
+						Dungeon.level.drop(reward, Dungeon.hero.pos);
+					}
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.CLERICS_PLIGHT) && Random.Float() < 0.005f + 0.005f*Dungeon.hero.pointsInTalent(Talent.CLERICS_PLIGHT)) {
+					evilBonus = true;
+					ScrollOfTeleportation reward = new ScrollOfTeleportation();
 					if (!reward.collect()) {
 						Dungeon.level.drop(reward, Dungeon.hero.pos);
 					}

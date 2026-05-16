@@ -92,6 +92,7 @@ public class HeroIcon extends Image {
 	public static final int LAY_ON_HANDS    = 55;
 	public static final int AURA_OF_PROTECTION = 56;
 	public static final int WALL_OF_LIGHT   = 57;
+	public static final int AURA_OF_WRATH	= 68;
 	public static final int DIVINE_INTERVENTION = 58;
 	public static final int JUDGEMENT       = 59;
 	public static final int FLASH           = 60;

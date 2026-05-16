@@ -219,7 +219,9 @@ public enum Talent {
 	//Priest T3
 	HOLY_LANCE(171, 4), HALLOWED_GROUND(172, 4), MNEMONIC_PRAYER(173, 4), SICKENING_RADIANCE(209,4),
 	//Paladin T3
-	LAY_ON_HANDS(174, 4), AURA_OF_PROTECTION(175, 4), WALL_OF_LIGHT(176, 4),
+	LAY_ON_HANDS(174, 4), AURA_OF_PROTECTION(175, 4), WALL_OF_LIGHT(176, 4), AURA_OF_WRATH(210,4),
+	//Global T4
+	CLERICS_PLIGHT(191,4),
 	//Ascended Form T4
 	DIVINE_INTERVENTION(177, 4), JUDGEMENT(178, 4), FLASH(179, 4),
 	//Trinity T4
@@ -1384,6 +1386,9 @@ public enum Talent {
 			case DUELIST:
 				Collections.addAll(tierTalents, DUELISTS_PLIGHT);
 				break;
+			case CLERIC:
+				Collections.addAll(tierTalents, CLERICS_PLIGHT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1443,7 +1448,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HOLY_LANCE, HALLOWED_GROUND, MNEMONIC_PRAYER, SICKENING_RADIANCE);
 				break;
 			case PALADIN:
-				Collections.addAll(tierTalents, LAY_ON_HANDS, AURA_OF_PROTECTION, WALL_OF_LIGHT);
+				Collections.addAll(tierTalents, LAY_ON_HANDS, AURA_OF_PROTECTION, WALL_OF_LIGHT, AURA_OF_WRATH);
 				break;
 		}
 		for (Talent talent : tierTalents){
