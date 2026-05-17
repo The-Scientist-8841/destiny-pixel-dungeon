@@ -821,7 +821,7 @@ public class ItemSpriteSheet {
 		assignItemRect(HALLS_PAGE,  10, 11);
 	}
 
-	public static final int BULLET = xy(1,31);
+	public static final int BULLET = xy(1,33);
 	public static final int BULLET_PROJECTILE = BULLET + 1;
 	static {
 		assignItemRect(BULLET, 15,15);

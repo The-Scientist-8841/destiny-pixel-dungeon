@@ -50,6 +50,8 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
+import com.watabou.utils.Bundlable;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
@@ -61,7 +63,7 @@ public class ArcaneFirearm extends Weapon {
 	public static final String AC_SHOOT		= "SHOOT";
 	public static final String AC_LOAD		= "LOAD";
 	public static final String AC_UNLOAD	= "UNLOAD";
-	public ArrayList<? extends Bullet> chamber = new ArrayList<>();
+	public ArrayList<Bullet> chamber = new ArrayList<>();
 	public int chamber_size = 6;
 	
 	{
@@ -72,6 +74,35 @@ public class ArcaneFirearm extends Weapon {
 		
 		unique = true;
 		bones = false;
+	}
+
+	private static final String CHAMBER = "chamber";
+	private static final String NUM_BULLETS = "num_bullets";
+	private static final String CHAMBER_SIZE = "chamber_size";
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+
+		bundle.put(CHAMBER_SIZE, chamber_size);
+		bundle.put(NUM_BULLETS, chamber.size());
+		for (int i = 0; i < chamber.size(); i += 1) {
+			bundle.put(CHAMBER + Integer.toString(i), chamber.get(i));
+		}
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+
+		chamber_size = bundle.getInt(CHAMBER_SIZE);
+		int num_bullets = bundle.getInt(NUM_BULLETS);
+		chamber.clear();
+		for (int i = 0; i < num_bullets; i += 1) {
+			Bullet b = (Bullet) bundle.get(CHAMBER + Integer.toString(i));
+			b.gun = this;
+			chamber.add(b);
+		}
 	}
 	
 	@Override
@@ -87,7 +118,7 @@ public class ArcaneFirearm extends Weapon {
 
 	@Override
 	public String defaultAction() {
-		if (chamber == null) return AC_LOAD;
+		if (chamber.size() == 0) return AC_LOAD;
 		else return AC_SHOOT;
 	}
 	
@@ -97,12 +128,18 @@ public class ArcaneFirearm extends Weapon {
 		super.execute(hero, action);
 		
 		if (action.equals(AC_SHOOT)) {
-			
-			curUser = hero;
-			curItem = this;
-			GameScene.selectCell( shooter );
-			
+			if (chamber.size() > 0) {
+				curUser = hero;
+				curItem = this;
+				GameScene.selectCell(shooter);
+			} else {
+				failedToFire();
+			}
 		}
+	}
+
+	public void failedToFire() {
+		Sample.INSTANCE.play(Assets.Sounds.TRAP, 0.75f, 0.67f);
 	}
 
 	@Override
@@ -160,6 +197,11 @@ public class ArcaneFirearm extends Weapon {
 		
 		return info;
 	}
+
+	@Override
+	public String status() {
+		return Integer.toString(chamber.size()) + "/" + Integer.toString(chamber_size);
+	}
 	
 	@Override
 	public int STRReq(int lvl) {
@@ -178,7 +220,12 @@ public class ArcaneFirearm extends Weapon {
 
 	@Override
 	public int targetingPos(Hero user, int dst) {
-		return chamber.get(0).targetingPos(user, dst);
+		if (chamber.size() > 0) {
+			return chamber.get(0).targetingPos(user, dst);
+		} else {
+			failedToFire();
+			return -1;
+		}
 	}
 	
 	private int targetPos;
@@ -196,14 +243,23 @@ public class ArcaneFirearm extends Weapon {
 
 		return damage;
 	}
+
+	public boolean load(Bullet bullet) {
+		if (chamber.size() < chamber_size) {
+			bullet.gun = this;
+			chamber.add(bullet);
+
+			return true;
+		} else return false;
+	}
 	
-	public class Bullet extends MissileWeapon {
+	public static class Bullet extends MissileWeapon {
 
 		ArcaneFirearm gun = null;
-		public int baseDmg = 1;
+		public int baseDmg = 3;
 		public float scalingFactorMin = 1f;
-		public float scalingFactorMax = 1f;
-		public float maxFactor = 1f;
+		public float scalingFactorMax = 2f;
+		public float maxFactor = 5f;
 		
 		{
 			image = ItemSpriteSheet.BULLET_PROJECTILE;
@@ -211,6 +267,31 @@ public class ArcaneFirearm extends Weapon {
 			hitSound = Assets.Sounds.HIT_STAB;
 
 			setID = 0;
+		}
+
+		private static final String BASE_DMG = "baseDmg";
+		private static final String SCALE_MIN = "scalingFactorMin";
+		private static final String SCALE_MAX = "scalingFactorMax";
+		private static final String MAX_FACTOR = "maxFactor";
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+
+			bundle.put(BASE_DMG, baseDmg);
+			bundle.put(SCALE_MIN, scalingFactorMin);
+			bundle.put(SCALE_MAX, scalingFactorMax);
+			bundle.put(MAX_FACTOR, maxFactor);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+
+			baseDmg = bundle.getInt(BASE_DMG);
+			scalingFactorMin = bundle.getFloat(SCALE_MIN);
+			scalingFactorMax = bundle.getFloat(SCALE_MAX);
+			maxFactor = bundle.getFloat(MAX_FACTOR);
 		}
 
 		@Override
@@ -273,23 +354,28 @@ public class ArcaneFirearm extends Weapon {
 		
 		@Override
 		public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-			return ArcaneFirearm.this.hasEnchant(type, owner);
+			if (gun != null) return gun.hasEnchant(type, owner);
+			else return super.hasEnchant(type, owner);
 		}
 		
 		@Override
 		public int proc(Char attacker, Char defender, int damage) {
-			if (gun != null) damage = gun.enchantment.proc(gun, attacker, defender, damage);
-			return ArcaneFirearm.this.proc(attacker, defender, damage);
+			if (gun != null && gun.enchantment != null) {
+				damage = gun.enchantment.proc(gun, attacker, defender, damage);
+			}
+			return super.proc(attacker, defender, damage);
 		}
 		
 		@Override
 		public float delayFactor(Char user) {
-			return ArcaneFirearm.this.delayFactor(user);
+			if (gun != null) return gun.delayFactor(user);
+			else return super.delayFactor(user);
 		}
 		
 		@Override
 		public int STRReq(int lvl) {
-			return ArcaneFirearm.this.STRReq();
+			if (gun != null) return gun.STRReq(lvl);
+			else return super.STRReq(lvl);
 		}
 
 		/*
@@ -316,6 +402,11 @@ public class ArcaneFirearm extends Weapon {
 		@Override
 		public void throwSound() {
 			Sample.INSTANCE.play( Assets.Sounds.HIT_MAGIC, 1, Random.Float(0.4f, 0.6f) );
+		}
+
+		@Override
+		public void onThrow(int cell) {
+			//Do nothing...
 		}
 
 	}

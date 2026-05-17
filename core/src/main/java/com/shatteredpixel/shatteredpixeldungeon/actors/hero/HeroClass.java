@@ -276,6 +276,9 @@ public enum HeroClass {
 	private static void initArtificer(Hero hero) {
 		(hero.belongings.weapon = new ArcaneFirearm()).identify();
 		hero.belongings.weapon.activate(hero);
+		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+
+		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
 
 		new PotionOfToxicGas().identify();
 		new ScrollOfTransmutation().identify();
