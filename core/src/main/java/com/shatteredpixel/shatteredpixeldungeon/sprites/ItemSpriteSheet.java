@@ -90,7 +90,7 @@ public class ItemSpriteSheet {
 	private static final int UNCOLLECTIBLE  =                               xy(3, 2);   //14 slots
 	public static final int GOLD            = UNCOLLECTIBLE+0;
 	public static final int ENERGY          = UNCOLLECTIBLE+1;
-
+	public static final int ARCANE_MATERIAL	= UNCOLLECTIBLE+2;
 	public static final int DEWDROP         = UNCOLLECTIBLE+3;
 	public static final int PETAL           = UNCOLLECTIBLE+4;
 	public static final int SANDBAG         = UNCOLLECTIBLE+5;
@@ -102,6 +102,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(GOLD,        15, 13);
 		assignItemRect(ENERGY,      16, 16);
+		assignItemRect(ARCANE_MATERIAL,	16,16);
 
 		assignItemRect(DEWDROP,     10, 10);
 		assignItemRect(PETAL,       8,  8);
@@ -224,6 +225,7 @@ public class ItemSpriteSheet {
 	public static final int RAPIER          = WEP_TIER1+3;
 	public static final int DAGGER          = WEP_TIER1+4;
 	public static final int MAGES_STAFF     = WEP_TIER1+5;
+	public static final int ARCANE_FIREARM	= WEP_TIER1+6;
 	static{
 		assignItemRect(WORN_SHORTSWORD, 13, 13);
 		assignItemRect(CUDGEL,          15, 15);
@@ -231,6 +233,7 @@ public class ItemSpriteSheet {
 		assignItemRect(RAPIER,          13, 14);
 		assignItemRect(DAGGER,          12, 13);
 		assignItemRect(MAGES_STAFF,     15, 16);
+		assignItemRect(ARCANE_FIREARM,	15,15);
 	}
 
 	private static final int WEP_TIER2      =                               xy(9, 7);   //8 slots
@@ -460,6 +463,7 @@ public class ItemSpriteSheet {
 	public static final int ARTIFACT_ROSE3      = ARTIFACTS+22;
 	public static final int ARTIFACT_TOME       = ARTIFACTS+23;
 	public static final int ARTIFACT_KEY        = ARTIFACTS+24;
+	public static final int ARTIFACT_TOOLBOX	= ARTIFACTS+25;
 	static{
 		assignItemRect(ARTIFACT_CLOAK,      9,  15);
 		assignItemRect(ARTIFACT_ARMBAND,    16, 13);
@@ -486,6 +490,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARTIFACT_ROSE3,      14, 14);
 		assignItemRect(ARTIFACT_TOME,       14, 16);
 		assignItemRect(ARTIFACT_KEY,        8,  16);
+		assignItemRect(ARTIFACT_TOOLBOX,	16, 13);
 	}
 
 	private static final int TRINKETS        =                               xy(1, 18);  //32 slots
@@ -814,6 +819,13 @@ public class ItemSpriteSheet {
 		assignItemRect(CAVES_PAGE,  10, 11);
 		assignItemRect(CITY_PAGE,   10, 11);
 		assignItemRect(HALLS_PAGE,  10, 11);
+	}
+
+	public static final int BULLET = xy(1,31);
+	public static final int BULLET_PROJECTILE = BULLET + 1;
+	static {
+		assignItemRect(BULLET, 15,15);
+		assignItemRect(BULLET_PROJECTILE, 5,5);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite
