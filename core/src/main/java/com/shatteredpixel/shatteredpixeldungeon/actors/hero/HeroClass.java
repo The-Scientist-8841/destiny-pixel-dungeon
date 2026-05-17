@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
@@ -277,6 +278,15 @@ public enum HeroClass {
 		(hero.belongings.weapon = new ArcaneFirearm()).identify();
 		hero.belongings.weapon.activate(hero);
 		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+
+		InventoryBullet bullets = new InventoryBullet();
+		bullets.quantity(14);
+		bullets.collect();
 
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
 

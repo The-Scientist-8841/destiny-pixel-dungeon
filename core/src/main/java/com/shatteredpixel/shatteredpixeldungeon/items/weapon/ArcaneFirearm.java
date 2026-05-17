@@ -32,10 +32,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.BulletType;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
@@ -45,9 +52,13 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
@@ -126,20 +137,30 @@ public class ArcaneFirearm extends Weapon {
 	public void execute(Hero hero, String action) {
 		
 		super.execute(hero, action);
-		
+
 		if (action.equals(AC_SHOOT)) {
 			if (chamber.size() > 0) {
 				curUser = hero;
 				curItem = this;
 				GameScene.selectCell(shooter);
+
+				//TODO: MAKE THIS TAKE TIME!
 			} else {
 				failedToFire();
 			}
+		} else if (action.equals(AC_LOAD)) {
+			selectBulletToLoad(hero);
 		}
 	}
 
 	public void failedToFire() {
 		Sample.INSTANCE.play(Assets.Sounds.TRAP, 0.75f, 0.67f);
+	}
+
+	public void selectBulletToLoad(Hero hero) {
+		curUser = hero;
+		curItem = this;
+		GameScene.selectItem(itemSelector);
 	}
 
 	@Override
@@ -260,6 +281,7 @@ public class ArcaneFirearm extends Weapon {
 		public float scalingFactorMin = 1f;
 		public float scalingFactorMax = 2f;
 		public float maxFactor = 5f;
+		public BulletType bulletType = BulletType.BULLET;
 		
 		{
 			image = ItemSpriteSheet.BULLET_PROJECTILE;
@@ -267,12 +289,15 @@ public class ArcaneFirearm extends Weapon {
 			hitSound = Assets.Sounds.HIT_STAB;
 
 			setID = 0;
+
+			spawnedForEffect = true;
 		}
 
 		private static final String BASE_DMG = "baseDmg";
 		private static final String SCALE_MIN = "scalingFactorMin";
 		private static final String SCALE_MAX = "scalingFactorMax";
 		private static final String MAX_FACTOR = "maxFactor";
+		private static final String BULLET_TYPE = "bulletType";
 
 		@Override
 		public void storeInBundle(Bundle bundle) {
@@ -282,6 +307,7 @@ public class ArcaneFirearm extends Weapon {
 			bundle.put(SCALE_MIN, scalingFactorMin);
 			bundle.put(SCALE_MAX, scalingFactorMax);
 			bundle.put(MAX_FACTOR, maxFactor);
+			bundle.put(BULLET_TYPE, bulletType);
 		}
 
 		@Override
@@ -292,6 +318,7 @@ public class ArcaneFirearm extends Weapon {
 			scalingFactorMin = bundle.getFloat(SCALE_MIN);
 			scalingFactorMax = bundle.getFloat(SCALE_MAX);
 			maxFactor = bundle.getFloat(MAX_FACTOR);
+			bulletType = bundle.getEnum(BULLET_TYPE, BulletType.class);
 		}
 
 		@Override
@@ -405,10 +432,9 @@ public class ArcaneFirearm extends Weapon {
 		}
 
 		@Override
-		public void onThrow(int cell) {
-			//Do nothing...
+		public String name() {
+			return bulletType.title();
 		}
-
 	}
 	
 	private CellSelector.Listener shooter = new CellSelector.Listener() {
@@ -421,7 +447,38 @@ public class ArcaneFirearm extends Weapon {
 		}
 		@Override
 		public String prompt() {
-			return Messages.get(ArcaneFirearm.class, "prompt");
+			return Messages.get(ArcaneFirearm.class, "shoot_prompt");
+		}
+	};
+
+	private final WndBag.ItemSelector itemSelector = new WndBag.ItemSelector() {
+
+		@Override
+		public String textPrompt() {
+			return Messages.get(ArcaneFirearm.class, "load_prompt");
+		}
+
+		/*
+		@Override
+		public Class<?extends Bag> preferredBag(){ return MagicalHolster.class; }
+		*/
+
+		@Override
+		public boolean itemSelectable(Item item) { return item instanceof InventoryBullet; }
+
+		@Override
+		public void onSelect( final Item item ) {
+			if (item != null) {
+				Bullet bullet = new Bullet();
+				bullet.bulletType = ((InventoryBullet) item).bulletType;
+				((ArcaneFirearm) curItem).load(bullet);
+				if (item.quantity() > 1) item.quantity(item.quantity() - 1);
+				else item.detach(curUser.belongings.backpack);
+
+				if (((ArcaneFirearm) curItem).chamber.size() < chamber_size) {
+					((ArcaneFirearm) curItem).selectBulletToLoad(curUser);
+				}
+			}
 		}
 	};
 }
