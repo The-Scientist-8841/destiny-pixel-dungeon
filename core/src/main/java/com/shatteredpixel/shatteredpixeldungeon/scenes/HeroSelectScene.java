@@ -542,6 +542,7 @@ public class HeroSelectScene extends PixelScene {
 
 		fadeLeft.x = background.x-5;
 		fadeRight.x = background.x + background.width() + 5;
+		fadeLeft.scale.x = 60;
 
 		fadeLeft.visible = background.x > 0 || (alpha > 0 && landscape());
 		fadeRight.visible = background.x + background.width() < Camera.main.width;
