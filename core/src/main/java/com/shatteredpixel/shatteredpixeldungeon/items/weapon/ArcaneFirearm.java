@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -516,11 +517,9 @@ public class ArcaneFirearm extends Weapon {
 			return Messages.get(ArcaneFirearm.class, "load_prompt");
 		}
 
-		/*
 		@Override
-		public Class<?extends Bag> preferredBag(){ return MagicalHolster.class; }
-		*/
-
+		public Class<?extends Bag> preferredBag(){ return AmmoBag.class; }
+		
 		@Override
 		public boolean itemSelectable(Item item) { return item instanceof InventoryBullet; }
 

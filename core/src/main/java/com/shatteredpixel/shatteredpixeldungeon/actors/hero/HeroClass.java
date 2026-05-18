@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -283,6 +284,9 @@ public enum HeroClass {
 		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
 		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
 		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+
+		AmmoBag bag = new AmmoBag();
+		bag.collect();
 
 		InventoryBullet bullets = new InventoryBullet();
 		bullets.quantity(14);
