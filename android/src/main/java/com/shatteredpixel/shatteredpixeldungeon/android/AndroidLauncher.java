@@ -42,10 +42,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.services.news.News;
-import com.shatteredpixel.shatteredpixeldungeon.services.news.NewsImpl;
-import com.shatteredpixel.shatteredpixeldungeon.services.updates.UpdateImpl;
-import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 import com.watabou.input.KeyEvent;
 import com.watabou.noosa.Game;
@@ -91,12 +87,6 @@ public class AndroidLauncher extends AndroidApplication {
 			}
 
 			Gdx.app = this;
-			if (UpdateImpl.supportsUpdates()) {
-				Updates.service = UpdateImpl.getUpdateService();
-			}
-			if (NewsImpl.supportsNews()) {
-				News.service = NewsImpl.getNewsService();
-			}
 
 			FileUtils.setDefaultFileProperties(Files.FileType.Local, "");
 
@@ -113,11 +103,18 @@ public class AndroidLauncher extends AndroidApplication {
 		//Shattered still overrides the back gesture behaviour, but we need to do it in a new way
 		// (API added in Android 13, functionality enforced in Android 16)
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-			getOnBackInvokedDispatcher().registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, new OnBackInvokedCallback() {
+			//we post this to a runnable so that it's delayed and overrides
+			// default GDX back handling, which only sends a key down event
+			runnables.add(new Runnable() {
 				@Override
-				public void onBackInvoked() {
-					KeyEvent.addKeyEvent(new KeyEvent(Input.Keys.BACK, true));
-					KeyEvent.addKeyEvent(new KeyEvent(Input.Keys.BACK, false));
+				public void run() {
+					getOnBackInvokedDispatcher().registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, new OnBackInvokedCallback() {
+						@Override
+						public void onBackInvoked() {
+							KeyEvent.addKeyEvent(new KeyEvent(Input.Keys.BACK, true));
+							KeyEvent.addKeyEvent(new KeyEvent(Input.Keys.BACK, false));
+						}
+					});
 				}
 			});
 		}
@@ -156,6 +153,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onResume();
 	}
 
+	@SuppressLint("GestureBackNavigation")
 	@Override
 	public void onBackPressed() {
 		//do nothing, game should catch all back presses
