@@ -76,6 +76,9 @@ public class ArcaneFirearm extends Weapon {
 	public static final String AC_UNLOAD	= "UNLOAD";
 	public ArrayList<Bullet> chamber = new ArrayList<>();
 	public int chamber_size = 6;
+	public float loadTime = 1f;
+	public float unloadTime = 1f;
+	public ArrayList<Bullet> bulletsToLoad = new ArrayList<>();
 	
 	{
 		image = ItemSpriteSheet.ARCANE_FIREARM;
@@ -90,6 +93,8 @@ public class ArcaneFirearm extends Weapon {
 	private static final String CHAMBER = "chamber";
 	private static final String NUM_BULLETS = "num_bullets";
 	private static final String CHAMBER_SIZE = "chamber_size";
+	private static final String LOAD_TIME = "loadTime";
+	private static final String UNLOAD_TIME = "unloadTime";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
@@ -100,6 +105,8 @@ public class ArcaneFirearm extends Weapon {
 		for (int i = 0; i < chamber.size(); i += 1) {
 			bundle.put(CHAMBER + Integer.toString(i), chamber.get(i));
 		}
+		bundle.put(LOAD_TIME, loadTime);
+		bundle.put(UNLOAD_TIME, unloadTime);
 	}
 
 	@Override
@@ -114,6 +121,8 @@ public class ArcaneFirearm extends Weapon {
 			b.gun = this;
 			chamber.add(b);
 		}
+		loadTime = bundle.getFloat(LOAD_TIME);
+		unloadTime = bundle.getFloat(UNLOAD_TIME);
 	}
 	
 	@Override
@@ -129,8 +138,14 @@ public class ArcaneFirearm extends Weapon {
 
 	@Override
 	public String defaultAction() {
-		if (chamber.size() == 0) return AC_LOAD;
-		else return AC_SHOOT;
+		if (chamber.size() == 0) {
+			usesTargeting = false;
+			return AC_LOAD;
+		}
+		else {
+			usesTargeting = true;
+			return AC_SHOOT;
+		}
 	}
 	
 	@Override
@@ -143,13 +158,23 @@ public class ArcaneFirearm extends Weapon {
 				curUser = hero;
 				curItem = this;
 				GameScene.selectCell(shooter);
-
-				//TODO: MAKE THIS TAKE TIME!
 			} else {
 				failedToFire();
 			}
 		} else if (action.equals(AC_LOAD)) {
 			selectBulletToLoad(hero);
+		} else if (action.equals(AC_UNLOAD)) {
+			for (int i = 0; i < chamber.size(); i += 1) {
+				curUser = hero;
+				chamber.get(i).unload(curUser);
+			}
+			chamber.clear();
+			updateQuickslot();
+
+			hero.spend(unloadTime);
+			hero.busy();
+			hero.sprite.operate(hero.pos);
+			Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
 		}
 	}
 
@@ -221,7 +246,7 @@ public class ArcaneFirearm extends Weapon {
 
 	@Override
 	public String status() {
-		return Integer.toString(chamber.size()) + "/" + Integer.toString(chamber_size);
+		return Integer.toString(chamber.size() + bulletsToLoad.size()) + "/" + Integer.toString(chamber_size);
 	}
 	
 	@Override
@@ -265,13 +290,41 @@ public class ArcaneFirearm extends Weapon {
 		return damage;
 	}
 
-	public boolean load(Bullet bullet) {
-		if (chamber.size() < chamber_size) {
-			bullet.gun = this;
-			chamber.add(bullet);
+	public boolean load(Hero hero) {
+		boolean loadedOne = false;
 
-			return true;
-		} else return false;
+		if (bulletsToLoad.size() <= 0) return false;
+
+		for (int i = 0; i < bulletsToLoad.size(); i += 1) {
+			if (!load(bulletsToLoad.get(i))) {
+				for (int j = i; j < bulletsToLoad.size(); j += 1) {
+					bulletsToLoad.get(j).unload(hero);
+				}
+				bulletsToLoad.clear();
+				if (loadedOne) {
+					hero.spend(loadTime);
+					hero.busy();
+					hero.sprite.operate(hero.pos);
+					Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+				}
+				return false;
+			}
+			else loadedOne = true;
+		}
+		bulletsToLoad.clear();
+		updateQuickslot();
+		hero.spend(loadTime);
+		hero.busy();
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+		return true;
+	}
+
+	public boolean load(Bullet bullet) {
+		if (chamber.size() >= chamber_size) return false;
+		bullet.gun = this;
+		chamber.add(bullet);
+		return true;
 	}
 	
 	public static class Bullet extends MissileWeapon {
@@ -435,6 +488,11 @@ public class ArcaneFirearm extends Weapon {
 		public String name() {
 			return bulletType.title();
 		}
+
+		public void unload(Hero hero) {
+			InventoryBullet item = new InventoryBullet();
+			if (!item.collect()) Dungeon.level.drop(item, hero.pos);
+		}
 	}
 	
 	private CellSelector.Listener shooter = new CellSelector.Listener() {
@@ -466,19 +524,26 @@ public class ArcaneFirearm extends Weapon {
 		@Override
 		public boolean itemSelectable(Item item) { return item instanceof InventoryBullet; }
 
+		public void whenDone(Hero hero) {
+			hero.busy();
+			hero.sprite.operate(hero.pos);
+			Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+		}
+
 		@Override
 		public void onSelect( final Item item ) {
 			if (item != null) {
 				Bullet bullet = new Bullet();
 				bullet.bulletType = ((InventoryBullet) item).bulletType;
-				((ArcaneFirearm) curItem).load(bullet);
+				((ArcaneFirearm) curItem).bulletsToLoad.add(bullet);
 				if (item.quantity() > 1) item.quantity(item.quantity() - 1);
 				else item.detach(curUser.belongings.backpack);
+				updateQuickslot();
 
-				if (((ArcaneFirearm) curItem).chamber.size() < chamber_size) {
+				if (((ArcaneFirearm) curItem).bulletsToLoad.size() < chamber_size - chamber.size()) {
 					((ArcaneFirearm) curItem).selectBulletToLoad(curUser);
-				}
-			}
+				} else ((ArcaneFirearm) curItem).load(curUser);
+			} else ((ArcaneFirearm) curItem).load(curUser);
 		}
 	};
 }
