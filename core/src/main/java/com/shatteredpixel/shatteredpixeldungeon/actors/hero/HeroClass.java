@@ -365,7 +365,7 @@ public enum HeroClass {
 			case CLERIC:
 				return Assets.Splashes.CLERIC;
 			case ARTIFICER:
-				return Assets.Splashes.ARTIFICER;
+				return Assets.Splashes.SEWERS;
 		}
 	}
 	
