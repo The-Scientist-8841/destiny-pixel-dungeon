@@ -63,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
@@ -1279,12 +1280,10 @@ public abstract class Mob extends Char {
 				debugThing.collect();
 				KingsCrown debugThing2 = new KingsCrown();
 				debugThing2.collect();
-				Item debugThing6 = Generator.randomUsingDefaults(Generator.Category.POTION);
-				debugThing6.collect();
-				Item debugThing7 = Generator.randomUsingDefaults(Generator.Category.MISSILE);
-				debugThing7.collect();
-				ScrollOfEnchantment debugThing8 = new ScrollOfEnchantment();
-				debugThing8.collect();
+				EnergyCrystal debugThing3 = new EnergyCrystal();
+				Dungeon.level.drop(debugThing3, pos);
+				ArcaneMaterial debugThing4 = new ArcaneMaterial();
+				Dungeon.level.drop(debugThing4, pos);
 			}
 		}
 		

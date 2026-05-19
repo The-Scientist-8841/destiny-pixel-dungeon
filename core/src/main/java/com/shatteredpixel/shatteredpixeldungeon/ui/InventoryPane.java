@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -77,6 +78,8 @@ public class InventoryPane extends Component {
 	private BitmapText goldTxt;
 	private Image energy;
 	private BitmapText energyTxt;
+	private Image materials;
+	private BitmapText materialsTxt;
 	private RenderedTextBlock promptTxt;
 
 	private ArrayList<BagButton> bags;
@@ -172,6 +175,12 @@ public class InventoryPane extends Component {
 		energyTxt.hardlight(0x44CCFF);
 		add(energyTxt);
 
+		materials = Icons.get(Icons.MATERIAL_SML);
+		add(materials);
+		materialsTxt = new BitmapText(PixelScene.pixelFont);
+		materialsTxt.hardlight(0xFFEEEE);
+		add(materialsTxt);
+
 		promptTxt = PixelScene.renderTextBlock(6);
 		promptTxt.hardlight(Window.TITLE_COLOR);
 		add(promptTxt);
@@ -243,6 +252,13 @@ public class InventoryPane extends Component {
 		energy.x = energyTxt.x + energyTxt.width() + 1;
 		energy.y = energyTxt.y;
 
+		materialsTxt.x = energy.x + energy.width() + 2;
+		materialsTxt.y = y + 5.5f + 24f;
+		PixelScene.align(materialsTxt);
+
+		materials.x = materialsTxt.x + materialsTxt.width() + 1;
+		materials.y = materialsTxt.y;
+
 		for (BagButton b : bags){
 			b.setRect(left, y + 14 + 24, SLOT_WIDTH, 14);
 			left = b.right()+1;
@@ -276,6 +292,8 @@ public class InventoryPane extends Component {
 		goldTxt.alpha(value);
 		energy.alpha(value);
 		energyTxt.alpha(value);
+		materials.alpha(value);
+		materialsTxt.alpha(value);
 
 		for (BagButton bag : bags){
 			bag.alpha( value );
@@ -347,12 +365,17 @@ public class InventoryPane extends Component {
 			energyTxt.text(Integer.toString(Dungeon.energy));
 			energyTxt.measure();
 			energyTxt.visible = energy.visible = Dungeon.energy > 0;
+
+			materialsTxt.text(Integer.toString(Dungeon.materials));
+			materialsTxt.measure();
+			materialsTxt.visible = materials.visible = Dungeon.hero.heroClass == HeroClass.ARTIFICER;
 		} else {
 			promptTxt.text(selector.textPrompt());
 			promptTxt.visible = true;
 
 			goldTxt.visible = gold.visible = false;
 			energyTxt.visible = energy.visible = false;
+			materialsTxt.visible = materials.visible = false;
 		}
 
 		ArrayList<Bag> inventBags = stuff.getBags();
@@ -385,6 +408,8 @@ public class InventoryPane extends Component {
 		gold.alpha( lastEnabled ? 1f : 0.3f );
 		energyTxt.alpha( lastEnabled ? 1f : 0.3f );
 		energy.alpha( lastEnabled ? 1f : 0.3f );
+		materialsTxt.alpha( lastEnabled ? 1f : 0.3f);
+		materials.alpha( lastEnabled ? 1f : 0.3f );
 
 		layout();
 	}
@@ -479,6 +504,8 @@ public class InventoryPane extends Component {
 			gold.alpha( lastEnabled ? 1f : 0.3f );
 			energyTxt.alpha( lastEnabled ? 1f : 0.3f );
 			energy.alpha( lastEnabled ? 1f : 0.3f );
+			materialsTxt.alpha( lastEnabled ? 1f : 0.3f );
+			materials.alpha( lastEnabled ? 1f : 0.3f );
 		}
 
 	}

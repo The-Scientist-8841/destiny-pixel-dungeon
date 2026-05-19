@@ -120,6 +120,7 @@ public enum Icons {
 	CHAL_COUNT,
 	COIN_SML,
 	ENERGY_SML,
+	MATERIAL_SML,
 	BACKPACK,
 	SEED_POUCH,
 	SCROLL_HOLDER,
@@ -386,6 +387,9 @@ public enum Icons {
 				break;
 			case ENERGY_SML:
 				icon.frame( icon.texture.uvRectBySize( 168, 88, 8, 7 ) );
+				break;
+			case MATERIAL_SML:
+				icon.frame(icon.texture.uvRectBySize(160,88,8,8));
 				break;
 			case BACKPACK:
 				icon.frame( icon.texture.uvRectBySize( 176, 80, 10, 10 ) );

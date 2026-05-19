@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -69,7 +70,7 @@ public class WndBag extends WndTabbed {
 
 	protected static final int SLOT_MARGIN	= 1;
 	
-	protected static final int TITLE_HEIGHT	= 14;
+	protected static final int TITLE_HEIGHT	= 14 + 3;
 	
 	private ItemSelector selector;
 
@@ -179,8 +180,9 @@ public class WndBag extends WndTabbed {
 
 		float titleWidth;
 		if (Dungeon.energy == 0) {
+			//Just gold
 			ItemSprite gold = new ItemSprite(ItemSpriteSheet.GOLD, null);
-			gold.x = width - gold.width();
+			gold.x = width - gold.width() - 1;
 			gold.y = (TITLE_HEIGHT - gold.height()) / 2f;
 			PixelScene.align(gold);
 			add(gold);
@@ -188,14 +190,33 @@ public class WndBag extends WndTabbed {
 			BitmapText amt = new BitmapText(Integer.toString(Dungeon.gold), PixelScene.pixelFont);
 			amt.hardlight(TITLE_COLOR);
 			amt.measure();
-			amt.x = width - gold.width() - amt.width() - 1;
+			amt.x = width - gold.width() - amt.width() - 1 - 1;
 			amt.y = (TITLE_HEIGHT - amt.baseLine()) / 2f - 1;
 			PixelScene.align(amt);
 			add(amt);
 
 			titleWidth = amt.x;
-		} else {
 
+			if (Dungeon.hero.heroClass == HeroClass.ARTIFICER) {
+				float left = amt.x - 2;
+
+				Image materials = new ItemSprite(ItemSpriteSheet.ARCANE_MATERIAL, null);
+				materials.x = left - materials.width();
+				materials.y = (TITLE_HEIGHT - materials.height()) / 2f;
+				PixelScene.align(materials);
+				add(materials);
+
+				amt = new BitmapText(Integer.toString(Dungeon.materials), PixelScene.pixelFont);
+				amt.hardlight(0xFFEEEE);
+				amt.measure();
+				amt.x = left - materials.width() - amt.width() - 1;
+				amt.y = (TITLE_HEIGHT - amt.baseLine()) / 2f - 1;
+				PixelScene.align(amt);
+				add(amt);
+
+				titleWidth = Math.min(titleWidth, amt.x);
+			}
+		} else {
 			Image gold = Icons.get(Icons.COIN_SML);
 			gold.x = width - gold.width() - 0.5f;
 			gold.y = 0;
@@ -211,6 +232,7 @@ public class WndBag extends WndTabbed {
 			add(amt);
 
 			titleWidth = amt.x;
+			float left = amt.x - 2;
 
 			Image energy = Icons.get(Icons.ENERGY_SML);
 			energy.x = width - energy.width();
@@ -227,6 +249,25 @@ public class WndBag extends WndTabbed {
 			add(amt);
 
 			titleWidth = Math.min(titleWidth, amt.x);
+			left = Math.min(left, amt.x - 2);
+
+			if (Dungeon.hero.heroClass == HeroClass.ARTIFICER) {
+				Image materials = new ItemSprite(ItemSpriteSheet.ARCANE_MATERIAL, null);
+				materials.x = left - materials.width();
+				materials.y = (TITLE_HEIGHT - materials.height()) / 2f;
+				PixelScene.align(materials);
+				add(materials);
+
+				amt = new BitmapText(Integer.toString(Dungeon.materials), PixelScene.pixelFont);
+				amt.hardlight(0xFFEEEE);
+				amt.measure();
+				amt.x = left - materials.width() - amt.width() - 1;
+				amt.y = (TITLE_HEIGHT - amt.baseLine()) / 2f - 1;
+				PixelScene.align(amt);
+				add(amt);
+
+				titleWidth = Math.min(titleWidth, amt.x);
+			}
 		}
 
 		String title = selector != null ? selector.textPrompt() : null;
