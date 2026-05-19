@@ -462,10 +462,9 @@ public class Generator {
 					Dagger.class,
 					Gloves.class,
 					Rapier.class,
-					Cudgel.class,
-					ArcaneFirearm.class
+					Cudgel.class
 			};
-			WEP_T1.defaultProbs = new float[]{ 2, 0, 2, 2, 2, 2, 0 };
+			WEP_T1.defaultProbs = new float[]{ 2, 0, 2, 2, 2, 2 };
 			WEP_T1.probs = WEP_T1.defaultProbs.clone();
 			
 			WEP_T2.classes = new Class<?>[]{

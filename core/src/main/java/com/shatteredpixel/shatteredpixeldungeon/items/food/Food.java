@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -122,6 +123,8 @@ public class Food extends Item {
 			foodVal *= 0.67f;
 			GLog.n( Messages.get(Hunger.class, "cursedhorn") );
 		}
+
+		if (hero.heroClass == HeroClass.WARRIOR) foodVal *= 1.1f;
 
 		Buff.affect(hero, Hunger.class).satisfy(foodVal);
 	}

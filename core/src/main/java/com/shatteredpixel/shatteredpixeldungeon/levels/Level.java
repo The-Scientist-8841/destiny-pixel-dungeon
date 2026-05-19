@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SacrificialParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -225,6 +226,16 @@ public abstract class Level implements Bundlable {
 				Dungeon.LimitedDrops.STRENGTH_POTIONS.count++;
 				addItemToSpawn( new PotionOfStrength() );
 			}
+			int materialsToSpawn = Dungeon.materialsNeeded();
+			for (int i = 0; i < materialsToSpawn; i += 1) {
+				Dungeon.LimitedDrops.ARCANE_MATERIALS.count += 1;
+				addItemToSpawn(new ArcaneMaterial());
+			}
+			int bonusMaterials = Dungeon.bonusMaterialsNeeded();
+			for (int i = 0; i < bonusMaterials; i += 1) {
+				addItemToSpawn(new ArcaneMaterial());
+			}
+
 			if (Dungeon.souNeeded()) {
 				Dungeon.LimitedDrops.UPGRADE_SCROLLS.count++;
 				//every 2nd scroll of upgrade is removed with forbidden runes challenge on

@@ -1280,10 +1280,6 @@ public abstract class Mob extends Char {
 				debugThing.collect();
 				KingsCrown debugThing2 = new KingsCrown();
 				debugThing2.collect();
-				EnergyCrystal debugThing3 = new EnergyCrystal();
-				Dungeon.level.drop(debugThing3, pos);
-				ArcaneMaterial debugThing4 = new ArcaneMaterial();
-				Dungeon.level.drop(debugThing4, pos);
 			}
 		}
 		

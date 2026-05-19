@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -52,6 +53,7 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -91,6 +93,8 @@ public class Item implements Bundlable {
 	// Unique items persist through revival
 	public boolean unique = false;
 
+	public boolean hasBeenPickedUp = false;
+
 	// These items are preserved even if the hero's inventory is lost via unblessed ankh
 	// this is largely set by the resurrection window, items can override this to always be kept
 	public boolean keptThoughLostInvent = false;
@@ -124,7 +128,10 @@ public class Item implements Bundlable {
 
 	public boolean doPickUp(Hero hero, int pos) {
 		if (collect( hero.belongings.backpack )) {
-			
+			if (!hasBeenPickedUp && hero.heroClass == HeroClass.MAGE && Random.Int(20) < 1) {
+				cursedKnown = true;
+			}
+			hasBeenPickedUp = true;
 			GameScene.pickUp( this, pos );
 			Sample.INSTANCE.play( Assets.Sounds.ITEM );
 			hero.spendAndNext( pickupDelay() );

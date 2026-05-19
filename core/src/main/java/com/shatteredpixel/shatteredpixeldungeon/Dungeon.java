@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.PowerOfMany;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
@@ -142,7 +143,10 @@ public class Dungeon {
 		LORE_PRISON,
 		LORE_CAVES,
 		LORE_CITY,
-		LORE_HALLS;
+		LORE_HALLS,
+
+		//Artificer stuff
+		ARCANE_MATERIALS;
 
 		public int count = 0;
 
@@ -541,6 +545,25 @@ public class Dungeon {
 		if (targetPOSLeft < posLeftThisSet) return true;
 		else return false;
 
+	}
+
+	public static int materialsNeeded() {
+		//5 Arcane Materials each floor set
+		int materialsLeftThisSet = 5 - (LimitedDrops.ARCANE_MATERIALS.count - (depth / 5) * 2);
+		if (materialsLeftThisSet <= 0 || hero.heroClass != HeroClass.ARTIFICER) return 0;
+
+		int floorThisSet = (depth % 5);
+		if (floorThisSet == 4) return materialsLeftThisSet;
+		else return Random.Int(materialsLeftThisSet);
+	}
+
+	public static int bonusMaterialsNeeded() {
+		if (hero.heroClass != HeroClass.ARTIFICER) return 0;
+		//10% chance to spawn bonus materials, two rolls
+		int result = 0;
+		if (Random.Int(10) < 1) result += 1;
+		if (Random.Int(10) < 1) result += 1;
+		return result;
 	}
 	
 	public static boolean souNeeded() {

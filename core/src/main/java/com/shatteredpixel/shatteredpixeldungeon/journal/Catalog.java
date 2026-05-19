@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
@@ -112,6 +113,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
@@ -150,9 +152,7 @@ public enum Catalog {
 	TIPPED_DARTS,
 	BREWS_ELIXIRS,
 	SPELLS,
-	MISC_CONSUMABLES,
-
-	EVIL_BOOK;
+	MISC_CONSUMABLES;
 
 	//tracks whether an item has been collected while identified
 	private final LinkedHashMap<Class<?>, Boolean> seen = new LinkedHashMap<>();
@@ -221,8 +221,8 @@ public enum Catalog {
 
 		TRINKETS.addItems(Generator.Category.TRINKET.classes);
 
-		MISC_EQUIPMENT.addItems(BrokenSeal.class, SpiritBow.class, Waterskin.class, VelvetPouch.class,
-				PotionBandolier.class, ScrollHolder.class, MagicalHolster.class, Amulet.class);
+		MISC_EQUIPMENT.addItems(BrokenSeal.class, SpiritBow.class, ArcaneFirearm.class, Waterskin.class, VelvetPouch.class,
+				PotionBandolier.class, ScrollHolder.class, MagicalHolster.class, Amulet.class, EvilBook.class);
 
 
 
@@ -256,15 +256,13 @@ public enum Catalog {
 				Alchemize.class, CurseInfusion.class, MagicalInfusion.class, Recycle.class,
 				ReclaimTrap.class, SummonElemental.class, BeaconOfReturning.class);
 
-		MISC_CONSUMABLES.addItems( Gold.class, EnergyCrystal.class, Dewdrop.class,
+		MISC_CONSUMABLES.addItems( Gold.class, EnergyCrystal.class, ArcaneMaterial.class, Dewdrop.class,
 				IronKey.class, GoldenKey.class, CrystalKey.class, WornKey.class,
 				TrinketCatalyst.class, Stylus.class, Torch.class, Honeypot.class, Ankh.class,
 				CorpseDust.class, Embers.class, CeremonialCandle.class, DarkGold.class, DwarfToken.class,
 				GooBlob.class, TengusMask.class, MetalShard.class, KingsCrown.class,
 				LiquidMetal.class, ArcaneResin.class,
 				SealShard.class, BrokenStaff.class, CloakScrap.class, BowFragment.class, BrokenHilt.class, TornPage.class);
-
-		EVIL_BOOK.addItems(EvilBook.class);
 
 	}
 
@@ -292,7 +290,6 @@ public enum Catalog {
 		equipmentCatalogs.add(ARTIFACTS);
 		equipmentCatalogs.add(TRINKETS);
 		equipmentCatalogs.add(MISC_EQUIPMENT);
-		equipmentCatalogs.add(EVIL_BOOK);
 	}
 
 	public static ArrayList<Catalog> consumableCatalogs = new ArrayList<>();

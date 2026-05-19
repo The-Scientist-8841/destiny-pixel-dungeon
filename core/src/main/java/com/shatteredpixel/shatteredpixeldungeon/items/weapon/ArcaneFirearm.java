@@ -198,11 +198,13 @@ public class ArcaneFirearm extends Weapon {
 				min(),
 				max(),
 				STRReq());
-		
-		if (STRReq() > Dungeon.hero.STR()) {
-			info += " " + Messages.get(Weapon.class, "too_heavy");
-		} else if (Dungeon.hero.STR() > STRReq()){
-			info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+
+		if (Dungeon.hero != null) {
+			if (STRReq() > Dungeon.hero.STR()) {
+				info += " " + Messages.get(Weapon.class, "too_heavy");
+			} else if (Dungeon.hero.STR() > STRReq()) {
+				info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+			}
 		}
 
 		if (chamber.size() > 0) {
