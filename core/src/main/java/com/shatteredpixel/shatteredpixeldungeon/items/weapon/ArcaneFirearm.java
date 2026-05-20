@@ -484,7 +484,7 @@ public class ArcaneFirearm extends Weapon {
 
 		@Override
 		public void throwSound() {
-			Sample.INSTANCE.play( Assets.Sounds.HIT_MAGIC, 1, Random.Float(0.4f, 0.6f) );
+			Sample.INSTANCE.play( Assets.Sounds.HIT_MAGIC, 1.5f, Random.Float(0.2f, 0.3f) );
 		}
 
 		@Override

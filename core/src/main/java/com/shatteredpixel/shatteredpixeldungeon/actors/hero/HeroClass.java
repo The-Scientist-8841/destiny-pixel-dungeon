@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -285,6 +286,10 @@ public enum HeroClass {
 		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
 		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
 
+		Toolbox toolbox = new Toolbox();
+		(hero.belongings.artifact = toolbox).identify();
+		hero.belongings.artifact.activate(hero);
+
 		AmmoBag bag = new AmmoBag();
 		bag.collect();
 
@@ -293,6 +298,7 @@ public enum HeroClass {
 		bullets.collect();
 
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
+		Dungeon.quickslot.setSlot(1, toolbox);
 
 		new PotionOfToxicGas().identify();
 		new ScrollOfTransmutation().identify();
