@@ -8,4 +8,6 @@ public enum BulletType {
     public String title() {
         return Messages.get(this, name() + ".title");
     }
+
+    //Put onHit functions, etc. in here.
 }
