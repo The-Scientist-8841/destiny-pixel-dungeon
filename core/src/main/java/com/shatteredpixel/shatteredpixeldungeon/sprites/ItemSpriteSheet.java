@@ -158,6 +158,7 @@ public class ItemSpriteSheet {
 	public static final int BROKEN_HILT     = MISC_CONSUMABLE +20;
 	public static final int TORN_PAGE       = MISC_CONSUMABLE +21;
 	public static final int TRINKET_CATA    = MISC_CONSUMABLE +22;
+	public static final int ARCANE_PIECE	= MISC_CONSUMABLE +23;
 
 	static{
 		assignItemRect(ANKH,            10, 16);
@@ -184,7 +185,8 @@ public class ItemSpriteSheet {
 		assignItemRect(CLOAK_SCRAP,      9,  9);
 		assignItemRect(BOW_FRAGMENT,    12,  9);
 		assignItemRect(BROKEN_HILT,      9,  9);
-		assignItemRect(TORN_PAGE,       11, 13);
+		assignItemRect(TORN_PAGE,       11,	13);
+		assignItemRect(ARCANE_PIECE,	10,	11);
 
 		assignItemRect(TRINKET_CATA,    12, 11);
 	}
