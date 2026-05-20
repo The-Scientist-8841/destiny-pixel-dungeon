@@ -2525,14 +2525,14 @@ public class Hero extends Char {
 
 			if (Dungeon.depth <= 10) {
 				int chanceToDropMaterial = Dungeon.depth / 5 + 1;
-				if (Random.Int(3) < chanceToDropMaterial) Dungeon.level.drop(new ArcaneMaterial(), curAction.dst);
+				if (Random.Int(3) < chanceToDropMaterial) Dungeon.level.drop(new ArcaneMaterial(), curAction.dst).sprite.drop();
 			} else {
 				int chanceToDropBonusMaterial = Dungeon.depth / 5 - 1;
 				int qty = 1;
 				if (Random.Int(10) < chanceToDropBonusMaterial) qty = 2;
 				ArcaneMaterial bonus = new ArcaneMaterial();
 				bonus.quantity(qty);
-				Dungeon.level.drop(bonus, curAction.dst);
+				Dungeon.level.drop(bonus, curAction.dst).sprite.drop();
 			}
 
 			if (toolbox != null) spend(toolbox.disarm_time);
