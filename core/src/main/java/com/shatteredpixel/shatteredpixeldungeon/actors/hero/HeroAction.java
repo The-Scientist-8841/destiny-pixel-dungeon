@@ -88,4 +88,8 @@ public class HeroAction {
 			this.target = target;
 		}
 	}
+
+	public static class Disarm extends HeroAction {
+		public Disarm(int trap) { this.dst = trap; }
+	}
 }

@@ -86,6 +86,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.EvilBook;
@@ -111,6 +112,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArm
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SkeletonKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
@@ -961,7 +963,8 @@ public class Hero extends Char {
 				
 			} else if (curAction instanceof HeroAction.Alchemy) {
 				actResult = actAlchemy( (HeroAction.Alchemy)curAction );
-				
+			} else if (curAction instanceof HeroAction.Disarm) {
+				actResult = actDisarm( (HeroAction.Disarm)curAction);
 			} else {
 				actResult = false;
 			}
@@ -1492,6 +1495,38 @@ public class Hero extends Char {
 				return false;
 			}
 
+		}
+	}
+
+	private boolean actDisarm( HeroAction.Disarm action ) {
+		int dst = action.dst;
+		Toolbox toolbox = belongings.getItem(Toolbox.class);
+		if (toolbox == null || !toolbox.canDisarm()) {
+			ready();
+			return false;
+		}
+
+		if (Dungeon.level.adjacent( pos, dst ) || pos == dst) {
+			path = null;
+
+			Trap trap = Dungeon.level.traps.get( dst );
+			if (trap != null && trap.visible && trap.active) {
+				Sample.INSTANCE.play(Assets.Sounds.TRAP);
+
+				sprite.operate( dst );
+			} else {
+				ready();
+			}
+
+			return false;
+
+		} else if (getCloser( dst )) {
+
+			return true;
+
+		} else {
+			ready();
+			return false;
 		}
 	}
 
@@ -2481,6 +2516,27 @@ public class Hero extends Char {
 				}
 			}
 			
+		} else if (curAction instanceof HeroAction.Disarm) {
+			Trap trap = Dungeon.level.traps.get(((HeroAction.Disarm)curAction).dst);
+			trap.disarm();
+
+			Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
+			if (toolbox != null) toolbox.spendCharge(1);
+
+			if (Dungeon.depth <= 10) {
+				int chanceToDropMaterial = Dungeon.depth / 5 + 1;
+				if (Random.Int(3) < chanceToDropMaterial) Dungeon.level.drop(new ArcaneMaterial(), curAction.dst);
+			} else {
+				int chanceToDropBonusMaterial = Dungeon.depth / 5 - 1;
+				int qty = 1;
+				if (Random.Int(10) < chanceToDropBonusMaterial) qty = 2;
+				ArcaneMaterial bonus = new ArcaneMaterial();
+				bonus.quantity(qty);
+				Dungeon.level.drop(bonus, curAction.dst);
+			}
+
+			if (toolbox != null) spend(toolbox.disarm_time);
+			else spend(3f);
 		}
 		curAction = null;
 

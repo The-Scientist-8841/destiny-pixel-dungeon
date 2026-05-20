@@ -27,16 +27,19 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.ClericSpell;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.GuidingLight;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -67,10 +70,14 @@ public class Toolbox extends Artifact {
 		bones = false;
 	}
 
+	public Artifact artifact = null;
+	public float disarm_time = 3f;
+
 	public static final String AC_CRAFT = "CRAFT";
 	public static final String AC_DISARM = "DISARM";
 	public static final String AC_ARM = "ARM";
 	public static final String AC_AFFIX = "AFFIX";
+	public static final String AC_ARTIFACT = "ARTIFACT";
 
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
@@ -79,41 +86,37 @@ public class Toolbox extends Artifact {
 			actions.add(AC_CRAFT);
 
 			if (charge >= 1) {
-				for (int i : PathFinder.NEIGHBOURS8) {
-					Trap t = Dungeon.level.traps.get(hero.pos + i);
-					if (t != null && t.active && t.visible) {
-						actions.add(AC_DISARM);
+				actions.add(AC_DISARM);
+				actions.add(AC_ARM);
+			}
+
+			if (artifact == null) {
+				boolean canAffix = false;
+				ArrayList<Artifact> heroArtifacts = hero.belongings.getAllItems(Artifact.class);
+				for (int i = 0; i < heroArtifacts.size(); i += 1) {
+					Artifact thisArtifact = heroArtifacts.get(i);
+					if (!(thisArtifact instanceof Toolbox) && thisArtifact.isIdentified()) {
+						canAffix = true;
 						break;
 					}
 				}
-
-				for (int i : PathFinder.NEIGHBOURS9) {
-					Trap t = Dungeon.level.traps.get(hero.pos + i);
-					if (t != null && !t.active && t.visible) {
-						actions.add(AC_ARM);
-						break;
-					}
-				}
+				if (canAffix) actions.add(AC_AFFIX);
+			} else {
+				actions.add(AC_ARTIFACT);
 			}
-
-			boolean canAffix = false;
-			ArrayList<Artifact> heroArtifacts = hero.belongings.getAllItems(Artifact.class);
-			for (int i = 0; i < heroArtifacts.size(); i += 1) {
-				Artifact thisArtifact = heroArtifacts.get(i);
-				if (!(thisArtifact instanceof Toolbox) && thisArtifact.isIdentified()) {
-					canAffix = true;
-					break;
-				}
-			}
-			if (canAffix) actions.add(AC_AFFIX);
 		}
 		return actions;
 	}
 
 	@Override
 	public void execute( Hero hero, String action ) {
-
 		super.execute(hero, action);
+
+		if (action.equals(AC_DISARM)) {
+			curUser = hero;
+			curItem = this;
+			GameScene.selectCell(disarmer);
+		}
 	}
 
 	@Override
@@ -137,6 +140,10 @@ public class Toolbox extends Artifact {
 	@Override
 	public void activate(Char ch) {
 		//Do nothing, for now.
+	}
+
+	public boolean canDisarm() {
+		return charge >= 1;
 	}
 
 	public void spendCharge( float chargesSpent ){
@@ -210,14 +217,36 @@ public class Toolbox extends Artifact {
 		}
 	}
 
+	private static final String ARTIFACT = "artifact";
+	private static final String DISARM_TIME = "disarm_time";
+
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
+
+		bundle.put(ARTIFACT, artifact);
+		bundle.put(DISARM_TIME, disarm_time);
 	}
 
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
+
+		artifact = (Artifact) bundle.get(ARTIFACT);
+		disarm_time = bundle.getInt(DISARM_TIME);
 	}
 
+	private CellSelector.Listener disarmer = new CellSelector.Listener() {
+		@Override
+		public void onSelect( Integer target ) {
+			if (target != null) {
+				curUser.curAction = new HeroAction.Disarm(target);
+				curUser.next();
+			}
+		}
+		@Override
+		public String prompt() {
+			return Messages.get(ArcaneFirearm.class, "disarm_prompt");
+		}
+	};
 }
