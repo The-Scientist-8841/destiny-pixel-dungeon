@@ -590,6 +590,7 @@ public class Item implements Bundlable {
 	private static final String QUICKSLOT		= "quickslotpos";
 	private static final String KEPT_LOST       = "kept_lost";
 	private static final String CUSTOM_NOTE_ID = "custom_note_id";
+	private static final String HAS_BEEN_PICKED_UP = "hasBeenPickedUp";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -603,6 +604,7 @@ public class Item implements Bundlable {
 		}
 		bundle.put( KEPT_LOST, keptThoughLostInvent );
 		if (customNoteID != -1)     bundle.put(CUSTOM_NOTE_ID, customNoteID);
+		bundle.put(HAS_BEEN_PICKED_UP, hasBeenPickedUp);
 	}
 	
 	@Override
@@ -629,6 +631,8 @@ public class Item implements Bundlable {
 
 		keptThoughLostInvent = bundle.getBoolean( KEPT_LOST );
 		if (bundle.contains(CUSTOM_NOTE_ID))    customNoteID = bundle.getInt(CUSTOM_NOTE_ID);
+
+		hasBeenPickedUp = bundle.getBoolean(HAS_BEEN_PICKED_UP);
 	}
 
 	public int targetingPos( Hero user, int dst ){
