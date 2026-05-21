@@ -336,7 +336,7 @@ public class ArcaneFirearm extends Weapon {
 		public int baseDmg = 3;
 		public float scalingFactorMin = 1f;
 		public float scalingFactorMax = 2f;
-		public float maxFactor = 5f;
+		public float maxFactor = 2f;
 		public BulletType bulletType = BulletType.BULLET;
 		
 		{
