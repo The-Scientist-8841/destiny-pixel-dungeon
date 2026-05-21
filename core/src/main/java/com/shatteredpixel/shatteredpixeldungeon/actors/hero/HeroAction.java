@@ -92,4 +92,8 @@ public class HeroAction {
 	public static class Disarm extends HeroAction {
 		public Disarm(int trap) { this.dst = trap; }
 	}
+
+	public static class Arm extends HeroAction {
+		public Arm(int trap) { this.dst = trap; }
+	}
 }

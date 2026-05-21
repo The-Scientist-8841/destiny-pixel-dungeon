@@ -72,6 +72,8 @@ public class Toolbox extends Artifact {
 
 	public Artifact artifact = null;
 	public float disarm_time = 3f;
+	public float arm_time = 3f;
+	public int arm_material_cost = 2;
 
 	public static final String AC_CRAFT = "CRAFT";
 	public static final String AC_DISARM = "DISARM";
@@ -85,10 +87,8 @@ public class Toolbox extends Artifact {
 		if (isEquipped( hero ) && !cursed && hero.buff(MagicImmune.class) == null)  {
 			actions.add(AC_CRAFT);
 
-			if (charge >= 1) {
-				actions.add(AC_DISARM);
-				actions.add(AC_ARM);
-			}
+			if (canDisarm()) actions.add(AC_DISARM);
+			if (canArm()) actions.add(AC_ARM);
 
 			if (artifact == null) {
 				boolean canAffix = false;
@@ -116,6 +116,14 @@ public class Toolbox extends Artifact {
 			curUser = hero;
 			curItem = this;
 			GameScene.selectCell(disarmer);
+		} else if (action.equals(AC_ARM)) {
+			curUser = hero;
+			curItem = this;
+			GameScene.selectCell(armer);
+		} else if (action.equals(AC_CRAFT)) {
+			Dungeon.materials += 100;
+			directCharge(3f);
+			updateQuickslot();
 		}
 	}
 
@@ -146,7 +154,9 @@ public class Toolbox extends Artifact {
 		return charge >= 1;
 	}
 
-	public void spendCharge( float chargesSpent ){
+	public boolean canArm() { return charge >= 1 && Dungeon.materials >= arm_material_cost;}
+
+	public void spendCharge( float chargesSpent ) {
 		partialCharge -= chargesSpent;
 		while (partialCharge < 0){
 			charge--;
@@ -219,6 +229,8 @@ public class Toolbox extends Artifact {
 
 	private static final String ARTIFACT = "artifact";
 	private static final String DISARM_TIME = "disarm_time";
+	private static final String ARM_TIME = "arm_time";
+	private static final String ARM_MATERIAL_COST = "arm_material_cost";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
@@ -226,6 +238,8 @@ public class Toolbox extends Artifact {
 
 		bundle.put(ARTIFACT, artifact);
 		bundle.put(DISARM_TIME, disarm_time);
+		bundle.put(ARM_TIME, arm_time);
+		bundle.put(ARM_MATERIAL_COST, arm_material_cost);
 	}
 
 	@Override
@@ -233,7 +247,9 @@ public class Toolbox extends Artifact {
 		super.restoreFromBundle(bundle);
 
 		artifact = (Artifact) bundle.get(ARTIFACT);
-		disarm_time = bundle.getInt(DISARM_TIME);
+		disarm_time = bundle.getFloat(DISARM_TIME);
+		arm_time = bundle.getFloat(ARM_TIME);
+		arm_material_cost = bundle.getInt(ARM_MATERIAL_COST);
 	}
 
 	private CellSelector.Listener disarmer = new CellSelector.Listener() {
@@ -246,7 +262,21 @@ public class Toolbox extends Artifact {
 		}
 		@Override
 		public String prompt() {
-			return Messages.get(ArcaneFirearm.class, "disarm_prompt");
+			return Messages.get(Toolbox.class, "disarm_prompt");
+		}
+	};
+
+	private CellSelector.Listener armer = new CellSelector.Listener() {
+		@Override
+		public void onSelect( Integer target ) {
+			if (target != null) {
+				curUser.curAction = new HeroAction.Arm(target);
+				curUser.next();
+			}
+		}
+		@Override
+		public String prompt() {
+			return Messages.get(Toolbox.class, "arm_prompt");
 		}
 	};
 }

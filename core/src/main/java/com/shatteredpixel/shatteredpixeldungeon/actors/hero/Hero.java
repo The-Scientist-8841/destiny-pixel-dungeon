@@ -965,6 +965,8 @@ public class Hero extends Char {
 				actResult = actAlchemy( (HeroAction.Alchemy)curAction );
 			} else if (curAction instanceof HeroAction.Disarm) {
 				actResult = actDisarm( (HeroAction.Disarm)curAction);
+			} else if (curAction instanceof HeroAction.Arm) {
+				actResult = actArm( (HeroAction.Arm)curAction);
 			} else {
 				actResult = false;
 			}
@@ -1511,6 +1513,38 @@ public class Hero extends Char {
 
 			Trap trap = Dungeon.level.traps.get( dst );
 			if (trap != null && trap.visible && trap.active) {
+				Sample.INSTANCE.play(Assets.Sounds.TRAP);
+
+				sprite.operate( dst );
+			} else {
+				ready();
+			}
+
+			return false;
+
+		} else if (getCloser( dst )) {
+
+			return true;
+
+		} else {
+			ready();
+			return false;
+		}
+	}
+
+	private boolean actArm( HeroAction.Arm action ) {
+		int dst = action.dst;
+		Toolbox toolbox = belongings.getItem(Toolbox.class);
+		if (toolbox == null || !toolbox.canArm()) {
+			ready();
+			return false;
+		}
+
+		if (Dungeon.level.adjacent( pos, dst ) || pos == dst) {
+			path = null;
+
+			Trap trap = Dungeon.level.traps.get( dst );
+			if (trap != null && trap.visible && !trap.active) {
 				Sample.INSTANCE.play(Assets.Sounds.TRAP);
 
 				sprite.operate( dst );
@@ -2518,7 +2552,7 @@ public class Hero extends Char {
 			
 		} else if (curAction instanceof HeroAction.Disarm) {
 			Trap trap = Dungeon.level.traps.get(((HeroAction.Disarm)curAction).dst);
-			trap.disarm();
+			if (trap != null) trap.disarm();
 
 			Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
 			if (toolbox != null) toolbox.spendCharge(1);
@@ -2536,6 +2570,21 @@ public class Hero extends Char {
 			}
 
 			if (toolbox != null) spend(toolbox.disarm_time);
+			else spend(3f);
+		} else if (curAction instanceof HeroAction.Arm) {
+			Trap trap = Dungeon.level.traps.get(((HeroAction.Arm)curAction).dst);
+			if (trap != null) {
+				trap.active = true;
+				Level.set(curAction.dst, Terrain.TRAP);
+				GameScene.updateMap(curAction.dst);
+			}
+
+			Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
+			if (toolbox != null) {
+				toolbox.spendCharge(1);
+				Dungeon.materials -= toolbox.arm_material_cost;
+				spend(toolbox.arm_time);
+			}
 			else spend(3f);
 		}
 		curAction = null;
