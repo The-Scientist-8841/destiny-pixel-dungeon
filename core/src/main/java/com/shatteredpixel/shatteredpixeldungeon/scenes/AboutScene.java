@@ -64,6 +64,21 @@ public class AboutScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
+		//*** Destiny Pixel Dungeon Credits ***
+		CreditsBlock dspx = new CreditsBlock(true, Window.DSPX_COLOR,
+				"Destiny Pixel Dungeon",
+				Icons.THE_SCIENTIST___.get(),
+				"Developed by: _The\\_Scientist\\_\\_\\__\nBased on Shattered Pixel Dungeon's open source, which is in turn based on Pixel Dungeon's open source",
+				"thescientist8841.neocities.org",
+				"https://thescientist8841.neocities.org"
+		);
+		if (landscape()){
+			dspx.setRect(0, insets.top + 10, w, 0);
+		} else {
+			dspx.setRect(0, insets.top + 6, w, 0);
+		}
+		content.add(dspx);
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
@@ -73,9 +88,9 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, insets.top + 10, 120, 0);
+			shpx.setRect((w - fullWidth)/2f - 6, dspx.bottom() + 14, 120, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+			shpx.setRect((w - fullWidth)/2f, dspx.bottom() + 10, 120, 0);
 		}
 		content.add(shpx);
 
@@ -92,6 +107,7 @@ public class AboutScene extends PixelScene {
 			alex.setPos(w/2f - colWidth/2f, shpx.bottom()+5);
 		}
 		content.add(alex);
+		addLine(alex.top() - 4, content);
 
 		CreditsBlock celesti = new CreditsBlock(false, Window.SHPX_COLOR,
 				"Sound Effects:",

@@ -151,10 +151,10 @@ public class Toolbox extends Artifact {
 	}
 
 	public boolean canDisarm() {
-		return charge >= 1;
+		return isEquipped(Dungeon.hero) && charge >= 1;
 	}
 
-	public boolean canArm() { return charge >= 1 && Dungeon.materials >= arm_material_cost;}
+	public boolean canArm() { return isEquipped(Dungeon.hero) && charge >= 1 && Dungeon.materials >= arm_material_cost;}
 
 	public void spendCharge( float chargesSpent ) {
 		partialCharge -= chargesSpent;

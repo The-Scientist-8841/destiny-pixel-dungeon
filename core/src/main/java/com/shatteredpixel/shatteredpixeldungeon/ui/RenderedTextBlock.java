@@ -125,6 +125,33 @@ public class RenderedTextBlock extends Component {
 				words.add(NEWLINE);
 			} else if (str.equals(" ")){
 				words.add(SPACE);
+			} else if (str.equals("\\_")) {
+				if (words.isEmpty()) {
+					RenderedText word = new RenderedText("_", size);
+
+					if (highlighting) word.hardlight(hightlightColor);
+					else if (color != -1) word.hardlight(color);
+					word.scale.set(zoom);
+
+					words.add(word);
+					add(word);
+
+					if (height < word.height()) height = word.height();
+				} else {
+					RenderedText oldWord = words.get(words.size() - 1);
+					String wordStr = words.get(words.size() - 1).text() + "_";
+
+					RenderedText word = new RenderedText(wordStr, size);
+
+					if (highlighting) word.hardlight(hightlightColor);
+					else if (color != -1) word.hardlight(color);
+					word.scale.set(zoom);
+
+					words.set(words.size() - 1, word);
+					replace(oldWord, word);
+
+					if (height < word.height()) height = word.height();
+				}
 			} else {
 				RenderedText word = new RenderedText(str, size);
 				
