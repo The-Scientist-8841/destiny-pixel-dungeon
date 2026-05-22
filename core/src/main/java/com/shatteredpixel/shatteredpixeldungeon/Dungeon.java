@@ -271,6 +271,7 @@ public class Dungeon {
 
 		gold = 0;
 		energy = 0;
+		materials = 0;
 
 		droppedItems = new SparseArray<>();
 

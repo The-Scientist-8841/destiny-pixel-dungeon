@@ -47,10 +47,13 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndClericSpells;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndToolboxAbilities;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 
 import java.util.ArrayList;
+
+import javax.tools.Tool;
 
 public class Toolbox extends Artifact {
 
@@ -64,46 +67,23 @@ public class Toolbox extends Artifact {
 		partialCharge = 0;
 		chargeCap = Math.min(level()+3, 10);
 
-		defaultAction = AC_CRAFT;
+		defaultAction = AC_ABILITIES;
 
 		unique = true;
 		bones = false;
 	}
 
 	public Artifact artifact = null;
-	public float disarm_time = 3f;
-	public float arm_time = 3f;
-	public int arm_material_cost = 2;
 
 	public static final String AC_CRAFT = "CRAFT";
-	public static final String AC_DISARM = "DISARM";
-	public static final String AC_ARM = "ARM";
-	public static final String AC_AFFIX = "AFFIX";
-	public static final String AC_ARTIFACT = "ARTIFACT";
+	public static final String AC_ABILITIES = "ABILITIES";
 
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		if (isEquipped( hero ) && !cursed && hero.buff(MagicImmune.class) == null)  {
+			actions.add(AC_ABILITIES);
 			actions.add(AC_CRAFT);
-
-			if (canDisarm()) actions.add(AC_DISARM);
-			if (canArm()) actions.add(AC_ARM);
-
-			if (artifact == null) {
-				boolean canAffix = false;
-				ArrayList<Artifact> heroArtifacts = hero.belongings.getAllItems(Artifact.class);
-				for (int i = 0; i < heroArtifacts.size(); i += 1) {
-					Artifact thisArtifact = heroArtifacts.get(i);
-					if (!(thisArtifact instanceof Toolbox) && thisArtifact.isIdentified()) {
-						canAffix = true;
-						break;
-					}
-				}
-				if (canAffix) actions.add(AC_AFFIX);
-			} else {
-				actions.add(AC_ARTIFACT);
-			}
 		}
 		return actions;
 	}
@@ -112,18 +92,15 @@ public class Toolbox extends Artifact {
 	public void execute( Hero hero, String action ) {
 		super.execute(hero, action);
 
-		if (action.equals(AC_DISARM)) {
-			curUser = hero;
-			curItem = this;
-			GameScene.selectCell(disarmer);
-		} else if (action.equals(AC_ARM)) {
-			curUser = hero;
-			curItem = this;
-			GameScene.selectCell(armer);
-		} else if (action.equals(AC_CRAFT)) {
+		if (action.equals(AC_CRAFT)) {
 			Dungeon.materials += 100;
 			directCharge(3f);
 			updateQuickslot();
+		} else if (action.equals(AC_ABILITIES)) {
+			curItem = this;
+			curUser = hero;
+			//Show abilities window
+			GameScene.show(new WndToolboxAbilities(this));
 		}
 	}
 
@@ -131,14 +108,7 @@ public class Toolbox extends Artifact {
 	public String desc() {
 		//Introductory paragraph
 		String desc = Messages.get(this, "desc");
-
-		//Crafting and abilities paragraph.
-		desc += "\n\n" + Messages.get(this, "desc_base_craft");
-		desc += ". " + Messages.get(this, "desc_base_abilities") + ".";
-
-		desc += "\n\n" + Messages.get(this, "desc_level");
 		desc += "\n\n" + Messages.get(this, "desc_affix", "an", "");
-		desc += " " + Messages.get(this, "desc_deconstruct_affixed_artifact");
 
 		if (cursed) desc += "\n\n" + Messages.get(this, "desc_cursed");
 
@@ -149,12 +119,6 @@ public class Toolbox extends Artifact {
 	public void activate(Char ch) {
 		//Do nothing, for now.
 	}
-
-	public boolean canDisarm() {
-		return isEquipped(Dungeon.hero) && charge >= 1;
-	}
-
-	public boolean canArm() { return isEquipped(Dungeon.hero) && charge >= 1 && Dungeon.materials >= arm_material_cost;}
 
 	public void spendCharge( float chargesSpent ) {
 		partialCharge -= chargesSpent;
@@ -228,18 +192,12 @@ public class Toolbox extends Artifact {
 	}
 
 	private static final String ARTIFACT = "artifact";
-	private static final String DISARM_TIME = "disarm_time";
-	private static final String ARM_TIME = "arm_time";
-	private static final String ARM_MATERIAL_COST = "arm_material_cost";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 
 		bundle.put(ARTIFACT, artifact);
-		bundle.put(DISARM_TIME, disarm_time);
-		bundle.put(ARM_TIME, arm_time);
-		bundle.put(ARM_MATERIAL_COST, arm_material_cost);
 	}
 
 	@Override
@@ -247,9 +205,66 @@ public class Toolbox extends Artifact {
 		super.restoreFromBundle(bundle);
 
 		artifact = (Artifact) bundle.get(ARTIFACT);
-		disarm_time = bundle.getFloat(DISARM_TIME);
-		arm_time = bundle.getFloat(ARM_TIME);
-		arm_material_cost = bundle.getInt(ARM_MATERIAL_COST);
+	}
+
+	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
+		boolean canUse = isEquipped(hero) && charge >= ability.chargeCost() && Dungeon.materials >= ability.materialsCost();
+		if (ability == ToolboxAbilities.ARTIFACT) canUse = canUse && artifact != null;
+		return canUse;
+	}
+
+	public boolean abilityIsApplicable(ToolboxAbilities ability) {
+		if (ability == ToolboxAbilities.ARTIFACT) return artifact != null;
+
+		return true;
+	}
+
+	public void useAbility(ToolboxAbilities ability) {
+		switch (ability) {
+			case DISARM:
+				GameScene.selectCell(disarmer);
+				break;
+			case ARM:
+				GameScene.selectCell(armer);
+				break;
+			case ARTIFACT:
+				break;
+		}
+	}
+
+	public String getAbilityTitle(ToolboxAbilities ability) {
+		if (ability == ToolboxAbilities.ARTIFACT) {
+			if (artifact != null) return Messages.get(artifact.name());
+		}
+		return ability.title();
+	}
+
+	public void spendAbilityCosts(ToolboxAbilities ability) {
+		spendCharge(ability.chargeCost());
+		Dungeon.materials -= ability.materialsCost();
+	}
+
+	public enum ToolboxAbilities {
+		DISARM(1, 0, 3f),
+		ARM(1, 1, 3f),
+		ARTIFACT(0,0, 3f);
+
+		private final int chargeCost, materialsCost;
+		private final float timeToUse;
+
+		ToolboxAbilities(int charge_cost, int materials_cost, float time_to_use) {
+			this.chargeCost = charge_cost;
+			this.materialsCost = materials_cost;
+			this.timeToUse = time_to_use;
+		}
+
+		private String title() {
+			return Messages.get(this, name() + ".title");
+		}
+
+		public int chargeCost() { return chargeCost; }
+		public int materialsCost() { return materialsCost; }
+		public float timeToUse() { return timeToUse; }
 	}
 
 	private CellSelector.Listener disarmer = new CellSelector.Listener() {

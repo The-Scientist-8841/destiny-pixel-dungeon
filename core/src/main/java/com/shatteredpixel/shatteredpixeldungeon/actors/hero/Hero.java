@@ -1503,7 +1503,7 @@ public class Hero extends Char {
 	private boolean actDisarm( HeroAction.Disarm action ) {
 		int dst = action.dst;
 		Toolbox toolbox = belongings.getItem(Toolbox.class);
-		if (toolbox == null || !toolbox.canDisarm()) {
+		if (toolbox == null || !toolbox.canUseAbility(this, Toolbox.ToolboxAbilities.DISARM)) {
 			ready();
 			return false;
 		}
@@ -1535,7 +1535,7 @@ public class Hero extends Char {
 	private boolean actArm( HeroAction.Arm action ) {
 		int dst = action.dst;
 		Toolbox toolbox = belongings.getItem(Toolbox.class);
-		if (toolbox == null || !toolbox.canArm()) {
+		if (toolbox == null || !toolbox.canUseAbility(this, Toolbox.ToolboxAbilities.ARM)) {
 			ready();
 			return false;
 		}
@@ -2553,10 +2553,6 @@ public class Hero extends Char {
 		} else if (curAction instanceof HeroAction.Disarm) {
 			Trap trap = Dungeon.level.traps.get(((HeroAction.Disarm)curAction).dst);
 			if (trap != null) trap.disarm();
-
-			Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
-			if (toolbox != null) toolbox.spendCharge(1);
-
 			if (Dungeon.depth <= 10) {
 				int chanceToDropMaterial = Dungeon.depth / 5 + 1;
 				if (Random.Int(3) < chanceToDropMaterial) Dungeon.level.drop(new ArcaneMaterial(), curAction.dst).sprite.drop();
@@ -2569,8 +2565,9 @@ public class Hero extends Char {
 				Dungeon.level.drop(bonus, curAction.dst).sprite.drop();
 			}
 
-			if (toolbox != null) spend(toolbox.disarm_time);
-			else spend(3f);
+			Toolbox toolbox = belongings.getItem(Toolbox.class);
+			if (toolbox != null) toolbox.spendAbilityCosts(Toolbox.ToolboxAbilities.DISARM);
+			spend(Toolbox.ToolboxAbilities.DISARM.timeToUse());
 		} else if (curAction instanceof HeroAction.Arm) {
 			Trap trap = Dungeon.level.traps.get(((HeroAction.Arm)curAction).dst);
 			if (trap != null) {
@@ -2579,13 +2576,9 @@ public class Hero extends Char {
 				GameScene.updateMap(curAction.dst);
 			}
 
-			Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
-			if (toolbox != null) {
-				toolbox.spendCharge(1);
-				Dungeon.materials -= toolbox.arm_material_cost;
-				spend(toolbox.arm_time);
-			}
-			else spend(3f);
+			Toolbox toolbox = belongings.getItem(Toolbox.class);
+			if (toolbox != null) toolbox.spendAbilityCosts(Toolbox.ToolboxAbilities.DISARM);
+			spend(Toolbox.ToolboxAbilities.ARM.timeToUse());
 		}
 		curAction = null;
 
