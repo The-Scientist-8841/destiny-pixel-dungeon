@@ -77,6 +77,7 @@ public class Toolbox extends Artifact {
 
 	public static final String AC_CRAFT = "CRAFT";
 	public static final String AC_ABILITIES = "ABILITIES";
+	public static final String AC_UPGRADE = "UPGRADE";
 
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
@@ -84,6 +85,7 @@ public class Toolbox extends Artifact {
 		if (isEquipped( hero ) && !cursed && hero.buff(MagicImmune.class) == null)  {
 			actions.add(AC_ABILITIES);
 			actions.add(AC_CRAFT);
+			if (level() < levelCap) actions.add(AC_UPGRADE);
 		}
 		return actions;
 	}
@@ -101,6 +103,18 @@ public class Toolbox extends Artifact {
 			curUser = hero;
 			//Show abilities window
 			GameScene.show(new WndToolboxAbilities(this));
+		} else if (action.equals(AC_UPGRADE)) {
+			if (Dungeon.materials >= 10) {
+				if (level() < levelCap) {
+					level(level() + 1);
+					Dungeon.materials -= 10;
+					updateQuickslot();
+					hero.sprite.operate(hero.pos);
+					hero.spendAndNext(3f);
+				} else GLog.p(Messages.get(this, "at_level_cap"));
+			} else {
+				GLog.n(Messages.get(this, "failed_to_upgrade"));
+			}
 		}
 	}
 
