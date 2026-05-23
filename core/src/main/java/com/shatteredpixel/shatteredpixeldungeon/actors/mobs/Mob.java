@@ -74,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -1286,6 +1287,10 @@ public abstract class Mob extends Char {
 				debugThing3.collect();
 				debugThing3.identify();
 				debugThing3.cursed = false;
+				AlchemistsToolkit debugThing4 = new AlchemistsToolkit();
+				debugThing4.collect();
+				debugThing4.identify();
+				debugThing4.cursed = false;
 			}
 		}
 		

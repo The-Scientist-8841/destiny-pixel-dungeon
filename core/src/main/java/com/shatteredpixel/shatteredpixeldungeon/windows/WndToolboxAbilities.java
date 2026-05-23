@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -59,13 +60,27 @@ public class WndToolboxAbilities extends Window {
 
 		for (Toolbox.ToolboxAbilities ability : Toolbox.ToolboxAbilities.values()) {
 			if (toolbox.abilityIsApplicable(ability)) {
-				float left = width / 2f + MARGIN;
+				float left = 2 * width / 3f + MARGIN;
 				if (ability.chargeCost() > 0) {
-					RenderedTextBlock txt = PixelScene.renderTextBlock(Messages.get(this, "charge_req", ability.chargeCost()), 8);
-					txt.setRect(left, pos + 4, width / 4f, 16);
+					Image chargeIcon = new ItemSprite(ItemSpriteSheet.ARTIFACT_TOOLBOX);
+					chargeIcon.x = left;
+					chargeIcon.y = pos + 1.5f;
+					add(chargeIcon);
+					RenderedTextBlock txt = PixelScene.renderTextBlock(Integer.toString(ability.chargeCost()), 8);
+					txt.setRect(left + 16 + MARGIN, pos + 4, width / 4f, 16);
 					add(txt);
 
-					left = 3 * width / 4f;
+					left = 5 * width / 6f;
+				} else if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null && !(toolbox.artifact instanceof ChaliceOfBlood)) {
+					Image artifactIcon = new ItemSprite(toolbox.artifact.image);
+					artifactIcon.x = left;
+					artifactIcon.y = pos + (16 - artifactIcon.height())/2;
+					add(artifactIcon);
+					RenderedTextBlock txt = PixelScene.renderTextBlock(toolbox.artifact.status(), 8);
+					txt.setRect(left + artifactIcon.width() + MARGIN, pos + 4, width / 4f, 16);
+					add(txt);
+
+					left = 5 * width / 6f;
 				}
 
 				if (ability.materialsCost() > 0) {
@@ -86,8 +101,8 @@ public class WndToolboxAbilities extends Window {
 						toolbox.useAbility(ability);
 					}
 				};
-				abilityBtn.setSize(width / 2f - MARGIN, 16);
-				abilityBtn.setRect(0, pos, width / 2f, 16);
+				abilityBtn.setSize(2 * width / 3f - MARGIN, 16);
+				abilityBtn.setRect(0, pos, 2 * width / 3f, 16);
 				abilityBtn.enable(toolbox.canUseAbility(Dungeon.hero, ability));
 
 				if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null) {

@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.Game;
@@ -92,6 +93,8 @@ public class AlchemistsToolkit extends Artifact {
 			else if (cursed)                    GLog.w( Messages.get(this, "cursed") );
 			else if (Dungeon.energy < 6)        GLog.w( Messages.get(this, "need_energy") );
 			else {
+
+				int lvlCap = toolbox == null ? levelCap : toolbox.levelCap;
 
 				final int maxLevels = Math.min(levelCap - level(), Dungeon.energy/6);
 
@@ -160,22 +163,27 @@ public class AlchemistsToolkit extends Artifact {
 	
 	@Override
 	public void charge(Hero target, float amount) {
-		if (target.buff(MagicImmune.class) != null) return;
-		partialCharge += 0.25f*amount;
-		while (partialCharge >= 1){
-			partialCharge--;
-			charge++;
-			updateQuickslot();
+		if (toolbox == null) {
+			if (target.buff(MagicImmune.class) != null) return;
+			partialCharge += 0.25f * amount;
+			while (partialCharge >= 1) {
+				partialCharge--;
+				charge++;
+				updateQuickslot();
+			}
 		}
 	}
 
 	public int availableEnergy(){
-		return charge;
+		return toolbox == null ? charge : toolbox.charge;
 	}
 
 	public int consumeEnergy(int amount){
-		int result = amount - charge;
-		charge = Math.max(0, charge - amount);
+		int chargeToUse = toolbox == null ? charge : toolbox.charge;
+
+		int result = amount - chargeToUse;
+		if (toolbox == null) charge = Math.max(0, chargeToUse - amount);
+		else toolbox.spendCharge(Math.min(amount, chargeToUse));
 		Talent.onArtifactUsed(Dungeon.hero);
 		return Math.max(0, result);
 	}
@@ -213,7 +221,6 @@ public class AlchemistsToolkit extends Artifact {
 	}
 	
 	public class kitEnergy extends ArtifactBuff {
-
 		@Override
 		public boolean act() {
 

@@ -38,6 +38,8 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
+
 public class Artifact extends KindofMisc {
 
 	protected Buff passiveBuff;
@@ -62,6 +64,20 @@ public class Artifact extends KindofMisc {
 
 	//used by some artifacts to keep track of duration of effects or cooldowns to use.
 	protected int cooldown = 0;
+
+	@Override
+	public ArrayList<String> actions(Hero hero) {
+		if (toolbox == null) return super.actions(hero);
+		else {
+			ArrayList<String> actions = super.actions(hero);
+			actions.remove(AC_DROP);
+			actions.remove(AC_UNEQUIP);
+			actions.remove(AC_EQUIP);
+			actions.remove(AC_THROW);
+
+			return actions;
+		}
+	}
 
 	@Override
 	public boolean doEquip( final Hero hero ) {
@@ -132,6 +148,18 @@ public class Artifact extends KindofMisc {
 	@Override
 	public boolean isUpgradable() {
 		return false;
+	}
+
+	@Override
+	public int level() {
+		if (toolbox == null) return super.level();
+		else return toolbox.level();
+	}
+
+	@Override
+	public Item upgrade() {
+		if (toolbox == null) return super.upgrade();
+		else return toolbox.upgrade();
 	}
 
 	@Override
@@ -214,16 +242,18 @@ public class Artifact extends KindofMisc {
 
 		//display as percent
 		if (chargeCap == 100)
-			return Messages.format( "%d%%", charge );
+			return Messages.format( "%d%%", toolbox == null ? charge : toolbox.charge );
 
 		//display as #/#
 		if (chargeCap > 0)
-			return Messages.format( "%d/%d", charge, chargeCap );
+			return Messages.format( "%d/%d", toolbox == null ? charge : toolbox.charge, toolbox == null ? chargeCap : toolbox.chargeCap );
 
 		//if there's no cap -
 		//- but there is charge anyway, display that charge
-		if (charge != 0)
+		if (toolbox == null && charge != 0)
 			return Messages.format( "%d", charge );
+		else if (toolbox != null && toolbox.charge != 0)
+			return Messages.format("%d", toolbox.charge);
 
 		//otherwise, if there's no charge, return null.
 		return null;
@@ -296,6 +326,7 @@ public class Artifact extends KindofMisc {
 	private static final String EXP = "exp";
 	private static final String CHARGE = "charge";
 	private static final String PARTIALCHARGE = "partialcharge";
+	//Don't need to save toolbox; the toolbox when loaded will set the toolbox variable.
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {

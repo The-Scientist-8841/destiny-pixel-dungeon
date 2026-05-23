@@ -153,7 +153,7 @@ public class Toolbox extends Artifact {
 
 	@Override
 	public void activate(Char ch) {
-		//Do nothing, for now.
+		if (artifact != null) artifact.activate(ch);
 	}
 
 	public void spendCharge( float chargesSpent ) {
@@ -210,15 +210,15 @@ public class Toolbox extends Artifact {
 	}
 
 	@Override
+	protected ArtifactBuff passiveBuff() {
+		return new Toolbox.ToolboxRecharge();
+	}
+
+	@Override
 	public void charge(Hero target, float amount) {
 		if (cursed || target.buff(MagicImmune.class) != null) return;
 
 		if (charge < chargeCap) {
-			if (artifact != null) {
-				artifact.charge = charge;
-				artifact.charge(target, amount);
-			}
-
 			partialCharge += 0.25f*amount;
 			while (partialCharge >= 1f) {
 				charge++;
@@ -246,7 +246,9 @@ public class Toolbox extends Artifact {
 		super.restoreFromBundle(bundle);
 
 		artifact = (Artifact) bundle.get(ARTIFACT);
-		artifact.toolbox = this;
+		if (artifact != null) {
+			artifact.toolbox = this;
+		}
 	}
 
 	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
@@ -384,9 +386,6 @@ public class Toolbox extends Artifact {
 				else item.detach(curUser.belongings.backpack);
 
 				((Toolbox) curItem).artifact = (Artifact) item;
-				item.upgrade(
-					Math.max(0, Math.min(curItem.level() - item.level(), ((Artifact) item).levelCap))
-				);
 				curItem.upgrade(
 					Math.max(0, Math.min(item.level() - curItem.level(), ((Artifact) curItem).levelCap))
 				);
@@ -395,9 +394,6 @@ public class Toolbox extends Artifact {
 				((Artifact) item).activate( curUser );
 				((Artifact) item).onEquip(curUser);
 
-				//Set charges equal
-				((Artifact) item).chargeCap = ((Toolbox) curItem).chargeCap;
-				((Artifact) item).charge = ((Toolbox) curItem).charge;
 				artifact.toolbox = (Toolbox) curItem;
 
 				curUser.busy();
@@ -411,4 +407,38 @@ public class Toolbox extends Artifact {
 			else if (item != null && !item.cursed) GLog.n(Messages.get(Toolbox.class, "affix_cursed"));
 		}
 	};
+
+	public class ToolboxRecharge extends ArtifactBuff {
+
+		@Override
+		public boolean act() {
+			if (charge < chargeCap && !cursed && target.buff(MagicImmune.class) == null) {
+				if (Regeneration.regenOn()) {
+					float missing = (chargeCap - charge);
+					if (level() > 7) missing += 5*(level() - 7)/3f;
+					float turnsToCharge = (45 - missing);
+					turnsToCharge /= RingOfEnergy.artifactChargeMultiplier(target);
+					float chargeToGain = (1f / turnsToCharge);
+					partialCharge += chargeToGain;
+				}
+
+				while (partialCharge >= 1) {
+					charge++;
+					partialCharge -= 1;
+					if (charge == chargeCap){
+						partialCharge = 0;
+					}
+
+				}
+			} else {
+				partialCharge = 0;
+			}
+
+			updateQuickslot();
+
+			spend( TICK );
+
+			return true;
+		}
+	}
 }
