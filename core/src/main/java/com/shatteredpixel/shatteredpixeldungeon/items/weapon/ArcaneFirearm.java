@@ -77,7 +77,7 @@ public class ArcaneFirearm extends Weapon {
 	public static final String AC_UNLOAD	= "UNLOAD";
 	public ArrayList<Bullet> chamber = new ArrayList<>();
 	public int chamber_size = 6;
-	public float loadTime = 1f;
+	public float loadTime = 2f;
 	public float unloadTime = 1f;
 	public ArrayList<Bullet> bulletsToLoad = new ArrayList<>();
 	

@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -305,6 +306,7 @@ public abstract class KindofMisc extends EquipableItem {
 
 	@Override
 	public boolean isEquipped( Hero hero ) {
+		Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
 		return hero != null && (hero.belongings.artifact() == this
 				|| hero.belongings.artifact2() == this
 				|| hero.belongings.misc() == this
@@ -312,7 +314,8 @@ public abstract class KindofMisc extends EquipableItem {
 				|| hero.belongings.ring() == this
 				|| hero.belongings.ring2() == this
 				|| hero.belongings.ring3() == this
-				|| hero.belongings.ring4() == this);
+				|| hero.belongings.ring4() == this
+				|| (toolbox != null && toolbox.artifact == this));
 	}
 
 }

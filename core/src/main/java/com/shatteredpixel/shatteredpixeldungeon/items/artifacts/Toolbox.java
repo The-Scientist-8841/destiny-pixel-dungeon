@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -32,9 +33,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.ClericSpell;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.GuidingLight;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -46,8 +49,10 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndClericSpells;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndToolboxAbilities;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 
@@ -224,11 +229,13 @@ public class Toolbox extends Artifact {
 	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
 		boolean canUse = isEquipped(hero) && charge >= ability.chargeCost() && Dungeon.materials >= ability.materialsCost();
 		if (ability == ToolboxAbilities.ARTIFACT) canUse = canUse && artifact != null;
+		if (ability == ToolboxAbilities.AFFIX_ARTIFACT) canUse = canUse && artifact == null;
 		return canUse;
 	}
 
 	public boolean abilityIsApplicable(ToolboxAbilities ability) {
 		if (ability == ToolboxAbilities.ARTIFACT) return artifact != null;
+		if (ability == ToolboxAbilities.AFFIX_ARTIFACT) return artifact == null;
 
 		return true;
 	}
@@ -243,12 +250,15 @@ public class Toolbox extends Artifact {
 				break;
 			case ARTIFACT:
 				break;
+			case AFFIX_ARTIFACT:
+				GameScene.selectItem(affixer);
+				break;
 		}
 	}
 
 	public String getAbilityTitle(ToolboxAbilities ability) {
 		if (ability == ToolboxAbilities.ARTIFACT) {
-			if (artifact != null) return Messages.get(artifact.name());
+			if (artifact != null) return Messages.titleCase(artifact.title());
 		}
 		return ability.title();
 	}
@@ -261,7 +271,8 @@ public class Toolbox extends Artifact {
 	public enum ToolboxAbilities {
 		DISARM(1, 0, 3f),
 		ARM(1, 1, 3f),
-		ARTIFACT(0,0, 3f);
+		ARTIFACT(0,0, 3f),
+		AFFIX_ARTIFACT(0,0,3f);
 
 		private final int chargeCost, materialsCost;
 		private final float timeToUse;
@@ -306,6 +317,41 @@ public class Toolbox extends Artifact {
 		@Override
 		public String prompt() {
 			return Messages.get(Toolbox.class, "arm_prompt");
+		}
+	};
+
+	private final WndBag.ItemSelector affixer = new WndBag.ItemSelector() {
+
+		@Override
+		public String textPrompt() {
+			return Messages.get(Toolbox.class, "affix_prompt");
+		}
+
+		@Override
+		public boolean itemSelectable(Item item) { return item instanceof Artifact && !(item instanceof Toolbox); }
+
+		public void whenDone(Hero hero) {
+			hero.busy();
+			hero.sprite.operate(hero.pos);
+			Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+		}
+
+		@Override
+		public void onSelect( final Item item ) {
+			if (item != null && item.isIdentified() && !item.cursed) {
+				((Toolbox) curItem).artifact = (Artifact) item;
+
+				curUser.busy();
+
+				curUser.spend(ToolboxAbilities.AFFIX_ARTIFACT.timeToUse());
+				curUser.busy();
+				curUser.sprite.operate(curUser.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+				if (item.isEquipped(curUser)) ((Artifact) item).doUnequip(curUser, false);
+				else item.detach(curUser.belongings.backpack);
+				updateQuickslot();
+			} else if (item != null && !item.isIdentified()) GLog.n(Messages.get(Toolbox.class, "affix_not_identified"));
+			else if (item != null && !item.cursed) GLog.n(Messages.get(Toolbox.class, "affix_cursed"));
 		}
 	};
 }

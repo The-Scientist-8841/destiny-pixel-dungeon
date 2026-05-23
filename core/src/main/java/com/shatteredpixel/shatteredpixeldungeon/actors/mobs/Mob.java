@@ -75,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
@@ -1280,6 +1281,10 @@ public abstract class Mob extends Char {
 				debugThing.collect();
 				KingsCrown debugThing2 = new KingsCrown();
 				debugThing2.collect();
+				DriedRose debugThing3 = new DriedRose();
+				debugThing3.collect();
+				debugThing3.identify();
+				debugThing3.cursed = false;
 			}
 		}
 		

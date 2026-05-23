@@ -89,6 +89,11 @@ public class WndToolboxAbilities extends Window {
 				abilityBtn.setSize(width / 2f - MARGIN, 16);
 				abilityBtn.setRect(0, pos, width / 2f, 16);
 				abilityBtn.enable(toolbox.canUseAbility(Dungeon.hero, ability));
+
+				if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null) {
+					abilityBtn.icon(new ItemSprite(toolbox.artifact.image()));
+				}
+
 				add(abilityBtn);
 
 				pos = abilityBtn.bottom() + MARGIN;
