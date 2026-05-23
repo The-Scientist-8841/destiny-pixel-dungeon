@@ -65,7 +65,7 @@ public class AlchemistsToolkit extends Artifact {
 		ArrayList<String> actions = super.actions( hero );
 		if (isEquipped( hero ) && !cursed && hero.buff(MagicImmune.class) == null) {
 			actions.add(AC_BREW);
-			if (level() < levelCap) {
+			if ((toolbox == null && level() < levelCap) || (toolbox != null && level() < toolbox.levelCap)) {
 				actions.add(AC_ENERGIZE);
 			}
 		}
@@ -96,7 +96,7 @@ public class AlchemistsToolkit extends Artifact {
 
 				int lvlCap = toolbox == null ? levelCap : toolbox.levelCap;
 
-				final int maxLevels = Math.min(levelCap - level(), Dungeon.energy/6);
+				final int maxLevels = Math.min(lvlCap - level(), Dungeon.energy/6);
 
 				String[] options;
 				if (maxLevels > 1){
@@ -163,14 +163,12 @@ public class AlchemistsToolkit extends Artifact {
 	
 	@Override
 	public void charge(Hero target, float amount) {
-		if (toolbox == null) {
-			if (target.buff(MagicImmune.class) != null) return;
-			partialCharge += 0.25f * amount;
-			while (partialCharge >= 1) {
-				partialCharge--;
-				charge++;
-				updateQuickslot();
-			}
+		if (target.buff(MagicImmune.class) != null) return;
+		partialCharge += 0.25f * amount;
+		while (partialCharge >= 1) {
+			partialCharge--;
+			charge++;
+			updateQuickslot();
 		}
 	}
 

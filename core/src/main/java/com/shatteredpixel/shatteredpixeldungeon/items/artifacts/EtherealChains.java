@@ -98,7 +98,7 @@ public class EtherealChains extends Artifact {
 				GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 				usesTargeting = false;
 
-			} else if (charge < 1) {
+			} else if ((toolbox == null && charge < 1) || (toolbox != null && toolbox.charge < 0.25f)) {
 				GLog.i( Messages.get(this, "no_charge") );
 				usesTargeting = false;
 
@@ -117,7 +117,7 @@ public class EtherealChains extends Artifact {
 	@Override
 	public void resetForTrinity(int visibleLevel) {
 		super.resetForTrinity(visibleLevel);
-		charge = 5+(level()*2); //sets charge to soft cap
+		if (toolbox == null) charge = 5+(level()*2); //sets charge to soft cap
 	}
 
 	public CellSelector.Listener caster = new CellSelector.Listener(){
@@ -178,7 +178,7 @@ public class EtherealChains extends Artifact {
 		final int pulledPos = bestPos;
 		
 		int chargeUse = Dungeon.level.distance(enemy.pos, pulledPos);
-		if (chargeUse > charge) {
+		if ((toolbox == null && chargeUse > charge) || (toolbox != null && chargeUse/4f > toolbox.charge)) {
 			GLog.w( Messages.get(this, "no_charge") );
 			return;
 		}
@@ -195,7 +195,8 @@ public class EtherealChains extends Artifact {
 					public void call() {
 						enemy.pos = pulledPos;
 
-						charge -= chargeUse;
+						if (toolbox == null) charge -= chargeUse;
+						else toolbox.spendCharge(chargeUse/4f);
 						Invisibility.dispel(hero);
 						Talent.onArtifactUsed(hero);
 						updateQuickslot();
@@ -246,7 +247,7 @@ public class EtherealChains extends Artifact {
 		final int newHeroPos = chain.collisionPos;
 		
 		int chargeUse = Dungeon.level.distance(hero.pos, newHeroPos);
-		if (chargeUse > charge){
+		if ((toolbox == null && chargeUse > charge) || (toolbox != null && chargeUse/4f > toolbox.charge)){
 			GLog.w( Messages.get(EtherealChains.class, "no_charge") );
 			return;
 		}
@@ -263,7 +264,8 @@ public class EtherealChains extends Artifact {
 					public void call() {
 						hero.pos = newHeroPos;
 
-						charge -= chargeUse;
+						if (toolbox == null) charge -= chargeUse;
+						else toolbox.spendCharge(chargeUse/4f);
 						Invisibility.dispel(hero);
 						Talent.onArtifactUsed(hero);
 						updateQuickslot();

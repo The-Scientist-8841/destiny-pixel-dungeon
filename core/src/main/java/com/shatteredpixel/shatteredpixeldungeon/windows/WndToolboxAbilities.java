@@ -71,7 +71,7 @@ public class WndToolboxAbilities extends Window {
 					add(txt);
 
 					left = 5 * width / 6f;
-				} else if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null && !(toolbox.artifact instanceof ChaliceOfBlood)) {
+				} else if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null && toolbox.artifact.status() != null) {
 					Image artifactIcon = new ItemSprite(toolbox.artifact.image);
 					artifactIcon.x = left;
 					artifactIcon.y = pos + (16 - artifactIcon.height())/2;

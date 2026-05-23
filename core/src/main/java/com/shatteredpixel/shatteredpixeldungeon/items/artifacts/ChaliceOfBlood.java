@@ -220,7 +220,7 @@ public class ChaliceOfBlood extends Artifact {
 				desc += Messages.get(this, "desc_cursed");
 			else if (level() == 0)
 				desc += Messages.get(this, "desc_1");
-			else if (level() < levelCap)
+			else if ((toolbox == null && level() < levelCap) || (toolbox != null && level() < toolbox.levelCap))
 				desc += Messages.get(this, "desc_2");
 			else
 				desc += Messages.get(this, "desc_3");
@@ -228,6 +228,9 @@ public class ChaliceOfBlood extends Artifact {
 
 		return desc;
 	}
+
+	@Override
+	public String status() { return null; }
 
 	public class chaliceRegen extends ArtifactBuff {
 		//see Regeneration.class for effect

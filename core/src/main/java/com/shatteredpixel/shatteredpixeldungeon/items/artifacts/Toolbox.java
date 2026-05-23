@@ -136,6 +136,11 @@ public class Toolbox extends Artifact {
 	}
 
 	@Override
+	public int value() {
+		return -1;
+	}
+
+	@Override
 	public boolean doEquip(final Hero hero) {
 		if (artifact != null &&
 				(artifact.getClass() == hero.belongings.artifact.getClass() ||

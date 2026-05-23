@@ -110,7 +110,7 @@ public class CapeOfThorns extends Artifact {
 
 				exp+= deflected;
 
-				if (exp >= (level()+1)*5 && level() < levelCap){
+				if (exp >= (level()+1)*5 && ((toolbox == null && level() < levelCap) || (toolbox != null && level() < toolbox.levelCap))) {
 					exp -= (level()+1)*5;
 					upgrade();
 					Catalog.countUse(CapeOfThorns.class);

@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SupplyRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.DocumentPage;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.GuidePage;
@@ -505,6 +506,8 @@ public abstract class RegularLevel extends Level {
 
 		Random.pushGenerator( Random.Long() );
 			DriedRose rose = Dungeon.hero.belongings.getItem( DriedRose.class );
+			Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
+			if (toolbox != null && toolbox.artifact instanceof DriedRose) rose = (DriedRose) toolbox.artifact;
 			if (rose != null && rose.isIdentified() && !rose.cursed && Ghost.Quest.completed()){
 				//aim to drop 1 petal every 2 floors
 				int petalsNeeded = (int) Math.ceil((float)((Dungeon.depth / 2) - rose.droppedPetals) / 3);

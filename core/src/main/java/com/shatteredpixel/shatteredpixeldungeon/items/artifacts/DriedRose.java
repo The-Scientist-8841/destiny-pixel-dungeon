@@ -120,7 +120,8 @@ public class DriedRose extends Artifact {
 				&& charge == chargeCap
 				&& !cursed
 				&& hero.buff(MagicImmune.class) == null
-				&& ghostID == 0) {
+				&& ghostID == 0
+				&& (toolbox == null || toolbox.charge >= 1)) {
 			actions.add(AC_SUMMON);
 		}
 		if (ghostID != 0){
@@ -142,6 +143,7 @@ public class DriedRose extends Artifact {
 		}
 	}
 
+
 	@Override
 	public void execute( Hero hero, String action ) {
 
@@ -157,6 +159,8 @@ public class DriedRose extends Artifact {
 			else if (charge != chargeCap)   GLog.i( Messages.get(this, "no_charge") );
 			else if (cursed)                GLog.i( Messages.get(this, "cursed") );
 			else {
+				if (toolbox != null) toolbox.spendCharge(1);
+
 				ArrayList<Integer> spawnPoints = new ArrayList<>();
 				for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
 					int p = hero.pos + PathFinder.NEIGHBOURS8[i];
@@ -294,7 +298,7 @@ public class DriedRose extends Artifact {
 			}
 		}
 		if (ghost == null){
-			return super.status();
+			return charge < chargeCap ? Messages.format( "%d%%", charge) : null;
 		} else {
 			return ((ghost.HP*100) / ghost.HT) + "%";
 		}
