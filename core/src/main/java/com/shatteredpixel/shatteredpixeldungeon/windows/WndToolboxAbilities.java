@@ -101,8 +101,19 @@ public class WndToolboxAbilities extends Window {
 						toolbox.useAbility(ability);
 					}
 				};
-				abilityBtn.setSize(2 * width / 3f - MARGIN, 16);
-				abilityBtn.setRect(0, pos, 2 * width / 3f, 16);
+				float L = 0f;
+				float W = 2* width/3f - MARGIN;
+				if (ability == Toolbox.ToolboxAbilities.DECONSTRUCT_ARTIFACT) {
+					Image artifactIcon = new ItemSprite(toolbox.artifact.image);
+					artifactIcon.x = 0;
+					artifactIcon.y = pos + (16 - artifactIcon.height())/2f;
+					add(artifactIcon);
+
+					L += artifactIcon.width() + MARGIN;
+					W -= artifactIcon.width() + MARGIN;
+				}
+				abilityBtn.setSize(W, 16);
+				abilityBtn.setRect(L, pos, W, 16);
 				abilityBtn.enable(toolbox.canUseAbility(Dungeon.hero, ability));
 
 				if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null) {
