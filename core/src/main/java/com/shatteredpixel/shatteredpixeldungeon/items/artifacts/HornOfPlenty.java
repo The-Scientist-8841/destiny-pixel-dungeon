@@ -77,7 +77,7 @@ public class HornOfPlenty extends Artifact {
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		if (hero.buff(MagicImmune.class) != null) return actions;
-		if (isEquipped( hero ) && charge > 0) {
+		if (isEquipped( hero ) && ((toolbox == null && charge > 0) || (toolbox != null && toolbox.charge > 0))) {
 			actions.add(AC_SNACK);
 			actions.add(AC_EAT);
 		}
@@ -97,7 +97,7 @@ public class HornOfPlenty extends Artifact {
 		if (action.equals(AC_EAT) || action.equals(AC_SNACK)){
 
 			if (!isEquipped(hero)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
-			else if (charge == 0)  GLog.i( Messages.get(this, "no_food") );
+			else if ((toolbox == null && charge == 0) || (toolbox != null && toolbox.charge <= 0))  GLog.i( Messages.get(this, "no_food") );
 			else {
 				//consume as much food as it takes to be full, to a minimum of 1
 				int satietyPerCharge = (int) (Hunger.STARVING/5f);
@@ -107,7 +107,8 @@ public class HornOfPlenty extends Artifact {
 
 				Hunger hunger = Buff.affect(Dungeon.hero, Hunger.class);
 				int chargesToUse = Math.max( 1, hunger.hunger() / satietyPerCharge);
-				if (chargesToUse > charge) chargesToUse = charge;
+				if (toolbox == null && chargesToUse > charge) chargesToUse = charge;
+				if (toolbox != null && chargesToUse > toolbox.charge) chargesToUse = toolbox.charge;
 
 				//always use 1 charge if snacking
 				if (action.equals(AC_SNACK)){
@@ -134,7 +135,8 @@ public class HornOfPlenty extends Artifact {
 
 		Statistics.foodEaten++;
 
-		charge -= chargesToUse;
+		if (toolbox == null) charge -= chargesToUse;
+		else toolbox.charge -= chargesToUse;
 		Talent.onArtifactUsed(hero);
 
 		hero.sprite.operate(hero.pos);
@@ -158,9 +160,10 @@ public class HornOfPlenty extends Artifact {
 
 		Badges.validateFoodEaten();
 
-		if (charge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
-		else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
-		else if (charge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
+		int displayCharge = toolbox == null ? charge : toolbox.charge;
+		if (displayCharge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
+		else if (displayCharge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
+		else if (displayCharge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
 		else                    image = ItemSpriteSheet.ARTIFACT_HORN1;
 
 		updateQuickslot();

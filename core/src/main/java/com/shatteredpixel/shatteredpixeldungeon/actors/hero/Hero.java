@@ -2577,7 +2577,7 @@ public class Hero extends Char {
 			}
 
 			Toolbox toolbox = belongings.getItem(Toolbox.class);
-			if (toolbox != null) toolbox.spendAbilityCosts(Toolbox.ToolboxAbilities.DISARM);
+			if (toolbox != null) toolbox.spendAbilityCosts(Toolbox.ToolboxAbilities.ARM);
 			spend(Toolbox.ToolboxAbilities.ARM.timeToUse());
 		}
 		curAction = null;

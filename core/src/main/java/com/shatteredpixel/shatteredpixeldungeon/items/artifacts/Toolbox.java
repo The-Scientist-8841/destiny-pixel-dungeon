@@ -159,6 +159,7 @@ public class Toolbox extends Artifact {
 	@Override
 	public void activate(Char ch) {
 		if (artifact != null) artifact.activate(ch);
+		super.activate(ch);
 	}
 
 	public void spendCharge( float chargesSpent ) {
@@ -211,6 +212,11 @@ public class Toolbox extends Artifact {
 	@Override
 	public Item upgrade() {
 		chargeCap = Math.min(chargeCap + 1, 10);
+		if (artifact != null) {
+			artifact.toolbox = null;
+			artifact.upgrade();
+			artifact.toolbox = this;
+		}
 		return super.upgrade();
 	}
 
@@ -390,15 +396,16 @@ public class Toolbox extends Artifact {
 				if (item.isEquipped(curUser)) ((Artifact) item).doUnequip(curUser, false);
 				else item.detach(curUser.belongings.backpack);
 
-				((Toolbox) curItem).artifact = (Artifact) item;
 				curItem.upgrade(
 					Math.max(0, Math.min(item.level() - curItem.level(), ((Artifact) curItem).levelCap))
 				);
+				item.upgrade(Math.max(0, Math.min(curItem.level() - item.level(), ((Artifact) curItem).levelCap)));
 
 				Talent.onItemEquipped(curUser, item);
 				((Artifact) item).activate( curUser );
 				((Artifact) item).onEquip(curUser);
 
+				((Toolbox) curItem).artifact = (Artifact) item;
 				artifact.toolbox = (Toolbox) curItem;
 
 				curUser.busy();

@@ -69,7 +69,7 @@ public class HolyTome extends Artifact {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if ((isEquipped( hero ) || hero.hasTalent(Talent.LIGHT_READING))
+		if ((isEquipped( hero ) || (toolbox == null && hero.hasTalent(Talent.LIGHT_READING)))
 				&& !cursed
 				&& hero.buff(MagicImmune.class) == null) {
 			actions.add(AC_CAST);
@@ -143,16 +143,18 @@ public class HolyTome extends Artifact {
 	public boolean canCast( Hero hero, ClericSpell spell ){
 		return (isEquipped(hero) || (Dungeon.hero.hasTalent(Talent.LIGHT_READING) && hero.belongings.contains(this)))
 				&& hero.buff(MagicImmune.class) == null
-				&& charge >= spell.chargeUse(hero)
+				&& ((toolbox == null && charge >= spell.chargeUse(hero)) || (toolbox != null && toolbox.charge >= spell.chargeUse(hero)))
 				&& spell.canCast(hero);
 	}
 
 	public void spendCharge( float chargesSpent ){
-		partialCharge -= chargesSpent;
-		while (partialCharge < 0){
-			charge--;
-			partialCharge++;
-		}
+		if (toolbox == null) {
+			partialCharge -= chargesSpent;
+			while (partialCharge < 0) {
+				charge--;
+				partialCharge++;
+			}
+		} else toolbox.spendCharge(chargesSpent);
 
 		//target hero level is 1 + 2*tome level
 		int lvlDiffFromTarget = Dungeon.hero.lvl - (1+level()*2);

@@ -134,7 +134,7 @@ public class LloydsBeacon extends Artifact {
 				GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 				QuickSlotButton.cancel();
 
-			} else if (charge < chargesToUse) {
+			} else if ((toolbox == null && charge < chargesToUse) || (toolbox != null && toolbox.charge < chargesToUse)) {
 				GLog.i( Messages.get(this, "no_charge") );
 				QuickSlotButton.cancel();
 
@@ -195,7 +195,8 @@ public class LloydsBeacon extends Artifact {
 			if (target == null) return;
 
 			Invisibility.dispel();
-			charge -= Dungeon.scalingDepth() > 20 ? 2 : 1;
+			if (toolbox == null) charge -= Dungeon.scalingDepth() > 20 ? 2 : 1;
+			else toolbox.charge -= Dungeon.scalingDepth() > 20 ? 2 : 1;
 			updateQuickslot();
 
 			if (Actor.findChar(target) == curUser){

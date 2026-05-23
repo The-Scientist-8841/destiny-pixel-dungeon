@@ -72,7 +72,7 @@ public class MasterThievesArmband extends Artifact {
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
 		if (isEquipped(hero)
-				&& charge > 0
+				&& ((toolbox == null && charge > 0) || (toolbox != null && toolbox.charge > 0))
 				&& hero.buff(MagicImmune.class) == null
 				&& !cursed) {
 			actions.add(AC_STEAL);
@@ -94,7 +94,7 @@ public class MasterThievesArmband extends Artifact {
 				GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 				usesTargeting = false;
 
-			} else if (charge < 1) {
+			} else if ((toolbox == null && charge < 1) || (toolbox != null && toolbox.charge < 1)) {
 				GLog.i( Messages.get(this, "no_charge") );
 				usesTargeting = false;
 
@@ -182,10 +182,12 @@ public class MasterThievesArmband extends Artifact {
 
 							artifactProc(ch, visiblyUpgraded(), 1);
 
-							charge--;
+							if (toolbox == null) charge--;
+							else toolbox.spendCharge(1);
 							exp += 3;
 							Talent.onArtifactUsed(Dungeon.hero);
-							while (exp >= (10 + Math.round(3.33f * level())) && level() < levelCap) {
+							int lvlCap = toolbox == null ? levelCap : toolbox.levelCap;
+							while (exp >= (10 + Math.round(3.33f * level())) && level() < lvlCap) {
 								exp -= 10 + Math.round(3.33f * level());
 								Catalog.countUse(MasterThievesArmband.class);
 								GLog.p(Messages.get(MasterThievesArmband.class, "level_up"));
@@ -301,12 +303,14 @@ public class MasterThievesArmband extends Artifact {
 			if (Random.Float() > stealChance){
 				return false;
 			} else {
-				charge -= chargesUsed;
+				if (toolbox == null) charge -= chargesUsed;
+				else toolbox.spendCharge(chargesUsed);
 				exp += 4 * chargesUsed;
 				GLog.i(Messages.get(MasterThievesArmband.class, "stole_item", item.name()));
 
 				Talent.onArtifactUsed(Dungeon.hero);
-				while (exp >= (10 + Math.round(3.33f * level())) && level() < levelCap) {
+				int lvlCap = toolbox == null ? levelCap : toolbox.levelCap;
+				while (exp >= (10 + Math.round(3.33f * level())) && level() < lvlCap) {
 					exp -= 10 + Math.round(3.33f * level());
 					Catalog.countUse(MasterThievesArmband.class);
 					GLog.p(Messages.get(MasterThievesArmband.class, "level_up"));
@@ -327,7 +331,8 @@ public class MasterThievesArmband extends Artifact {
 			int value = item.value();
 			float valUsing = 0;
 			int chargesUsed = 0;
-			while (valUsing < value && chargesUsed < charge){
+			int chrg = toolbox == null ? charge : toolbox.charge;
+			while (valUsing < value && chargesUsed < chrg){
 				valUsing += 10 + level()/2f;
 				chargesUsed++;
 			}
