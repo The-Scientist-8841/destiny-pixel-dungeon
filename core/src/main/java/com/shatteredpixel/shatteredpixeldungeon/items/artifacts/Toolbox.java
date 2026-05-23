@@ -52,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndClericSpells;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndToolboxAbilities;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndUseItem;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
@@ -135,6 +136,22 @@ public class Toolbox extends Artifact {
 	}
 
 	@Override
+	public boolean doEquip(final Hero hero) {
+		if (artifact != null &&
+				(artifact.getClass() == hero.belongings.artifact.getClass() ||
+				 artifact.getClass() == hero.belongings.artifact2.getClass() ||
+				 artifact.getClass() == hero.belongings.misc.getClass() ||
+				 artifact.getClass() == hero.belongings.misc2.getClass()
+			)
+		) {
+			GLog.w( Messages.get(Toolbox.class, "affixed_artifact_conflict", artifact.name()) );
+			return false;
+		}
+
+		return super.doEquip(hero);
+	}
+
+	@Override
 	public void activate(Char ch) {
 		//Do nothing, for now.
 	}
@@ -197,6 +214,11 @@ public class Toolbox extends Artifact {
 		if (cursed || target.buff(MagicImmune.class) != null) return;
 
 		if (charge < chargeCap) {
+			if (artifact != null) {
+				artifact.charge = charge;
+				artifact.charge(target, amount);
+			}
+
 			partialCharge += 0.25f*amount;
 			while (partialCharge >= 1f) {
 				charge++;
@@ -224,17 +246,18 @@ public class Toolbox extends Artifact {
 		super.restoreFromBundle(bundle);
 
 		artifact = (Artifact) bundle.get(ARTIFACT);
+		artifact.toolbox = this;
 	}
 
 	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
 		boolean canUse = isEquipped(hero) && charge >= ability.chargeCost() && Dungeon.materials >= ability.materialsCost();
-		if (ability == ToolboxAbilities.ARTIFACT) canUse = canUse && artifact != null;
+		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT) canUse = canUse && artifact != null;
 		if (ability == ToolboxAbilities.AFFIX_ARTIFACT) canUse = canUse && artifact == null;
 		return canUse;
 	}
 
 	public boolean abilityIsApplicable(ToolboxAbilities ability) {
-		if (ability == ToolboxAbilities.ARTIFACT) return artifact != null;
+		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT) return artifact != null;
 		if (ability == ToolboxAbilities.AFFIX_ARTIFACT) return artifact == null;
 
 		return true;
@@ -249,9 +272,26 @@ public class Toolbox extends Artifact {
 				GameScene.selectCell(armer);
 				break;
 			case ARTIFACT:
+				if (artifact != null) {
+					artifact.charge = charge;
+
+					GameScene.show(new WndUseItem(null, artifact));
+				}
 				break;
 			case AFFIX_ARTIFACT:
 				GameScene.selectItem(affixer);
+				break;
+			case DECONSTRUCT_ARTIFACT:
+				curUser.busy();
+				curUser.sprite.operate(curUser.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+
+				artifact.onUnequip(curUser, false, true);
+				Dungeon.materials += 5;
+				artifact = null;
+
+				updateQuickslot();
+
 				break;
 		}
 	}
@@ -272,7 +312,8 @@ public class Toolbox extends Artifact {
 		DISARM(1, 0, 3f),
 		ARM(1, 1, 3f),
 		ARTIFACT(0,0, 3f),
-		AFFIX_ARTIFACT(0,0,3f);
+		AFFIX_ARTIFACT(0,0,3f),
+		DECONSTRUCT_ARTIFACT(0,0,3f);
 
 		private final int chargeCost, materialsCost;
 		private final float timeToUse;
@@ -339,7 +380,25 @@ public class Toolbox extends Artifact {
 		@Override
 		public void onSelect( final Item item ) {
 			if (item != null && item.isIdentified() && !item.cursed) {
+				if (item.isEquipped(curUser)) ((Artifact) item).doUnequip(curUser, false);
+				else item.detach(curUser.belongings.backpack);
+
 				((Toolbox) curItem).artifact = (Artifact) item;
+				item.upgrade(
+					Math.max(0, Math.min(curItem.level() - item.level(), ((Artifact) item).levelCap))
+				);
+				curItem.upgrade(
+					Math.max(0, Math.min(item.level() - curItem.level(), ((Artifact) curItem).levelCap))
+				);
+
+				Talent.onItemEquipped(curUser, item);
+				((Artifact) item).activate( curUser );
+				((Artifact) item).onEquip(curUser);
+
+				//Set charges equal
+				((Artifact) item).chargeCap = ((Toolbox) curItem).chargeCap;
+				((Artifact) item).charge = ((Toolbox) curItem).charge;
+				artifact.toolbox = (Toolbox) curItem;
 
 				curUser.busy();
 
@@ -347,8 +406,6 @@ public class Toolbox extends Artifact {
 				curUser.busy();
 				curUser.sprite.operate(curUser.pos);
 				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
-				if (item.isEquipped(curUser)) ((Artifact) item).doUnequip(curUser, false);
-				else item.detach(curUser.belongings.backpack);
 				updateQuickslot();
 			} else if (item != null && !item.isIdentified()) GLog.n(Messages.get(Toolbox.class, "affix_not_identified"));
 			else if (item != null && !item.cursed) GLog.n(Messages.get(Toolbox.class, "affix_cursed"));

@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.InventoryPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ItemJournalButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
@@ -47,8 +48,9 @@ public class WndUseItem extends WndInfoItem {
 		this.item = item;
 
 		float y = height;
-		
-		if (Dungeon.hero.isAlive() && Dungeon.hero.belongings.contains(item)) {
+
+		Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
+		if (Dungeon.hero.isAlive() && (Dungeon.hero.belongings.contains(item) || (toolbox != null && toolbox.artifact == item))) {
 			y += GAP;
 			ArrayList<RedButton> buttons = new ArrayList<>();
 			for (final String action : item.actions(Dungeon.hero)) {
@@ -58,7 +60,7 @@ public class WndUseItem extends WndInfoItem {
 					protected void onClick() {
 						hide();
 						if (owner != null && owner.parent != null) owner.hide();
-						if (Dungeon.hero.isAlive() && Dungeon.hero.belongings.contains(item)) {
+						if (Dungeon.hero.isAlive() && (Dungeon.hero.belongings.contains(item) || (toolbox != null && toolbox.artifact == item))) {
 							item.execute(Dungeon.hero, action);
 						}
 						Item.updateQuickslot();

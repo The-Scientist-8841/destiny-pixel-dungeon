@@ -52,6 +52,8 @@ public class Artifact extends KindofMisc {
 
 	//the current artifact charge
 	protected int charge = 0;
+	//If it's affixed to a toolbox, this is the toolbox it's affixed to
+	Toolbox toolbox = null;
 	//the build towards next charge, usually rolls over at 1.
 	//better to keep charge as an int and use a separate float than casting.
 	protected float partialCharge = 0;
@@ -63,11 +65,13 @@ public class Artifact extends KindofMisc {
 
 	@Override
 	public boolean doEquip( final Hero hero ) {
-
+		Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
 		if ((hero.belongings.artifact != null && hero.belongings.artifact.getClass() == this.getClass())
 				|| (hero.belongings.misc != null && hero.belongings.misc.getClass() == this.getClass())
 				|| (hero.belongings.misc2 != null && hero.belongings.misc2.getClass() == this.getClass())
-				|| (hero.belongings.artifact2 != null && hero.belongings.artifact2.getClass() == this.getClass())){
+				|| (hero.belongings.artifact2 != null && hero.belongings.artifact2.getClass() == this.getClass())
+				|| (toolbox != null && toolbox.isEquipped(hero) && toolbox.artifact != null && toolbox.artifact.getClass() == this.getClass())
+		){
 
 			GLog.w( Messages.get(Artifact.class, "cannot_wear_two") );
 			return false;
@@ -77,6 +81,7 @@ public class Artifact extends KindofMisc {
 			if (super.doEquip( hero )){
 
 				identify();
+				onEquip(hero);
 				return true;
 
 			} else {
@@ -87,6 +92,10 @@ public class Artifact extends KindofMisc {
 
 		}
 
+	}
+
+	public void onEquip(Hero hero) {
+		//Do nothing by default
 	}
 
 	public void activate( Char ch ) {
@@ -102,10 +111,7 @@ public class Artifact extends KindofMisc {
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
-			if (passiveBuff != null) {
-				if (passiveBuff.target != null) passiveBuff.detach();
-				passiveBuff = null;
-			}
+			onUnequip(hero, collect, single);
 
 			return true;
 
@@ -113,6 +119,13 @@ public class Artifact extends KindofMisc {
 
 			return false;
 
+		}
+	}
+
+	public void onUnequip(Hero hero, boolean collect, boolean single) {
+		if (passiveBuff != null) {
+			if (passiveBuff.target != null) passiveBuff.detach();
+			passiveBuff = null;
 		}
 	}
 

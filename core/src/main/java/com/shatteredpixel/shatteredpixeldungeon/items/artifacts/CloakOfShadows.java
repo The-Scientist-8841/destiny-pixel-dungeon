@@ -122,20 +122,17 @@ public class CloakOfShadows extends Artifact {
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
-		if (super.doUnequip(hero, collect, single)){
-			if (!collect || !hero.hasTalent(Talent.LIGHT_CLOAK)){
-				if (activeBuff != null){
-					activeBuff.detach();
-					activeBuff = null;
-				}
-			} else {
-				activate(hero);
-			}
+	public void onUnequip(Hero hero, boolean collect, boolean single) {
+		super.onUnequip(hero, collect, single);
 
-			return true;
-		} else
-			return false;
+		if (!collect || !hero.hasTalent(Talent.LIGHT_CLOAK)){
+			if (activeBuff != null){
+				activeBuff.detach();
+				activeBuff = null;
+			}
+		} else {
+			activate(hero);
+		}
 	}
 
 	@Override

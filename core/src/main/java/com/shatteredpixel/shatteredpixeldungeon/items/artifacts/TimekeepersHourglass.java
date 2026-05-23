@@ -161,15 +161,13 @@ public class TimekeepersHourglass extends Artifact {
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
-		if (super.doUnequip(hero, collect, single)){
-			if (activeBuff != null){
-				activeBuff.detach();
-				activeBuff = null;
-			}
-			return true;
-		} else
-			return false;
+	public void onUnequip(Hero hero, boolean collect, boolean single) {
+		super.onUnequip(hero, collect, single);
+
+		if (activeBuff != null){
+			activeBuff.detach();
+			activeBuff = null;
+		}
 	}
 
 	@Override

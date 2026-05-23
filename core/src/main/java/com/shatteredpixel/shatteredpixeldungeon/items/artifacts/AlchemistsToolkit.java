@@ -194,13 +194,8 @@ public class AlchemistsToolkit extends Artifact {
 	}
 	
 	@Override
-	public boolean doEquip(Hero hero) {
-		if (super.doEquip(hero)){
-			warmUpDelay = 101f;
-			return true;
-		} else {
-			return false;
-		}
+	public void onEquip(Hero hero) {
+		warmUpDelay = 101f;
 	}
 	
 	private static final String WARM_UP = "warm_up";
