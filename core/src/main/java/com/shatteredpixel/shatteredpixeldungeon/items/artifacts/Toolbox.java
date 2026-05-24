@@ -112,7 +112,7 @@ public class Toolbox extends Artifact {
 		} else if (action.equals(AC_UPGRADE)) {
 			if (Dungeon.materials >= 10) {
 				if (level() < levelCap) {
-					level(level() + 1);
+					upgrade();
 					Dungeon.materials -= 10;
 					updateQuickslot();
 					hero.sprite.operate(hero.pos);
