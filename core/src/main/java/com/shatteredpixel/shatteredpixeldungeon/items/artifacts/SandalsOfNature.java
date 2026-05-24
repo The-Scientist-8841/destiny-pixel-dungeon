@@ -165,7 +165,7 @@ public class SandalsOfNature extends Artifact {
 
 	@Override
 	public String status() {
-		return (Messages.format("%d%%", charge));
+		return Messages.format("%d%%", charge);
 	}
 	
 	@Override

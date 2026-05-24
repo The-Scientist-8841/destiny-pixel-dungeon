@@ -143,10 +143,12 @@ public class Toolbox extends Artifact {
 	@Override
 	public boolean doEquip(final Hero hero) {
 		if (artifact != null &&
-				(artifact.getClass() == hero.belongings.artifact.getClass() ||
-				 artifact.getClass() == hero.belongings.artifact2.getClass() ||
-				 artifact.getClass() == hero.belongings.misc.getClass() ||
-				 artifact.getClass() == hero.belongings.misc2.getClass()
+				(
+					(hero.belongings.artifact != null && artifact.getClass() == hero.belongings.artifact.getClass()) ||
+					(hero.belongings.artifact2 != null && artifact.getClass() == hero.belongings.artifact2.getClass()) ||
+					(hero.belongings.misc != null && artifact.getClass() == hero.belongings.misc.getClass()) ||
+					(hero.belongings.misc2 != null && artifact.getClass() == hero.belongings.misc2.getClass()
+				)
 			)
 		) {
 			GLog.w( Messages.get(Toolbox.class, "affixed_artifact_conflict", artifact.name()) );
@@ -286,8 +288,6 @@ public class Toolbox extends Artifact {
 				break;
 			case ARTIFACT:
 				if (artifact != null) {
-					artifact.charge = charge;
-
 					GameScene.show(new WndUseItem(null, artifact));
 				}
 				break;

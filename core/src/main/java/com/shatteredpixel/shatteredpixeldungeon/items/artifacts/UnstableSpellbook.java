@@ -158,7 +158,7 @@ public class UnstableSpellbook extends Artifact {
 		curUser = hero;
 
 		//if there are charges left and the scroll has been given to the book
-		if (charge > 0 && !scrolls.contains(scroll.getClass())) {
+		if (((toolbox == null && charge > 0) || (toolbox != null && toolbox.charge > 0)) && !scrolls.contains(scroll.getClass())) {
 			final Scroll fScroll = scroll;
 
 			final ExploitHandler handler = Buff.affect(hero, ExploitHandler.class);
@@ -175,7 +175,8 @@ public class UnstableSpellbook extends Artifact {
 					if (index == 1){
 						Scroll scroll = Reflection.newInstance(ExoticScroll.regToExo.get(fScroll.getClass()));
 						curItem = scroll;
-						charge--;
+						if (toolbox == null) charge--;
+						else toolbox.spendCharge(1);
 						scroll.anonymize();
 						scroll.talentChance = 0;
 						checkForArtifactProc(curUser, scroll);

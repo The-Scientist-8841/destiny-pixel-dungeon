@@ -1283,11 +1283,7 @@ public abstract class Mob extends Char {
 				debugThing.collect();
 				KingsCrown debugThing2 = new KingsCrown();
 				debugThing2.collect();
-				ChaliceOfBlood debugThing3 = new ChaliceOfBlood();
-				debugThing3.collect();
-				debugThing3.identify();
-				debugThing3.cursed = false;
-				AlchemistsToolkit debugThing4 = new AlchemistsToolkit();
+				Item debugThing4 = Generator.randomUsingDefaults(Generator.Category.ARTIFACT);
 				debugThing4.collect();
 				debugThing4.identify();
 				debugThing4.cursed = false;

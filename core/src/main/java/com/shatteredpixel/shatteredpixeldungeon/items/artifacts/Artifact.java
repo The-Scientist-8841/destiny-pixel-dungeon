@@ -153,7 +153,7 @@ public class Artifact extends KindofMisc {
 	@Override
 	public int level() {
 		if (toolbox == null) return super.level();
-		else return toolbox.level();
+		else return (int)(levelCap * toolbox.level() / toolbox.levelCap);
 	}
 
 	@Override
