@@ -87,7 +87,7 @@ public class TimekeepersHourglass extends Artifact {
 		if (isEquipped( hero )
 				&& !cursed
 				&& hero.buff(MagicImmune.class) == null
-				&& (charge > 0 || activeBuff != null)) {
+				&& (((toolbox == null && charge > 0) || (toolbox != null && toolbox.charge > 0)) || activeBuff != null)) {
 			actions.add(AC_ACTIVATE);
 		}
 		return actions;
@@ -109,7 +109,7 @@ public class TimekeepersHourglass extends Artifact {
 					activeBuff.detach();
 					GLog.i( Messages.get(this, "deactivate") );
 				}
-			} else if (charge <= 0)         GLog.i( Messages.get(this, "no_charge") );
+			} else if ((toolbox == null && charge <= 0) || (toolbox != null && toolbox.charge <= 0)) GLog.i( Messages.get(this, "no_charge") );
 			else if (cursed)                GLog.i( Messages.get(this, "cursed") );
 			else GameScene.show(
 						new WndOptions(new ItemSprite(this),
@@ -144,7 +144,8 @@ public class TimekeepersHourglass extends Artifact {
 									activeBuff = new timeFreeze();
 									Talent.onArtifactUsed(Dungeon.hero);
 									activeBuff.attachTo(Dungeon.hero);
-									charge--;
+									if (toolbox == null) charge--;
+									else toolbox.spendCharge(1);
 									((timeFreeze)activeBuff).processTime(0f);
 								}
 							}
@@ -207,7 +208,7 @@ public class TimekeepersHourglass extends Artifact {
 
 		if (isEquipped( Dungeon.hero )){
 			if (!cursed) {
-				if (level() < levelCap )
+				if ((toolbox == null && level() < levelCap) || (toolbox != null && level() < toolbox.levelCap) )
 					desc += "\n\n" + Messages.get(this, "desc_hint");
 
 			} else
@@ -293,7 +294,9 @@ public class TimekeepersHourglass extends Artifact {
 
 				Invisibility.dispel();
 
-				int usedCharge = Math.min(charge, 2);
+				int usedCharge = 0;
+				if (toolbox == null) usedCharge = Math.min(charge, 2);
+				else usedCharge = Math.min(toolbox.charge, 2);
 				//buffs always act last, so the stasis buff should end a turn early.
 				spend(5*usedCharge);
 
@@ -303,7 +306,8 @@ public class TimekeepersHourglass extends Artifact {
 					hunger.satisfy(5 * usedCharge);
 				}
 
-				charge -= usedCharge;
+				if (toolbox == null) charge -= usedCharge;
+				else toolbox.spendCharge(usedCharge);
 
 				target.invisible++;
 				target.paralysed++;
@@ -507,6 +511,8 @@ public class TimekeepersHourglass extends Artifact {
 			Catalog.setSeen(getClass());
 			Statistics.itemTypesDiscovered.add(getClass());
 			TimekeepersHourglass hourglass = hero.belongings.getItem( TimekeepersHourglass.class );
+			Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
+			if (toolbox != null && toolbox.artifact instanceof TimekeepersHourglass) hourglass = (TimekeepersHourglass) toolbox.artifact;
 			if (hourglass != null && !hourglass.cursed) {
 				hourglass.upgrade();
 				Catalog.countUses(hourglass.getClass(), 2);

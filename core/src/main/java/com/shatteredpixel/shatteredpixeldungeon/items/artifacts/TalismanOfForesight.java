@@ -88,7 +88,7 @@ public class TalismanOfForesight extends Artifact {
 
 		if (action.equals(AC_SCRY)){
 			if (!isEquipped(hero))  GLog.i( Messages.get(Artifact.class, "need_to_equip") );
-			else if (charge < 5)    GLog.i( Messages.get(this, "low_charge") );
+			else if ((toolbox == null && charge < 5) || (toolbox != null && toolbox.charge < 0.5f))    GLog.i( Messages.get(this, "low_charge") );
 			else                    GameScene.selectCell(scry);
 		}
 	}
@@ -132,8 +132,15 @@ public class TalismanOfForesight extends Artifact {
 		return desc;
 	}
 
+	@Override
+	public String status() {
+		if (toolbox == null) return super.status();
+		else return Messages.format("%d%%", (int)(10*toolbox.charge + 10*toolbox.partialCharge));
+	}
+
 	private float maxDist(){
-		return Math.min(5 + 2*level(), (charge-3)/1.08f);
+		int chrg = toolbox == null ? charge : (int)(toolbox.charge*10 + toolbox.partialCharge*10);
+		return Math.min(5 + 2*level(), (chrg-3)/1.08f);
 	}
 
 	public CellSelector.Listener scry = new CellSelector.Listener(){
@@ -211,26 +218,30 @@ public class TalismanOfForesight extends Artifact {
 
 				}
 
-				exp += earnedExp;
-				if (exp >= 100 + 50*level() && level() < levelCap) {
-					exp -= 100 + 50*level();
-					upgrade();
-					Catalog.countUse(TalismanOfForesight.class);
-					GLog.p( Messages.get(TalismanOfForesight.class, "levelup") );
+				if (toolbox == null) {
+					exp += earnedExp;
+					if (exp >= 100 + 50 * level() && level() < levelCap) {
+						exp -= 100 + 50 * level();
+						upgrade();
+						Catalog.countUse(TalismanOfForesight.class);
+						GLog.p(Messages.get(TalismanOfForesight.class, "levelup"));
+					}
 				}
 				updateQuickslot();
 
 				//5 charge at 2 tiles, up to 30 charge at 25 tiles
-				charge -= 3 + dist*1.08f;
-				partialCharge -= (dist*1.08f)%1f;
-				if (partialCharge < 0 && charge > 0){
-					partialCharge ++;
-					charge --;
-				}
-				while (charge < 0){
-					charge++;
-					partialCharge--;
-				}
+				if (toolbox == null) {
+					charge -= 3 + dist * 1.08f;
+					partialCharge -= (dist * 1.08f) % 1f;
+					if (partialCharge < 0 && charge > 0) {
+						partialCharge++;
+						charge--;
+					}
+					while (charge < 0) {
+						charge++;
+						partialCharge--;
+					}
+				} else toolbox.spendCharge((3 + dist * 1.08f) / 10f);
 				Invisibility.dispel(curUser);
 				Talent.onArtifactUsed(Dungeon.hero);
 				updateQuickslot();
@@ -277,7 +288,7 @@ public class TalismanOfForesight extends Artifact {
 
 			checkAwareness();
 
-			if (charge < chargeCap
+			if (toolbox == null && charge < chargeCap
 					&& !cursed
 					&& target.buff(MagicImmune.class) == null
 					&& Regeneration.regenOn()) {

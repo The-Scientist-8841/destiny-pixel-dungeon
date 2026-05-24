@@ -94,11 +94,12 @@ public class EtherealChains extends Artifact {
 
 			curUser = hero;
 
+			int chrg = toolbox == null ? charge : (int)(toolbox.charge * 4 + toolbox.partialCharge * 4);
 			if (!isEquipped( hero )) {
 				GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 				usesTargeting = false;
 
-			} else if ((toolbox == null && charge < 1) || (toolbox != null && toolbox.charge < 0.25f)) {
+			} else if (chrg < 1) {
 				GLog.i( Messages.get(this, "no_charge") );
 				usesTargeting = false;
 
@@ -178,7 +179,8 @@ public class EtherealChains extends Artifact {
 		final int pulledPos = bestPos;
 		
 		int chargeUse = Dungeon.level.distance(enemy.pos, pulledPos);
-		if ((toolbox == null && chargeUse > charge) || (toolbox != null && chargeUse/4f > toolbox.charge)) {
+		int chrg = toolbox == null ? charge : (int)(toolbox.charge * 4 + toolbox.partialCharge * 4);
+		if (chargeUse > chrg) {
 			GLog.w( Messages.get(this, "no_charge") );
 			return;
 		}
@@ -247,7 +249,8 @@ public class EtherealChains extends Artifact {
 		final int newHeroPos = chain.collisionPos;
 		
 		int chargeUse = Dungeon.level.distance(hero.pos, newHeroPos);
-		if ((toolbox == null && chargeUse > charge) || (toolbox != null && chargeUse/4f > toolbox.charge)){
+		int chrg = toolbox == null ? charge : (int)(toolbox.charge * 4 + toolbox.partialCharge * 4);
+		if (chargeUse > chrg){
 			GLog.w( Messages.get(EtherealChains.class, "no_charge") );
 			return;
 		}
@@ -312,6 +315,12 @@ public class EtherealChains extends Artifact {
 				desc += Messages.get(this, "desc_equipped");
 		}
 		return desc;
+	}
+
+	@Override
+	public String status() {
+		if (toolbox == null) return super.status();
+		else return Messages.format("%d", (int)(toolbox.charge*4 + toolbox.partialCharge*4));
 	}
 
 	public class chainsRecharge extends ArtifactBuff{

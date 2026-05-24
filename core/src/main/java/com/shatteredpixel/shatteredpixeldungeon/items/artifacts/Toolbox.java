@@ -382,7 +382,7 @@ public class Toolbox extends Artifact {
 		}
 
 		@Override
-		public boolean itemSelectable(Item item) { return item instanceof Artifact && !(item instanceof Toolbox); }
+		public boolean itemSelectable(Item item) { return item instanceof Artifact && !(item instanceof Toolbox) && !(item instanceof HolyTome) && !(item instanceof CloakOfShadows); }
 
 		public void whenDone(Hero hero) {
 			hero.busy();

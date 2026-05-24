@@ -126,7 +126,7 @@ public class UnstableSpellbook extends Artifact {
 
 			if (hero.buff( Blindness.class ) != null) GLog.w( Messages.get(this, "blinded") );
 			else if (!isEquipped( hero ))             GLog.i( Messages.get(Artifact.class, "need_to_equip") );
-			else if (charge <= 0)                     GLog.i( Messages.get(this, "no_charge") );
+			else if ((toolbox == null && charge <= 0) || (toolbox != null && toolbox.charge <= 0)) GLog.i( Messages.get(this, "no_charge") );
 			else if (cursed)                          GLog.i( Messages.get(this, "cursed") );
 			else {
 				doReadEffect(hero);
@@ -138,7 +138,8 @@ public class UnstableSpellbook extends Artifact {
 	}
 
 	public void doReadEffect(Hero hero){
-		charge--;
+		if (toolbox == null) charge--;
+		else toolbox.spendCharge(1);
 
 		Scroll scroll;
 		do {

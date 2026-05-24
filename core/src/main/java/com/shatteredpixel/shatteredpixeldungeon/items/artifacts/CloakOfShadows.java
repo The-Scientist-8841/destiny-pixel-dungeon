@@ -70,7 +70,7 @@ public class CloakOfShadows extends Artifact {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if ((isEquipped( hero ) || (toolbox == null && hero.hasTalent(Talent.LIGHT_CLOAK)))
+		if ((isEquipped( hero ) || hero.hasTalent(Talent.LIGHT_CLOAK))
 				&& !cursed
 				&& hero.buff(MagicImmune.class) == null
 				&& (charge > 0 || activeBuff != null)) {
@@ -130,7 +130,7 @@ public class CloakOfShadows extends Artifact {
 				activeBuff.detach();
 				activeBuff = null;
 			}
-		} else if (toolbox == null) {
+		} else {
 			activate(hero);
 		}
 	}
@@ -227,7 +227,7 @@ public class CloakOfShadows extends Artifact {
 	public class cloakRecharge extends ArtifactBuff{
 		@Override
 		public boolean act() {
-			if (toolbox == null && (charge < chargeCap && !cursed && target.buff(MagicImmune.class) == null)) {
+			if (charge < chargeCap && !cursed && target.buff(MagicImmune.class) == null) {
 				if (activeBuff == null && Regeneration.regenOn()) {
 					float missing = (chargeCap - charge);
 					if (level() > 7) missing += 5*(level() - 7)/3f;
@@ -318,11 +318,9 @@ public class CloakOfShadows extends Artifact {
 			turnsToCost--;
 			
 			if (turnsToCost <= 0){
-				if (toolbox == null) charge--;
-				else toolbox.spendCharge(1f);
-				if ((toolbox == null && charge < 0) || (toolbox != null && toolbox.charge < 0)) {
-					if (toolbox == null) charge = 0;
-					else toolbox.charge = 0;
+				charge--;
+				if (charge < 0) {
+					charge = 0;
 					detach();
 					GLog.w(Messages.get(this, "no_charge"));
 					((Hero) target).interrupt();

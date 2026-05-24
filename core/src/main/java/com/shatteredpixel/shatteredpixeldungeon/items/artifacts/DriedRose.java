@@ -504,6 +504,8 @@ public class DriedRose extends Artifact {
 			Catalog.setSeen(getClass());
 			Statistics.itemTypesDiscovered.add(getClass());
 			DriedRose rose = hero.belongings.getItem( DriedRose.class );
+			Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
+			if (toolbox != null && toolbox.artifact instanceof DriedRose) rose = (DriedRose) toolbox.artifact;
 
 			if (rose == null){
 				GLog.w( Messages.get(this, "no_rose") );

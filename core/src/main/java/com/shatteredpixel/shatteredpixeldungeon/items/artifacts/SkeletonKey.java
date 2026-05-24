@@ -113,7 +113,7 @@ public class SkeletonKey extends Artifact {
 
 	//levels when used, with bonus xp for opening locks that could be opened with keys
 	public void gainExp( int xpGain ){
-		if (level() == levelCap){
+		if ((toolbox == null && level() == levelCap) || (toolbox != null && level() >= toolbox.levelCap)) {
 			return;
 		}
 
@@ -149,7 +149,7 @@ public class SkeletonKey extends Artifact {
 							GLog.w(Messages.get(SkeletonKey.class, "wont_open"));
 							return;
 						}
-						if (charge < 1){
+						if ((toolbox == null && charge < 1) || (toolbox != null && toolbox.charge < 1)){
 							GLog.i( Messages.get(SkeletonKey.class, "iron_charges") );
 							return;
 						}
@@ -160,8 +160,11 @@ public class SkeletonKey extends Artifact {
 								Buff.affect(curUser, KeyReplacementTracker.class).processIronLockOpened();
 								Level.set(target, Terrain.DOOR);
 								GameScene.updateMap(target);
-								charge -= 1;
-								gainExp(2 + 1);
+								if (toolbox == null) {
+									charge -= 1;
+									gainExp(2 + 1);
+								}
+								else toolbox.spendCharge(1);
 								Talent.onArtifactUsed(Dungeon.hero);
 								curUser.spendAndNext(Actor.TICK);
 								curUser.sprite.idle();
@@ -187,7 +190,7 @@ public class SkeletonKey extends Artifact {
 						return;
 					} else if (Dungeon.level.map[target] == Terrain.CRYSTAL_DOOR) {
 
-						if (charge < 5) {
+						if ((toolbox == null && charge < 5) || (toolbox != null && toolbox.charge < 5)) {
 							GLog.i(Messages.get(SkeletonKey.class, "crystal_charges"));
 							return;
 						}
@@ -198,8 +201,11 @@ public class SkeletonKey extends Artifact {
 								Buff.affect(curUser, KeyReplacementTracker.class).processCrystalLockOpened();
 								Level.set(target, Terrain.EMPTY);
 								GameScene.updateMap(target);
-								charge -= 5;
-								gainExp(2 + 5);
+								if (toolbox == null) {
+									charge -= 5;
+									gainExp(2 + 5);
+								}
+								else toolbox.spendCharge(5);
 								Talent.onArtifactUsed(Dungeon.hero);
 								Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
 								CellEmitter.get( target ).start( Speck.factory( Speck.DISCOVER ), 0.025f, 20 );
@@ -214,7 +220,7 @@ public class SkeletonKey extends Artifact {
 						return;
 					} else if (Dungeon.level.map[target] == Terrain.DOOR || Dungeon.level.map[target] == Terrain.OPEN_DOOR){
 
-						if (charge < 2) {
+						if ((toolbox == null && charge < 2) || (toolbox != null && toolbox.charge < 2)) {
 							GLog.i(Messages.get(SkeletonKey.class, "lock_charges"));
 							return;
 						}
@@ -252,8 +258,11 @@ public class SkeletonKey extends Artifact {
 							public void call() {
 								Level.set(target, Terrain.HERO_LKD_DR);
 								GameScene.updateMap(target);
-								charge -= 2;
-								gainExp(2);
+								if (toolbox == null) {
+									charge -= 2;
+									gainExp(2);
+								}
+								else toolbox.spendCharge(2);
 								Talent.onArtifactUsed(Dungeon.hero);
 								curUser.spendAndNext(Actor.TICK);
 								curUser.sprite.idle();
@@ -279,7 +288,7 @@ public class SkeletonKey extends Artifact {
 						return;
 
 					} else if (Dungeon.level.heaps.get(target) != null && Dungeon.level.heaps.get(target).type == Heap.Type.LOCKED_CHEST){
-						if (charge < 2) {
+						if ((toolbox == null && charge < 2) || (toolbox != null && toolbox.charge < 2)) {
 							GLog.i(Messages.get(SkeletonKey.class, "gold_charges"));
 							return;
 						}
@@ -289,8 +298,11 @@ public class SkeletonKey extends Artifact {
 							public void call() {
 								Buff.affect(curUser, KeyReplacementTracker.class).processGoldLockOpened();
 								Dungeon.level.heaps.get(target).open(curUser);
-								charge -= 2;
-								gainExp(2 + 2);
+								if (toolbox == null) {
+									charge -= 2;
+									gainExp(2 + 2);
+								}
+								else toolbox.spendCharge(2);
 								Talent.onArtifactUsed(Dungeon.hero);
 								curUser.spendAndNext(Actor.TICK);
 								curUser.sprite.idle();
@@ -300,7 +312,7 @@ public class SkeletonKey extends Artifact {
 						return;
 
 					} else if (Dungeon.level.heaps.get(target) != null && Dungeon.level.heaps.get(target).type == Heap.Type.CRYSTAL_CHEST){
-						if (charge < 5) {
+						if ((toolbox == null && charge < 5) || (toolbox != null && toolbox.charge < 5)) {
 							GLog.i(Messages.get(SkeletonKey.class, "crystal_charges"));
 							return;
 						}
@@ -310,8 +322,11 @@ public class SkeletonKey extends Artifact {
 							public void call() {
 								Buff.affect(curUser, KeyReplacementTracker.class).processCrystalLockOpened();
 								Dungeon.level.heaps.get(target).open(curUser);
-								charge -= 5;
-								gainExp(2 + 5);
+								if (toolbox == null) {
+									charge -= 5;
+									gainExp(2 + 5);
+								}
+								else toolbox.spendCharge(5);
 								Talent.onArtifactUsed(Dungeon.hero);
 								curUser.spendAndNext(Actor.TICK);
 								curUser.sprite.idle();
@@ -323,7 +338,7 @@ public class SkeletonKey extends Artifact {
 					}
 				}
 
-				if (charge < 2){
+				if ((toolbox == null && charge < 2) || (toolbox != null && toolbox.charge < 2)){
 					GLog.i(Messages.get(SkeletonKey.class, "wall_charges"));
 					return;
 				}
@@ -361,7 +376,8 @@ public class SkeletonKey extends Artifact {
 							placeWall(curUser.pos+2*PathFinder.CIRCLE8[(finalClosestIdx +1)%8], knockBackDir);
 						}
 
-						charge -= 2;
+						if (toolbox == null) charge -= 2;
+						else toolbox.spendCharge(2);
 						gainExp(2);
 
 						Dungeon.observe();

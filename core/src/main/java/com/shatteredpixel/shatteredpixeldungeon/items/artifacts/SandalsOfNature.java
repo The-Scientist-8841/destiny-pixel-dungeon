@@ -146,11 +146,12 @@ public class SandalsOfNature extends Artifact {
 
 			GameScene.selectItem(itemSelector);
 
-		} else if (action.equals(AC_ROOT) && !cursed){
+		} else if (action.equals(AC_ROOT) && !cursed && (toolbox == null || toolbox.charge >= 1)){
 
 			if (!isEquipped( hero ))                                GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 			else if (curSeedEffect == null)                         GLog.i( Messages.get(this, "no_effect") );
 			else if (charge < seedChargeReqs.get(curSeedEffect))    GLog.i( Messages.get(this, "low_charge") );
+			else if (toolbox != null && toolbox.charge < 1)			GLog.i( Messages.get(this, "toolbox_req"));
 			else {
 				GameScene.selectCell(cellSelector);
 			}
@@ -160,6 +161,11 @@ public class SandalsOfNature extends Artifact {
 	@Override
 	protected ArtifactBuff passiveBuff() {
 		return new Naturalism();
+	}
+
+	@Override
+	public String status() {
+		return (Messages.format("%d%%", charge));
 	}
 	
 	@Override
@@ -358,6 +364,7 @@ public class SandalsOfNature extends Artifact {
 					}
 
 					charge -= seedChargeReqs.get(curSeedEffect);
+					if (toolbox != null) toolbox.spendCharge(1);
 					Talent.onArtifactUsed(Dungeon.hero);
 					updateQuickslot();
 					curUser.spendAndNext(1f);

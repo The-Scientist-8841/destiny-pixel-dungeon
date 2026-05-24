@@ -303,19 +303,22 @@ public class MasterThievesArmband extends Artifact {
 			if (Random.Float() > stealChance){
 				return false;
 			} else {
-				if (toolbox == null) charge -= chargesUsed;
-				else toolbox.spendCharge(chargesUsed);
-				exp += 4 * chargesUsed;
 				GLog.i(Messages.get(MasterThievesArmband.class, "stole_item", item.name()));
 
+				if (toolbox == null) {
+					charge -= chargesUsed;
+					exp += 4 * chargesUsed;
+
+					Talent.onArtifactUsed(Dungeon.hero);
+					while (exp >= (10 + Math.round(3.33f * level())) && level() < levelCap) {
+						exp -= 10 + Math.round(3.33f * level());
+						Catalog.countUse(MasterThievesArmband.class);
+						GLog.p(Messages.get(MasterThievesArmband.class, "level_up"));
+						upgrade();
+					}
+				} else toolbox.spendCharge(chargesUsed);
+
 				Talent.onArtifactUsed(Dungeon.hero);
-				int lvlCap = toolbox == null ? levelCap : toolbox.levelCap;
-				while (exp >= (10 + Math.round(3.33f * level())) && level() < lvlCap) {
-					exp -= 10 + Math.round(3.33f * level());
-					Catalog.countUse(MasterThievesArmband.class);
-					GLog.p(Messages.get(MasterThievesArmband.class, "level_up"));
-					upgrade();
-				}
 				updateQuickslot();
 				return true;
 			}
