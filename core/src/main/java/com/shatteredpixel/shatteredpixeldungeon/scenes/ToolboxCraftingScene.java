@@ -482,7 +482,7 @@ public class ToolboxCraftingScene extends PixelScene {
 		};
 		btnGuide.icon(new ItemSprite(ItemSpriteSheet.ARTIFACT_TOOLBOX));
 		btnGuide.setSize(btnGuide.reqWidth()+4, 18);
-		btnGuide.setPos(centerW - btnGuide.width()/2f, materialsLeft.top()- btnGuide.height()-2);
+		btnGuide.setPos(centerW - btnGuide.width()/2f, materialsLeft.top()- btnGuide.height()-6);
 		align(btnGuide);
 		add(btnGuide);
 
@@ -906,6 +906,7 @@ public class ToolboxCraftingScene extends PixelScene {
 
 		protected RedButton button;
 		protected RenderedTextBlock costText;
+		protected Image costIcon;
 
 		private CombineButton(int slot){
 			super();
@@ -942,6 +943,8 @@ public class ToolboxCraftingScene extends PixelScene {
 
 			costText = PixelScene.renderTextBlock(6);
 			add(costText);
+			costIcon = Icons.get(Icons.MATERIAL_SML);
+			add(costIcon);
 		}
 
 		@Override
@@ -951,9 +954,11 @@ public class ToolboxCraftingScene extends PixelScene {
 			button.setRect(x, y, width(), height());
 
 			costText.setPos(
-					left() + (width() - costText.width())/2,
-					top() - costText.height()
+					left() + (width() - costText.width() - costIcon.width())/2 + costIcon.width(),
+					top() - costIcon.height() - (costText.height() - costIcon.height())/2f
 			);
+			costIcon.x = left() + (width() - costText.width() - costIcon.width())/2;
+			costIcon.y = top() - costIcon.height();
 		}
 
 		public void enable( boolean enabled ){
@@ -974,9 +979,11 @@ public class ToolboxCraftingScene extends PixelScene {
 
 			if (cost == 0){
 				costText.visible = false;
+				costIcon.visible = false;
 			} else {
 				costText.visible = true;
-				costText.text(Messages.get(ToolboxCraftingScene.class, "energy") + " " + cost);
+				costIcon.visible = true;
+				costText.text(Integer.toString(cost));
 			}
 
 			layout();
