@@ -1,0 +1,235 @@
+/*
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2026 Evan Debenham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+package com.shatteredpixel.shatteredpixeldungeon.items;
+
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.UnstableBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
+import com.watabou.utils.Reflection;
+
+import java.util.ArrayList;
+
+public abstract class ToolboxRecipe {
+	
+	public abstract boolean testIngredients(ArrayList<Item> ingredients);
+	
+	public abstract int cost(ArrayList<Item> ingredients);
+	
+	public abstract Item craft(ArrayList<Item> ingredients);
+	
+	public abstract Item sampleOutput(ArrayList<Item> ingredients);
+	
+	//subclass for the common situation of a recipe with static inputs and outputs
+	public static abstract class SimpleRecipe extends ToolboxRecipe {
+		
+		//*** These elements must be filled in by subclasses
+		protected Class<?extends Item>[] inputs; //each class should be unique
+		protected int[] inQuantity;
+		
+		protected int cost;
+		
+		protected Class<?extends Item> output;
+		protected int outQuantity;
+		//***
+		
+		//gets a simple list of items based on inputs
+		public ArrayList<Item> getIngredients() {
+			ArrayList<Item> result = new ArrayList<>();
+			for (int i = 0; i < inputs.length; i++) {
+				Item ingredient = Reflection.newInstance(inputs[i]);
+				ingredient.quantity(inQuantity[i]);
+				result.add(ingredient);
+			}
+			return result;
+		}
+		
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			
+			int[] needed = inQuantity.clone();
+			
+			for (Item ingredient : ingredients){
+				if (!ingredient.isIdentified()) return false;
+				for (int i = 0; i < inputs.length; i++){
+					if (ingredient.getClass() == inputs[i]){
+						needed[i] -= ingredient.quantity();
+						break;
+					}
+				}
+			}
+			
+			for (int i : needed){
+				if (i > 0){
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		public int cost(ArrayList<Item> ingredients){
+			return cost;
+		}
+		
+		@Override
+		public Item craft(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+			
+			int[] needed = inQuantity.clone();
+			
+			for (Item ingredient : ingredients){
+				for (int i = 0; i < inputs.length; i++) {
+					if (ingredient.getClass() == inputs[i] && needed[i] > 0) {
+						if (needed[i] <= ingredient.quantity()) {
+							ingredient.quantity(ingredient.quantity() - needed[i]);
+							needed[i] = 0;
+						} else {
+							needed[i] -= ingredient.quantity();
+							ingredient.quantity(0);
+						}
+					}
+				}
+			}
+			
+			//sample output and real output are identical in this case.
+			return sampleOutput(null);
+		}
+		
+		//ingredients are ignored, as output doesn't vary
+		public Item sampleOutput(ArrayList<Item> ingredients){
+			try {
+				Item result = Reflection.newInstance(output);
+				result.quantity(outQuantity);
+				return result;
+			} catch (Exception e) {
+				ShatteredPixelDungeon.reportException( e );
+				return null;
+			}
+		}
+	}
+	
+	
+	//*******
+	// Static members
+	//*******
+
+	private static ToolboxRecipe[] zeroIngredientRecipes = new ToolboxRecipe[]{
+			new InventoryBullet.BulletCraft()
+	};
+	
+	private static ToolboxRecipe[] oneIngredientRecipes = new ToolboxRecipe[]{
+
+	};
+	
+	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
+
+	};
+	
+	private static ToolboxRecipe[] threeIngredientRecipes = new ToolboxRecipe[]{
+
+	};
+	
+	public static ArrayList<ToolboxRecipe> findRecipes(ArrayList<Item> ingredients){
+
+		ArrayList<ToolboxRecipe> result = new ArrayList<>();
+
+		if (ingredients.size() == 0) {
+			for (ToolboxRecipe recipe : zeroIngredientRecipes) {
+				if (recipe.testIngredients(ingredients)) {
+					result.add(recipe);
+				}
+			}
+		} else if (ingredients.size() == 1){
+			for (ToolboxRecipe recipe : oneIngredientRecipes){
+				if (recipe.testIngredients(ingredients)){
+					result.add(recipe);
+				}
+			}
+			
+		} else if (ingredients.size() == 2){
+			for (ToolboxRecipe recipe : twoIngredientRecipes){
+				if (recipe.testIngredients(ingredients)){
+					result.add(recipe);
+				}
+			}
+			
+		} else if (ingredients.size() == 3){
+			for (ToolboxRecipe recipe : threeIngredientRecipes){
+				if (recipe.testIngredients(ingredients)){
+					result.add(recipe);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public static boolean usableInRecipe(Item item){
+		//only upgradeable thrown weapons and wands allowed among equipment items
+		if (item instanceof EquipableItem){
+			return item.cursedKnown && !item.cursed &&
+					item instanceof MissileWeapon && item.isUpgradable();
+		} else if (item instanceof Wand) {
+			return item.cursedKnown && !item.cursed;
+		} else {
+			return item.isIdentified();
+		}
+	}
+}
+
+

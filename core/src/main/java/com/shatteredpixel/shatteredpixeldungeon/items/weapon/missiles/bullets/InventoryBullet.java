@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -67,4 +68,32 @@ public class InventoryBullet extends Item {
 	}
 
 	//Put some function for determining bullet type here, for ArcaneFirearm to call.
+
+	public static class BulletCraft extends ToolboxRecipe {
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+            return ingredients.isEmpty();
+        }
+
+		@Override
+		public int cost(ArrayList<Item> ingredients) { return 1; }
+
+		@Override
+		public Item craft(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			InventoryBullet bullets = new InventoryBullet();
+			bullets.quantity(2);
+			return bullets;
+		}
+
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			InventoryBullet bullets = new InventoryBullet();
+			bullets.quantity(2);
+			return bullets;
+		}
+	}
 }

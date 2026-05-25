@@ -827,9 +827,11 @@ public class ItemSpriteSheet {
 
 	public static final int BULLET = xy(1,33);
 	public static final int BULLET_PROJECTILE = BULLET + 1;
+	public static final int BULLET_HOLDER = BULLET + 2;
 	static {
 		assignItemRect(BULLET, 15,15);
 		assignItemRect(BULLET_PROJECTILE, 5,5);
+		assignItemRect(BULLET_HOLDER, 15,15);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite

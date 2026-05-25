@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BadgesList;
 import com.shatteredpixel.shatteredpixeldungeon.ui.CustomNoteButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickRecipe;
+import com.shatteredpixel.shatteredpixeldungeon.ui.QuickToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
@@ -101,6 +102,7 @@ public class WndJournal extends WndTabbed {
 	private NotesTab notesTab;
 	private CatalogTab catalogTab;
 	private BadgesTab badgesTab;
+	private ToolboxCraftingTab toolboxCraftingTab;
 	
 	public static int last_index = 0;
 
@@ -125,6 +127,10 @@ public class WndJournal extends WndTabbed {
 		alchemyTab = new AlchemyTab();
 		add(alchemyTab);
 		alchemyTab.setRect(0, 0, width, height);
+
+		toolboxCraftingTab = new ToolboxCraftingTab();
+		add(toolboxCraftingTab);
+		toolboxCraftingTab.setRect(0, 0, width, height);
 		
 		notesTab = new NotesTab();
 		add(notesTab);
@@ -456,6 +462,179 @@ public class WndJournal extends WndTabbed {
 					toAdd.remove(0);
 				}
 				
+				if (!toAdd.isEmpty() && toAdd.get(0) != null) {
+					ColorBlock spacer = new ColorBlock(width(), 1, 0xFF222222);
+					spacer.y = top + 16;
+					spacer.x = 0;
+					content.add(spacer);
+				}
+				top += 17;
+				toAddThisRow.clear();
+			}
+			top -= 1;
+			content.setSize(width(), top);
+			list.setSize(list.width(), list.height());
+			list.scrollTo(0, 0);
+		}
+	}
+
+	public static class ToolboxCraftingTab extends Component {
+
+		private RedButton[] pageButtons;
+		private static final int NUM_BUTTONS = 2;
+
+		private static final int[] sprites = {
+				ItemSpriteSheet.BULLET_HOLDER,
+				ItemSpriteSheet.BOMB_HOLDER
+		};
+
+		public static int currentPageIdx   = 0;
+
+		private IconTitle title;
+		private RenderedTextBlock body;
+
+		private ScrollPane list;
+		private ArrayList<QuickToolboxRecipe> recipes = new ArrayList<>();
+
+		@Override
+		protected void createChildren() {
+			pageButtons = new RedButton[NUM_BUTTONS];
+			for (int i = 0; i < NUM_BUTTONS; i++){
+				final int idx = i;
+				pageButtons[i] = new RedButton( "" ){
+					@Override
+					protected void onClick() {
+						currentPageIdx = idx;
+						updateList();
+					}
+				};
+				pageButtons[i].icon(new ItemSprite(sprites[i], null));
+				add( pageButtons[i] );
+			}
+
+			title = new IconTitle();
+			title.icon( new ItemSprite(ItemSpriteSheet.ARTIFACT_TOOLBOX));
+			title.visible = false;
+
+			body = PixelScene.renderTextBlock(6);
+
+			list = new ScrollPane(new Component());
+			add(list);
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+
+			if (width() >= 180){
+				float buttonWidth = width()/pageButtons.length;
+				for (int i = 0; i < NUM_BUTTONS; i++) {
+					pageButtons[i].setRect(x + i*buttonWidth, y, buttonWidth, ITEM_HEIGHT);
+					PixelScene.align(pageButtons[i]);
+				}
+			} else {
+				//for first row
+				float buttonWidth = width()/5;
+				float y = 0;
+				float x = 0;
+				for (int i = 0; i < NUM_BUTTONS; i++) {
+					pageButtons[i].setRect(this.x + x, this.y + y, buttonWidth, ITEM_HEIGHT);
+					PixelScene.align(pageButtons[i]);
+					x += buttonWidth;
+					if (i == 4){
+						y += ITEM_HEIGHT;
+						x = 0;
+						buttonWidth = width()/4;
+					}
+				}
+			}
+
+			list.setRect(x, pageButtons[NUM_BUTTONS-1].bottom() + 1, width,
+					height - pageButtons[NUM_BUTTONS-1].bottom() + y - 1);
+
+			updateList();
+		}
+
+		public void updateList() {
+
+			if (currentPageIdx != -1){
+				currentPageIdx = -1;
+			}
+
+			for (int i = 0; i < NUM_BUTTONS; i++) {
+				if (i == currentPageIdx) {
+					pageButtons[i].icon().color(TITLE_COLOR);
+				} else {
+					pageButtons[i].icon().resetColor();
+				}
+			}
+
+			if (currentPageIdx == -1){
+				return;
+			}
+
+			for (QuickToolboxRecipe r : recipes){
+				if (r != null) {
+					r.killAndErase();
+					r.destroy();
+				}
+			}
+			recipes.clear();
+
+			Component content = list.content();
+
+			content.clear();
+
+			title.visible = true;
+			title.label(Messages.get(this, "title_" + Integer.toString(currentPageIdx)));
+			title.setRect(0, 0, width(), 10);
+			content.add(title);
+
+			body.maxWidth((int)width());
+			body.text(Messages.get(this, "body_" + Integer.toString(currentPageIdx)));
+			body.setPos(0, title.bottom());
+			content.add(body);
+
+			ArrayList<QuickToolboxRecipe> toAdd = QuickToolboxRecipe.getRecipes(currentPageIdx);
+
+			float left;
+			float top = body.bottom()+2;
+			int w;
+			ArrayList<QuickToolboxRecipe> toAddThisRow = new ArrayList<>();
+			while (!toAdd.isEmpty()){
+				if (toAdd.get(0) == null){
+					toAdd.remove(0);
+					top += 6;
+				}
+
+				w = 0;
+				while(!toAdd.isEmpty() && toAdd.get(0) != null
+						&& w + toAdd.get(0).width() <= width()){
+					toAddThisRow.add(toAdd.remove(0));
+					w += toAddThisRow.get(0).width();
+				}
+
+				float spacing = (width() - w)/(toAddThisRow.size() + 1);
+				left = spacing;
+				while (!toAddThisRow.isEmpty()){
+					QuickToolboxRecipe r = toAddThisRow.remove(0);
+					r.setPos(left, top);
+					left += r.width() + spacing;
+					if (!toAddThisRow.isEmpty()) {
+						ColorBlock spacer = new ColorBlock(1, 16, 0xFF222222);
+						spacer.y = top;
+						spacer.x = left - spacing / 2 - 0.5f;
+						PixelScene.align(spacer);
+						content.add(spacer);
+					}
+					recipes.add(r);
+					content.add(r);
+				}
+
+				if (!toAdd.isEmpty() && toAdd.get(0) == null){
+					toAdd.remove(0);
+				}
+
 				if (!toAdd.isEmpty() && toAdd.get(0) != null) {
 					ColorBlock spacer = new ColorBlock(width(), 1, 0xFF222222);
 					spacer.y = top + 16;
