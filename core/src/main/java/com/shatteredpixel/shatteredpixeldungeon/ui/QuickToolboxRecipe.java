@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -101,8 +102,44 @@ public class QuickToolboxRecipe extends Component {
 		int cost = r.cost(inputs);
 		boolean hasInputs = true;
 		this.inputs = new ArrayList<>();
-		for (final Item in : inputs) {
-			anonymize(in);
+		if (inputs.size() > 0) {
+			for (final Item in : inputs) {
+				anonymize(in);
+				ItemSlot curr;
+				curr = new ItemSlot(in) {
+					{
+						hotArea.blockLevel = PointerArea.NEVER_BLOCK;
+					}
+
+					@Override
+					protected void onClick() {
+						ShatteredPixelDungeon.scene().addToFront(new WndInfoItem(in));
+					}
+				};
+
+				int quantity = 0;
+				if (Dungeon.hero != null) {
+					ArrayList<Item> similar = Dungeon.hero.belongings.getAllSimilar(in);
+					for (Item sim : similar) {
+						//if we are looking for a specific item, it must be IDed
+						if (sim.getClass() != in.getClass() || sim.isIdentified())
+							quantity += sim.quantity();
+					}
+					if (quantity < in.quantity()) {
+						curr.sprite.alpha(0.3f);
+						hasInputs = false;
+					}
+				} else {
+					hasInputs = false;
+				}
+
+				curr.showExtraInfo(false);
+				add(curr);
+				this.inputs.add(curr);
+			}
+		} else {
+			Item in = new ArcaneMaterial();
+			in.quantity(cost);
 			ItemSlot curr;
 			curr = new ItemSlot(in) {
 				{
@@ -115,15 +152,8 @@ public class QuickToolboxRecipe extends Component {
 				}
 			};
 
-			int quantity = 0;
 			if (Dungeon.hero != null) {
-				ArrayList<Item> similar = Dungeon.hero.belongings.getAllSimilar(in);
-				for (Item sim : similar) {
-					//if we are looking for a specific item, it must be IDed
-					if (sim.getClass() != in.getClass() || sim.isIdentified())
-						quantity += sim.quantity();
-				}
-				if (quantity < in.quantity()) {
+				if (Dungeon.materials < cost) {
 					curr.sprite.alpha(0.3f);
 					hasInputs = false;
 				}
@@ -136,7 +166,7 @@ public class QuickToolboxRecipe extends Component {
 			this.inputs.add(curr);
 		}
 		
-		if (cost > 0) {
+		if (cost > 0 && inputs.size() > 0) {
 			arrow = new arrow(Icons.get(Icons.ARROW), cost);
 			arrow.hardlightText(0xFFEEEE);
 		} else {
@@ -266,7 +296,7 @@ public class QuickToolboxRecipe extends Component {
 		ArrayList<QuickToolboxRecipe> result = new ArrayList<>();
 		switch (pageIdx){
 			case 0: default:
-				result.add(new QuickToolboxRecipe(new InventoryBullet.BulletCraft(), new ArrayList<>(), new InventoryBullet()));
+				result.add(new QuickToolboxRecipe(new InventoryBullet.BulletCraft(), new ArrayList<Item>(), new InventoryBullet().quantity(2)));
 				return result;
 			case 1:
 				return result;

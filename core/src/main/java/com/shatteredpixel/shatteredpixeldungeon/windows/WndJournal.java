@@ -184,11 +184,23 @@ public class WndJournal extends WndTabbed {
 						return Messages.get(alchemyTab, "title");
 					}
 				},
+				new IconTab( new ItemSprite(ItemSpriteSheet.ARTIFACT_TOOLBOX) ) {
+					protected void select( boolean value ) {
+						super.select( value );
+						toolboxCraftingTab.active = toolboxCraftingTab.visible = value;
+						if (value) last_index = 3;
+					}
+
+					@Override
+					protected String hoverText() {
+						return Messages.get(toolboxCraftingTab, "title");
+					}
+				},
 				new IconTab( Icons.CATALOG.get() ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						catalogTab.active = catalogTab.visible = value;
-						if (value) last_index = 3;
+						if (value) last_index = 4;
 					}
 
 					@Override
@@ -200,7 +212,7 @@ public class WndJournal extends WndTabbed {
 					protected void select( boolean value ) {
 						super.select( value );
 						badgesTab.active = badgesTab.visible = value;
-						if (value) last_index = 4;
+						if (value) last_index = 5;
 					}
 
 					@Override
@@ -556,11 +568,6 @@ public class WndJournal extends WndTabbed {
 		}
 
 		public void updateList() {
-
-			if (currentPageIdx != -1){
-				currentPageIdx = -1;
-			}
-
 			for (int i = 0; i < NUM_BUTTONS; i++) {
 				if (i == currentPageIdx) {
 					pageButtons[i].icon().color(TITLE_COLOR);

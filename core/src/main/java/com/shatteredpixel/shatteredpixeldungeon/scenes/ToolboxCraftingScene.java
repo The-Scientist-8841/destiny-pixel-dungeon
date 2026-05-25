@@ -452,7 +452,7 @@ public class ToolboxCraftingScene extends PixelScene {
 					ToolboxCraftingScene.this.addToFront(new Window() {
 
 						{
-							WndJournal.AlchemyTab t = new WndJournal.AlchemyTab();
+							WndJournal.ToolboxCraftingTab t = new WndJournal.ToolboxCraftingTab();
 							int w, h;
 							if (landscape()) {
 								w = WndJournal.WIDTH_L;
@@ -477,10 +477,10 @@ public class ToolboxCraftingScene extends PixelScene {
 
 			@Override
 			protected String hoverText() {
-				return Messages.titleCase(Document.ALCHEMY_GUIDE.title());
+				return Messages.get(WndJournal.ToolboxCraftingTab.class, "title");
 			}
 		};
-		btnGuide.icon(new ItemSprite(ItemSpriteSheet.ALCH_PAGE));
+		btnGuide.icon(new ItemSprite(ItemSpriteSheet.ARTIFACT_TOOLBOX));
 		btnGuide.setSize(btnGuide.reqWidth()+4, 18);
 		btnGuide.setPos(centerW - btnGuide.width()/2f, materialsLeft.top()- btnGuide.height()-2);
 		align(btnGuide);

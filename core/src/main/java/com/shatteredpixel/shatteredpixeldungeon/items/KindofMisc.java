@@ -306,8 +306,9 @@ public abstract class KindofMisc extends EquipableItem {
 
 	@Override
 	public boolean isEquipped( Hero hero ) {
+		if (hero == null) return false;
 		Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
-		return hero != null && (hero.belongings.artifact() == this
+		return (hero.belongings.artifact() == this
 				|| hero.belongings.artifact2() == this
 				|| hero.belongings.misc() == this
 				|| hero.belongings.misc2() == this
