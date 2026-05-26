@@ -393,7 +393,7 @@ public enum HeroClass {
 			case CLERIC:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_CLERIC);
 			case ARTIFICER:
-				return true;
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_ARTIFICER);
 		}
 	}
 	

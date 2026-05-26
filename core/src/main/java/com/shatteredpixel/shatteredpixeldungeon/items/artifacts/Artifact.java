@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
@@ -111,7 +112,7 @@ public class Artifact extends KindofMisc {
 	}
 
 	public void onEquip(Hero hero) {
-		//Do nothing by default
+		Badges.validateArtificerUnlock();
 	}
 
 	public void activate( Char ch ) {
@@ -156,10 +157,15 @@ public class Artifact extends KindofMisc {
 		else return (int)(levelCap * toolbox.level() / toolbox.levelCap);
 	}
 
+	public int getLevelCap() { return levelCap; }
+
 	@Override
 	public Item upgrade() {
-		if (toolbox == null) return super.upgrade();
-		else return toolbox.upgrade();
+		Item result;
+		if (toolbox == null) result = super.upgrade();
+		else result = toolbox.upgrade();
+		Badges.validateArtificerUnlock();
+		return result;
 	}
 
 	@Override
@@ -318,7 +324,7 @@ public class Artifact extends KindofMisc {
 		}
 
 		public void charge(Hero target, float amount){
-			Artifact.this.charge(target, amount);
+			if (Artifact.this.toolbox == null) Artifact.this.charge(target, amount);
 		}
 
 	}

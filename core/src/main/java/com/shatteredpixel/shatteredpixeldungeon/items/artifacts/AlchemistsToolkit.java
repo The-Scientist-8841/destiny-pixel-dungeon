@@ -202,6 +202,7 @@ public class AlchemistsToolkit extends Artifact {
 	@Override
 	public void onEquip(Hero hero) {
 		warmUpDelay = 101f;
+		super.onEquip(hero);
 	}
 	
 	private static final String WARM_UP = "warm_up";
