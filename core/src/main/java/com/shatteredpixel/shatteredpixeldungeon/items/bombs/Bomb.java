@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
+import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -44,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImag
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -444,6 +446,30 @@ public class Bomb extends Item {
 				}
 			}
 			return null;
+		}
+	}
+
+	public static class BombCraft extends ToolboxRecipe {
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			return ingredients.isEmpty();
+		}
+
+		@Override
+		public int cost(ArrayList<Item> ingredients) { return 3; }
+
+		@Override
+		public Item craft(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			return new Bomb();
+		}
+
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			return new Bomb();
 		}
 	}
 }

@@ -306,6 +306,8 @@ public class Toolbox extends Artifact {
 
 				updateQuickslot();
 
+				curUser.spendAndNext(ability.timeToUse);
+
 				break;
 		}
 	}

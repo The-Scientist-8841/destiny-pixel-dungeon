@@ -169,7 +169,8 @@ public abstract class ToolboxRecipe {
 	//*******
 
 	private static ToolboxRecipe[] zeroIngredientRecipes = new ToolboxRecipe[]{
-			new InventoryBullet.BulletCraft()
+			new InventoryBullet.BulletCraft(),
+			new Bomb.BombCraft()
 	};
 	
 	private static ToolboxRecipe[] oneIngredientRecipes = new ToolboxRecipe[]{

@@ -714,7 +714,6 @@ public class ToolboxCraftingScene extends PixelScene {
 		updateState();
 		//we reset the quantity in case the result was merged into another stack in the backpack
 		result.quantity(resultQuantity);
-		outputs[0].item(result);
 	}
 	
 	public void populate(ArrayList<Item> toFind, Belongings inventory){

@@ -296,11 +296,16 @@ public class QuickToolboxRecipe extends Component {
 		ArrayList<QuickToolboxRecipe> result = new ArrayList<>();
 		switch (pageIdx){
 			case 0: default:
-				return result;
+				break;
 			case 1:
 				result.add(new QuickToolboxRecipe(new InventoryBullet.BulletCraft(), new ArrayList<Item>(), new InventoryBullet().quantity(2)));
-				return result;
+				break;
+			case 2:
+				result.add(new QuickToolboxRecipe(new Bomb.BombCraft(), new ArrayList<Item>(), new Bomb()));
+				break;
 		}
+
+		return result;
 	}
 	
 }
