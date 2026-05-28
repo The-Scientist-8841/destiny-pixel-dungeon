@@ -499,6 +499,12 @@ public abstract class Char extends Actor {
 			if (effectiveDamage >= 0) {
 				effectiveDamage = Math.max(effectiveDamage - dr, 0);
 
+				if (enemy instanceof Hero) {
+					Armor armor = ((Hero) enemy).belongings.armor();
+					if (armor != null) armor.consumeBracing();
+				}
+
+
 				if (enemy.buff(Viscosity.ViscosityTracker.class) != null) {
 					effectiveDamage = enemy.buff(Viscosity.ViscosityTracker.class).deferDamage(effectiveDamage);
 					enemy.buff(Viscosity.ViscosityTracker.class).detach();

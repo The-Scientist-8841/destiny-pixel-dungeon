@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
@@ -307,6 +308,7 @@ public class QuickToolboxRecipe extends Component {
 				break;
 			case 3:
 				result.add(new QuickToolboxRecipe(new WeaponLacing.WeaponLacingCraft(), new ArrayList<Item>(), new WeaponLacing()));
+				result.add(new QuickToolboxRecipe(new ArmorBracing.ArmorBracingCraft(), new ArrayList<Item>(), new ArmorBracing()));
 				break;
 		}
 

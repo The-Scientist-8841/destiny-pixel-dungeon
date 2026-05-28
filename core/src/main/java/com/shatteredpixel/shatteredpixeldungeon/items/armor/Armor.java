@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ParchmentScrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
@@ -117,6 +118,8 @@ public class Armor extends EquipableItem {
 	public boolean glyphHardened = false;
 	public boolean curseInfusionBonus = false;
 	public boolean masteryPotionBonus = false;
+
+	public ArmorBracing bracing = null;
 	
 	protected BrokenSeal seal;
 	
@@ -634,6 +637,8 @@ public class Armor extends EquipableItem {
 		if (seal != null) {
 			info += "\n\n" + Messages.get(Armor.class, "seal_attached", seal.maxShield(tier, level()));
 		}
+
+		if (bracing != null) info += "\n\n" + bracing.application_info();
 		
 		return info;
 	}
@@ -784,6 +789,23 @@ public class Armor extends EquipableItem {
 			return HOLY;
 		} else {
 			return glyph != null && (cursedKnown || !glyph.curse()) ? glyph.glowing() : null;
+		}
+	}
+
+	public Emitter bracingEmitter() {
+		if (bracing != null) {
+			Emitter emitter = new Emitter();
+			emitter.pos(0, 0, 16, 16);
+			emitter.fillTarget = false;
+			emitter.pour(Speck.factory(bracing.particle), 0.25f);
+			return emitter;
+		} else return null;
+	}
+
+	public void consumeBracing() {
+		if (bracing != null) {
+			bracing.uses -= 1;
+			if (bracing.uses <= 0) bracing = null;
 		}
 	}
 	

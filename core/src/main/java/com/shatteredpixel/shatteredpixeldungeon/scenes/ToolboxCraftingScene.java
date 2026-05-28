@@ -208,11 +208,13 @@ public class ToolboxCraftingScene extends PixelScene {
 		} else {
 			splitCraftGuide = false;
 		}
-		
+
+		//Keeping this here to ensure the position is set correctly; I'm not displaying this text block.
 		RenderedTextBlock desc = PixelScene.renderTextBlock(6);
 		desc.maxWidth(pw);
 		desc.text( Messages.get(ToolboxCraftingScene.class, "text") );
 		desc.setPos(left + (pw - desc.width())/2, pos);
+		desc.visible = false;
 		add(desc);
 		
 		pos += desc.height() + 6;

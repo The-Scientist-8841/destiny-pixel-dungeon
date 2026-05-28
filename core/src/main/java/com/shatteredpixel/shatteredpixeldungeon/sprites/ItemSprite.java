@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -216,6 +217,13 @@ public class ItemSprite extends MovieClip {
 				lacingEmitter.pos(this);
 				parent.add(lacingEmitter);
 				this.emitter = lacingEmitter;
+			}
+		} else if (item instanceof Armor) {
+			Emitter bracingEmitter = ((Armor) item).bracingEmitter();
+			if (bracingEmitter != null && parent != null) {
+				bracingEmitter.pos(this);
+				parent.add(bracingEmitter);
+				this.emitter = bracingEmitter;
 			}
 		}
 

@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
@@ -172,7 +173,8 @@ public abstract class ToolboxRecipe {
 	private static ToolboxRecipe[] zeroIngredientRecipes = new ToolboxRecipe[]{
 			new InventoryBullet.BulletCraft(),
 			new Bomb.BombCraft(),
-			new WeaponLacing.WeaponLacingCraft()
+			new WeaponLacing.WeaponLacingCraft(),
+			new ArmorBracing.ArmorBracingCraft()
 	};
 	
 	private static ToolboxRecipe[] oneIngredientRecipes = new ToolboxRecipe[]{
