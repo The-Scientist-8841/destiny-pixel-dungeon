@@ -140,6 +140,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfCha
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ThirteenLeafClover;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
@@ -524,6 +525,10 @@ public class Hero extends Char {
 		if (!enemy.isAlive() && hasTalent(Talent.PARRY) && belongings.attackingWeapon() instanceof MagesStaff) {
 			Buff.prolong(this, Talent.ParryBuff.class, this.cooldown());
 		}
+
+		if (belongings.attackingWeapon() instanceof MeleeWeapon) ((MeleeWeapon) belongings.attackingWeapon()).consumeLacing();
+		else if (belongings.attackingWeapon() instanceof ArcaneFirearm) ((ArcaneFirearm) belongings.attackingWeapon()).consumeLacing();
+
 		return result;
 	}
 

@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
@@ -38,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -80,6 +82,8 @@ public class ArcaneFirearm extends Weapon {
 	public float loadTime = 2f;
 	public float unloadTime = 1f;
 	public ArrayList<Bullet> bulletsToLoad = new ArrayList<>();
+
+	public WeaponLacing lacing = null;
 	
 	{
 		image = ItemSpriteSheet.ARCANE_FIREARM;
@@ -96,6 +100,7 @@ public class ArcaneFirearm extends Weapon {
 	private static final String CHAMBER_SIZE = "chamber_size";
 	private static final String LOAD_TIME = "loadTime";
 	private static final String UNLOAD_TIME = "unloadTime";
+	public static final String LACING = "lacing";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
@@ -108,6 +113,7 @@ public class ArcaneFirearm extends Weapon {
 		}
 		bundle.put(LOAD_TIME, loadTime);
 		bundle.put(UNLOAD_TIME, unloadTime);
+		bundle.put(LACING, lacing);
 	}
 
 	@Override
@@ -124,6 +130,7 @@ public class ArcaneFirearm extends Weapon {
 		}
 		loadTime = bundle.getFloat(LOAD_TIME);
 		unloadTime = bundle.getFloat(UNLOAD_TIME);
+		lacing = (WeaponLacing) bundle.get(LACING);
 	}
 	
 	@Override
@@ -243,6 +250,8 @@ public class ArcaneFirearm extends Weapon {
 		}
 		
 		info += "\n\n" + Messages.get(ArcaneFirearm.class, "distance");
+
+		if (lacing != null) info += "\n\n" + lacing.application_info();
 		
 		return info;
 	}
@@ -281,12 +290,15 @@ public class ArcaneFirearm extends Weapon {
 	
 	@Override
 	public int damageRoll(Char owner) { //For Melee, no augment
-		int damage = super.damageRoll(owner);
+		int damage;
+		if (lacing == null || lacing.getClass() != WeaponLacing.class) damage = super.damageRoll(owner);
+		else damage = max();
 
 		if (owner instanceof Hero) {
 			int exStr = ((Hero) owner).STR() - STRReq();
 			if (exStr > 0) {
-				damage += Hero.heroDamageIntRange(0, exStr);
+				if (lacing == null || lacing.getClass() != WeaponLacing.class) damage += Hero.heroDamageIntRange(0, exStr);
+				else damage += exStr;
 			}
 		}
 
@@ -328,6 +340,23 @@ public class ArcaneFirearm extends Weapon {
 		bullet.gun = this;
 		chamber.add(bullet);
 		return true;
+	}
+
+	public Emitter lacingEmitter() {
+		if (lacing != null) {
+			Emitter emitter = new Emitter();
+			emitter.pos(0, 0, 16, 16);
+			emitter.fillTarget = false;
+			emitter.pour(Speck.factory(lacing.particle), 0.25f);
+			return emitter;
+		} else return null;
+	}
+
+	public void consumeLacing() {
+		if (lacing != null) {
+			lacing.uses -= 1;
+			if (lacing.uses <= 0) lacing = null;
+		}
 	}
 	
 	public static class Bullet extends MissileWeapon {

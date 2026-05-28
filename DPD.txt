@@ -237,14 +237,12 @@ Each reset allows you an additional trinket?
 
 Nix the scroll of metamorphosis...exotic transformation is just wilder transformation (can turn anything into anything).
 
-New class: Summoner?
+New class: Summoner? Bard?
 
 After the first reset:
 	You choose a secondary class and you get some of the T1 and T2 talents of that class as T5 and T6 talents, plus some T5 and T6 talents for your main class
-		You will not get the dew blessing talent nor will you get the Destiny nor Fate talents.
+		You will not get the Destiny nor Fate talents.
 		Have a talent associated with trinkets
-		Have a "Journey" talent that makes the book give you supplies (not potions, etc.)
-		Or...maybe rework the existing book talents to give you weaker gifts at T1-4, then save the good stuff for this run-through
 	Tengu's mask gives you an "Archetype" with more talents
 	The Dwarf King's Crown gives you a Heroic Weapon that has special abilities
 
@@ -254,14 +252,14 @@ After the second reset:
 	The Dwarf King's Crown gives you another skill tree tab full of stuff related to your Heroic Armour and Weapon
 
 After the third reset:
-	You get a "Paragon" tree, basically a set of very powerful buffs/abilities. You only get one every 10 levels, or something similar, and you get to choose one of three options or something like that.
-	Tengu's Mask grants you another Paragon tab full of thing related to your subclass and archetype
-	The Dwarf King's Crown gives you another Paragon tab full of stuff related to your Heroic Armour and Weapon
+	You get a "Boons" tree, basically a set of very powerful buffs/abilities. You only get one every 10 levels, or something similar, and you get to choose one of three options or something like that.
+	Tengu's Mask grants you another Boons tab full of thing related to your subclass and archetype
+	The Dwarf King's Crown gives you another Boons tab full of stuff related to your Heroic Armour and Weapon
 
 After the fourth reset:
-	You get a "Boons" screen, which is a small set of buffs that you can just level and improve infinitely. You get one every level, but only after the skill tree is fully exhausted.
-	Tengu's Mask grants you a new set of Boons for your subclass and archetype
-	The Dwarf King's Crown grants you a new set of Boons for your Heroic Armour and Weapon
+	You get a "Paragon" screen, which is a small set of buffs that you can just level and improve infinitely. You get one every level, but only after the skill tree is fully exhausted.
+	Tengu's Mask grants you a new set of Paragons for your subclass and archetype
+	The Dwarf King's Crown grants you a new set of Paragons for your Heroic Armour and Weapon
 
 Problems:
 Allowing you to get every talent point kind of defeats the purpose of making a build.
@@ -273,21 +271,51 @@ Archetypes:
 
 3 options: 1 based on class, 1 based on subclass, 1 based on secondary class:
 
-Warrior: Mountain
-	Gladiator: Mastery
-		Mage: Eldritch Knight
-		Rogue: 
-		Huntress: Ranger
-		Duelist: 
-		Cleric: Holy Warrior
-		Tinkerer: Armorer
-		Summoner:
-	Berserker: Barbarian
-		Mage:
-		Rogue: Ambusher
-		Huntress:
-		Duelist:
-		Cleric: Zealot
-		Tinkerer:
-		Summoner:
+Warrior: Archetype of the Mountain
+	Gladiator: Archetype of Battle
+	Barbarian: Archetype of Rage
 	
+	Mage: Archetype of the Magus
+	Rogue: Archetype of the Ambusher
+	Huntress: Archetype of the Hunter
+	Duelist: Archetype of the Knight
+	Cleric: Archetype of the Holy Warrior
+	Artificer: Archetype of the Armorer
+Mage: Archetype of the Academy
+	Battlemage: Archetype of the Staff
+	Warlock: Archetype of Darkness
+	
+	Rogue: Archetype of the Shadows
+	Huntress: Archetype of the Druid
+	Duelist: Archetype of Bladesinging
+	Cleric: Archetype of the Divine
+	Artificer: Archetype of the Thaumaturge
+Rogue: Archetype of the Undercity
+	Assassin: Archetype of the Night
+	Freerunner: Archetype of Speed
+	
+	Huntress: Archetype of the Shadowstalker
+	Duelist: Archetype of the Scout
+	Cleric: Archetype of the Slayer
+	Artificer: Archetype of the Spy
+Huntress: Archetype of the Forest
+	Sniper: Archetype of the Bow
+	Warden: Archetype of Nature
+	
+	Duelist: Archetype of the Ranger
+	Cleric: Archetype of the Spirit
+	Artificer: Archetype of the Artillerist
+Duelist: Archetype of the Wilderness
+	Champion: Archetype of the Master
+	Monk: Archetype of Tranquility
+	
+	Cleric: Archetype of the Crusader
+	Artificer: Archetype of the Battlesmith
+Cleric: Archetype of the Temple
+	Priest: Archetype of Faith
+	Paladin: Archetype of Devotion
+	
+	Artificer: Archetype of the Crucible
+Artificer: Archetype of the Workshop
+	Alchemist: Archetype of Glass
+	Tinkerer: Archetype of Invention

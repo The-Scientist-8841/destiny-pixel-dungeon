@@ -829,11 +829,20 @@ public class ItemSpriteSheet {
 	public static final int BULLET_PROJECTILE = BULLET + 1;
 	public static final int BULLET_HOLDER = BULLET + 2;
 	public static final int TOOLBOX_HOLDER = BULLET + 3;
+	public static final int MODIFICATION_HOLDER = BULLET + 4;
 	static {
 		assignItemRect(BULLET, 15,15);
 		assignItemRect(BULLET_PROJECTILE, 5,5);
 		assignItemRect(BULLET_HOLDER, 15,15);
 		assignItemRect(TOOLBOX_HOLDER, 16, 13);
+		assignItemRect(MODIFICATION_HOLDER, 15, 11);
+	}
+
+	public static final int WEAPON_LACING = xy(13,33);
+	public static final int ARMOR_BRACING = WEAPON_LACING + 1;
+	static {
+		assignItemRect(WEAPON_LACING, 13, 13);
+		assignItemRect(ARMOR_BRACING, 15, 11);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite

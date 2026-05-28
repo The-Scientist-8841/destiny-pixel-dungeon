@@ -493,12 +493,13 @@ public class WndJournal extends WndTabbed {
 	public static class ToolboxCraftingTab extends Component {
 
 		private RedButton[] pageButtons;
-		private static final int NUM_BUTTONS = 3;
+		private static final int NUM_BUTTONS = 4;
 
 		private static final int[] sprites = {
 				ItemSpriteSheet.TOOLBOX_HOLDER,
 				ItemSpriteSheet.BULLET_HOLDER,
-				ItemSpriteSheet.BOMB_HOLDER
+				ItemSpriteSheet.BOMB_HOLDER,
+				ItemSpriteSheet.MODIFICATION_HOLDER
 		};
 
 		public static int currentPageIdx   = 0;

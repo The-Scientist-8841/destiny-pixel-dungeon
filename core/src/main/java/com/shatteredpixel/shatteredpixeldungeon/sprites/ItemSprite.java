@@ -28,6 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -200,12 +202,30 @@ public class ItemSprite extends MovieClip {
 
 	public ItemSprite view( Item item ){
 		view(item.image(), item.glowing());
+
+		if (item instanceof MeleeWeapon) {
+			Emitter lacingEmitter = ((MeleeWeapon) item).lacingEmitter();
+			if (lacingEmitter != null && parent != null) {
+				lacingEmitter.pos(this);
+				parent.add(lacingEmitter);
+				this.emitter = lacingEmitter;
+			}
+		} else if (item instanceof ArcaneFirearm) {
+			Emitter lacingEmitter = ((ArcaneFirearm) item).lacingEmitter();
+			if (lacingEmitter != null && parent != null) {
+				lacingEmitter.pos(this);
+				parent.add(lacingEmitter);
+				this.emitter = lacingEmitter;
+			}
+		}
+
 		Emitter emitter = item.emitter();
 		if (emitter != null && parent != null) {
 			emitter.pos( this );
 			parent.add( emitter );
 			this.emitter = emitter;
 		}
+
 		return this;
 	}
 	
