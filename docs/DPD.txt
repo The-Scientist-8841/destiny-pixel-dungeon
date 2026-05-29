@@ -28,7 +28,7 @@ Recipes:
 
 Talents:
 	T1:
-		Deadeye's Meal:
+		Resourceful Meal:
 			+1: Eating grants a 50% chance not to consume ammunition on the next shot fired from the gun
 			+2: Eating grants a 100% chance not to consume ammunition on the next shot fired from the gun
 			+3: Eating grants a 100% chance not to consume ammunition on the next 2 shots fired from the gun

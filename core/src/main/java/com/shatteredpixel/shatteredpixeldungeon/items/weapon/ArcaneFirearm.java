@@ -532,7 +532,12 @@ public class ArcaneFirearm extends Weapon {
 		public void onSelect( Integer target ) {
 			if (target != null) {
 				chamber.get(0).cast(curUser, target);
-				chamber.remove(0);
+
+				Buff buff = curUser.buff(Talent.resourcefulMealTracker.class);
+				if (curUser.hasTalent(Talent.RESOURCEFUL_MEAL) && buff != null) {
+					if (Random.Int(2) >= curUser.pointsInTalent(Talent.RESOURCEFUL_MEAL)) chamber.remove(0);
+					((Talent.resourcefulMealTracker) buff).addUse();
+				} else chamber.remove(0);
 			}
 		}
 		@Override

@@ -229,6 +229,9 @@ public enum Talent {
 	//Power of Many T4
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
+	//Artificer T1
+	RESOURCEFUL_MEAL(224,4),
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -527,6 +530,66 @@ public enum Talent {
 	}
 
 	public static class ParryBuff extends FlavourBuff {}
+
+	public static class resourcefulMealTracker extends FlavourBuff{
+		int uses = 0;
+
+		@Override
+		public int icon() { return BuffIndicator.BULLET; }
+		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.9f, 0.15f); };
+
+		@Override
+		public String desc() {
+			if (target instanceof Hero) {
+				if (((Hero) target).pointsInTalent(Talent.RESOURCEFUL_MEAL) == 1) return Messages.get(this, "desc1");
+				else return Messages.get(this, "desc2");
+			} else return super.desc();
+		}
+
+		@Override
+		public boolean act() {
+			spend(TICK);
+			return true;
+		};
+
+		@Override
+		public float iconFadePercent() {
+			if (target instanceof Hero) {
+				if (((Hero) target).pointsInTalent(RESOURCEFUL_MEAL) < 3) return 0f;
+				else return ((float) uses) / ((float) (((Hero) target).pointsInTalent(RESOURCEFUL_MEAL) - 1));
+			} else return 0f;
+		}
+
+		public void addUse() {
+			if (target instanceof Hero) {
+				uses += 1;
+				if (uses > ((Hero) target).pointsInTalent(RESOURCEFUL_MEAL) - 2) detach();
+			} else detach();
+		}
+
+		@Override
+		public String iconTextDisplay() { return ""; }
+
+		private static final String USES = "uses";
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(USES, uses);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			uses = bundle.getInt(USES);
+		}
+	}
+
+	public static class resourcefulMealTracker_alt extends FlavourBuff{
+		@Override
+		public int icon() { return BuffIndicator.THROWN_WEP; }
+		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.9f, 0.15f); };
+	}
 
 	int icon;
 	int maxPoints;
@@ -841,6 +904,10 @@ public enum Talent {
 				wandChargeTurns += 1 + hero.pointsInTalent(ENLIGHTENING_MEAL);
 				artifactChargeTurns += 1 + hero.pointsInTalent(ENLIGHTENING_MEAL);
 			}
+		}
+		if (hero.hasTalent(RESOURCEFUL_MEAL)) {
+			if (hero.heroClass == HeroClass.ARTIFICER) Buff.affect(hero, resourcefulMealTracker.class);
+			else Buff.affect(hero, resourcefulMealTracker_alt.class);
 		}
 
 		//we process these at the end as they can stack together from some talents
@@ -1301,6 +1368,9 @@ public enum Talent {
 				break;
 			case CLERIC:
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, CLERGYMANS_DISCOUNT, CLERICS_JOURNEY);
+				break;
+			case ARTIFICER:
+				Collections.addAll(tierTalents, RESOURCEFUL_MEAL);
 				break;
 		}
 		for (Talent talent : tierTalents){

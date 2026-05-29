@@ -404,7 +404,11 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	protected void rangedHit( Char enemy, int cell ){
-		decrementDurability();
+		Buff buff = curUser.buff(Talent.resourcefulMealTracker_alt.class);
+		if (buff != null) {
+			if (Random.Int(4) >= curUser.pointsInTalent(Talent.RESOURCEFUL_MEAL)) decrementDurability();
+			buff.detach();
+		} else decrementDurability();
 		if (durability > 0 && !spawnedForEffect){
 			//attempt to stick the missile weapon to the enemy, just drop it if we can't.
 			if (sticky && enemy != null && enemy.isActive() && enemy.alignment != Char.Alignment.ALLY){
