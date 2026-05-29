@@ -231,7 +231,7 @@ public enum Talent {
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
 	//Artificer T1
-	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4),
+	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -533,6 +533,7 @@ public enum Talent {
 	public static class ParryBuff extends FlavourBuff {}
 
 	public static class resourcefulMealTracker extends FlavourBuff{
+		{ type = Buff.buffType.POSITIVE; }
 		int uses = 0;
 
 		@Override
@@ -587,6 +588,7 @@ public enum Talent {
 	}
 
 	public static class resourcefulMealTracker_alt extends FlavourBuff{
+		{ type = Buff.buffType.POSITIVE; }
 		@Override
 		public int icon() { return BuffIndicator.THROWN_WEP; }
 		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.9f, 0.15f); }
@@ -1249,6 +1251,15 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(PISTOL_WHIP)) {
+			if (hero.buff(pistolWhipTracker.class) != null && !(hero.belongings.attackingWeapon() instanceof MissileWeapon)) {
+				dmg += 1 + 2*hero.pointsInTalent(PISTOL_WHIP);
+				hero.buff(pistolWhipTracker.class).detach();
+			} else if (hero.heroClass != HeroClass.ARTIFICER && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
+				Buff.prolong(hero, pistolWhipTracker.class, 5f);
+			}
+		}
+
 		return dmg;
 	}
 
@@ -1360,6 +1371,12 @@ public enum Talent {
 			object = bundle.getInt(OBJECT);
 		}
 	};
+	public static class pistolWhipTracker extends FlavourBuff{
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.WEAPON; }
+		public void tintIcon(Image icon) { icon.hardlight(1.43f, 1.23f, 0.43f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+	}
 
 	public static final int MAX_TALENT_TIERS = 4;
 
@@ -1399,7 +1416,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, CLERGYMANS_DISCOUNT, CLERICS_JOURNEY);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION);
+				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION, PISTOL_WHIP);
 				break;
 		}
 		for (Talent talent : tierTalents){

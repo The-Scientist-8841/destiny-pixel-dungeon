@@ -50,7 +50,7 @@ Talents:
 			+2: When the last bullet in the gun's chamber is fired, the Artificer gains 5 shielding
 			+3: When the last bullet in the gun's chamber is fired, the Artificer gains 7 shielding
 			+4: When the last bullet in the gun's chamber is fired, the Artificer gains 9 shielding
-			(Other classes get the shielding when a throwing the last throwing weapon in a stack)
+			(Other classes get the shielding when throwing the last throwing weapon in a stack)
 		Demolitions Expert:
 			+1: 25% chance to get an extra bomb when crafting bombs at an alchemy pot
 			+2: 50% chance to get an extra bomb when crafting bombs at an alchemy pot
@@ -245,7 +245,7 @@ New classes:
             Swarmkeeper: Crook can now summon multiple allies
             Drakewarden: Crook minion becomes a more powerful drake
 
-    Bard: Has a unique lute melee weapon that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies.
+    Bard: Has a unique lute artifact that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies.
         Starts out knowing scrolls of lullaby (change Huntress to know scrolls of teleportation)
         Gambler's Intuition: Automatically identifies one potion, scroll, and ring in the dungeon each time you take a level in the talent.
         Subclasses:

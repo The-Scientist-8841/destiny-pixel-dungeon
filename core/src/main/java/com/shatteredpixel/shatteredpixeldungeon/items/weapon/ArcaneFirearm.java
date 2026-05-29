@@ -538,6 +538,10 @@ public class ArcaneFirearm extends Weapon {
 					if (Random.Int(2) >= curUser.pointsInTalent(Talent.RESOURCEFUL_MEAL)) chamber.remove(0);
 					((Talent.resourcefulMealTracker) buff).addUse();
 				} else chamber.remove(0);
+
+				if (curUser.hasTalent(Talent.PISTOL_WHIP)) {
+					Buff.prolong(curUser, Talent.pistolWhipTracker.class, 5f);
+				}
 			}
 		}
 		@Override
