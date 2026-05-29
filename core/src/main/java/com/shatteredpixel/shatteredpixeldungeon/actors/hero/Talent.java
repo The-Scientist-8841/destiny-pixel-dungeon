@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
@@ -230,7 +231,7 @@ public enum Talent {
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
 	//Artificer T1
-	RESOURCEFUL_MEAL(224,4),
+	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -588,7 +589,16 @@ public enum Talent {
 	public static class resourcefulMealTracker_alt extends FlavourBuff{
 		@Override
 		public int icon() { return BuffIndicator.THROWN_WEP; }
-		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.9f, 0.15f); };
+		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.9f, 0.15f); }
+
+		@Override
+		public boolean act() {
+			spend(TICK);
+			return true;
+		}
+
+		@Override
+		public String iconTextDisplay() { return ""; }
 	}
 
 	int icon;
@@ -818,6 +828,17 @@ public enum Talent {
 		if (talent == SPIRIT_FORM){
 			Dungeon.hero.updateHT(false);
 		}
+
+		if (talent == INVENTORS_INTUITION) {
+			for (Item item : hero.belongings) {
+				if (item instanceof Artifact) {
+					if (hero.pointsInTalent(INVENTORS_INTUITION) > 1 || (Random.Int(2) < 1 && (!((Artifact) item).didInventorsIntution))) {
+						item.identify();
+						((Artifact) item).didInventorsIntution = true;
+					}
+				}
+			}
+		}
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
@@ -948,6 +969,8 @@ public enum Talent {
 		// 3x/instant for Mage (see Wand.wandUsed())
 		if (item instanceof Wand){
 			factor *= 1f + 2.0f*hero.pointsInTalent(SCHOLARS_INTUITION);
+
+			if (hero.hasTalent(INVENTORS_INTUITION) && hero.pointsInTalent(INVENTORS_INTUITION) >= 3) factor *= 1.75f*(hero.pointsInTalent(INVENTORS_INTUITION) - 2);
 		}
 		// 3x/instant speed with Huntress talent (see MissileWeapon.proc)
 		if (item instanceof MissileWeapon){
@@ -1156,6 +1179,12 @@ public enum Talent {
 			if (item instanceof MeleeWeapon) {
 				if (ShardOfOblivion.passiveIDDisabled()) ((MeleeWeapon) item).setIDReady();
 				else item.identify();
+			}
+		}
+		if (hero.hasTalent(INVENTORS_INTUITION)) {
+			if (item instanceof Artifact) {
+				if (hero.pointsInTalent(INVENTORS_INTUITION) > 1 || (Random.Int(2) < 1 && (!((Artifact) item).didInventorsIntution))) item.identify();
+				((Artifact) item).didInventorsIntution = true;
 			}
 		}
 	}
@@ -1370,7 +1399,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, CLERGYMANS_DISCOUNT, CLERICS_JOURNEY);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, RESOURCEFUL_MEAL);
+				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION);
 				break;
 		}
 		for (Talent talent : tierTalents){

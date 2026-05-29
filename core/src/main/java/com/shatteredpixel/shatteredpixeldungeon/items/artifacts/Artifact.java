@@ -66,6 +66,8 @@ public class Artifact extends KindofMisc {
 	//used by some artifacts to keep track of duration of effects or cooldowns to use.
 	protected int cooldown = 0;
 
+	public boolean didInventorsIntution = false;
+
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		if (toolbox == null) return super.actions(hero);
@@ -332,7 +334,7 @@ public class Artifact extends KindofMisc {
 	private static final String EXP = "exp";
 	private static final String CHARGE = "charge";
 	private static final String PARTIALCHARGE = "partialcharge";
-	//Don't need to save toolbox; the toolbox when loaded will set the toolbox variable.
+	private static final String DID_INVENTORS_INTUITION = "didInventorsIntuition";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -340,6 +342,7 @@ public class Artifact extends KindofMisc {
 		bundle.put( EXP , exp );
 		bundle.put( CHARGE , charge );
 		bundle.put( PARTIALCHARGE , partialCharge );
+		bundle.put(DID_INVENTORS_INTUITION, didInventorsIntution);
 	}
 
 	@Override
@@ -349,5 +352,6 @@ public class Artifact extends KindofMisc {
 		if (chargeCap > 0)  charge = Math.min( chargeCap, bundle.getInt( CHARGE ));
 		else                charge = bundle.getInt( CHARGE );
 		partialCharge = bundle.getFloat( PARTIALCHARGE );
+		didInventorsIntution = bundle.getBoolean(DID_INVENTORS_INTUITION);
 	}
 }

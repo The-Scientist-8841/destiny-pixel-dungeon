@@ -37,8 +37,8 @@ Talents:
 		Inventor's Intuition:
 			+1: 50% chance to detect if an artifact is cursed upon pickup
 			+2: 100% chance to detect if an artifact is cursed upon pickup
-			+3: 100% chance to detect if an artifact is cursed upon pickup, and +75% wand identification speed
-			+4: 100% chance to detect if an artifact is cursed upon pickup, and +150% wand identification speed
+			+3: 100% chance to detect if an artifact is cursed upon pickup, and +75% melee weapon identification speed
+			+4: 100% chance to detect if an artifact is cursed upon pickup, and +150% melee weapon identification speed
 		Pistol Whip:
 			+1: Firing the gun grants +3 melee damage on the next physical attack made with the gun within 5 turns
 			+2: Firing the gun grants +5 melee damage on the next physical attack made with the gun within 5 turns
@@ -237,7 +237,20 @@ Each reset allows you an additional trinket?
 
 Nix the scroll of metamorphosis...exotic transformation is just wilder transformation (can turn anything into anything).
 
-New class: Summoner? Bard?
+New classes:
+    Summoner: Has a unique crook melee weapon that can summon an ally. The crook levels with the class, and the minion improves.
+        Starts out knowing scrolls of mirror image (change duelist to know scrolls of retribution)
+        Generalist's Intuition: identifies all items 75%/150%/225%/300% faster.
+        Subclasses:
+            Swarmkeeper: Crook can now summon multiple allies
+            Drakewarden: Crook minion becomes a more powerful drake
+
+    Bard: Has a unique lute melee weapon that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies.
+        Starts out knowing scrolls of lullaby (change Huntress to know scrolls of teleportation)
+        Gambler's Intuition: Automatically identifies one potion, scroll, and ring in the dungeon each time you take a level in the talent.
+        Subclasses:
+            Piper: Lute becomes a powerful panpipe that can charm enemies
+            Shredder: Lute becomes a more powerful guitar-like instrument that can double as a melee weapon
 
 After the first reset:
 	You choose a secondary class and you get some of the T1 and T2 talents of that class as T5 and T6 talents, plus some T5 and T6 talents for your main class
