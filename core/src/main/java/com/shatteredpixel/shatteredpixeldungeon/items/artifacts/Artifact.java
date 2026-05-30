@@ -56,7 +56,7 @@ public class Artifact extends KindofMisc {
 	//the current artifact charge
 	protected int charge = 0;
 	//If it's affixed to a toolbox, this is the toolbox it's affixed to
-	Toolbox toolbox = null;
+	public Toolbox toolbox = null;
 	//the build towards next charge, usually rolls over at 1.
 	//better to keep charge as an int and use a separate float than casting.
 	protected float partialCharge = 0;

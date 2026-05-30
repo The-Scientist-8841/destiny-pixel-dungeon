@@ -62,6 +62,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -234,6 +235,8 @@ public enum Talent {
 
 	//Artificer T1
 	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
+	//Artificer T2
+	INSPIRING_MEAL(228,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -934,6 +937,19 @@ public enum Talent {
 			if (hero.heroClass == HeroClass.ARTIFICER) Buff.affect(hero, resourcefulMealTracker.class);
 			else Buff.affect(hero, resourcefulMealTracker_alt.class);
 		}
+		if (hero.hasTalent(INSPIRING_MEAL)) {
+			if (hero.heroClass == HeroClass.ARTIFICER) {
+				if (!(foodSource instanceof HornOfPlenty) || ((HornOfPlenty) foodSource).toolbox == null) {
+					Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
+					if (toolbox != null) toolbox.directCharge(0.5f * hero.pointsInTalent(INSPIRING_MEAL));
+				}
+			} else {
+				if (hero.belongings.artifact != null && hero.belongings.artifact != foodSource) hero.belongings.artifact.charge(hero, 0.25f * hero.pointsInTalent(INSPIRING_MEAL));
+				if (hero.belongings.artifact2 != null && hero.belongings.artifact2 != foodSource) hero.belongings.artifact2.charge(hero, 0.25f * hero.pointsInTalent(INSPIRING_MEAL));
+				if (hero.belongings.misc instanceof Artifact && hero.belongings.misc != foodSource) ((Artifact) hero.belongings.misc).charge(hero, 0.25f * hero.pointsInTalent(INSPIRING_MEAL));
+				if (hero.belongings.misc2 instanceof Artifact && hero.belongings.misc2 != foodSource) ((Artifact) hero.belongings.misc2).charge(hero, 0.25f * hero.pointsInTalent(INSPIRING_MEAL));
+			}
+		}
 
 		//we process these at the end as they can stack together from some talents
 		if (wandChargeTurns > 0){
@@ -1455,6 +1471,9 @@ public enum Talent {
 				break;
 			case CLERIC:
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLESSING, CLERICS_TRIAL);
+				break;
+			case ARTIFICER:
+				Collections.addAll(tierTalents, INSPIRING_MEAL);
 				break;
 		}
 		for (Talent talent : tierTalents){

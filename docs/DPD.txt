@@ -68,6 +68,7 @@ Talents:
 			+2: Eating restores 1 charge to toolbox
 			+3: Eating restores 1.5 charges to toolbox
 			+4: Eating restores 2 charges to toolbox
+			(Other classes get charges to equipped artifacts)
 		Liquid Scavenging:
 			+1: 25% chance to gain 1 arcane material after drinking a potion
 			+2: 50% chance to gain 1 arcane material after drinking a potion
@@ -240,7 +241,7 @@ Nix the scroll of metamorphosis...exotic transformation is just wilder transform
 New classes:
     Summoner: Has a unique crook melee weapon that can summon an ally. The crook levels with the class, and the minion improves.
         Starts out knowing scrolls of mirror image (change duelist to know scrolls of retribution)
-        Has the special ability of being immune to negative effects from mystery meat
+        Has the special ability of being immune to negative effects from mystery meat?
         Generalist's Intuition: identifies all items 75%/150%/225%/300% faster.
         Subclasses:
             Swarmkeeper: Crook can now summon multiple allies
@@ -248,7 +249,7 @@ New classes:
 
     Bard: Has a unique lute artifact that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies.
         Starts out knowing scrolls of lullaby (change Huntress to know scrolls of teleportation)
-        Has the special ability of being fleet of foot and has a chance to not trigger traps, even if he steps on them
+        Has the special ability of being fleet of foot and has a chance to not trigger traps, even if he steps on them? Or being lucky with RNG stuff?
         Gambler's Intuition: Automatically identifies one potion, scroll, and ring in the dungeon each time you take a level in the talent.
         Subclasses:
             Piper: Lute becomes a powerful panpipe that can charm enemies
