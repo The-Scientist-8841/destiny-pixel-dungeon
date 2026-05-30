@@ -54,7 +54,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -236,7 +238,7 @@ public enum Talent {
 	//Artificer T1
 	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
 	//Artificer T2
-	INSPIRING_MEAL(228,4),
+	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -1060,6 +1062,19 @@ public enum Talent {
 				Buff.prolong(hero, LiquidAgilACCTracker.class, 5f).uses = Math.round(factor * baseAmt);
 			}
 		}
+		if (hero.hasTalent(LIQUID_SCAVENGING)) {
+			if (hero.heroClass == HeroClass.ARTIFICER) {
+				if (Random.Int(4) < hero.pointsInTalent(LIQUID_SCAVENGING)) {
+					ArcaneMaterial reward = new ArcaneMaterial();
+					reward.quantity(Math.round(factor));
+					reward.collect();
+				}
+			} else {
+				EnergyCrystal reward = new EnergyCrystal();
+				reward.quantity(Math.round(factor * hero.pointsInTalent(LIQUID_SCAVENGING)));
+				reward.collect();
+			}
+		}
 	}
 
 	public static void onScrollUsed( Hero hero, int pos, float factor, Class<?extends Item> cls ){
@@ -1473,7 +1488,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLESSING, CLERICS_TRIAL);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, INSPIRING_MEAL);
+				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING);
 				break;
 		}
 		for (Talent talent : tierTalents){
