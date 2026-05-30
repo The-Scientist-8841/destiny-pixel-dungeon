@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
@@ -300,6 +301,11 @@ public class ArcaneFirearm extends Weapon {
 				if (lacing == null || lacing.getClass() != WeaponLacing.class) damage += Hero.heroDamageIntRange(0, exStr);
 				else damage += exStr;
 			}
+
+			if (owner.buff(Talent.pistolWhipTracker.class) != null) {
+				damage += 1 + 2*((Hero) owner).pointsInTalent(Talent.PISTOL_WHIP);
+				owner.buff(Talent.pistolWhipTracker.class).detach();
+			}
 		}
 
 		return damage;
@@ -541,6 +547,10 @@ public class ArcaneFirearm extends Weapon {
 
 				if (curUser.hasTalent(Talent.PISTOL_WHIP)) {
 					Buff.prolong(curUser, Talent.pistolWhipTracker.class, 5f);
+				}
+
+				if (chamber.isEmpty() && curUser.hasTalent(Talent.PLAN_B)) {
+					Buff.affect(curUser, Barrier.class).setShield(2*curUser.pointsInTalent(Talent.PLAN_B) + 1);
 				}
 			}
 		}

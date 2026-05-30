@@ -26,8 +26,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.TenguDartTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -71,6 +74,10 @@ public class ForceCube extends MissileWeapon {
 		if ((Dungeon.level.pit[cell] && Actor.findChar(cell) == null)){
 			super.onThrow(cell);
 			return;
+		}
+
+		if (curUser.heroClass != HeroClass.ARTIFICER && curUser.belongings.attackingWeapon() instanceof MissileWeapon) {
+			Buff.prolong(curUser, Talent.pistolWhipTracker.class, 5f);
 		}
 
 		//keep the parent reference for things like IDing

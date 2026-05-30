@@ -74,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
@@ -231,7 +232,7 @@ public enum Talent {
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
 	//Artificer T1
-	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4),
+	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -1252,11 +1253,9 @@ public enum Talent {
 		}
 
 		if (hero.hasTalent(PISTOL_WHIP)) {
-			if (hero.buff(pistolWhipTracker.class) != null && !(hero.belongings.attackingWeapon() instanceof MissileWeapon)) {
-				dmg += 1 + 2*hero.pointsInTalent(PISTOL_WHIP);
+			if (hero.buff(pistolWhipTracker.class) != null && hero.belongings.attackingWeapon() instanceof MeleeWeapon && hero.heroClass != HeroClass.ARTIFICER) {
+				dmg += 1 + hero.pointsInTalent(PISTOL_WHIP) / 2 + Random.Int(hero.pointsInTalent(PISTOL_WHIP) % 2);
 				hero.buff(pistolWhipTracker.class).detach();
-			} else if (hero.heroClass != HeroClass.ARTIFICER && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
-				Buff.prolong(hero, pistolWhipTracker.class, 5f);
 			}
 		}
 
@@ -1416,7 +1415,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, CLERGYMANS_DISCOUNT, CLERICS_JOURNEY);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION, PISTOL_WHIP);
+				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION, PISTOL_WHIP, PLAN_B);
 				break;
 		}
 		for (Talent talent : tierTalents){

@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -232,6 +233,10 @@ abstract public class MissileWeapon extends Weapon {
 
 	@Override
 	public void doThrow(Hero hero) {
+		if (quantity() == 1 && hero.hasTalent(Talent.PLAN_B) && hero.heroClass != HeroClass.ARTIFICER) {
+			Buff.affect(hero, Barrier.class).setShield(2*hero.pointsInTalent(Talent.PLAN_B) + 1);
+		}
+
 		parent = null; //reset parent before throwing, just in case
 		if (((levelKnown && level() > 0) || hasGoodEnchant() || masteryPotionBonus || enchantHardened)
 				&& !extraThrownLeft && quantity() == 1 && durabilityLeft() <= durabilityPerUse()){
@@ -264,6 +269,10 @@ abstract public class MissileWeapon extends Weapon {
 
 	@Override
 	protected void onThrow( int cell ) {
+		if (curUser.heroClass != HeroClass.ARTIFICER && curUser.belongings.attackingWeapon() instanceof MissileWeapon) {
+			Buff.prolong(curUser, Talent.pistolWhipTracker.class, 5f);
+		}
+
 		Char enemy = Actor.findChar( cell );
 		if (enemy == null || enemy == curUser) {
 			parent = null;

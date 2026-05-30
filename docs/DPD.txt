@@ -45,7 +45,7 @@ Talents:
 			+3: Firing the gun grants +7 melee damage on the next physical attack made with the gun within 5 turns
 			+4: Firing the gun grants +9 melee damage on the next physical attack made with the gun within 5 turns
 			(Other classes get +1,+1-2,+2,+2-3 damage after using a thrown weapon, regardless of whether it hits or not)
-		Backup Plan:
+		Plan B:
 			+1: When the last bullet in the gun's chamber is fired, the Artificer gains 3 shielding
 			+2: When the last bullet in the gun's chamber is fired, the Artificer gains 5 shielding
 			+3: When the last bullet in the gun's chamber is fired, the Artificer gains 7 shielding
