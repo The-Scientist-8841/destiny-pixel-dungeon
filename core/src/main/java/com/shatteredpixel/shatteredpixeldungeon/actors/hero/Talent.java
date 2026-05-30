@@ -62,6 +62,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -232,7 +233,7 @@ public enum Talent {
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
 	//Artificer T1
-	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4),
+	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -1317,6 +1318,15 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(EXPLOSIVES_EXPERT)) {
+			if (craftedItem instanceof Bomb) {
+				if (Random.Int(4) < hero.pointsInTalent(Talent.EXPLOSIVES_EXPERT)) {
+					craftedItem.quantity(craftedItem.quantity() + 1);
+					Sample.INSTANCE.play(Assets.Sounds.ITEM);
+				}
+			}
+		}
+
 		if (hero.hasTalent(HEARTY_BREW)) {
 			float chance = 0.05f * hero.pointsInTalent(HEARTY_BREW);
 			if (craftedItem instanceof PotionOfHealing) chance *= 2;
@@ -1415,7 +1425,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, CLERGYMANS_DISCOUNT, CLERICS_JOURNEY);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION, PISTOL_WHIP, PLAN_B);
+				Collections.addAll(tierTalents, RESOURCEFUL_MEAL, INVENTORS_INTUITION, PISTOL_WHIP, PLAN_B, EXPLOSIVES_EXPERT, ARTIFICERS_JOURNEY);
 				break;
 		}
 		for (Talent talent : tierTalents){
