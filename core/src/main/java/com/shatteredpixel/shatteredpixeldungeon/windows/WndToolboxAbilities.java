@@ -59,24 +59,34 @@ public class WndToolboxAbilities extends Window {
 		Image icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.ARTIFACT_TOOLBOX; }});
 
 		for (Toolbox.ToolboxAbilities ability : Toolbox.ToolboxAbilities.values()) {
-			if (toolbox.abilityIsApplicable(ability)) {
+			if (toolbox.abilityIsApplicable(Dungeon.hero, ability)) {
 				float left = 2 * width / 3f + MARGIN;
 				if (ability.chargeCost() > 0) {
 					Image chargeIcon = new ItemSprite(ItemSpriteSheet.ARTIFACT_TOOLBOX);
 					chargeIcon.x = left;
 					chargeIcon.y = pos + 1.5f;
 					add(chargeIcon);
-					RenderedTextBlock txt = PixelScene.renderTextBlock(Integer.toString(ability.chargeCost()), 8);
+					RenderedTextBlock txt = PixelScene.renderTextBlock(Messages.decimalFormat("#.#", ability.chargeCost()), 8);
 					txt.setRect(left + 16 + MARGIN, pos + 4, width / 4f, 16);
 					add(txt);
 
-					left = 5 * width / 6f;
+					left = 5 * width / 6f + 2*MARGIN;
 				} else if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null && toolbox.artifact.status() != null) {
 					Image artifactIcon = new ItemSprite(toolbox.artifact.image);
 					artifactIcon.x = left;
 					artifactIcon.y = pos + (16 - artifactIcon.height())/2;
 					add(artifactIcon);
 					RenderedTextBlock txt = PixelScene.renderTextBlock(toolbox.artifact.status(), 8);
+					txt.setRect(left + artifactIcon.width() + MARGIN, pos + 4, width / 4f, 16);
+					add(txt);
+
+					left = 5 * width / 6f;
+				} else if (ability == Toolbox.ToolboxAbilities.ARTIFACT2 && toolbox.artifact2 != null && toolbox.artifact2.status() != null) {
+					Image artifactIcon = new ItemSprite(toolbox.artifact2.image);
+					artifactIcon.x = left;
+					artifactIcon.y = pos + (16 - artifactIcon.height())/2;
+					add(artifactIcon);
+					RenderedTextBlock txt = PixelScene.renderTextBlock(toolbox.artifact2.status(), 8);
 					txt.setRect(left + artifactIcon.width() + MARGIN, pos + 4, width / 4f, 16);
 					add(txt);
 
@@ -111,6 +121,30 @@ public class WndToolboxAbilities extends Window {
 
 					L += artifactIcon.width() + MARGIN;
 					W -= artifactIcon.width() + MARGIN;
+				} else if (ability == Toolbox.ToolboxAbilities.DECONSTRUCT_ARTIFACT2) {
+					Image artifactIcon = new ItemSprite(toolbox.artifact2.image);
+					artifactIcon.x = 0;
+					artifactIcon.y = pos + (16 - artifactIcon.height())/2f;
+					add(artifactIcon);
+
+					L += artifactIcon.width() + MARGIN;
+					W -= artifactIcon.width() + MARGIN;
+				} else if (ability == Toolbox.ToolboxAbilities.RETURN_ARTIFACT) {
+					Image artifactIcon = new ItemSprite(toolbox.artifact.image);
+					artifactIcon.x = 0;
+					artifactIcon.y = pos + (16 - artifactIcon.height())/2f;
+					add(artifactIcon);
+
+					L += artifactIcon.width() + MARGIN;
+					W -= artifactIcon.width() + MARGIN;
+				} else if (ability == Toolbox.ToolboxAbilities.RETURN_ARTIFACT2) {
+					Image artifactIcon = new ItemSprite(toolbox.artifact2.image);
+					artifactIcon.x = 0;
+					artifactIcon.y = pos + (16 - artifactIcon.height())/2f;
+					add(artifactIcon);
+
+					L += artifactIcon.width() + MARGIN;
+					W -= artifactIcon.width() + MARGIN;
 				}
 				abilityBtn.setSize(W, 16);
 				abilityBtn.setRect(L, pos, W, 16);
@@ -118,6 +152,8 @@ public class WndToolboxAbilities extends Window {
 
 				if (ability == Toolbox.ToolboxAbilities.ARTIFACT && toolbox.artifact != null) {
 					abilityBtn.icon(new ItemSprite(toolbox.artifact.image()));
+				} else if (ability == Toolbox.ToolboxAbilities.ARTIFACT2 && toolbox.artifact2 != null) {
+					abilityBtn.icon(new ItemSprite(toolbox.artifact2.image()));
 				}
 
 				add(abilityBtn);

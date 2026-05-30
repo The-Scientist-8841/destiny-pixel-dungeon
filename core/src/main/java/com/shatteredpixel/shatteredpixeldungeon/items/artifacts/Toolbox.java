@@ -83,6 +83,7 @@ public class Toolbox extends Artifact {
 	}
 
 	public Artifact artifact = null;
+	public Artifact artifact2 = null;
 
 	public static final String AC_CRAFT = "CRAFT";
 	public static final String AC_ABILITIES = "ABILITIES";
@@ -129,7 +130,9 @@ public class Toolbox extends Artifact {
 	public String desc() {
 		//Introductory paragraph
 		String desc = Messages.get(this, "desc");
-		desc += "\n\n" + Messages.get(this, "desc_affix", "an", "");
+		if (!Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || Dungeon.hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 2) {
+			desc += "\n\n" + Messages.get(this, "desc_affix", "an", "");
+		} else desc += "\n\n" + Messages.get(this, "desc_affix", "two", "s");
 
 		if (cursed) desc += "\n\n" + Messages.get(this, "desc_cursed");
 
@@ -148,11 +151,22 @@ public class Toolbox extends Artifact {
 					(hero.belongings.artifact != null && artifact.getClass() == hero.belongings.artifact.getClass()) ||
 					(hero.belongings.artifact2 != null && artifact.getClass() == hero.belongings.artifact2.getClass()) ||
 					(hero.belongings.misc != null && artifact.getClass() == hero.belongings.misc.getClass()) ||
-					(hero.belongings.misc2 != null && artifact.getClass() == hero.belongings.misc2.getClass()
+					(hero.belongings.misc2 != null && artifact.getClass() == hero.belongings.misc2.getClass())
 				)
-			)
 		) {
 			GLog.w( Messages.get(Toolbox.class, "affixed_artifact_conflict", artifact.name()) );
+			return false;
+		}
+
+		if (artifact2 != null &&
+				(
+						(hero.belongings.artifact != null && artifact2.getClass() == hero.belongings.artifact.getClass()) ||
+						(hero.belongings.artifact2 != null && artifact2.getClass() == hero.belongings.artifact2.getClass()) ||
+						(hero.belongings.misc != null && artifact2.getClass() == hero.belongings.misc.getClass()) ||
+						(hero.belongings.misc2 != null && artifact2.getClass() == hero.belongings.misc2.getClass())
+				)
+		) {
+			GLog.w( Messages.get(Toolbox.class, "affixed_artifact_conflict", artifact2.name()) );
 			return false;
 		}
 
@@ -162,6 +176,7 @@ public class Toolbox extends Artifact {
 	@Override
 	public void activate(Char ch) {
 		if (artifact != null) artifact.activate(ch);
+		if (artifact2 != null) artifact2.activate(ch);
 		super.activate(ch);
 	}
 
@@ -193,6 +208,8 @@ public class Toolbox extends Artifact {
 
 		}
 
+		if (artifact instanceof HornOfPlenty) ((HornOfPlenty) artifact).updateImage(charge);
+		if (artifact2 instanceof HornOfPlenty) ((HornOfPlenty) artifact2).updateImage(charge);
 		updateQuickslot();
 	}
 
@@ -207,6 +224,9 @@ public class Toolbox extends Artifact {
 				partialCharge = 0;
 				charge = chargeCap;
 			}
+
+			if (artifact instanceof HornOfPlenty) ((HornOfPlenty) artifact).updateImage(charge);
+			if (artifact2 instanceof HornOfPlenty) ((HornOfPlenty) artifact2).updateImage(charge);
 			updateQuickslot();
 		}
 		updateQuickslot();
@@ -219,6 +239,11 @@ public class Toolbox extends Artifact {
 			artifact.toolbox = null;
 			artifact.upgrade();
 			artifact.toolbox = this;
+		}
+		if (artifact2 != null) {
+			artifact2.toolbox = null;
+			artifact2.upgrade();
+			artifact2.toolbox = this;
 		}
 		return super.upgrade();
 	}
@@ -242,17 +267,22 @@ public class Toolbox extends Artifact {
 				partialCharge = 0;
 				charge = chargeCap;
 			}
+
+			if (artifact instanceof HornOfPlenty) ((HornOfPlenty) artifact).updateImage(charge);
+			if (artifact2 instanceof HornOfPlenty) ((HornOfPlenty) artifact2).updateImage(charge);
 			updateQuickslot();
 		}
 	}
 
 	private static final String ARTIFACT = "artifact";
+	private static final String ARTIFACT2 = "artifact2";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 
 		bundle.put(ARTIFACT, artifact);
+		bundle.put(ARTIFACT2, artifact2);
 	}
 
 	@Override
@@ -263,18 +293,49 @@ public class Toolbox extends Artifact {
 		if (artifact != null) {
 			artifact.toolbox = this;
 		}
+
+		artifact2 = (Artifact) bundle.get(ARTIFACT2);
+		if (artifact2 != null) {
+			artifact2.toolbox = this;
+		}
+
+
+		if (artifact instanceof HornOfPlenty) ((HornOfPlenty) artifact).updateImage(charge);
+		if (artifact2 instanceof HornOfPlenty) ((HornOfPlenty) artifact2).updateImage(charge);
 	}
 
 	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
+		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.AFFIX_ARTIFACT2) {
+			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 2) return false;
+		}
+
+		if (ability == ToolboxAbilities.RETURN_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT2) {
+			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 3) return false;
+		}
+
 		boolean canUse = isEquipped(hero) && charge >= ability.chargeCost() && Dungeon.materials >= ability.materialsCost();
-		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT) canUse = canUse && artifact != null;
+		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT) canUse = canUse && artifact != null;
 		if (ability == ToolboxAbilities.AFFIX_ARTIFACT) canUse = canUse && artifact == null;
+
+		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.RETURN_ARTIFACT2) canUse = canUse && artifact2 != null;
+		if (ability == ToolboxAbilities.AFFIX_ARTIFACT2) canUse = canUse && artifact2 == null;
 		return canUse;
 	}
 
-	public boolean abilityIsApplicable(ToolboxAbilities ability) {
-		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT) return artifact != null;
+	public boolean abilityIsApplicable(Hero hero, ToolboxAbilities ability) {
+		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.AFFIX_ARTIFACT2) {
+			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 2) return false;
+		}
+
+		if (ability == ToolboxAbilities.RETURN_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT2) {
+			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 3) return false;
+		}
+
+		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT) return artifact != null;
 		if (ability == ToolboxAbilities.AFFIX_ARTIFACT) return artifact == null;
+
+		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.RETURN_ARTIFACT2) return artifact2 != null;
+		if (ability == ToolboxAbilities.AFFIX_ARTIFACT2) return artifact2 == null;
 
 		return true;
 	}
@@ -309,12 +370,100 @@ public class Toolbox extends Artifact {
 				curUser.spendAndNext(ability.timeToUse);
 
 				break;
+			case ARTIFACT2:
+				if (artifact2 != null) {
+					GameScene.show(new WndUseItem(null, artifact2));
+				}
+				break;
+			case AFFIX_ARTIFACT2:
+				GameScene.selectItem(affixer2);
+				break;
+			case DECONSTRUCT_ARTIFACT2:
+				curUser.busy();
+				curUser.sprite.operate(curUser.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+
+				artifact2.onUnequip(curUser, false, true);
+				Dungeon.materials += 5;
+				artifact2 = null;
+
+				updateQuickslot();
+
+				curUser.spendAndNext(ability.timeToUse);
+
+				break;
+			case RETURN_ARTIFACT:
+				curUser.busy();
+				curUser.sprite.operate(curUser.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+
+				// Return a new artifact, fresh slate. I think we need to do this because some artifacts do weird things when they level up.
+				Artifact toReturn = getArtifact(artifact);
+				if (toReturn != null) {
+					toReturn.identify();
+					toReturn.cursed = false;
+					if (!toReturn.collect()) Dungeon.level.drop(toReturn, curUser.pos);
+				}
+
+				artifact.onUnequip(curUser, false, true);
+				artifact = null;
+
+				Dungeon.materials -= ability.materialsCost();
+
+				updateQuickslot();
+
+				curUser.spendAndNext(ability.timeToUse);
+				break;
+			case RETURN_ARTIFACT2:
+				curUser.busy();
+				curUser.sprite.operate(curUser.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+
+				// Return a new artifact, fresh slate. I think we need to do this because some artifacts do weird things when they level up.
+				Artifact toReturn2 = getArtifact(artifact2);
+				if (toReturn2 != null) {
+					toReturn2.identify();
+					toReturn2.cursed = false;
+					if (!toReturn2.collect()) Dungeon.level.drop(toReturn2, curUser.pos);
+				}
+
+				artifact2.onUnequip(curUser, false, true);
+				artifact2 = null;
+
+				Dungeon.materials -= ability.materialsCost();
+
+				updateQuickslot();
+
+				curUser.spendAndNext(ability.timeToUse);
+				break;
 		}
+	}
+
+	private Artifact getArtifact(Artifact a) {
+		Artifact toReturn;
+		if (a.getClass() == AlchemistsToolkit.class) toReturn = new AlchemistsToolkit();
+		else if (a.getClass() == CapeOfThorns.class) toReturn = new CapeOfThorns();
+		else if (a.getClass() == ChaliceOfBlood.class) toReturn = new ChaliceOfBlood();
+		else if (a.getClass() == DriedRose.class) toReturn = new DriedRose();
+		else if (a.getClass() == EtherealChains.class) toReturn = new EtherealChains();
+		else if (a.getClass() == HornOfPlenty.class) toReturn = new HornOfPlenty();
+		else if (a.getClass() == LloydsBeacon.class) toReturn = new LloydsBeacon();
+		else if (a.getClass() == MasterThievesArmband.class) toReturn = new MasterThievesArmband();
+		else if (a.getClass() == SandalsOfNature.class) toReturn = new SandalsOfNature();
+		else if (a.getClass() == SkeletonKey.class) toReturn = new SkeletonKey();
+		else if (a.getClass() == TalismanOfForesight.class) toReturn = new TalismanOfForesight();
+		else if (a.getClass() == TimekeepersHourglass.class) toReturn = new TimekeepersHourglass();
+		else if (a.getClass() == UnstableSpellbook.class) toReturn = new UnstableSpellbook();
+		else toReturn = null; //Should never happen
+		return toReturn;
 	}
 
 	public String getAbilityTitle(ToolboxAbilities ability) {
 		if (ability == ToolboxAbilities.ARTIFACT) {
 			if (artifact != null) return Messages.titleCase(artifact.title());
+		}
+		if (ability == ToolboxAbilities.ARTIFACT2) {
+			if (artifact2 != null) return Messages.titleCase(artifact2.title());
 		}
 		return ability.title();
 	}
@@ -327,11 +476,17 @@ public class Toolbox extends Artifact {
 	public enum ToolboxAbilities {
 		DISARM(1, 0, 3f),
 		ARM(1, 1, 3f),
-		ARTIFACT(0,0, 3f),
+		ARTIFACT(0,0, 0f),
 		AFFIX_ARTIFACT(0,0,3f),
-		DECONSTRUCT_ARTIFACT(0,0,3f);
+		DECONSTRUCT_ARTIFACT(0,0,3f),
+		RETURN_ARTIFACT(0,3,5f),
+		ARTIFACT2(0,0,0f),
+		AFFIX_ARTIFACT2(0,0,3f),
+		DECONSTRUCT_ARTIFACT2(0,0,3f),
+		RETURN_ARTIFACT2(0,3,5f);
 
-		private final int chargeCost, materialsCost;
+		private final float chargeCost;
+		private final int materialsCost;
 		private final float timeToUse;
 
 		ToolboxAbilities(int charge_cost, int materials_cost, float time_to_use) {
@@ -344,7 +499,13 @@ public class Toolbox extends Artifact {
 			return Messages.get(this, name() + ".title");
 		}
 
-		public int chargeCost() { return chargeCost; }
+		public float chargeCost() {
+			float cost = chargeCost;
+			if (Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) && Dungeon.hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) == 4) {
+				if (this == ARM || this == DISARM) cost -= 0.5f;
+			}
+			return cost;
+		}
 		public int materialsCost() { return materialsCost; }
 		public float timeToUse() { return timeToUse; }
 	}
@@ -385,7 +546,19 @@ public class Toolbox extends Artifact {
 		}
 
 		@Override
-		public boolean itemSelectable(Item item) { return item instanceof Artifact && !(item instanceof Toolbox) && !(item instanceof HolyTome) && !(item instanceof CloakOfShadows); }
+		public boolean itemSelectable(Item item) {
+			if (item instanceof Artifact && !(item instanceof Toolbox) && !(item instanceof HolyTome) && !(item instanceof CloakOfShadows)) {
+				if (((Toolbox) curItem).artifact2 != null && ((Toolbox) curItem).artifact2.getClass() == item.getClass()) return false;
+
+				if (!item.isEquipped(curUser)) {
+					if (curUser.belongings.artifact != null && curUser.belongings.artifact.getClass() == item.getClass()) return false;
+					if (curUser.belongings.artifact2 != null && curUser.belongings.artifact2.getClass() == item.getClass()) return false;
+					if (curUser.belongings.misc != null && curUser.belongings.misc.getClass() == item.getClass()) return false;
+					if (curUser.belongings.misc2 != null && curUser.belongings.misc2.getClass() == item.getClass()) return false;
+				}
+			}
+			return true;
+		}
 
 		public void whenDone(Hero hero) {
 			hero.busy();
@@ -423,6 +596,64 @@ public class Toolbox extends Artifact {
 		}
 	};
 
+	private final WndBag.ItemSelector affixer2 = new WndBag.ItemSelector() {
+
+		@Override
+		public String textPrompt() {
+			return Messages.get(Toolbox.class, "affix_prompt");
+		}
+
+		@Override
+		public boolean itemSelectable(Item item) {
+			if (item instanceof Artifact && !(item instanceof Toolbox) && !(item instanceof HolyTome) && !(item instanceof CloakOfShadows)) {
+				if (((Toolbox) curItem).artifact != null && ((Toolbox) curItem).artifact.getClass() == item.getClass()) return false;
+
+				if (!item.isEquipped(curUser)) {
+					if (curUser.belongings.artifact != null && curUser.belongings.artifact.getClass() == item.getClass()) return false;
+					if (curUser.belongings.artifact2 != null && curUser.belongings.artifact2.getClass() == item.getClass()) return false;
+					if (curUser.belongings.misc != null && curUser.belongings.misc.getClass() == item.getClass()) return false;
+					if (curUser.belongings.misc2 != null && curUser.belongings.misc2.getClass() == item.getClass()) return false;
+				}
+			}
+			return true;
+		}
+
+		public void whenDone(Hero hero) {
+			hero.busy();
+			hero.sprite.operate(hero.pos);
+			Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+		}
+
+		@Override
+		public void onSelect( final Item item ) {
+			if (item != null && item.isIdentified() && !item.cursed) {
+				if (item.isEquipped(curUser)) ((Artifact) item).doUnequip(curUser, false);
+				else item.detach(curUser.belongings.backpack);
+
+				curItem.upgrade(
+						Math.max(0, Math.min(item.level() - curItem.level(), ((Artifact) curItem).levelCap))
+				);
+				item.upgrade(Math.max(0, Math.min(curItem.level() - item.level(), ((Artifact) curItem).levelCap)));
+
+				Talent.onItemEquipped(curUser, item);
+				((Artifact) item).activate( curUser );
+				((Artifact) item).onEquip(curUser);
+
+				((Toolbox) curItem).artifact2 = (Artifact) item;
+				artifact2.toolbox = (Toolbox) curItem;
+
+				curUser.busy();
+
+				curUser.spend(ToolboxAbilities.AFFIX_ARTIFACT2.timeToUse());
+				curUser.busy();
+				curUser.sprite.operate(curUser.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
+				updateQuickslot();
+			} else if (item != null && !item.isIdentified()) GLog.n(Messages.get(Toolbox.class, "affix_not_identified"));
+			else if (item != null && !item.cursed) GLog.n(Messages.get(Toolbox.class, "affix_cursed"));
+		}
+	};
+
 	public class ToolboxRecharge extends ArtifactBuff {
 
 		@Override
@@ -450,6 +681,8 @@ public class Toolbox extends Artifact {
 			}
 
 			updateQuickslot();
+			if (artifact instanceof HornOfPlenty) ((HornOfPlenty) artifact).updateImage(charge);
+			if (artifact2 instanceof HornOfPlenty) ((HornOfPlenty) artifact2).updateImage(charge);
 
 			spend( TICK );
 

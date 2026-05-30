@@ -81,7 +81,7 @@ Talents:
 			+3: Can remove an artifact without destroying it if you want, but it's returned at +0.
 			+4: Arming/disarming traps only costs 0.5 charges, not 1
 			(Other classes get a 5%,7.5%,10%,12.5% chance not to consume alchemical energy)
-		Trusty Sidearm:
+		Expert Gunslinging:
 			+1: Can hold 8 bullets instead of 6
 			+2: Reloading now only takes 1 turn
 			+3: Firing at point-blank range now only incurs a -25% penalty

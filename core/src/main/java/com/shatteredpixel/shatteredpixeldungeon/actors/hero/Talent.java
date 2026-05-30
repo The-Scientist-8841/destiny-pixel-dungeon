@@ -238,7 +238,7 @@ public enum Talent {
 	//Artificer T1
 	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
 	//Artificer T2
-	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4),
+	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4), EXPERT_CRAFTSMANSHIP(230,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -1488,7 +1488,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLESSING, CLERICS_TRIAL);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING);
+				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING, EXPERT_CRAFTSMANSHIP);
 				break;
 		}
 		for (Talent talent : tierTalents){

@@ -316,7 +316,7 @@ public abstract class KindofMisc extends EquipableItem {
 				|| hero.belongings.ring2() == this
 				|| hero.belongings.ring3() == this
 				|| hero.belongings.ring4() == this
-				|| (!(this instanceof Toolbox) && toolbox != null && toolbox.isEquipped(hero) && toolbox.artifact == this));
+				|| (!(this instanceof Toolbox) && toolbox != null && toolbox.isEquipped(hero) && (toolbox.artifact == this || toolbox.artifact2 == this)));
 	}
 
 }

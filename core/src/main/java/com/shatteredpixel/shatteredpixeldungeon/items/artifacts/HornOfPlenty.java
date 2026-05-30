@@ -162,10 +162,7 @@ public class HornOfPlenty extends Artifact {
 		Badges.validateFoodEaten();
 
 		int displayCharge = toolbox == null ? charge : toolbox.charge;
-		if (displayCharge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
-		else if (displayCharge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
-		else if (displayCharge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
-		else                    image = ItemSpriteSheet.ARTIFACT_HORN1;
+		updateImage(displayCharge);
 
 		updateQuickslot();
 	}
@@ -188,14 +185,18 @@ public class HornOfPlenty extends Artifact {
 					partialCharge = 0;
 				}
 
-				if (charge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
-				else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
-				else if (charge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
-				else                    image = ItemSpriteSheet.ARTIFACT_HORN1;
+				updateImage(charge);
 
 				updateQuickslot();
 			}
 		}
+	}
+
+	public void updateImage(float chrg) {
+		if (chrg >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
+		else if (chrg >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
+		else if (chrg >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
+		else                    image = ItemSpriteSheet.ARTIFACT_HORN1;
 	}
 	
 	@Override

@@ -83,6 +83,7 @@ import com.watabou.noosa.SkinnedBlock;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.Random;
 import com.watabou.utils.RectF;
 
 import java.io.IOException;
@@ -630,7 +631,14 @@ public class ToolboxCraftingScene extends PixelScene {
 		if (recipe != null){
 			int cost = recipe.cost(ingredients);
 			Catalog.countUses(ArcaneMaterial.class, cost);
-			Dungeon.materials -= cost;
+			int costReduction = 0;
+			if (Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP)) {
+				for (int i = 0; i < cost; i += 1) {
+					if (Random.Int(4) == 0) costReduction += 1;
+				}
+			}
+
+			Dungeon.materials -= cost - costReduction;
 
 			String materialsText = Messages.get(ToolboxCraftingScene.class, "materials") + " " + Dungeon.materials;
 			materialsLeft.text(materialsText);
@@ -687,9 +695,6 @@ public class ToolboxCraftingScene extends PixelScene {
 		if (!result.collect()){
 			Dungeon.level.drop(result, Dungeon.hero.pos);
 		}
-
-		Statistics.itemsCrafted++;
-		Badges.validateItemsCrafted();
 
 		saveNeeded = false;
 		try {

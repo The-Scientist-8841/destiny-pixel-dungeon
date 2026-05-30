@@ -506,6 +506,7 @@ public class DriedRose extends Artifact {
 			DriedRose rose = hero.belongings.getItem( DriedRose.class );
 			Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
 			if (toolbox != null && toolbox.artifact instanceof DriedRose) rose = (DriedRose) toolbox.artifact;
+			if (toolbox != null && toolbox.artifact2 instanceof DriedRose) rose = (DriedRose) toolbox.artifact2;
 
 			if (rose == null){
 				GLog.w( Messages.get(this, "no_rose") );

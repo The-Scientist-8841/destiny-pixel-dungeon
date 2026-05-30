@@ -513,6 +513,7 @@ public class TimekeepersHourglass extends Artifact {
 			TimekeepersHourglass hourglass = hero.belongings.getItem( TimekeepersHourglass.class );
 			Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
 			if (toolbox != null && toolbox.artifact instanceof TimekeepersHourglass) hourglass = (TimekeepersHourglass) toolbox.artifact;
+			if (toolbox != null && toolbox.artifact2 instanceof TimekeepersHourglass) hourglass = (TimekeepersHourglass) toolbox.artifact2;
 			if (hourglass != null && !hourglass.cursed) {
 				hourglass.upgrade();
 				Catalog.countUses(hourglass.getClass(), 2);

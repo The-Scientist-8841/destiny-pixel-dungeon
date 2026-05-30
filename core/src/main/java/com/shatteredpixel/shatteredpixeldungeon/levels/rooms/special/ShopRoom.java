@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
@@ -308,6 +309,9 @@ public class ShopRoom extends SpecialRoom {
 		itemsToSpawn.add( new StoneOfAugmentation() );
 
 		TimekeepersHourglass hourglass = Dungeon.hero.belongings.getItem(TimekeepersHourglass.class);
+		Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
+		if (toolbox != null && toolbox.artifact instanceof TimekeepersHourglass) hourglass = (TimekeepersHourglass) toolbox.artifact;
+		if (toolbox != null && toolbox.artifact2 instanceof TimekeepersHourglass) hourglass = (TimekeepersHourglass) toolbox.artifact2;
 		if (hourglass != null && hourglass.isIdentified() && !hourglass.cursed){
 			int bags = 0;
 			//creates the given float percent of the remaining bags to be dropped.

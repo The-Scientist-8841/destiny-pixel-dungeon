@@ -50,7 +50,8 @@ public class WndUseItem extends WndInfoItem {
 		float y = height;
 
 		Toolbox toolbox = Dungeon.hero.belongings.getItem(Toolbox.class);
-		if (Dungeon.hero.isAlive() && (Dungeon.hero.belongings.contains(item) || (toolbox != null && toolbox.artifact == item))) {
+		if (Dungeon.hero.isAlive() && (Dungeon.hero.belongings.contains(item) ||
+									   (toolbox != null && (toolbox.artifact == item || toolbox.artifact2 == item)))) {
 			y += GAP;
 			ArrayList<RedButton> buttons = new ArrayList<>();
 			for (final String action : item.actions(Dungeon.hero)) {
@@ -60,7 +61,7 @@ public class WndUseItem extends WndInfoItem {
 					protected void onClick() {
 						hide();
 						if (owner != null && owner.parent != null) owner.hide();
-						if (Dungeon.hero.isAlive() && (Dungeon.hero.belongings.contains(item) || (toolbox != null && toolbox.artifact == item))) {
+						if (Dungeon.hero.isAlive() && (Dungeon.hero.belongings.contains(item) || (toolbox != null && (toolbox.artifact == item || toolbox.artifact2 == item)))) {
 							item.execute(Dungeon.hero, action);
 						}
 						Item.updateQuickslot();

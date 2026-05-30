@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
@@ -80,6 +81,7 @@ import com.watabou.noosa.SkinnedBlock;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.Random;
 import com.watabou.utils.RectF;
 
 import java.io.IOException;
@@ -694,6 +696,12 @@ public class AlchemyScene extends PixelScene {
 		
 		if (recipe != null){
 			int cost = recipe.cost(ingredients);
+			if (Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) && Dungeon.hero.heroClass != HeroClass.ARTIFICER) {
+				for (int i = 0; i < cost; i += 1) {
+					if (Random.Float(1f) < 0.025f + 0.025f*Dungeon.hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP)) cost -= 1;
+				}
+			}
+
 			if (toolkit != null){
 				cost = toolkit.consumeEnergy(cost);
 			}
