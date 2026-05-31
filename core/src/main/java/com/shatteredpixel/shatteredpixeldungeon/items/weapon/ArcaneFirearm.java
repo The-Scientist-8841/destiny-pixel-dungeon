@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -32,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
@@ -79,8 +81,6 @@ public class ArcaneFirearm extends Weapon {
 	public static final String AC_LOAD		= "LOAD";
 	public static final String AC_UNLOAD	= "UNLOAD";
 	public ArrayList<Bullet> chamber = new ArrayList<>();
-	public int chamber_size = 6;
-	public float loadTime = 2f;
 	public float unloadTime = 1f;
 	public ArrayList<Bullet> bulletsToLoad = new ArrayList<>();
 
@@ -96,10 +96,18 @@ public class ArcaneFirearm extends Weapon {
 		bones = false;
 	}
 
+	public int chamber_size() {
+		if (Dungeon.hero.hasTalent(Talent.TRUSTY_SIDEARM)) return 8;
+		else return 6;
+	}
+
+	public float load_time() {
+		if (Dungeon.hero.hasTalent(Talent.TRUSTY_SIDEARM) && Dungeon.hero.pointsInTalent(Talent.TRUSTY_SIDEARM) > 1) return 1f;
+		else return 2f;
+	}
+
 	private static final String CHAMBER = "chamber";
 	private static final String NUM_BULLETS = "num_bullets";
-	private static final String CHAMBER_SIZE = "chamber_size";
-	private static final String LOAD_TIME = "loadTime";
 	private static final String UNLOAD_TIME = "unloadTime";
 	public static final String LACING = "lacing";
 
@@ -107,12 +115,10 @@ public class ArcaneFirearm extends Weapon {
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 
-		bundle.put(CHAMBER_SIZE, chamber_size);
 		bundle.put(NUM_BULLETS, chamber.size());
 		for (int i = 0; i < chamber.size(); i += 1) {
 			bundle.put(CHAMBER + Integer.toString(i), chamber.get(i));
 		}
-		bundle.put(LOAD_TIME, loadTime);
 		bundle.put(UNLOAD_TIME, unloadTime);
 		bundle.put(LACING, lacing);
 	}
@@ -121,7 +127,6 @@ public class ArcaneFirearm extends Weapon {
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
 
-		chamber_size = bundle.getInt(CHAMBER_SIZE);
 		int num_bullets = bundle.getInt(NUM_BULLETS);
 		chamber.clear();
 		for (int i = 0; i < num_bullets; i += 1) {
@@ -129,7 +134,6 @@ public class ArcaneFirearm extends Weapon {
 			b.gun = this;
 			chamber.add(b);
 		}
-		loadTime = bundle.getFloat(LOAD_TIME);
 		unloadTime = bundle.getFloat(UNLOAD_TIME);
 		lacing = (WeaponLacing) bundle.get(LACING);
 	}
@@ -140,7 +144,7 @@ public class ArcaneFirearm extends Weapon {
 		if (isEquipped(hero)) {
 
 			if (chamber.size() > 0) { actions.add(AC_SHOOT); actions.add(AC_UNLOAD); }
-			if (chamber.size() < chamber_size) actions.add(AC_LOAD);
+			if (chamber.size() < chamber_size()) actions.add(AC_LOAD);
 		}
 		return actions;
 	}
@@ -259,7 +263,7 @@ public class ArcaneFirearm extends Weapon {
 
 	@Override
 	public String status() {
-		return Integer.toString(chamber.size() + bulletsToLoad.size()) + "/" + Integer.toString(chamber_size);
+		return Integer.toString(chamber.size() + bulletsToLoad.size()) + "/" + Integer.toString(chamber_size());
 	}
 	
 	@Override
@@ -323,7 +327,7 @@ public class ArcaneFirearm extends Weapon {
 				}
 				bulletsToLoad.clear();
 				if (loadedOne) {
-					hero.spend(loadTime);
+					hero.spend(load_time());
 					hero.busy();
 					hero.sprite.operate(hero.pos);
 					Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
@@ -334,7 +338,7 @@ public class ArcaneFirearm extends Weapon {
 		}
 		bulletsToLoad.clear();
 		updateQuickslot();
-		hero.spend(loadTime);
+		hero.spend(load_time());
 		hero.busy();
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
@@ -342,7 +346,7 @@ public class ArcaneFirearm extends Weapon {
 	}
 
 	public boolean load(Bullet bullet) {
-		if (chamber.size() >= chamber_size) return false;
+		if (chamber.size() >= chamber_size()) return false;
 		bullet.gun = this;
 		chamber.add(bullet);
 		return true;
@@ -523,6 +527,15 @@ public class ArcaneFirearm extends Weapon {
 		}
 
 		@Override
+		protected float adjacentAccFactor(Char owner, Char target) {
+			float toAdd = 0f;
+			if (owner instanceof Hero) {
+				if (((Hero) owner).hasTalent(Talent.TRUSTY_SIDEARM) && ((Hero) owner).pointsInTalent(Talent.TRUSTY_SIDEARM) >= 3) toAdd = 0.25f;
+			}
+			return super.adjacentAccFactor(owner, target) + toAdd;
+		}
+
+		@Override
 		public String name() {
 			return bulletType.title();
 		}
@@ -551,6 +564,15 @@ public class ArcaneFirearm extends Weapon {
 
 				if (chamber.isEmpty() && curUser.hasTalent(Talent.PLAN_B)) {
 					Buff.affect(curUser, Barrier.class).setShield(2*curUser.pointsInTalent(Talent.PLAN_B) + 1);
+				}
+
+				//Alert enemies within a large radius
+				int d = 7;
+				if (Dungeon.hero.hasTalent(Talent.TRUSTY_SIDEARM) && Dungeon.hero.pointsInTalent(Talent.TRUSTY_SIDEARM) == 4) d = 4;
+				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+					if (mob.alignment != Char.Alignment.ALLY) {
+						if (Dungeon.level.heroFOV[mob.pos] || Dungeon.level.distance(curUser.pos, mob.pos) <= d) mob.beckon( curUser.pos );
+					}
 				}
 			}
 		}
@@ -589,7 +611,7 @@ public class ArcaneFirearm extends Weapon {
 				else item.detach(curUser.belongings.backpack);
 				updateQuickslot();
 
-				if (((ArcaneFirearm) curItem).bulletsToLoad.size() < chamber_size - chamber.size()) {
+				if (((ArcaneFirearm) curItem).bulletsToLoad.size() < chamber_size() - chamber.size()) {
 					((ArcaneFirearm) curItem).selectBulletToLoad(curUser);
 				} else ((ArcaneFirearm) curItem).load(curUser);
 			} else ((ArcaneFirearm) curItem).load(curUser);

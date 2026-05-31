@@ -75,18 +75,18 @@ Talents:
 			+3: 75% chance to gain 1 arcane material after drinking a potion
 			+4: 100% chance to gain 1 arcane material after drinking a potion
 			(Other classes get 1,2,3,4 alchemical energy)
-		Expert Craftsmanship:
+		Tools of the Trade:
 			+1: Crafting has 25% chance not to consume a material
 			+2: Can affix a second artifact to your toolbox
 			+3: Can remove an artifact without destroying it if you want, but it's returned at +0.
 			+4: Arming/disarming traps only costs 0.5 charges, not 1
 			(Other classes get a 5%,7.5%,10%,12.5% chance not to consume alchemical energy)
-		Expert Gunslinging:
+		Trusty Sidearm:
 			+1: Can hold 8 bullets instead of 6
 			+2: Reloading now only takes 1 turn
 			+3: Firing at point-blank range now only incurs a -25% penalty
 			+4: Gun is quieter, doesn't alert enemies from so far away
-			(Other classes get 5% chance to not use durability on thrown weapon, +5% thrown weapon accuracy, -25% point-blank range penalty on thrown weapons, +2 thrown weapon damage)
+			(Other classes get 5% chance to not use durability on thrown weapon, +5% thrown weapon accuracy, -10% point-blank range penalty on thrown weapons, +2 thrown weapon damage)
 		Eldritch Cannon:
 			+1: Can place an immobile sentry that attacks enemies within 3 tiles at the cost of 2 toolbox charges and 3 arcane materials, can also craft a repair kit for the sentry
 			+2: Can place a mobile sentry that attacks adjacent enemies at the cost of 2 toolbox charges and 3 arcane materials, repair kit works on this one, too

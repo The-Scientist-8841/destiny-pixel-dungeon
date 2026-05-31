@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -30,39 +29,23 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.ClericSpell;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.GuidingLight;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ToolboxCraftingScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
-import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndClericSpells;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndToolboxAbilities;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndUseItem;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PathFinder;
 
 import java.util.ArrayList;
-
-import javax.tools.Tool;
 
 public class Toolbox extends Artifact {
 
@@ -130,7 +113,7 @@ public class Toolbox extends Artifact {
 	public String desc() {
 		//Introductory paragraph
 		String desc = Messages.get(this, "desc");
-		if (!Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || Dungeon.hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 2) {
+		if (!Dungeon.hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || Dungeon.hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 2) {
 			desc += "\n\n" + Messages.get(this, "desc_affix", "an", "");
 		} else desc += "\n\n" + Messages.get(this, "desc_affix", "two", "s");
 
@@ -306,11 +289,11 @@ public class Toolbox extends Artifact {
 
 	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
 		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.AFFIX_ARTIFACT2) {
-			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 2) return false;
+			if (!hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 2) return false;
 		}
 
 		if (ability == ToolboxAbilities.RETURN_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT2) {
-			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 3) return false;
+			if (!hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 3) return false;
 		}
 
 		boolean canUse = isEquipped(hero) && charge >= ability.chargeCost() && Dungeon.materials >= ability.materialsCost();
@@ -324,11 +307,11 @@ public class Toolbox extends Artifact {
 
 	public boolean abilityIsApplicable(Hero hero, ToolboxAbilities ability) {
 		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.AFFIX_ARTIFACT2) {
-			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 2) return false;
+			if (!hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 2) return false;
 		}
 
 		if (ability == ToolboxAbilities.RETURN_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT2) {
-			if (!hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) || hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) < 3) return false;
+			if (!hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 3) return false;
 		}
 
 		if (ability == ToolboxAbilities.ARTIFACT || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT || ability == ToolboxAbilities.RETURN_ARTIFACT) return artifact != null;
@@ -501,7 +484,7 @@ public class Toolbox extends Artifact {
 
 		public float chargeCost() {
 			float cost = chargeCost;
-			if (Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) && Dungeon.hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP) == 4) {
+			if (Dungeon.hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) && Dungeon.hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) == 4) {
 				if (this == ARM || this == DISARM) cost -= 0.5f;
 			}
 			return cost;

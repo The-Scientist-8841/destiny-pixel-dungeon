@@ -78,7 +78,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
@@ -238,7 +237,7 @@ public enum Talent {
 	//Artificer T1
 	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
 	//Artificer T2
-	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4), EXPERT_CRAFTSMANSHIP(230,4),
+	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4), TOOLS_OF_THE_TRADE(230,4), TRUSTY_SIDEARM(231,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -808,7 +807,7 @@ public enum Talent {
 		}
 
 		if (talent == TWIN_UPGRADES || talent == DESPERATE_POWER
-				|| talent == STRONGMAN || talent == DURABLE_PROJECTILES){
+				|| talent == STRONGMAN || talent == DURABLE_PROJECTILES || talent == TRUSTY_SIDEARM){
 			Item.updateQuickslot();
 		}
 
@@ -1488,7 +1487,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLESSING, CLERICS_TRIAL);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING, EXPERT_CRAFTSMANSHIP);
+				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING, TOOLS_OF_THE_TRADE, TRUSTY_SIDEARM);
 				break;
 		}
 		for (Talent talent : tierTalents){

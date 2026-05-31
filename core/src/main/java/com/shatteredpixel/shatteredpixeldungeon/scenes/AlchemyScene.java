@@ -696,9 +696,9 @@ public class AlchemyScene extends PixelScene {
 		
 		if (recipe != null){
 			int cost = recipe.cost(ingredients);
-			if (Dungeon.hero.hasTalent(Talent.EXPERT_CRAFTSMANSHIP) && Dungeon.hero.heroClass != HeroClass.ARTIFICER) {
+			if (Dungeon.hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) && Dungeon.hero.heroClass != HeroClass.ARTIFICER) {
 				for (int i = 0; i < cost; i += 1) {
-					if (Random.Float(1f) < 0.025f + 0.025f*Dungeon.hero.pointsInTalent(Talent.EXPERT_CRAFTSMANSHIP)) cost -= 1;
+					if (Random.Float(1f) < 0.025f + 0.025f*Dungeon.hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE)) cost -= 1;
 				}
 			}
 

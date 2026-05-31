@@ -216,13 +216,22 @@ abstract public class MissileWeapon extends Weapon {
 
 		accFactor *= adjacentAccFactor(owner, target);
 
+		if (owner instanceof Hero && ((Hero) owner).hasTalent(Talent.TRUSTY_SIDEARM) && ((Hero) owner).heroClass != HeroClass.ARTIFICER) {
+			if (((Hero) owner).pointsInTalent(Talent.TRUSTY_SIDEARM) >= 2) accFactor += 0.05f;
+		}
+
 		return accFactor;
 	}
 
 	protected float adjacentAccFactor(Char owner, Char target){
 		if (Dungeon.level.adjacent( owner.pos, target.pos )) {
 			if (owner instanceof Hero){
-				return (0.5f + 0.25f*((Hero) owner).pointsInTalent(Talent.POINT_BLANK));
+				float bonus = 0f;
+				if (((Hero) owner).hasTalent(Talent.TRUSTY_SIDEARM) && ((Hero) owner).heroClass != HeroClass.ARTIFICER) {
+					if (((Hero) owner).pointsInTalent(Talent.TRUSTY_SIDEARM) >= 3) bonus = 0.10f;
+				}
+
+				return (0.5f + 0.25f*((Hero) owner).pointsInTalent(Talent.POINT_BLANK)) + bonus;
 			} else {
 				return 0.5f;
 			}
@@ -413,11 +422,16 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	protected void rangedHit( Char enemy, int cell ){
+		boolean useDurability = true;
 		Buff buff = curUser.buff(Talent.resourcefulMealTracker_alt.class);
 		if (buff != null) {
-			if (Random.Int(4) >= curUser.pointsInTalent(Talent.RESOURCEFUL_MEAL)) decrementDurability();
+			if (Random.Int(4) >= curUser.pointsInTalent(Talent.RESOURCEFUL_MEAL)) useDurability = false;
 			buff.detach();
-		} else decrementDurability();
+		}
+		if (curUser.hasTalent(Talent.TRUSTY_SIDEARM) && curUser.heroClass != HeroClass.ARTIFICER && Random.Int(20) == 0) useDurability = false;
+
+		if (useDurability) decrementDurability();
+
 		if (durability > 0 && !spawnedForEffect){
 			//attempt to stick the missile weapon to the enemy, just drop it if we can't.
 			if (sticky && enemy != null && enemy.isActive() && enemy.alignment != Char.Alignment.ALLY){
@@ -525,6 +539,10 @@ abstract public class MissileWeapon extends Weapon {
 			}
 			if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
 				damage = Math.round(damage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+			}
+
+			if (((Hero) owner).hasTalent(Talent.TRUSTY_SIDEARM) && ((Hero) owner).heroClass != HeroClass.ARTIFICER) {
+				if (((Hero) owner).pointsInTalent(Talent.TRUSTY_SIDEARM) == 4) damage += 2;
 			}
 		}
 		
