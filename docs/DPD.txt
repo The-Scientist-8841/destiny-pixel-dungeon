@@ -241,7 +241,7 @@ Nix the scroll of metamorphosis...exotic transformation is just wilder transform
 New classes:
     Summoner: Has a unique crook melee weapon that can summon an ally. The crook levels with the class, and the minion improves.
         Starts out knowing scrolls of mirror image (change duelist to know scrolls of retribution)
-        Has the special ability of being immune to negative effects from mystery meat?
+        Has the special ability to "tame" certain enemies in the dungeon if he gets them to low health
         Generalist's Intuition: identifies all items 75%/150%/225%/300% faster.
         Subclasses:
             Swarmkeeper: Crook can now summon multiple allies
