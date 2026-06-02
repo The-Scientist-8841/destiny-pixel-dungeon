@@ -103,6 +103,7 @@ Talents:
 			+2: When you reset the level, gain +1 toolbox charges
 			+3: When you reset the level, gain +1.5 toolbox charges
 			+4: When you reset the level, gain +2 toolbox charges
+			(Other classes get wand and artifact charges.)
 	T3:
 		Potion Crafting:
 			+1: Can craft bullets and bombs with seeds

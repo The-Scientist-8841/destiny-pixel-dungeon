@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Firebomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FlashBangBomb;
@@ -81,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
@@ -209,9 +211,23 @@ public class EvilBook extends Item {
                     }
                 } else {
                     for (Item item : hero.belongings) {
-                        if (item instanceof MagesStaff) ((MagesStaff) item).gainCharge(0.5f * hero.pointsInTalent(Talent.CLERICS_TRIAL));
-                        else if (item instanceof Wand) ((Wand) item).gainCharge(0.5f * hero.pointsInTalent(Talent.CLERICS_TRIAL));
-                        else if ((item instanceof Artifact) && !((Artifact) item).cursed) ((Artifact) item).charge(Dungeon.hero, 0.5f*hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                        if (item instanceof MagesStaff) ((MagesStaff) item).gainCharge(0.25f * hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                        else if (item instanceof Wand) ((Wand) item).gainCharge(0.25f * hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                        else if ((item instanceof Artifact) && !((Artifact) item).cursed) ((Artifact) item).charge(Dungeon.hero, 0.25f*hero.pointsInTalent(Talent.CLERICS_TRIAL));
+                    }
+                }
+            }
+
+            if (hero.hasTalent(Talent.ARTIFICERS_TRIAL)) {
+                if (hero.heroClass == HeroClass.ARTIFICER) {
+                    Toolbox toolbox = hero.belongings.getItem(Toolbox.class);
+                    if (toolbox != null) {
+                        toolbox.directCharge( hero.pointsInTalent(Talent.ARTIFICERS_TRIAL)*0.5f );
+                        ScrollOfRecharging.charge(hero);
+                    }
+                } else {
+                    for (Item item : hero.belongings) {
+                        if (item instanceof MissileWeapon) ((MissileWeapon) item).repair(hero.pointsInTalent(Talent.ARTIFICERS_TRIAL));
                     }
                 }
             }

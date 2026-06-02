@@ -240,12 +240,14 @@ public class Hero extends Char {
 	
 	public int lvl = 1;
 	public int exp = 0;
+	public float partialExp = 0f;
 
 	public float wandDmgBonusFactor = 1f;
 	public float evasionBonusFactor = 1f;
 	public float accuracyBonusFactor = 1f;
 	public float meleeDmgBonusFactor = 1f;
 	public int HT_bonus = 0;
+	public float expGainBonusFactor = 1f;
 	
 	public int HTBoost = 0;
 	
@@ -315,12 +317,14 @@ public class Hero extends Char {
 	private static final String STRENGTH	= "STR";
 	private static final String LEVEL		= "lvl";
 	private static final String EXPERIENCE	= "exp";
+	private static final String PARTIAL_EXP = "partialExp";
 	private static final String HTBOOST     = "htboost";
 	private static final String WANDDMGBONUSFACTOR = "wandDmgBonusFactor";
 	private static final String EVASIONBONUSFACTOR = "evasionBonusFactor";
 	private static final String ACCURACYBONUSFACTOR = "accuracyBonusFactor";
 	private static final String MELEEDMGBONUSFACTOR = "meleeDmgBonusFactor";
 	private static final String HTBONUS = "HT_bonus";
+	private static final String EXPGAINBONUSFACTOR = "expGainBonusFactor";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -339,6 +343,7 @@ public class Hero extends Char {
 		
 		bundle.put( LEVEL, lvl );
 		bundle.put( EXPERIENCE, exp );
+		bundle.put(PARTIAL_EXP, partialExp);
 		
 		bundle.put( HTBOOST, HTBoost );
 
@@ -347,6 +352,7 @@ public class Hero extends Char {
 		bundle.put(ACCURACYBONUSFACTOR, accuracyBonusFactor);
 		bundle.put(MELEEDMGBONUSFACTOR, meleeDmgBonusFactor);
 		bundle.put(HTBONUS, HT_bonus);
+		bundle.put(EXPGAINBONUSFACTOR, expGainBonusFactor);
 		belongings.storeInBundle( bundle );
 	}
 	
@@ -355,6 +361,7 @@ public class Hero extends Char {
 
 		lvl = bundle.getInt( LEVEL );
 		exp = bundle.getInt( EXPERIENCE );
+		partialExp = bundle.getFloat(PARTIAL_EXP);
 
 		HTBoost = bundle.getInt(HTBOOST);
 
@@ -377,6 +384,7 @@ public class Hero extends Char {
 		accuracyBonusFactor = bundle.getFloat(ACCURACYBONUSFACTOR);
 		meleeDmgBonusFactor = bundle.getFloat(MELEEDMGBONUSFACTOR);
 		HT_bonus = bundle.getInt(HTBONUS);
+		expGainBonusFactor = bundle.getFloat(EXPGAINBONUSFACTOR);
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
@@ -2126,7 +2134,11 @@ public class Hero extends Char {
 
 		//xp granted by ascension challenge is only for on-exp gain effects
 		if (source != AscensionChallenge.class) {
-			this.exp += exp;
+			this.partialExp += expGainBonusFactor * exp;
+			while (this.partialExp > 1) {
+				this.exp += 1;
+				this.partialExp -= 1;
+			}
 		}
 		float percent = exp/(float)maxExp();
 
