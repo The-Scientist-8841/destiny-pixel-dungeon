@@ -546,10 +546,11 @@ public class ItemSpriteSheet {
 	public static final int SCROLL_BERKANAN = SCROLLS+9;
 	public static final int SCROLL_ODAL     = SCROLLS+10;
 	public static final int SCROLL_TIWAZ    = SCROLLS+11;
+	public static final int SCROLL_ARTIFACT_LEVELLING = SCROLLS+12;
 
 	public static final int ARCANE_RESIN    = SCROLLS+13;
 	static {
-		for (int i = SCROLLS; i < SCROLLS+16; i++)
+		for (int i = SCROLLS; i < SCROLLS+13; i++)
 			assignItemRect(i, 15, 14);
 		assignItemRect(ARCANE_RESIN   , 12, 11);
 	}

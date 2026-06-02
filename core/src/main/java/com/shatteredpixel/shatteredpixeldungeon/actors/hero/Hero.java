@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
@@ -141,6 +142,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfCha
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ThirteenLeafClover;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -975,6 +977,8 @@ public class Hero extends Char {
 				actResult = actDisarm( (HeroAction.Disarm)curAction);
 			} else if (curAction instanceof HeroAction.Arm) {
 				actResult = actArm( (HeroAction.Arm)curAction);
+			}  else if (curAction instanceof HeroAction.PlaceSentry) {
+				actResult = actPlaceSentry( (HeroAction.PlaceSentry)curAction);
 			} else {
 				actResult = false;
 			}
@@ -1558,6 +1562,37 @@ public class Hero extends Char {
 				sprite.operate( dst );
 			} else {
 				ready();
+			}
+
+			return false;
+
+		} else if (getCloser( dst )) {
+
+			return true;
+
+		} else {
+			ready();
+			return false;
+		}
+	}
+
+	private boolean actPlaceSentry( HeroAction.PlaceSentry action ) {
+		int dst = action.dst;
+		Toolbox toolbox = belongings.getItem(Toolbox.class);
+		if (!hasTalent(Talent.AUTO_TURRET) || toolbox == null || !toolbox.canUseAbility(this, Toolbox.ToolboxAbilities.PLACE_SENTRY)) {
+			ready();
+			return false;
+		}
+
+		if (Dungeon.level.adjacent( pos, dst ) || pos == dst) {
+			path = null;
+
+			Char ch = Actor.findChar(dst);
+			if (ch != null || !Dungeon.level.passable[dst]){
+				GLog.w( Messages.get(Toolbox.class, "bad_sentry_location"));
+				ready();
+			} else {
+				sprite.operate( dst );
 			}
 
 			return false;
@@ -2587,6 +2622,13 @@ public class Hero extends Char {
 			Toolbox toolbox = belongings.getItem(Toolbox.class);
 			if (toolbox != null) toolbox.spendAbilityCosts(Toolbox.ToolboxAbilities.ARM);
 			spend(Toolbox.ToolboxAbilities.ARM.timeToUse());
+		} else if (curAction instanceof HeroAction.PlaceSentry) {
+			Toolbox toolbox = belongings.getItem(Toolbox.class);
+			if (toolbox != null) {
+				toolbox.spendAbilityCosts(Toolbox.ToolboxAbilities.PLACE_SENTRY);
+				toolbox.placeSentry(((HeroAction.PlaceSentry) curAction).dst);
+			}
+			spend(Toolbox.ToolboxAbilities.PLACE_SENTRY.timeToUse());
 		}
 		curAction = null;
 

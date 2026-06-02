@@ -27,7 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
@@ -103,7 +105,6 @@ public class Toolbox extends Artifact {
 		if (isEquipped( hero ) && !cursed && hero.buff(MagicImmune.class) == null)  {
 			actions.add(AC_ABILITIES);
 			actions.add(AC_CRAFT);
-			actions.add("TEST_SENTRY");
 			if (level() < levelCap) actions.add(AC_UPGRADE);
 		}
 		return actions;
@@ -132,15 +133,6 @@ public class Toolbox extends Artifact {
 			} else {
 				GLog.n(Messages.get(this, "failed_to_upgrade"));
 			}
-		} else if (action.equals("TEST_SENTRY")) {
-			Sentry sentry = new Sentry();
-			sentry.pos = hero.pos + 1;
-			sentry.tier = 4;
-			sentry.upgrade(buffedLvl());
-			GameScene.add(sentry, 1f);
-			Dungeon.level.occupyCell(sentry);
-			sentry.sprite.emitter().burst(MagicMissile.WardParticle.UP, sentry.tier);
-			Dungeon.level.pressCell(hero.pos + 1);
 		}
 	}
 
@@ -322,6 +314,18 @@ public class Toolbox extends Artifact {
 		if (artifact2 instanceof HornOfPlenty) ((HornOfPlenty) artifact2).updateImage(charge);
 	}
 
+	public void placeSentry(int pos) {
+		Sentry sentry = new Sentry();
+		sentry.pos = pos;
+		sentry.tier = Dungeon.hero.hasTalent(Talent.AUTO_TURRET) ? Dungeon.hero.pointsInTalent(Talent.AUTO_TURRET) : 1;
+		sentry.upgrade(buffedLvl());
+		GameScene.add(sentry, 1f);
+		Dungeon.level.occupyCell(sentry);
+		sentry.sprite.emitter().burst(SentryParticle.UP, sentry.tier);
+		Dungeon.level.pressCell(pos + 1);
+		Sample.INSTANCE.play(Assets.Sounds.PUFF);
+	}
+
 	public boolean canUseAbility(Hero hero, ToolboxAbilities ability) {
 		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.AFFIX_ARTIFACT2) {
 			if (!hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 2) return false;
@@ -337,6 +341,8 @@ public class Toolbox extends Artifact {
 
 		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.RETURN_ARTIFACT2) canUse = canUse && artifact2 != null;
 		if (ability == ToolboxAbilities.AFFIX_ARTIFACT2) canUse = canUse && artifact2 == null;
+
+		if (ability == ToolboxAbilities.PLACE_SENTRY) canUse = canUse && Dungeon.hero.hasTalent(Talent.AUTO_TURRET);
 		return canUse;
 	}
 
@@ -354,6 +360,8 @@ public class Toolbox extends Artifact {
 
 		if (ability == ToolboxAbilities.ARTIFACT2 || ability == ToolboxAbilities.DECONSTRUCT_ARTIFACT2 || ability == ToolboxAbilities.RETURN_ARTIFACT2) return artifact2 != null;
 		if (ability == ToolboxAbilities.AFFIX_ARTIFACT2) return artifact2 == null;
+
+		if (ability == ToolboxAbilities.PLACE_SENTRY) return hero.hasTalent(Talent.AUTO_TURRET);
 
 		return true;
 	}
@@ -454,6 +462,9 @@ public class Toolbox extends Artifact {
 
 				curUser.spendAndNext(ability.timeToUse);
 				break;
+			case PLACE_SENTRY:
+				GameScene.selectCell(placer);
+				break;
 		}
 	}
 
@@ -501,7 +512,8 @@ public class Toolbox extends Artifact {
 		ARTIFACT2(0,0,0f),
 		AFFIX_ARTIFACT2(0,0,3f),
 		DECONSTRUCT_ARTIFACT2(0,0,3f),
-		RETURN_ARTIFACT2(0,3,5f);
+		RETURN_ARTIFACT2(0,3,5f),
+		PLACE_SENTRY(2,5,1f);
 
 		private final float chargeCost;
 		private final int materialsCost;
@@ -553,6 +565,20 @@ public class Toolbox extends Artifact {
 		@Override
 		public String prompt() {
 			return Messages.get(Toolbox.class, "arm_prompt");
+		}
+	};
+
+	private CellSelector.Listener placer = new CellSelector.Listener() {
+		@Override
+		public void onSelect( Integer target ) {
+			if (target != null) {
+				curUser.curAction = new HeroAction.PlaceSentry(target);
+				curUser.next();
+			}
+		}
+		@Override
+		public String prompt() {
+			return Messages.get(Toolbox.class, "place_prompt");
 		}
 	};
 
@@ -728,8 +754,69 @@ public class Toolbox extends Artifact {
 		}
 
 		@Override
+		public int damageRoll() {
+			return Hero.heroDamageIntRange(toolboxLevel, 2 * toolboxLevel);
+		}
+
+		@Override
+		public int attackSkill( Char target ) {
+			return INFINITE_ACCURACY; //Always hits
+		}
+
+		@Override
+		public int drRoll() {
+			int bonus;
+			switch (tier) {
+				case 1: default: bonus = 0; break;
+				case 2: bonus = toolboxLevel/3; break;
+				case 3: bonus = toolboxLevel/2; break;
+				case 4: bonus = toolboxLevel; break;
+			}
+			return super.drRoll() + bonus;
+		}
+
+		@Override
+		protected boolean canAttack( Char enemy ) {
+			if (super.canAttack(enemy)){
+				return true;
+			} else {
+				return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT ).collisionPos == enemy.pos;
+			}
+		}
+
+		protected boolean doAttack( Char enemy ) {
+			if (sprite != null && (sprite.visible || enemy.sprite.visible)) {
+				sprite.zap( enemy.pos );
+				return false;
+			} else {
+				zap();
+				return true;
+			}
+		}
+
+		protected void zap() {
+			spend( 1f / tier );
+
+			Invisibility.dispel(this);
+			Char enemy = this.enemy;
+			if (hit( this, enemy, true )) {
+
+				int effectiveDmg = attackProc( enemy, damageRoll() );
+				enemy.damage(effectiveDmg, this);
+
+			} else {
+				enemy.sprite.showStatus( CharSprite.NEUTRAL,  enemy.defenseVerb() );
+			}
+		}
+
+		public void onZapComplete() {
+			zap();
+			next();
+		}
+
+		@Override
 		public String name() {
-			return Messages.get(this, "name_" + tier );
+			return Messages.get(this, "name", tier );
 		}
 
 		public void upgrade(int toolboxLevel ){
@@ -752,7 +839,7 @@ public class Toolbox extends Artifact {
 					break;
 				case 4:
 					HT = 30 + 4*toolboxLevel;
-					viewDistance = 700;
+					viewDistance = 7;
 					break;
 			}
 			HP = HT;
@@ -772,54 +859,6 @@ public class Toolbox extends Artifact {
 				case 4: defenseSkill = Math.round(toolboxLevel*1.5f); break;
 			}
 			return super.defenseSkill(enemy);
-		}
-
-		@Override
-		public int drRoll() {
-			int bonus;
-			switch (tier) {
-				case 1: default: bonus = 0; break;
-				case 2: bonus = toolboxLevel/3; break;
-				case 3: bonus = toolboxLevel/2; break;
-				case 4: bonus = toolboxLevel; break;
-			}
-			return super.drRoll() + bonus;
-		}
-
-		@Override
-		protected boolean canAttack( Char enemy ) {
-			return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT).collisionPos == enemy.pos;
-		}
-
-		@Override
-		protected boolean doAttack(Char enemy) {
-			boolean visible = fieldOfView[pos] || fieldOfView[enemy.pos];
-			if (visible) {
-				sprite.zap( enemy.pos );
-			} else {
-				zap();
-			}
-
-			return !visible;
-		}
-
-		private void zap() {
-			spend(1f / tier);
-			GLog.p("Zap!");
-			int dmg = Hero.heroDamageIntRange(toolboxLevel, 2 * toolboxLevel);
-			Char enemy = this.enemy;
-			enemy.damage(dmg, this);
-
-			if (!enemy.isAlive() && enemy == Dungeon.hero) {
-				Badges.validateDeathFromFriendlyMagic();
-				GLog.n(Messages.capitalize(Messages.get( this, "kill", name() )));
-				Dungeon.fail( Toolbox.class );
-			}
-		}
-
-		public void onZapComplete() {
-			zap();
-			next();
 		}
 
 		@Override
@@ -867,13 +906,16 @@ public class Toolbox extends Artifact {
 				@Override
 				public void call() {
 					GameScene.show(new WndOptions( sprite(),
-							Messages.get(this, "dismiss_title"),
-							Messages.get(this, "dismiss_body"),
-							Messages.get(this, "dismiss_confirm"),
-							Messages.get(this, "dismiss_cancel") ){
+							Messages.get(Toolbox.Sentry.class, "dismiss_title"),
+							Messages.get(Toolbox.Sentry.class, "dismiss_body"),
+							Messages.get(Toolbox.Sentry.class, "dismiss_confirm"),
+							Messages.get(Toolbox.Sentry.class, "dismiss_cancel") ){
 						@Override
 						protected void onSelect(int index) {
 							if (index == 0){
+								Dungeon.materials += 2;
+								updateQuickslot();
+								Sample.INSTANCE.play(Assets.Sounds.ITEM);
 								die(null);
 							}
 						}
@@ -885,16 +927,7 @@ public class Toolbox extends Artifact {
 
 		@Override
 		public String description() {
-			if (!Actor.chars().contains(this)){
-				//for viewing in the journal
-				if (tier < 4){
-					return Messages.get(this, "desc_generic_ward");
-				} else {
-					return Messages.get(this, "desc_generic_sentry");
-				}
-			} else {
-				return Messages.get(this, "desc_" + tier, toolboxLevel, 2*toolboxLevel, tier);
-			}
+			return Messages.get(this, "desc", toolboxLevel, 2*toolboxLevel, tier, viewDistance);
 		}
 
 		{

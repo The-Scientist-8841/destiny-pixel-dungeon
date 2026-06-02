@@ -96,4 +96,8 @@ public class HeroAction {
 	public static class Arm extends HeroAction {
 		public Arm(int trap) { this.dst = trap; }
 	}
+
+	public static class PlaceSentry extends HeroAction {
+		public PlaceSentry(int sentry) { this.dst = sentry; }
+	}
 }

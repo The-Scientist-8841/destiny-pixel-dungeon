@@ -135,7 +135,7 @@ public class WandOfWarding extends Wand {
 		}
 
 		if (ch != null){
-			if (ch instanceof Ward){
+			if (ch instanceof Ward) {
 				if (wardAvailable) {
 					((Ward) ch).upgrade( buffedLvl() );
 				} else {
@@ -147,7 +147,7 @@ public class WandOfWarding extends Wand {
 				Dungeon.level.pressCell(target);
 			}
 			
-		} else if (!Dungeon.level.passable[target]){
+		} else if (!Dungeon.level.passable[target]) {
 			GLog.w( Messages.get(this, "bad_location"));
 			Dungeon.level.pressCell(target);
 

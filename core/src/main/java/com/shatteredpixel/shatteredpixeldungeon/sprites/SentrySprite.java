@@ -81,8 +81,11 @@ public class SentrySprite extends MobSprite {
 	}
 
 	@Override
-	public void attack(int cell) {
-		zap(cell);
+	public void onComplete( Animation anim ) {
+		if (anim == zap) {
+			idle();
+		}
+		super.onComplete( anim );
 	}
 	
 	@Override
@@ -96,7 +99,7 @@ public class SentrySprite extends MobSprite {
 		emitter().burst(Toolbox.SentryParticle.UP, 10);
 	}
 
-	public void linkVisuals(Char ch ){
+	public void linkVisuals(Char ch){
 
 		if (ch instanceof Toolbox.Sentry) {
 			updateTier(((Toolbox.Sentry) ch).tier);
@@ -112,7 +115,7 @@ public class SentrySprite extends MobSprite {
 		run = idle.clone();
 		attack = tierAttacks[tier];
 		die = tierDies[tier];
-		zap = tierAttacks[tier];
+		zap = tierZaps[tier];
 
 		//always render first
 		if (parent != null) {

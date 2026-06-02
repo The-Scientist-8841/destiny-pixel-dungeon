@@ -72,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.mythical.ScrollOfArtifactLevelling;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.InventorySpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
@@ -237,7 +238,7 @@ public enum Talent {
 	//Artificer T1
 	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
 	//Artificer T2
-	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4), TOOLS_OF_THE_TRADE(230,4), TRUSTY_SIDEARM(231,4),
+	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4), TOOLS_OF_THE_TRADE(230,4), TRUSTY_SIDEARM(231,4), AUTO_TURRET(232,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -846,6 +847,11 @@ public enum Talent {
 					}
 				}
 			}
+		}
+
+		if (talent == AUTO_TURRET && hero.heroClass != HeroClass.ARTIFICER) {
+			ScrollOfArtifactLevelling reward = new ScrollOfArtifactLevelling();
+			if (!reward.collect()) Dungeon.level.drop(reward, hero.pos);
 		}
 	}
 
@@ -1487,7 +1493,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLESSING, CLERICS_TRIAL);
 				break;
 			case ARTIFICER:
-				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING, TOOLS_OF_THE_TRADE, TRUSTY_SIDEARM);
+				Collections.addAll(tierTalents, INSPIRING_MEAL, LIQUID_SCAVENGING, TOOLS_OF_THE_TRADE, TRUSTY_SIDEARM, AUTO_TURRET);
 				break;
 		}
 		for (Talent talent : tierTalents){
