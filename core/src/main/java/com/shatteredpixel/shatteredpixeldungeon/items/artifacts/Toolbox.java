@@ -752,7 +752,7 @@ public class Toolbox extends Artifact {
 					break;
 				case 4:
 					HT = 30 + 4*toolboxLevel;
-					viewDistance = 7;
+					viewDistance = 700;
 					break;
 			}
 			HP = HT;
@@ -804,6 +804,8 @@ public class Toolbox extends Artifact {
 		}
 
 		private void zap() {
+			spend(1f / tier);
+			GLog.p("Zap!");
 			int dmg = Hero.heroDamageIntRange(toolboxLevel, 2 * toolboxLevel);
 			Char enemy = this.enemy;
 			enemy.damage(dmg, this);
@@ -813,7 +815,6 @@ public class Toolbox extends Artifact {
 				GLog.n(Messages.capitalize(Messages.get( this, "kill", name() )));
 				Dungeon.fail( Toolbox.class );
 			}
-			spend( 1f / tier);
 		}
 
 		public void onZapComplete() {
