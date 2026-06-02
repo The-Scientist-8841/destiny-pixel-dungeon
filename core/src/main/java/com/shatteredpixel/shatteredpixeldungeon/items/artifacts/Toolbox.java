@@ -36,6 +36,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.PowerOfMany;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Feint;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
@@ -132,7 +135,7 @@ public class Toolbox extends Artifact {
 		} else if (action.equals("TEST_SENTRY")) {
 			Sentry sentry = new Sentry();
 			sentry.pos = hero.pos + 1;
-			sentry.tier = 2;
+			sentry.tier = 4;
 			sentry.upgrade(buffedLvl());
 			GameScene.add(sentry, 1f);
 			Dungeon.level.occupyCell(sentry);
@@ -801,8 +804,6 @@ public class Toolbox extends Artifact {
 		}
 
 		private void zap() {
-			spend( 1f / tier );
-
 			int dmg = Hero.heroDamageIntRange(toolboxLevel, 2 * toolboxLevel);
 			Char enemy = this.enemy;
 			enemy.damage(dmg, this);
@@ -812,8 +813,7 @@ public class Toolbox extends Artifact {
 				GLog.n(Messages.capitalize(Messages.get( this, "kill", name() )));
 				Dungeon.fail( Toolbox.class );
 			}
-
-			next();
+			spend( 1f / tier);
 		}
 
 		public void onZapComplete() {

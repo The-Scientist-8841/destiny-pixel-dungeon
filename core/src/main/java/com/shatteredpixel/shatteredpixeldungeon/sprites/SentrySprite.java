@@ -30,30 +30,45 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.AlphaTweener;
 
 public class SentrySprite extends MobSprite {
 
 	private Animation tierIdles[] = new Animation[5];
+	private Animation tierAttacks[] = new Animation[6];
 
 	public SentrySprite(){
 		super();
 
 		texture(Assets.Sprites.SENTRIES);
 
+		TextureFilm frames = new TextureFilm(texture, 16, 16);
+
 		tierIdles[1] = new Animation( 1, true );
-		tierIdles[1].frames(texture.uvRect(1, 2, 15, 16));
+		tierIdles[1].frames(frames, 0);
 
 		tierIdles[2] = new Animation( 1, true );
-		tierIdles[2].frames(texture.uvRect(17, 2, 31, 16));
+		tierIdles[2].frames(frames, 4);
 
 		tierIdles[3] = new Animation( 1, true );
-		tierIdles[3].frames(texture.uvRect(33, 2, 47, 16));
+		tierIdles[3].frames(frames, 8);
 
 		tierIdles[4] = new Animation( 1, true );
-		tierIdles[4].frames(texture.uvRect(49, 2, 63, 16));
+		tierIdles[4].frames(frames, 12);
 
+		tierAttacks[1] = new Animation(12, false);
+		tierAttacks[1].frames(frames, 1,2,3);
+
+		tierAttacks[2] = new Animation(12, false);
+		tierAttacks[2].frames(frames, 5,6,7);
+
+		tierAttacks[3] = new Animation(12, false);
+		tierAttacks[3].frames(frames, 9,10,11);
+
+		tierAttacks[4] = new Animation(12, false);
+		tierAttacks[4].frames(frames, 13,14,15);
 	}
 
 	@Override
@@ -66,7 +81,8 @@ public class SentrySprite extends MobSprite {
 		} else {
 			parent.add(new Beam.SunRay(center(), DungeonTilemap.raisedTileCenterToWorld(pos)));
 		}
-		Sample.INSTANCE.play( Assets.Sounds.RAY );
+		Sample.INSTANCE.play( Assets.Sounds.RAY, 1f );
+		super.zap(pos);
 		((Toolbox.Sentry)ch).onZapComplete();
 	}
 	
@@ -104,8 +120,9 @@ public class SentrySprite extends MobSprite {
 
 		idle = tierIdles[tier];
 		run = idle.clone();
-		attack = idle.clone();
+		attack = tierAttacks[tier];
 		die = idle.clone();
+		zap = tierAttacks[tier];
 
 		//always render first
 		if (parent != null) {
@@ -116,38 +133,13 @@ public class SentrySprite extends MobSprite {
 		if (ch != null) place(ch.pos);
 		idle();
 
-		if (tier <= 3){
-			shadowWidth     = shadowHeight    = 1f;
-			perspectiveRaise = (16 - height()) / 32f; //center of the cell
-		} else {
-			shadowWidth     = 1.2f;
-			shadowHeight    = 0.25f;
-			perspectiveRaise = 6 / 16f; //6 pixels
-		}
-
-	}
-
-	private float baseY = Float.NaN;
-
-	@Override
-	public void place(int cell) {
-		super.place(cell);
-		baseY = y;
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		//if tier is greater than 3
-		if (perspectiveRaise >= 6 / 16f && !paused){
-			if (Float.isNaN(baseY)) baseY = y;
-			y = baseY + (float) Math.sin(Game.timeTotal);
-			shadowOffset = 0.25f - 0.8f*(float) Math.sin(Game.timeTotal);
-		}
+		shadowWidth     = 1.2f;
+		shadowHeight    = 0.25f;
+		perspectiveRaise = 6 / 16f; //6 pixels
 	}
 
 	@Override
 	public int blood() {
-		return 0xFFCC33FF;
+		return 0xFFEEEE;
 	}
 }
