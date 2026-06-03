@@ -121,17 +121,17 @@ Talents:
 			+3: Enemies have a chance to drop 2 bombs
 			+4: Enemies have a chance to drop 3 bombs
 		Subclasses:
-			Alchemist: Can brew potions and alchemy bombs (not other alchemy stuff) with Arcane Materials at the toolbox. Materials cost is 0.5x Alchemical Energy cost, round up, min 1.
+			Alchemist: Can brew potions and alchemy bombs (not other alchemy stuff) with Arcane Materials at the toolbox. Materials cost is 0.5x Alchemical Energy cost, round up.
 				Skilled Alchemy:
-					+1: Crafting potions no longer costs the minimum 1 material
+					+1: When crafting potions with the toolbox, can choose the potion that you get, and it only takes 2 seeds
 					+2: Can craft Exotic Potions, Brews, Elixirs, and Trinkets using Arcane Materials
-					+3: When crafting potions with the toolbox, can choose the potion that you get
-					+4: Can craft Exotic Potions, Brews, Elixirs, and Trinkets using Arcane Materials
+					+3: Upgrading trinkets costs 1/4 as many arcane materials as it would alchemical energy
+					+4: The arcane materials cost for crafting alchemy stuff is reduced by 1
 				Deconstruction:
 					+1: You can deconstruct identified, non-cursed rings, wands, and artifacts in your inventory: artifacts give 5, rings and wands give 2.
 					+2: You can deconstruct weapons and armor in your inventory: gives tier/2 materials (rounded up)
 					+3: Deconstructing items gives an extra material if it's enchanted, and you can deconstruct identified, unequipped, cursed equipment, but for -1 material
-					+4: Upgrading trinkets costs 1/4 as many arcane materials as it would alchemical energy
+					+4: Deconstructing equipment equipment gives +1 extra material for every 5 levels, up to a maximum of 5.
 				Stronger Potions:
 					+1:
 						Potions of Healing now heal you and all allies.
