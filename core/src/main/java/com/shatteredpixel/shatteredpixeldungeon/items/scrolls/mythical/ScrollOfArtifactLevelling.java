@@ -50,6 +50,8 @@ public class ScrollOfArtifactLevelling extends MythicalScroll {
                     ((MythicalScroll) curItem).readAnimation();
                     Sample.INSTANCE.play(Assets.Sounds.READ);
                     burst(curUser);
+                    Sample.INSTANCE.play(Assets.Sounds.BLAST, 1.5f, 0.75f);
+                    Sample.INSTANCE.play(Assets.Sounds.GAS, 1f, 0.5f);
                     curItem.detach(curUser.belongings.backpack);
                     item.upgrade();
                 } else {

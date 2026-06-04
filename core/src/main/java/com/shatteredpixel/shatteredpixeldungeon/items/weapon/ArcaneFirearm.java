@@ -47,7 +47,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.BulletType;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
@@ -273,12 +272,12 @@ public class ArcaneFirearm extends Weapon {
 	
 	@Override
 	public int min(int lvl) { //For Melee
-		return Math.round(1 + lvl/3f);
+		return lvl + 1;
 	}
 	
 	@Override
 	public int max(int lvl) { //For Melee
-		return min(lvl) + 2;
+		return 2*lvl + 3;
 	}
 
 	@Override
@@ -376,7 +375,7 @@ public class ArcaneFirearm extends Weapon {
 		public float scalingFactorMin = 1f;
 		public float scalingFactorMax = 2f;
 		public float maxFactor = 2f;
-		public BulletType bulletType = BulletType.BULLET;
+		public Class<? extends InventoryBullet> parentClass = InventoryBullet.class;
 		
 		{
 			image = ItemSpriteSheet.BULLET_PROJECTILE;
@@ -392,7 +391,7 @@ public class ArcaneFirearm extends Weapon {
 		private static final String SCALE_MIN = "scalingFactorMin";
 		private static final String SCALE_MAX = "scalingFactorMax";
 		private static final String MAX_FACTOR = "maxFactor";
-		private static final String BULLET_TYPE = "bulletType";
+		private static final String PARENT_CLASS = "parentClass";
 
 		@Override
 		public void storeInBundle(Bundle bundle) {
@@ -402,7 +401,7 @@ public class ArcaneFirearm extends Weapon {
 			bundle.put(SCALE_MIN, scalingFactorMin);
 			bundle.put(SCALE_MAX, scalingFactorMax);
 			bundle.put(MAX_FACTOR, maxFactor);
-			bundle.put(BULLET_TYPE, bulletType);
+			bundle.put(PARENT_CLASS, parentClass);
 		}
 
 		@Override
@@ -413,7 +412,7 @@ public class ArcaneFirearm extends Weapon {
 			scalingFactorMin = bundle.getFloat(SCALE_MIN);
 			scalingFactorMax = bundle.getFloat(SCALE_MAX);
 			maxFactor = bundle.getFloat(MAX_FACTOR);
-			bulletType = bundle.getEnum(BULLET_TYPE, BulletType.class);
+			parentClass = bundle.getClass(PARENT_CLASS);
 		}
 
 		@Override
@@ -484,6 +483,7 @@ public class ArcaneFirearm extends Weapon {
 		public int proc(Char attacker, Char defender, int damage) {
 			if (gun != null && gun.enchantment != null) {
 				damage = gun.enchantment.proc(gun, attacker, defender, damage);
+				damage = onHit(attacker, defender, damage);
 			}
 			return super.proc(attacker, defender, damage);
 		}
@@ -500,21 +500,10 @@ public class ArcaneFirearm extends Weapon {
 			else return super.STRReq(lvl);
 		}
 
-		/*
-		@Override
-		protected void onThrow( int cell ) {
-			Char enemy = Actor.findChar( cell );
-			if (enemy == null || enemy == curUser) {
-				parent = null;
-				Splash.at( cell, 0xCC99FFFF, 1 );
-			} else {
-				if (!curUser.shoot( enemy, this )) {
-					Splash.at(cell, 0xCC99FFFF, 1);
-				}
-				if (sniperSpecial && ArcaneFirearm.this.augment != Augment.SPEED) sniperSpecial = false;
-			}
+		public int onHit(Char attacker, Char defender, int damage) {
+			//Default - do nothing.
+			return damage;
 		}
-		*/
 
 		@Override
 		public Item split(int amount) {
@@ -537,7 +526,7 @@ public class ArcaneFirearm extends Weapon {
 
 		@Override
 		public String name() {
-			return bulletType.title();
+			return Messages.get(parentClass, "name");
 		}
 
 		public void unload(Hero hero) {
@@ -604,8 +593,7 @@ public class ArcaneFirearm extends Weapon {
 		@Override
 		public void onSelect( final Item item ) {
 			if (item != null) {
-				Bullet bullet = new Bullet();
-				bullet.bulletType = ((InventoryBullet) item).bulletType;
+				Bullet bullet = ((InventoryBullet) item).get_bullet();
 				((ArcaneFirearm) curItem).bulletsToLoad.add(bullet);
 				if (item.quantity() > 1) item.quantity(item.quantity() - 1);
 				else item.detach(curUser.belongings.backpack);

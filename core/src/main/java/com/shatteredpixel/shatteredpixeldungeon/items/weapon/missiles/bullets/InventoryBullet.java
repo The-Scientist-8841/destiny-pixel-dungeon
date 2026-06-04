@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
@@ -32,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -44,7 +46,6 @@ import com.watabou.noosa.particles.Emitter;
 import java.util.ArrayList;
 
 public class InventoryBullet extends Item {
-	public BulletType bulletType = BulletType.BULLET;
 
 	{
 		image = ItemSpriteSheet.BULLET;
@@ -62,12 +63,34 @@ public class InventoryBullet extends Item {
 		return true;
 	}
 
+	public ArcaneFirearm.Bullet get_bullet() {
+		return new Bullet();
+	}
+
 	@Override
-	public String name() {
-		return bulletType.title();
+	public String desc() {
+		String desc = Messages.get(this, "desc");
+
+		ArcaneFirearm gun = Dungeon.hero.belongings.getItem(ArcaneFirearm.class);
+		if (gun != null) {
+			ArcaneFirearm.Bullet b = get_bullet();
+			desc += "\n\n" + Messages.get(InventoryBullet.class, "stats_desc", b.min(gun.buffedLvl()), b.max(gun.buffedLvl()));
+		}
+
+		return desc;
 	}
 
 	//Put some function for determining bullet type here, for ArcaneFirearm to call.
+
+	public static class Bullet extends ArcaneFirearm.Bullet {
+		{
+			baseDmg = 3;
+			scalingFactorMin = 1f;
+			scalingFactorMax = 2f;
+			maxFactor = 2f;
+			parentClass = InventoryBullet.class;
+		}
+	}
 
 	public static class BulletCraft extends ToolboxRecipe {
 		@Override
