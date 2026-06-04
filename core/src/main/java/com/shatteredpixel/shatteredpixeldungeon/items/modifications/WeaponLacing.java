@@ -129,7 +129,7 @@ public class WeaponLacing extends Item {
         }
 
         @Override
-        public int cost(ArrayList<Item> ingredients) { return 3; }
+        public int cost(ArrayList<Item> ingredients) { return 2; }
 
         @Override
         public Item craft(ArrayList<Item> ingredients) {
