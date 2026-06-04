@@ -165,7 +165,7 @@ Talents:
 					+2: Can fire some of the fancier bombs (the ones that make sense) out of the gun, and they explode on impact when fired this way
 					+3: Bombs fired out of the gun also do impact damage equal to half the damage of a regular bullet in addition to the explosion damage
 					+4: Bombs fired out of the gun also do impact damage equal to the damage of a regular bullet in addition to the explosion damage
-				Made to Last:
+				Built to Last:
 					+1: Weapon lacing and armor bracing have +1 uses.
 					+2: Weapon lacing and armor bracing have +2 uses.
 					+3: Weapon lacing and armor bracing have +3 uses.

@@ -846,6 +846,78 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_BRACING, 15, 11);
 	}
 
+	private static final int SEED_BULLETS              =                           xy(1, 34);  //16 slots
+	public static final int BULLET_ROTBERRY       = SEED_BULLETS+0;
+	public static final int BULLET_FIREBLOOM      = SEED_BULLETS+1;
+	public static final int BULLET_SWIFTTHISTLE   = SEED_BULLETS+2;
+	public static final int BULLET_SUNGRASS       = SEED_BULLETS+3;
+	public static final int BULLET_ICECAP         = SEED_BULLETS+4;
+	public static final int BULLET_STORMVINE      = SEED_BULLETS+5;
+	public static final int BULLET_SORROWMOSS     = SEED_BULLETS+6;
+	public static final int BULLET_MAGEROYAL = SEED_BULLETS+7;
+	public static final int BULLET_EARTHROOT      = SEED_BULLETS+8;
+	public static final int BULLET_STARFLOWER     = SEED_BULLETS+9;
+	public static final int BULLET_FADELEAF       = SEED_BULLETS+10;
+	public static final int BULLET_BLINDWEED      = SEED_BULLETS+11;
+	static{
+		for (int i = SEED_BULLETS; i < SEED_BULLETS+12; i++)
+			assignItemRect(i, 15, 15);
+	}
+
+	private static final int POTION_BULLETS        =                               xy(1, 35);  //16 slots
+	public static final int BULLET_CRIMSON  = POTION_BULLETS+0;
+	public static final int BULLET_AMBER    = POTION_BULLETS+1;
+	public static final int BULLET_GOLDEN   = POTION_BULLETS+2;
+	public static final int BULLET_JADE     = POTION_BULLETS+3;
+	public static final int BULLET_TURQUOISE= POTION_BULLETS+4;
+	public static final int BULLET_AZURE    = POTION_BULLETS+5;
+	public static final int BULLET_INDIGO   = POTION_BULLETS+6;
+	public static final int BULLET_MAGENTA  = POTION_BULLETS+7;
+	public static final int BULLET_BISTRE   = POTION_BULLETS+8;
+	public static final int BULLET_CHARCOAL = POTION_BULLETS+9;
+	public static final int BULLET_SILVER   = POTION_BULLETS+10;
+	public static final int BULLET_IVORY    = POTION_BULLETS+11;
+	static {
+		for (int i = POTION_BULLETS; i < POTION_BULLETS+12; i++)
+			assignItemRect(i, 15, 15);
+	}
+
+	private static final int EXOTIC_POTION_BULLETS        =                               xy(1, 36);  //16 slots
+	public static final int EXOTIC_BULLET_CRIMSON  = EXOTIC_POTION_BULLETS+0;
+	public static final int EXOTIC_BULLET_AMBER    = EXOTIC_POTION_BULLETS+1;
+	public static final int EXOTIC_BULLET_GOLDEN   = EXOTIC_POTION_BULLETS+2;
+	public static final int EXOTIC_BULLET_JADE     = EXOTIC_POTION_BULLETS+3;
+	public static final int EXOTIC_BULLET_TURQUOISE= EXOTIC_POTION_BULLETS+4;
+	public static final int EXOTIC_BULLET_AZURE    = EXOTIC_POTION_BULLETS+5;
+	public static final int EXOTIC_BULLET_INDIGO   = EXOTIC_POTION_BULLETS+6;
+	public static final int EXOTIC_BULLET_MAGENTA  = EXOTIC_POTION_BULLETS+7;
+	public static final int EXOTIC_BULLET_BISTRE   = EXOTIC_POTION_BULLETS+8;
+	public static final int EXOTIC_BULLET_CHARCOAL = EXOTIC_POTION_BULLETS+9;
+	public static final int EXOTIC_BULLET_SILVER   = EXOTIC_POTION_BULLETS+10;
+	public static final int EXOTIC_BULLET_IVORY    = EXOTIC_POTION_BULLETS+11;
+	static {
+		for (int i = EXOTIC_POTION_BULLETS; i < EXOTIC_POTION_BULLETS+12; i++)
+			assignItemRect(i, 15, 15);
+	}
+
+	private static final int STONE_BULLETS             =                           xy(1, 37);  //16 slots
+	public static final int BULLET_AGGRESSION    = STONE_BULLETS+0;
+	public static final int BULLET_AUGMENTATION  = STONE_BULLETS+1;
+	public static final int BULLET_FEAR          = STONE_BULLETS+2;
+	public static final int BULLET_BLAST         = STONE_BULLETS+3;
+	public static final int BULLET_BLINK         = STONE_BULLETS+4;
+	public static final int BULLET_CLAIRVOYANCE  = STONE_BULLETS+5;
+	public static final int BULLET_SLEEP         = STONE_BULLETS+6;
+	public static final int BULLET_DETECT        = STONE_BULLETS+7;
+	public static final int BULLET_ENCHANT       = STONE_BULLETS+8;
+	public static final int BULLET_FLOCK         = STONE_BULLETS+9;
+	public static final int BULLET_INTUITION     = STONE_BULLETS+10;
+	public static final int BULLET_SHOCK         = STONE_BULLETS+11;
+	static {
+		for (int i = STONE_BULLETS; i < STONE_BULLETS+12; i++)
+			assignItemRect(i, 15, 15);
+	}
+
 	//for smaller 8x8 icons that often accompany an item sprite
 	public static class Icons {
 
