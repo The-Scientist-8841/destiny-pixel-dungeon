@@ -121,17 +121,12 @@ Talents:
 			+3: Enemies have a chance to drop 2 bombs
 			+4: Enemies have a chance to drop 3 bombs
 		Subclasses:
-			Alchemist: Can brew potions and alchemy bombs (not other alchemy stuff) with Arcane Materials at the toolbox. Materials cost is 0.5x Alchemical Energy cost, round up.
+			Alchemist: Can brew potions, exotic potions, brews, elixirs, bombs, and trinkets (not other alchemy stuff) with Arcane Materials at the toolbox. Use different recipes with different material costs. 1 seed/potion.
 				Skilled Alchemy:
-					+1: When crafting potions with the toolbox, can choose the potion that you get, and it only takes 2 seeds
-					+2: Can craft Exotic Potions, Brews, Elixirs, and Trinkets using Arcane Materials
-					+3: Upgrading trinkets costs 1/4 as many arcane materials as it would alchemical energy
-					+4: The arcane materials cost for crafting alchemy stuff is reduced by 1
-				Deconstruction:
-					+1: You can deconstruct identified, non-cursed rings, wands, and artifacts in your inventory: artifacts give 5, rings and wands give 2.
-					+2: You can deconstruct weapons and armor in your inventory: gives tier/2 materials (rounded up)
-					+3: Deconstructing items gives an extra material if it's enchanted, and you can deconstruct identified, unequipped, cursed equipment, but for -1 material
-					+4: Deconstructing equipment equipment gives +1 extra material for every 5 levels, up to a maximum of 5.
+					+1: Crafting alchemy items has a 10% chance to not consume ingredients.
+					+2: Crafting alchemy items has a 20% chance to not consume ingredients.
+					+3: Crafting alchemy items has a 30% chance to not consume ingredients.
+					+4: Crafting alchemy items has a 40% chance to not consume ingredients.
 				Stronger Potions:
 					+1:
 						Potions of Healing now heal you and all allies.
@@ -139,21 +134,26 @@ Talents:
 						Potions of Purity now also increase defense
 						Potions of Levitation now also increase evasion by 2x
 					+2:
-						Potions of Invisibility grant the ethereal buff for the duration, reducing all damage taken to 1 (ethereal is not cancelled by attacking)
+						Potions of Invisibility grant an ethereal buff for the duration, reducing all damage taken to 1 (ethereal is not cancelled by attacking)
 						Potions of Toxic Gas now also slow creatures caught in the cloud
 						Potions of Paralytic Gas now also cripples after paralysis wears off
 						Potions of Experience now also grant Dew Charge
 					+3:
-						Potions of Liquid Flame now also explode
+						Potions of Liquid Flame now also explode, dealing explosion damage as well as fire
 						Potions of Frost now freeze enemies instantly, and frozen enemies take 2x damage
 						Potions of Haste now also grant 3x attack speed
-						Potions of Strength now also grant 15 turns of bonus +2 strength
+						Potions of Strength now also grant +10 maximum HP
 					+4: The duration of positive potion buffs is also extended by 1.5x
 				Skillful Applicator:
 					+1: Negative status effects of your own potions are reduced to 0.67x on you
 					+2: Negative status effects of your own potions are reduced to 0.33x on you
 					+3: Negative status effects of your own potions are eliminated on you
 					+4: You gain slight benefits from negative status effects of your own potions
+                Chaotic Brewing:
+                    +1: When drinking or throwing a brew or elixir, there is a 15% chance you will trigger a random potion effect. If it's drank it will be positive; if it's thrown it will be negative.
+                    +2: When drinking or throwing a brew, elixir, or exotic potion, there is a 30% chance you will trigger a random potion effect. If it's drank it will be positive; if it's thrown it will be negative.
+                    +3: When drinking or throwing a brew, elixir, exotic potion, or potion, there is a 45% chance you will trigger a random potion effect. If it's drank it will be positive; if it's thrown it will be negative.
+                    +4: When drinking or throwing a brew, elixir, exotic potion, or potion, there is a 60% chance you will trigger a random potion effect. If it's drank it will be positive; if it's thrown it will be negative.
 			Tinkerer: Can attach a melee weapon or wand to your firearm. Melee weapon make gun use melee weapon's melee attack at 0.5x gun's level, wands give bullets special effect for each wand
 				Modular Attachments:
 					+1: Attachment is returned at +0 instead of destroyed
@@ -165,11 +165,11 @@ Talents:
 					+2: Can fire some of the fancier bombs (the ones that make sense) out of the gun, and they explode on impact when fired this way
 					+3: Bombs fired out of the gun also do impact damage equal to half the damage of a regular bullet in addition to the explosion damage
 					+4: Bombs fired out of the gun also do impact damage equal to the damage of a regular bullet in addition to the explosion damage
-				Specialized Ammunition:
-					+1: Can craft shrapnel bullet, which splinters and hits nearby enemies to target, for 1 material/bullet
-					+2: Can craft armor piercing bullets, which ignore enemy defense, for 2 materials/bullet
-					+3: Can craft high-caliber bullet, which pierces multiple enemies until it hits a wall, for 2 materials/bullet
-					+4: Specialized bullets cost 1 material less to craft
+				Made to Last:
+					+1: Weapon lacing and armor bracing have +1 uses.
+					+2: Weapon lacing and armor bracing have +2 uses.
+					+3: Weapon lacing and armor bracing have +3 uses.
+					+4: Weapon lacing and armor bracing have +4 uses.
 				Empowered Attachments:
 					+1: Melee weapon damage scales with 63% gun level, wand empowered shots deal more damage
 					+2: Melee weapon damage scales with 75% gun level, wand empowered shots deal more damage
@@ -184,7 +184,7 @@ Talents:
 		Armor:
 			Flurry: The Artificer can make up to 5 turns worth of actions instantaneously
 				Rapidfire:
-					+1: While in flurry, the firearm reloads instantly
+					+1: While in flurry, the firearm reloads instantly (does not consume any flurry to reload)
 					+2: While in flurry, the firearm only takes 0.67 rounds to fire
 					+3: While in flurry, the firearm only takes 0.5 rounds to fire
 					+4: While in flurry, the firearm only takes 0.33 rounds to fire
@@ -194,11 +194,11 @@ Talents:
 					+3: While in flurry, natural regeneration is 2.5x
 					+4: While in flurry, natural regeneration is 3x
 				Multitasking:
-					+1: While in flurry, food is eaten instantly
-					+2: While in flurry, equipping and unequipping happen instantly
-					+3: While in flurry, scrolls are read instantly
-					+4: While in flurry, potions are drank instantly
-			Rocket Boots: The Artificer gains flight for 20 turns
+					+1: While in flurry, food is eaten instantly (does not consume any flurry to eat)
+					+2: While in flurry, equipping and unequipping happen instantly (does not consume any flurry to equip/unequip)
+					+3: While in flurry, seeds and runestones are used instantly (does not consume any flurry to use)
+					+4: While in flurry, potions and scrolls are used instantly (does not consume any flurry to use)
+			Rocket Boots: The Artificer gains flight for 20 turns. While flying, you have 2x evasion, no point-blank accuracy penalty, and catch all adjacent enemies on fire.
 				Boosters:
 					+1: While in flight, move at 1.5x speed
 					+2: While in flight, move at 2x speed
