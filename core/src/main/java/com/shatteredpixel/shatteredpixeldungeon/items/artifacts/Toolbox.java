@@ -140,7 +140,7 @@ public class Toolbox extends Artifact {
 	public String desc() {
 		//Introductory paragraph
 		String desc = Messages.get(this, "desc");
-		if (!Dungeon.hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || Dungeon.hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 2) {
+		if (Dungeon.hero != null && (!Dungeon.hero.hasTalent(Talent.TOOLS_OF_THE_TRADE) || Dungeon.hero.pointsInTalent(Talent.TOOLS_OF_THE_TRADE) < 2)) {
 			desc += "\n\n" + Messages.get(this, "desc_affix", "an", "");
 		} else desc += "\n\n" + Messages.get(this, "desc_affix", "two", "s");
 
