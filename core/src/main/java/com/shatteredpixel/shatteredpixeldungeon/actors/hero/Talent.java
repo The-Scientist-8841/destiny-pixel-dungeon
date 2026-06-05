@@ -239,6 +239,8 @@ public enum Talent {
 	RESOURCEFUL_MEAL(224,4), INVENTORS_INTUITION(225,4), PISTOL_WHIP(226,4), PLAN_B(227,4), EXPLOSIVES_EXPERT(251,4), ARTIFICERS_JOURNEY(252, 4),
 	//Artificer T2
 	INSPIRING_MEAL(228,4), LIQUID_SCAVENGING(229,4), TOOLS_OF_THE_TRADE(230,4), TRUSTY_SIDEARM(231,4), AUTO_TURRET(232,4), INGENIOUS_BLESSING(198,4), ARTIFICERS_TRIAL(253,4),
+	//Artificer T3
+	POTION_CRAFTING(233,4), SCROLL_CRAFTING(234,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -1520,6 +1522,8 @@ public enum Talent {
 			case CLERIC:
 				Collections.addAll(tierTalents, CLEANSE, LIGHT_READING, CLERICS_STRUGGLE);
 				break;
+			case ARTIFICER:
+				Collections.addAll(tierTalents, POTION_CRAFTING, SCROLL_CRAFTING);
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){

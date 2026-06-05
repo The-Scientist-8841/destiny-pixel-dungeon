@@ -119,10 +119,12 @@ public class Bomb extends Item {
 		return new Fuse();
 	}
 
+	public int fuseDelay() { return 2; }
+
 	@Override
 	protected void onThrow( int cell ) {
 		if (!Dungeon.level.pit[ cell ] && lightingFuse) {
-			Actor.addDelayed(fuse = createFuse().ignite(this), 2);
+			Actor.addDelayed(fuse = createFuse().ignite(this), fuseDelay());
 		}
 		super.onThrow( cell );
 	}
@@ -135,6 +137,14 @@ public class Bomb extends Item {
 			fuse = null;
 		}
 		return super.doPickUp(hero, pos);
+	}
+
+	public int damageRoll() {
+		return Random.NormalIntRange(4 + Dungeon.scalingDepth(), 12 + 3*Dungeon.scalingDepth());
+	}
+
+	public int particleAmt() {
+		return 30;
 	}
 
 	public void explode(int cell){
@@ -152,7 +162,7 @@ public class Bomb extends Item {
 			ArrayList<Char> affectedChars = new ArrayList<>();
 			
 			if (Dungeon.level.heroFOV[cell]) {
-				CellEmitter.center(cell).burst(BlastParticle.FACTORY, 30);
+				CellEmitter.center(cell).burst(BlastParticle.FACTORY, particleAmt());
 			}
 			
 			boolean terrainAffected = false;
@@ -195,7 +205,7 @@ public class Bomb extends Item {
 					continue;
 				}
 
-				int dmg = Random.NormalIntRange(4 + Dungeon.scalingDepth(), 12 + 3*Dungeon.scalingDepth());
+				int dmg = damageRoll();
 				dmg -= ch.drRoll();
 
 				if (dmg > 0) {

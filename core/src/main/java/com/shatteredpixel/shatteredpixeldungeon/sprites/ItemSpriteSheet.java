@@ -839,6 +839,15 @@ public class ItemSpriteSheet {
 		assignItemRect(MODIFICATION_HOLDER, 15, 11);
 	}
 
+	public static final int MINI_BOMB = xy(7,33);
+	public static final int CLUSTER_BOMB = MINI_BOMB + 1;
+	public static final int HEAVY_BOMB = MINI_BOMB + 2;
+	static {
+		assignItemRect(MINI_BOMB, 13,12);
+		assignItemRect(CLUSTER_BOMB, 10,13);
+		assignItemRect(HEAVY_BOMB, 10,13);
+	}
+
 	public static final int WEAPON_LACING = xy(13,33);
 	public static final int ARMOR_BRACING = WEAPON_LACING + 1;
 	static {
@@ -861,6 +870,15 @@ public class ItemSpriteSheet {
 	public static final int BULLET_BLINDWEED      = SEED_BULLETS+11;
 	static{
 		for (int i = SEED_BULLETS; i < SEED_BULLETS+12; i++) assignItemRect(i, 15, 15);
+	}
+
+	public static final int ROT_BOMB = xy(13,34);
+	public static final int STORM_BOMB = ROT_BOMB + 1;
+	public static final int FADE_BOMB = ROT_BOMB + 2;
+	static {
+		assignItemRect(ROT_BOMB, 13,12);
+		assignItemRect(STORM_BOMB, 13,12);
+		assignItemRect(FADE_BOMB, 13,12);
 	}
 
 	private static final int POTION_BULLETS        =                               xy(1, 35);  //16 slots
@@ -912,6 +930,13 @@ public class ItemSpriteSheet {
 	public static final int BULLET_SHOCK         = STONE_BULLETS+11;
 	static {
 		for (int i = STONE_BULLETS; i < STONE_BULLETS+12; i++) assignItemRect(i, 15, 15);
+	}
+
+	public static final int BLAST_BOMB = xy(13,37);
+	public static final int AGGRESSION_BOMB = BLAST_BOMB + 1;
+	static {
+		assignItemRect(BLAST_BOMB, 13,12);
+		assignItemRect(AGGRESSION_BOMB, 13,12);
 	}
 
 	private static final int SCROLL_BULLETS        =                               xy(1, 38);  //16 slots
