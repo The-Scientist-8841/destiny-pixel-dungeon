@@ -1129,6 +1129,141 @@ public class ItemSpriteSheet {
 		assignItemRect(LACING_SHOCK,13,13);
 	}
 
+	private static final int SCROLL_LACINGS        =                               xy(1, 48);  //16 slots
+	public static final int LACING_KAUNAN   = SCROLL_LACINGS+0;
+	public static final int LACING_SOWILO   = SCROLL_LACINGS+1;
+	public static final int LACING_LAGUZ    = SCROLL_LACINGS+2;
+	public static final int LACING_YNGVI    = SCROLL_LACINGS+3;
+	public static final int LACING_GYFU     = SCROLL_LACINGS+4;
+	public static final int LACING_RAIDO    = SCROLL_LACINGS+5;
+	public static final int LACING_ISAZ     = SCROLL_LACINGS+6;
+	public static final int LACING_MANNAZ   = SCROLL_LACINGS+7;
+	public static final int LACING_NAUDIZ   = SCROLL_LACINGS+8;
+	public static final int LACING_BERKANAN = SCROLL_LACINGS+9;
+	public static final int LACING_ODAL     = SCROLL_LACINGS+10;
+	public static final int LACING_TIWAZ    = SCROLL_LACINGS+11;
+	static {
+		for (int i = SCROLL_LACINGS; i < SCROLL_LACINGS+12; i++) assignItemRect(i, 13, 13);
+	}
+
+	private static final int SCROLL_BRACINGS        =                               xy(1, 49);  //16 slots
+	public static final int BRACING_KAUNAN   = SCROLL_BRACINGS+0;
+	public static final int BRACING_SOWILO   = SCROLL_BRACINGS+1;
+	public static final int BRACING_LAGUZ    = SCROLL_BRACINGS+2;
+	public static final int BRACING_YNGVI    = SCROLL_BRACINGS+3;
+	public static final int BRACING_GYFU     = SCROLL_BRACINGS+4;
+	public static final int BRACING_RAIDO    = SCROLL_BRACINGS+5;
+	public static final int BRACING_ISAZ     = SCROLL_BRACINGS+6;
+	public static final int BRACING_MANNAZ   = SCROLL_BRACINGS+7;
+	public static final int BRACING_NAUDIZ   = SCROLL_BRACINGS+8;
+	public static final int BRACING_BERKANAN = SCROLL_BRACINGS+9;
+	public static final int BRACING_ODAL     = SCROLL_BRACINGS+10;
+	public static final int BRACING_TIWAZ    = SCROLL_BRACINGS+11;
+	static {
+		for (int i = SCROLL_BRACINGS; i < SCROLL_BRACINGS+12; i++) assignItemRect(i, 15, 11);
+	}
+
+	private static final int EXOTIC_SCROLL_LACINGS        =                               xy(1, 50);  //16 slots
+	public static final int EXOTIC_LACING_KAUNAN   = EXOTIC_SCROLL_LACINGS+0;
+	public static final int EXOTIC_LACING_SOWILO   = EXOTIC_SCROLL_LACINGS+1;
+	public static final int EXOTIC_LACING_LAGUZ    = EXOTIC_SCROLL_LACINGS+2;
+	public static final int EXOTIC_LACING_YNGVI    = EXOTIC_SCROLL_LACINGS+3;
+	public static final int EXOTIC_LACING_GYFU     = EXOTIC_SCROLL_LACINGS+4;
+	public static final int EXOTIC_LACING_RAIDO    = EXOTIC_SCROLL_LACINGS+5;
+	public static final int EXOTIC_LACING_ISAZ     = EXOTIC_SCROLL_LACINGS+6;
+	public static final int EXOTIC_LACING_MANNAZ   = EXOTIC_SCROLL_LACINGS+7;
+	public static final int EXOTIC_LACING_NAUDIZ   = EXOTIC_SCROLL_LACINGS+8;
+	public static final int EXOTIC_LACING_BERKANAN = EXOTIC_SCROLL_LACINGS+9;
+	public static final int EXOTIC_LACING_ODAL     = EXOTIC_SCROLL_LACINGS+10;
+	public static final int EXOTIC_LACING_TIWAZ    = EXOTIC_SCROLL_LACINGS+11;
+	static {
+		for (int i = EXOTIC_SCROLL_LACINGS; i < EXOTIC_SCROLL_LACINGS+12; i++) assignItemRect(i, 13, 13);
+	}
+
+	private static final int EXOTIC_SCROLL_BRACINGS        =                               xy(1, 51);  //16 slots
+	public static final int EXOTIC_BRACING_KAUNAN   = EXOTIC_SCROLL_BRACINGS+0;
+	public static final int EXOTIC_BRACING_SOWILO   = EXOTIC_SCROLL_BRACINGS+1;
+	public static final int EXOTIC_BRACING_LAGUZ    = EXOTIC_SCROLL_BRACINGS+2;
+	public static final int EXOTIC_BRACING_YNGVI    = EXOTIC_SCROLL_BRACINGS+3;
+	public static final int EXOTIC_BRACING_GYFU     = EXOTIC_SCROLL_BRACINGS+4;
+	public static final int EXOTIC_BRACING_RAIDO    = EXOTIC_SCROLL_BRACINGS+5;
+	public static final int EXOTIC_BRACING_ISAZ     = EXOTIC_SCROLL_BRACINGS+6;
+	public static final int EXOTIC_BRACING_MANNAZ   = EXOTIC_SCROLL_BRACINGS+7;
+	public static final int EXOTIC_BRACING_NAUDIZ   = EXOTIC_SCROLL_BRACINGS+8;
+	public static final int EXOTIC_BRACING_BERKANAN = EXOTIC_SCROLL_BRACINGS+9;
+	public static final int EXOTIC_BRACING_ODAL     = EXOTIC_SCROLL_BRACINGS+10;
+	public static final int EXOTIC_BRACING_TIWAZ    = EXOTIC_SCROLL_BRACINGS+11;
+	static {
+		for (int i = EXOTIC_SCROLL_BRACINGS; i < EXOTIC_SCROLL_BRACINGS+12; i++) assignItemRect(i, 15, 11);
+	}
+
+	private static final int BREW_MODS          =                               xy(1, 52);  //8 slots
+	public static final int BRACING_INFERNAL   = BREW_MODS+0;
+	public static final int BRACING_BLIZZARD   = BREW_MODS+1;
+	public static final int BRACING_SHOCKING   = BREW_MODS+2;
+	public static final int LACING_CAUSTIC    = BREW_MODS+3;
+	public static final int LACING_AQUA_BREW       = BREW_MODS+4;
+	public static final int LACING_UNSTABLE_BREW   = BREW_MODS+5;
+	static{
+		assignItemRect(BRACING_INFERNAL, 15, 11);
+		assignItemRect(BRACING_BLIZZARD, 15, 11);
+		assignItemRect(BRACING_SHOCKING, 15, 11);
+		assignItemRect(LACING_CAUSTIC, 13, 13);
+		assignItemRect(LACING_AQUA_BREW, 13, 13);
+		assignItemRect(LACING_UNSTABLE_BREW, 13, 13);
+	}
+
+	private static final int ELIXIR_MODS        =                               xy(9, 53);  //8 slots
+	public static final int LACING_HONEY    = ELIXIR_MODS+0;
+	public static final int BRACING_AQUATIC_REJUVENATION     = ELIXIR_MODS+1;
+	public static final int LACING_MIGHT    = ELIXIR_MODS+2;
+	public static final int LACING_DRAGON   = ELIXIR_MODS+3;
+	public static final int BRACING_TOXIC    = ELIXIR_MODS+4;
+	public static final int LACING_ICY      = ELIXIR_MODS+5;
+	public static final int BRACING_ARCANE   = ELIXIR_MODS+6;
+	public static final int BRACING_FEATHER  = ELIXIR_MODS+7;
+	static{
+		assignItemRect(LACING_HONEY,13,13);
+		assignItemRect(BRACING_AQUATIC_REJUVENATION,15,11);
+		assignItemRect(LACING_MIGHT,13,13);
+		assignItemRect(LACING_DRAGON,13,13);
+		assignItemRect(BRACING_TOXIC,15,11);
+		assignItemRect(LACING_ICY,13,13);
+		assignItemRect(BRACING_ARCANE,15,11);
+		assignItemRect(BRACING_FEATHER,15,11);
+	}
+
+	private static final int SPELL_MODS         =                               xy(1, 54);  //16 slots
+	public static final int BRACING_WILD_ENERGY     = SPELL_MODS+0;
+	public static final int BRACING_PHASE_SHIFT     = SPELL_MODS+1;
+	public static final int LACING_TELE_GRAB       = SPELL_MODS+2;
+	public static final int BRACING_UNSTABLE_SPELL  = SPELL_MODS+3;
+	public static final int BRACING_CURSE_INFUSE   = SPELL_MODS+4;
+	public static final int LACING_CURSE_INFUSE    = SPELL_MODS+5;
+	public static final int LACING_MAGIC_INFUSE    = SPELL_MODS+6;
+	public static final int LACING_ALCHEMIZE       = SPELL_MODS+7;
+	public static final int BRACING_RECYCLE         = SPELL_MODS+8;
+
+	public static final int LACING_RECLAIM_TRAP    = SPELL_MODS+10;
+	public static final int BRACING_RETURN_BEACON   = SPELL_MODS+11;
+	public static final int LACING_SUMMON_ELE      = SPELL_MODS+12;
+
+	static{
+		assignItemRect(BRACING_WILD_ENERGY,     15, 11);
+		assignItemRect(BRACING_PHASE_SHIFT,     15, 11);
+		assignItemRect(LACING_TELE_GRAB,       13, 13);
+		assignItemRect(BRACING_UNSTABLE_SPELL,  15, 11);
+		assignItemRect(BRACING_CURSE_INFUSE,    15, 11);
+		assignItemRect(LACING_CURSE_INFUSE,    13, 13);
+		assignItemRect(LACING_MAGIC_INFUSE,    13, 13);
+		assignItemRect(LACING_ALCHEMIZE,       13, 13);
+		assignItemRect(BRACING_RECYCLE,         15, 11);
+
+		assignItemRect(LACING_RECLAIM_TRAP,     13, 13);
+		assignItemRect(BRACING_RETURN_BEACON,    15, 11);
+		assignItemRect(LACING_SUMMON_ELE,       13, 13);
+	}
+
 	//for smaller 8x8 icons that often accompany an item sprite
 	public static class Icons {
 
