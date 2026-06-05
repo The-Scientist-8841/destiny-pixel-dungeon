@@ -309,7 +309,7 @@ public class QuickToolboxRecipe extends Component {
 				result.add(null);
 				ArrayList<Item> ingredients = new ArrayList<Item>();
 				ingredients.add(new Bomb());
-				result.add(new QuickToolboxRecipe(new MiniBomb.MiniBombCraft(), ingredients, new MiniBomb().quantity(3)));
+				result.add(new QuickToolboxRecipe(new MiniBomb.MiniBombCraft(), ingredients, new MiniBomb().quantity(5)));
 				break;
 			case 3:
 				result.add(new QuickToolboxRecipe(new WeaponLacing.WeaponLacingCraft(), new ArrayList<Item>(), new WeaponLacing()));

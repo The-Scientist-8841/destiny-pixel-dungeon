@@ -80,8 +80,6 @@ public class InventoryBullet extends Item {
 		return desc;
 	}
 
-	//Put some function for determining bullet type here, for ArcaneFirearm to call.
-
 	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;

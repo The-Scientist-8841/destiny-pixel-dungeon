@@ -98,14 +98,14 @@ public class MiniBomb extends Bomb {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			return new MiniBomb().quantity(3);
+			return new MiniBomb().quantity(5);
 		}
 
 		@Override
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			return new MiniBomb().quantity(3);
+			return new MiniBomb().quantity(5);
 		}
 	}
 }

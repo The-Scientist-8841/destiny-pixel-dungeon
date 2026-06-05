@@ -272,12 +272,12 @@ public class ArcaneFirearm extends Weapon {
 	
 	@Override
 	public int min(int lvl) { //For Melee
-		return lvl + 1;
+		return lvl/2 + 1;
 	}
 	
 	@Override
 	public int max(int lvl) { //For Melee
-		return 2*lvl + 3;
+		return lvl + 4;
 	}
 
 	@Override
