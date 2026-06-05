@@ -860,8 +860,7 @@ public class ItemSpriteSheet {
 	public static final int BULLET_FADELEAF       = SEED_BULLETS+10;
 	public static final int BULLET_BLINDWEED      = SEED_BULLETS+11;
 	static{
-		for (int i = SEED_BULLETS; i < SEED_BULLETS+12; i++)
-			assignItemRect(i, 15, 15);
+		for (int i = SEED_BULLETS; i < SEED_BULLETS+12; i++) assignItemRect(i, 15, 15);
 	}
 
 	private static final int POTION_BULLETS        =                               xy(1, 35);  //16 slots
@@ -878,8 +877,7 @@ public class ItemSpriteSheet {
 	public static final int BULLET_SILVER   = POTION_BULLETS+10;
 	public static final int BULLET_IVORY    = POTION_BULLETS+11;
 	static {
-		for (int i = POTION_BULLETS; i < POTION_BULLETS+12; i++)
-			assignItemRect(i, 15, 15);
+		for (int i = POTION_BULLETS; i < POTION_BULLETS+12; i++) assignItemRect(i, 15, 15);
 	}
 
 	private static final int EXOTIC_POTION_BULLETS        =                               xy(1, 36);  //16 slots
@@ -896,8 +894,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_BULLET_SILVER   = EXOTIC_POTION_BULLETS+10;
 	public static final int EXOTIC_BULLET_IVORY    = EXOTIC_POTION_BULLETS+11;
 	static {
-		for (int i = EXOTIC_POTION_BULLETS; i < EXOTIC_POTION_BULLETS+12; i++)
-			assignItemRect(i, 15, 15);
+		for (int i = EXOTIC_POTION_BULLETS; i < EXOTIC_POTION_BULLETS+12; i++) assignItemRect(i, 15, 15);
 	}
 
 	private static final int STONE_BULLETS             =                           xy(1, 37);  //16 slots
@@ -914,8 +911,222 @@ public class ItemSpriteSheet {
 	public static final int BULLET_INTUITION     = STONE_BULLETS+10;
 	public static final int BULLET_SHOCK         = STONE_BULLETS+11;
 	static {
-		for (int i = STONE_BULLETS; i < STONE_BULLETS+12; i++)
-			assignItemRect(i, 15, 15);
+		for (int i = STONE_BULLETS; i < STONE_BULLETS+12; i++) assignItemRect(i, 15, 15);
+	}
+
+	private static final int SCROLL_BULLETS        =                               xy(1, 38);  //16 slots
+	public static final int BULLET_KAUNAN   = SCROLL_BULLETS+0;
+	public static final int BULLET_SOWILO   = SCROLL_BULLETS+1;
+	public static final int BULLET_LAGUZ    = SCROLL_BULLETS+2;
+	public static final int BULLET_YNGVI    = SCROLL_BULLETS+3;
+	public static final int BULLET_GYFU     = SCROLL_BULLETS+4;
+	public static final int BULLET_RAIDO    = SCROLL_BULLETS+5;
+	public static final int BULLET_ISAZ     = SCROLL_BULLETS+6;
+	public static final int BULLET_MANNAZ   = SCROLL_BULLETS+7;
+	public static final int BULLET_NAUDIZ   = SCROLL_BULLETS+8;
+	public static final int BULLET_BERKANAN = SCROLL_BULLETS+9;
+	public static final int BULLET_ODAL     = SCROLL_BULLETS+10;
+	public static final int BULLET_TIWAZ    = SCROLL_BULLETS+11;
+	static {
+		for (int i = SCROLL_BULLETS; i < SCROLL_BULLETS+12; i++) assignItemRect(i, 15, 15);
+	}
+
+	private static final int EXOTIC_SCROLL_BULLETS        =                               xy(1, 39);  //16 slots
+	public static final int EXOTIC_BULLET_KAUNAN   = EXOTIC_SCROLL_BULLETS+0;
+	public static final int EXOTIC_BULLET_SOWILO   = EXOTIC_SCROLL_BULLETS+1;
+	public static final int EXOTIC_BULLET_LAGUZ    = EXOTIC_SCROLL_BULLETS+2;
+	public static final int EXOTIC_BULLET_YNGVI    = EXOTIC_SCROLL_BULLETS+3;
+	public static final int EXOTIC_BULLET_GYFU     = EXOTIC_SCROLL_BULLETS+4;
+	public static final int EXOTIC_BULLET_RAIDO    = EXOTIC_SCROLL_BULLETS+5;
+	public static final int EXOTIC_BULLET_ISAZ     = EXOTIC_SCROLL_BULLETS+6;
+	public static final int EXOTIC_BULLET_MANNAZ   = EXOTIC_SCROLL_BULLETS+7;
+	public static final int EXOTIC_BULLET_NAUDIZ   = EXOTIC_SCROLL_BULLETS+8;
+	public static final int EXOTIC_BULLET_BERKANAN = EXOTIC_SCROLL_BULLETS+9;
+	public static final int EXOTIC_BULLET_ODAL     = EXOTIC_SCROLL_BULLETS+10;
+	public static final int EXOTIC_BULLET_TIWAZ    = EXOTIC_SCROLL_BULLETS+11;
+	static {
+		for (int i = EXOTIC_SCROLL_BULLETS; i < EXOTIC_SCROLL_BULLETS+12; i++) assignItemRect(i, 15, 15);
+	}
+
+	private static final int BREW_BULLETS          =                               xy(1, 40);  //8 slots
+	public static final int BULLET_INFERNAL   = BREW_BULLETS+0;
+	public static final int BULLET_BLIZZARD   = BREW_BULLETS+1;
+	public static final int BULLET_SHOCKING   = BREW_BULLETS+2;
+	public static final int BULLET_CAUSTIC    = BREW_BULLETS+3;
+	public static final int BULLET_AQUA_BREW       = BREW_BULLETS+4;
+	public static final int BULLET_UNSTABLE_BREW   = BREW_BULLETS+5;
+	static{
+		for (int i = BREW_BULLETS; i < BREW_BULLETS+6; i++) assignItemRect(i, 15, 15);
+
+		assignItemRect(BULLET_AQUA_BREW, 14, 15);
+	}
+
+	private static final int ELIXIR_BULLETS        =                               xy(9, 40);  //8 slots
+	public static final int BULLET_HONEY    = ELIXIR_BULLETS+0;
+	public static final int BULLET_AQUATIC_REJUVENATION     = ELIXIR_BULLETS+1;
+	public static final int BULLET_MIGHT    = ELIXIR_BULLETS+2;
+	public static final int BULLET_DRAGON   = ELIXIR_BULLETS+3;
+	public static final int BULLET_TOXIC    = ELIXIR_BULLETS+4;
+	public static final int BULLET_ICY      = ELIXIR_BULLETS+5;
+	public static final int BULLET_ARCANE   = ELIXIR_BULLETS+6;
+	public static final int BULLET_FEATHER  = ELIXIR_BULLETS+7;
+	static{
+		for (int i = ELIXIR_BULLETS; i < ELIXIR_BULLETS+8; i++) assignItemRect(i, 15, 15);
+	}
+
+	private static final int SPELL_BULLETS         =                               xy(1, 41);  //16 slots
+	public static final int BULLET_WILD_ENERGY     = SPELL_BULLETS+0;
+	public static final int BULLET_PHASE_SHIFT     = SPELL_BULLETS+1;
+	public static final int BULLET_TELE_GRAB       = SPELL_BULLETS+2;
+	public static final int BULLET_UNSTABLE_SPELL  = SPELL_BULLETS+3;
+
+	public static final int BULLET_CURSE_INFUSE    = SPELL_BULLETS+5;
+	public static final int BULLET_MAGIC_INFUSE    = SPELL_BULLETS+6;
+	public static final int BULLET_ALCHEMIZE       = SPELL_BULLETS+7;
+	public static final int BULLET_RECYCLE         = SPELL_BULLETS+8;
+
+	public static final int BULLET_RECLAIM_TRAP    = SPELL_BULLETS+10;
+	public static final int BULLET_RETURN_BEACON   = SPELL_BULLETS+11;
+	public static final int BULLET_SUMMON_ELE      = SPELL_BULLETS+12;
+
+	static{
+		assignItemRect(BULLET_WILD_ENERGY,     13, 13);
+		assignItemRect(BULLET_PHASE_SHIFT,     13, 13);
+		assignItemRect(BULLET_TELE_GRAB,       13, 13);
+		assignItemRect(BULLET_UNSTABLE_SPELL,  13, 13);
+
+		assignItemRect(BULLET_CURSE_INFUSE,    15, 15);
+		assignItemRect(BULLET_MAGIC_INFUSE,    15, 15);
+		assignItemRect(BULLET_ALCHEMIZE,       15, 15);
+		assignItemRect(BULLET_RECYCLE,         15, 15);
+
+		assignItemRect(BULLET_RECLAIM_TRAP,     15, 15);
+		assignItemRect(BULLET_RETURN_BEACON,    15, 15);
+		assignItemRect(BULLET_SUMMON_ELE,       15, 15);
+	}
+
+	private static final int SEED_MODS              =                           xy(1, 42);  //16 slots
+	public static final int LACING_ROTBERRY       = SEED_MODS+0;
+	public static final int LACING_FIREBLOOM      = SEED_MODS+1;
+	public static final int BRACING_SWIFTTHISTLE   = SEED_MODS+2;
+	public static final int BRACING_SUNGRASS       = SEED_MODS+3;
+	public static final int LACING_ICECAP         = SEED_MODS+4;
+	public static final int BRACING_STORMVINE      = SEED_MODS+5;
+	public static final int LACING_SORROWMOSS     = SEED_MODS+6;
+	public static final int BRACING_MAGEROYAL = SEED_MODS+7;
+	public static final int BRACING_EARTHROOT      = SEED_MODS+8;
+	public static final int LACING_STARFLOWER     = SEED_MODS+9;
+	public static final int LACING_FADELEAF       = SEED_MODS+10;
+	public static final int BRACING_BLINDWEED      = SEED_MODS+11;
+	static{
+		assignItemRect(LACING_ROTBERRY, 13, 13);
+		assignItemRect(LACING_FIREBLOOM, 13, 13);
+		assignItemRect(BRACING_SWIFTTHISTLE, 15, 11);
+		assignItemRect(BRACING_SUNGRASS, 15, 11);
+		assignItemRect(LACING_ICECAP, 13, 13);
+		assignItemRect(BRACING_STORMVINE, 15, 11);
+		assignItemRect(LACING_SORROWMOSS, 13, 13);
+		assignItemRect(BRACING_MAGEROYAL, 15, 11);
+		assignItemRect(BRACING_EARTHROOT, 15, 11);
+		assignItemRect(LACING_STARFLOWER, 13, 13);
+		assignItemRect(LACING_FADELEAF, 13, 13);
+		assignItemRect(BRACING_BLINDWEED, 15, 11);
+	}
+
+	private static final int POTION_LACINGS        =                               xy(1, 43);  //16 slots
+	public static final int LACING_CRIMSON  = POTION_LACINGS+0;
+	public static final int LACING_AMBER    = POTION_LACINGS+1;
+	public static final int LACING_GOLDEN   = POTION_LACINGS+2;
+	public static final int LACING_JADE     = POTION_LACINGS+3;
+	public static final int LACING_TURQUOISE= POTION_LACINGS+4;
+	public static final int LACING_AZURE    = POTION_LACINGS+5;
+	public static final int LACING_INDIGO   = POTION_LACINGS+6;
+	public static final int LACING_MAGENTA  = POTION_LACINGS+7;
+	public static final int LACING_BISTRE   = POTION_LACINGS+8;
+	public static final int LACING_CHARCOAL = POTION_LACINGS+9;
+	public static final int LACING_SILVER   = POTION_LACINGS+10;
+	public static final int LACING_IVORY    = POTION_LACINGS+11;
+	static {
+		for (int i = POTION_LACINGS; i < POTION_LACINGS+12; i++) assignItemRect(i, 13, 13);
+	}
+
+	private static final int POTION_BRACINGS        =                               xy(1, 44);  //16 slots
+	public static final int BRACING_CRIMSON  = POTION_BRACINGS+0;
+	public static final int BRACING_AMBER    = POTION_BRACINGS+1;
+	public static final int BRACING_GOLDEN   = POTION_BRACINGS+2;
+	public static final int BRACING_JADE     = POTION_BRACINGS+3;
+	public static final int BRACING_TURQUOISE= POTION_BRACINGS+4;
+	public static final int BRACING_AZURE    = POTION_BRACINGS+5;
+	public static final int BRACING_INDIGO   = POTION_BRACINGS+6;
+	public static final int BRACING_MAGENTA  = POTION_BRACINGS+7;
+	public static final int BRACING_BISTRE   = POTION_BRACINGS+8;
+	public static final int BRACING_CHARCOAL = POTION_BRACINGS+9;
+	public static final int BRACING_SILVER   = POTION_BRACINGS+10;
+	public static final int BRACING_IVORY    = POTION_BRACINGS+11;
+	static {
+		for (int i = POTION_BRACINGS; i < POTION_BRACINGS+12; i++) assignItemRect(i, 13, 13);
+	}
+
+	private static final int EXOTIC_POTION_LACINGS        =                               xy(1, 45);  //16 slots
+	public static final int EXOTIC_LACING_CRIMSON  = EXOTIC_POTION_LACINGS+0;
+	public static final int EXOTIC_LACING_AMBER    = EXOTIC_POTION_LACINGS+1;
+	public static final int EXOTIC_LACING_GOLDEN   = EXOTIC_POTION_LACINGS+2;
+	public static final int EXOTIC_LACING_JADE     = EXOTIC_POTION_LACINGS+3;
+	public static final int EXOTIC_LACING_TURQUOISE= EXOTIC_POTION_LACINGS+4;
+	public static final int EXOTIC_LACING_AZURE    = EXOTIC_POTION_LACINGS+5;
+	public static final int EXOTIC_LACING_INDIGO   = EXOTIC_POTION_LACINGS+6;
+	public static final int EXOTIC_LACING_MAGENTA  = EXOTIC_POTION_LACINGS+7;
+	public static final int EXOTIC_LACING_BISTRE   = EXOTIC_POTION_LACINGS+8;
+	public static final int EXOTIC_LACING_CHARCOAL = EXOTIC_POTION_LACINGS+9;
+	public static final int EXOTIC_LACING_SILVER   = EXOTIC_POTION_LACINGS+10;
+	public static final int EXOTIC_LACING_IVORY    = EXOTIC_POTION_LACINGS+11;
+	static {
+		for (int i = EXOTIC_POTION_LACINGS; i < EXOTIC_POTION_LACINGS+12; i++) assignItemRect(i, 13, 13);
+	}
+
+	private static final int EXOTIC_POTION_BRACINGS        =                               xy(1, 46);  //16 slots
+	public static final int EXOTIC_BRACING_CRIMSON  = EXOTIC_POTION_BRACINGS+0;
+	public static final int EXOTIC_BRACING_AMBER    = EXOTIC_POTION_BRACINGS+1;
+	public static final int EXOTIC_BRACING_GOLDEN   = EXOTIC_POTION_BRACINGS+2;
+	public static final int EXOTIC_BRACING_JADE     = EXOTIC_POTION_BRACINGS+3;
+	public static final int EXOTIC_BRACING_TURQUOISE= EXOTIC_POTION_BRACINGS+4;
+	public static final int EXOTIC_BRACING_AZURE    = EXOTIC_POTION_BRACINGS+5;
+	public static final int EXOTIC_BRACING_INDIGO   = EXOTIC_POTION_BRACINGS+6;
+	public static final int EXOTIC_BRACING_MAGENTA  = EXOTIC_POTION_BRACINGS+7;
+	public static final int EXOTIC_BRACING_BISTRE   = EXOTIC_POTION_BRACINGS+8;
+	public static final int EXOTIC_BRACING_CHARCOAL = EXOTIC_POTION_BRACINGS+9;
+	public static final int EXOTIC_BRACING_SILVER   = EXOTIC_POTION_BRACINGS+10;
+	public static final int EXOTIC_BRACING_IVORY    = EXOTIC_POTION_BRACINGS+11;
+	static {
+		for (int i = EXOTIC_POTION_BRACINGS; i < EXOTIC_POTION_BRACINGS+12; i++) assignItemRect(i, 13, 13);
+	}
+
+	private static final int STONE_MODS            =                           xy(1, 47);  //16 slots
+	public static final int BRACING_AGGRESSION    = STONE_MODS+0;
+	public static final int LACING_AUGMENTATION  = STONE_MODS+1;
+	public static final int BRACING_FEAR          = STONE_MODS+2;
+	public static final int LACING_BLAST         = STONE_MODS+3;
+	public static final int BRACING_BLINK         = STONE_MODS+4;
+	public static final int BRACING_CLAIRVOYANCE  = STONE_MODS+5;
+	public static final int LACING_SLEEP         = STONE_MODS+6;
+	public static final int BRACING_DETECT        = STONE_MODS+7;
+	public static final int LACING_ENCHANT       = STONE_MODS+8;
+	public static final int BRACING_FLOCK         = STONE_MODS+9;
+	public static final int LACING_INTUITION     = STONE_MODS+10;
+	public static final int LACING_SHOCK         = STONE_MODS+11;
+	static {
+		assignItemRect(BRACING_AGGRESSION,15,11);
+		assignItemRect(LACING_AUGMENTATION,13,13);
+		assignItemRect(BRACING_FEAR,15,11);
+		assignItemRect(LACING_BLAST,13,13);
+		assignItemRect(BRACING_BLINK,15,11);
+		assignItemRect(BRACING_CLAIRVOYANCE,15,11);
+		assignItemRect(LACING_SLEEP,13,13);
+		assignItemRect(BRACING_DETECT,15,11);
+		assignItemRect(LACING_ENCHANT,13,13);
+		assignItemRect(BRACING_FLOCK,15,11);
+		assignItemRect(LACING_INTUITION,13,13);
+		assignItemRect(LACING_SHOCK,13,13);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite
