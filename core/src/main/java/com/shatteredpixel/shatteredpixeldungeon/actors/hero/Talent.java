@@ -1069,15 +1069,12 @@ public enum Talent {
 		}
 		if (hero.hasTalent(LIQUID_SCAVENGING)) {
 			if (hero.heroClass == HeroClass.ARTIFICER) {
-				int amt = 1 + hero.pointsInTalent(Talent.LIQUID_SCAVENGING) / 2 + Random.Int(1 - hero.pointsInTalent(Talent.LIQUID_SCAVENGING) % 2);
-				ArcaneMaterial reward = new ArcaneMaterial();
-				reward.quantity(Math.round(factor*hero.pointsInTalent(Talent.LIQUID_SCAVENGING)));
-				reward.collect();
+				Dungeon.materials += Math.round(factor*(1 + hero.pointsInTalent(Talent.LIQUID_SCAVENGING)/2 + Random.Int(1 - hero.pointsInTalent(Talent.LIQUID_SCAVENGING) % 2)));
 			} else {
-				EnergyCrystal reward = new EnergyCrystal();
-				reward.quantity(Math.round(factor * hero.pointsInTalent(LIQUID_SCAVENGING)));
-				reward.collect();
+				Dungeon.energy += (Math.round(factor * hero.pointsInTalent(LIQUID_SCAVENGING)));
 			}
+			Sample.INSTANCE.play(Assets.Sounds.ITEM);
+			Item.updateQuickslot();
 		}
 	}
 
