@@ -67,6 +67,17 @@ public class ProximityBomb extends Bomb {
 		return quantity * 25;
 	}
 
+	@Override
+	public String desc() {
+		int depth = Dungeon.hero == null ? 1 : Dungeon.scalingDepth();
+		String desc = Messages.get(this, "desc", 4+depth, 12+3*depth);
+		if (fuse != null) {
+			desc += "\n\n" + Messages.get(this, "desc_armed");
+		}
+
+		return desc;
+	}
+
 	//does not instantly explode
 	public static class ProximityBombFuse extends Fuse {
 
