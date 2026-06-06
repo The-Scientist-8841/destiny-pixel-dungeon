@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ProximityBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
@@ -316,6 +317,10 @@ public class QuickToolboxRecipe extends Component {
 				ingredients.clear();
 				ingredients.add(new Bomb().quantity(2));
 				result.add(new QuickToolboxRecipe(new HeavyBomb.HeavyBombCraft(), ingredients, new HeavyBomb()));
+
+				ingredients.clear();
+				ingredients.add(new Bomb());
+				result.add(new QuickToolboxRecipe(new ProximityBomb.ProximityBombCraft(), ingredients, new ProximityBomb()));
 
 				break;
 			case 3:

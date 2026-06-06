@@ -840,11 +840,11 @@ public class ItemSpriteSheet {
 	}
 
 	public static final int MINI_BOMB = xy(7,33);
-	public static final int CLUSTER_BOMB = MINI_BOMB + 1;
+	public static final int PROXIMITY_BOMB = MINI_BOMB + 1;
 	public static final int HEAVY_BOMB = MINI_BOMB + 2;
 	static {
 		assignItemRect(MINI_BOMB, 13,12);
-		assignItemRect(CLUSTER_BOMB, 10,13);
+		assignItemRect(PROXIMITY_BOMB, 10,13);
 		assignItemRect(HEAVY_BOMB, 10,13);
 	}
 

@@ -48,11 +48,6 @@ public class HeavyBomb extends Bomb {
 
 	@Override
 	public int fuseDelay() { return 4; }
-
-	@Override
-	protected void onThrow( int cell ) {
-		super.onThrow( cell );
-	}
 	
 	@Override
 	public int value() {
@@ -88,14 +83,14 @@ public class HeavyBomb extends Bomb {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			return new HeavyBomb().quantity(1);
+			return new HeavyBomb();
 		}
 
 		@Override
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			return new HeavyBomb().quantity(1);
+			return new HeavyBomb();
 		}
 	}
 }

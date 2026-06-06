@@ -22,63 +22,76 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.bombs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.BArray;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class MiniBomb extends Bomb {
+public class ProximityBomb extends Bomb {
 	
 	{
-		image = ItemSpriteSheet.MINI_BOMB;
+		image = ItemSpriteSheet.PROXIMITY_BOMB;
 	}
 
 	@Override
-	protected int explosionRange() {
-		return 0;
-	}
+	public int fuseDelay() { return -1; /*No fuse*/ }
 
 	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange(Dungeon.scalingDepth(), 5 + 2*Dungeon.scalingDepth());
+	protected Fuse createFuse() {
+		return new ProximityBombFuse();
 	}
-
-	@Override
-	public int fuseDelay() { return 0; }
 	
 	@Override
 	public int value() {
-		return quantity * 10;
+		return quantity * 25;
 	}
 
-	@Override
-	public int particleAmt() { return 15; }
+	//does not instantly explode
+	public static class ProximityBombFuse extends Fuse {
 
-	@Override
-	public String desc() {
-		int depth = Dungeon.hero == null ? 1 : Dungeon.scalingDepth();
-		String desc = Messages.get(this, "desc", depth, 5 + 2*depth);
-		if (fuse == null) {
-			return desc + "\n\n" + Messages.get(this, "desc_fuse");
-		} else {
-			return desc + "\n\n" + Messages.get(this, "desc_burning");
+		@Override
+		protected void trigger(Heap heap) {
+			ArrayList<Integer> checkCells = new ArrayList<>();
+			boolean[] explodable = new boolean[Dungeon.level.length()];
+			BArray.not( Dungeon.level.solid, explodable);
+			BArray.or( Dungeon.level.flamable, explodable, explodable);
+			PathFinder.buildDistanceMap( heap.pos, explodable, 1 );
+			for (int i = 0; i < PathFinder.distance.length; i++) {
+				if (PathFinder.distance[i] != Integer.MAX_VALUE) {
+					checkCells.add(i);
+					Char ch = Actor.findChar(i);
+					if (ch != null && ch.buff(Levitation.class) == null) {
+						super.trigger(heap);
+						return;
+					}
+				}
+			}
+			spend(TICK);
 		}
 	}
 
-	public static class MiniBombCraft extends ToolboxRecipe {
+	public static class ProximityBombCraft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
 			return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Bomb.class);
@@ -93,14 +106,14 @@ public class MiniBomb extends Bomb {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			return new MiniBomb().quantity(5);
+			return new ProximityBomb();
 		}
 
 		@Override
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			return new MiniBomb().quantity(5);
+			return new ProximityBomb();
 		}
 	}
 }

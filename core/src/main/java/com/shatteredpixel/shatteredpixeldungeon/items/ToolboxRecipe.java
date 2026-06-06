@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ProximityBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
@@ -90,7 +91,8 @@ public abstract class ToolboxRecipe {
 	};
 	
 	private static ToolboxRecipe[] oneIngredientRecipes = new ToolboxRecipe[]{
-			new MiniBomb.MiniBombCraft()
+			new MiniBomb.MiniBombCraft(),
+			new ProximityBomb.ProximityBombCraft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
