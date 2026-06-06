@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
@@ -77,96 +78,6 @@ public abstract class ToolboxRecipe {
 	
 	public abstract Item sampleOutput(ArrayList<Item> ingredients);
 	
-	//subclass for the common situation of a recipe with static inputs and outputs
-	public static abstract class SimpleRecipe extends ToolboxRecipe {
-		
-		//*** These elements must be filled in by subclasses
-		protected Class<?extends Item>[] inputs; //each class should be unique
-		protected int[] inQuantity;
-		
-		protected int cost;
-		
-		protected Class<?extends Item> output;
-		protected int outQuantity;
-		//***
-		
-		//gets a simple list of items based on inputs
-		public ArrayList<Item> getIngredients() {
-			ArrayList<Item> result = new ArrayList<>();
-			for (int i = 0; i < inputs.length; i++) {
-				Item ingredient = Reflection.newInstance(inputs[i]);
-				ingredient.quantity(inQuantity[i]);
-				result.add(ingredient);
-			}
-			return result;
-		}
-		
-		@Override
-		public boolean testIngredients(ArrayList<Item> ingredients) {
-			
-			int[] needed = inQuantity.clone();
-			
-			for (Item ingredient : ingredients){
-				if (!ingredient.isIdentified()) return false;
-				for (int i = 0; i < inputs.length; i++){
-					if (ingredient.getClass() == inputs[i]){
-						needed[i] -= ingredient.quantity();
-						break;
-					}
-				}
-			}
-			
-			for (int i : needed){
-				if (i > 0){
-					return false;
-				}
-			}
-			
-			return true;
-		}
-		
-		public int cost(ArrayList<Item> ingredients){
-			return cost;
-		}
-		
-		@Override
-		public Item craft(ArrayList<Item> ingredients) {
-			if (!testIngredients(ingredients)) return null;
-			
-			int[] needed = inQuantity.clone();
-			
-			for (Item ingredient : ingredients){
-				for (int i = 0; i < inputs.length; i++) {
-					if (ingredient.getClass() == inputs[i] && needed[i] > 0) {
-						if (needed[i] <= ingredient.quantity()) {
-							ingredient.quantity(ingredient.quantity() - needed[i]);
-							needed[i] = 0;
-						} else {
-							needed[i] -= ingredient.quantity();
-							ingredient.quantity(0);
-						}
-					}
-				}
-			}
-			
-			//sample output and real output are identical in this case.
-			return sampleOutput(null);
-		}
-		
-		//ingredients are ignored, as output doesn't vary
-		public Item sampleOutput(ArrayList<Item> ingredients){
-			try {
-				Item result = Reflection.newInstance(output);
-				result.quantity(outQuantity);
-				return result;
-			} catch (Exception e) {
-				ShatteredPixelDungeon.reportException( e );
-				return null;
-			}
-		}
-	}
-	
-	
 	//*******
 	// Static members
 	//*******
@@ -179,11 +90,11 @@ public abstract class ToolboxRecipe {
 	};
 	
 	private static ToolboxRecipe[] oneIngredientRecipes = new ToolboxRecipe[]{
-			new MiniBomb.MiniBombCraft(),
+			new MiniBomb.MiniBombCraft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
-
+			new HeavyBomb.HeavyBombCraft()
 	};
 	
 	private static ToolboxRecipe[] threeIngredientRecipes = new ToolboxRecipe[]{
@@ -233,7 +144,7 @@ public abstract class ToolboxRecipe {
 		} else if (item instanceof Wand) {
 			return item.cursedKnown && !item.cursed;
 		} else {
-			return item.isIdentified();
+			return item.isIdentified() && !item.unique;
 		}
 	}
 }
