@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -76,8 +77,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ToolboxCraftingScene;
@@ -305,6 +308,13 @@ public class QuickToolboxRecipe extends Component {
 				break;
 			case 1:
 				result.add(new QuickToolboxRecipe(new InventoryBullet.BulletCraft(), new ArrayList<Item>(), new InventoryBullet().quantity(2)));
+
+				if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
+					result.add(null);
+					ArrayList<Item> ingredients = new ArrayList<Item>();
+					ingredients.add(new Rotberry.Seed());
+					result.add(new QuickToolboxRecipe(new InventoryRotBullet.RotBulletCraft(), ingredients, new InventoryRotBullet().quantity(4)));
+				}
 				break;
 			case 2:
 				result.add(new QuickToolboxRecipe(new Bomb.BombCraft(), new ArrayList<Item>(), new Bomb()));

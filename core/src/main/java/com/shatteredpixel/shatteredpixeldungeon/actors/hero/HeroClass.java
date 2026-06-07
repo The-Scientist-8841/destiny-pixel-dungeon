@@ -279,12 +279,12 @@ public enum HeroClass {
 	private static void initArtificer(Hero hero) {
 		(hero.belongings.weapon = new ArcaneFirearm()).identify();
 		hero.belongings.weapon.activate(hero);
-		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
-		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
-		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
-		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
-		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
-		((ArcaneFirearm) hero.belongings.weapon).load(new ArcaneFirearm.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new InventoryBullet.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new InventoryBullet.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new InventoryBullet.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new InventoryBullet.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new InventoryBullet.Bullet());
+		((ArcaneFirearm) hero.belongings.weapon).load(new InventoryBullet.Bullet());
 
 		Toolbox toolbox = new Toolbox();
 		(hero.belongings.artifact = toolbox).identify();

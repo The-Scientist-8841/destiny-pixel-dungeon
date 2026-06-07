@@ -21,7 +21,10 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
@@ -65,6 +68,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -94,6 +99,10 @@ public abstract class ToolboxRecipe {
 			new MiniBomb.MiniBombCraft(),
 			new ProximityBomb.ProximityBombCraft()
 	};
+
+	private static ToolboxRecipe[] oneIngredientSeedRecipes = new ToolboxRecipe[]{
+			new InventoryRotBullet.RotBulletCraft()
+	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
 			new HeavyBomb.HeavyBombCraft()
@@ -119,6 +128,13 @@ public abstract class ToolboxRecipe {
 					result.add(recipe);
 				}
 			}
+			if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
+				for (ToolboxRecipe recipe : oneIngredientSeedRecipes){
+					if (recipe.testIngredients(ingredients)){
+						result.add(recipe);
+					}
+				}
+			}
 			
 		} else if (ingredients.size() == 2){
 			for (ToolboxRecipe recipe : twoIngredientRecipes){
@@ -139,14 +155,12 @@ public abstract class ToolboxRecipe {
 	}
 	
 	public static boolean usableInRecipe(Item item){
-		//only upgradeable thrown weapons and wands allowed among equipment items
 		if (item instanceof EquipableItem){
-			return item.cursedKnown && !item.cursed &&
-					item instanceof MissileWeapon && item.isUpgradable();
+			return false;
 		} else if (item instanceof Wand) {
-			return item.cursedKnown && !item.cursed;
+			return false;
 		} else {
-			return item.isIdentified() && !item.unique;
+			return item.isIdentified() && (!item.unique || item instanceof Rotberry.Seed);
 		}
 	}
 }

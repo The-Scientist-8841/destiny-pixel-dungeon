@@ -21,96 +21,79 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndChooseSubclass;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.particles.Emitter;
 
 import java.util.ArrayList;
 
-public class InventoryBullet extends Item {
+public class InventoryRotBullet extends InventoryBullet {
 
 	{
-		image = ItemSpriteSheet.BULLET;
-
-		stackable = true;
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
+		image = ItemSpriteSheet.BULLET_ROTBERRY;
 	}
 
+	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new Bullet();
+		return new RotBullet();
 	}
 
 	@Override
 	public String desc() {
-		String desc = Messages.get(this, "desc");
-
 		ArcaneFirearm gun = Dungeon.hero != null ? Dungeon.hero.belongings.getItem(ArcaneFirearm.class) : null;
 		int lvl = gun != null ? gun.buffedLvl() : 1;
-		if (gun != null) {
-			ArcaneFirearm.Bullet b = get_bullet();
-			desc += " " + Messages.get(InventoryBullet.class, "stats_desc", b.min(lvl), b.max(lvl));
-		}
 
-		return desc;
+		return super.desc() + "\n\n" + Messages.get(this, "corrosion_desc", 5+2*lvl);
 	}
 
-	public static class Bullet extends ArcaneFirearm.Bullet {
+	public static class RotBullet extends ArcaneFirearm.Bullet {
 		{
-			baseDmg = 3;
-			scalingFactorMin = 1f;
-			scalingFactorMax = 2f;
-			maxFactor = 2f;
-			parentClass = InventoryBullet.class;
+			/*baseDmg = 10;
+			scalingFactorMin = 3f;
+			scalingFactorMax = 5f;
+			maxFactor = 5f;*/
+			parentClass = InventoryRotBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryBullet();
+			return new InventoryRotBullet();
+		}
+
+		@Override
+		public int onHit(Char attacker, Char defender, int damage) {
+			if (defender != null && !defender.isImmune(Corrosion.class)) {
+				Buff.affect(defender, Corrosion.class).set(5 + 2*gun.buffedLvl(), 5 + 2*gun.buffedLvl());
+			}
+			return damage;
 		}
 	}
 
-	public static class BulletCraft extends ToolboxRecipe {
+	public static class RotBulletCraft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.isEmpty();
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Rotberry.Seed.class);
         }
 
 		@Override
-		public int cost(ArrayList<Item> ingredients) { return 1; }
+		public int cost(ArrayList<Item> ingredients) { return 2; }
 
 		@Override
 		public Item craft(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryBullet bullets = new InventoryBullet();
-			bullets.quantity(2);
+			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
+
+			InventoryRotBullet bullets = new InventoryRotBullet();
+			bullets.quantity(4);
 			return bullets;
 		}
 
@@ -118,7 +101,7 @@ public class InventoryBullet extends Item {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryBullet bullets = new InventoryBullet();
+			InventoryRotBullet bullets = new InventoryRotBullet();
 			bullets.quantity(2);
 			return bullets;
 		}

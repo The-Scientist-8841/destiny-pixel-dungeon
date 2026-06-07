@@ -370,7 +370,7 @@ public class ArcaneFirearm extends Weapon {
 	
 	public static class Bullet extends MissileWeapon {
 
-		ArcaneFirearm gun = null;
+		protected ArcaneFirearm gun = null;
 		public int baseDmg = 3;
 		public float scalingFactorMin = 1f;
 		public float scalingFactorMax = 2f;
@@ -483,8 +483,8 @@ public class ArcaneFirearm extends Weapon {
 		public int proc(Char attacker, Char defender, int damage) {
 			if (gun != null && gun.enchantment != null) {
 				damage = gun.enchantment.proc(gun, attacker, defender, damage);
-				damage = onHit(attacker, defender, damage);
 			}
+			damage = onHit(attacker, defender, damage);
 			return super.proc(attacker, defender, damage);
 		}
 		
@@ -529,9 +529,15 @@ public class ArcaneFirearm extends Weapon {
 			return Messages.get(parentClass, "name");
 		}
 
+		public InventoryBullet get_inventory_bullet() {
+			return null;
+		}
+
 		public void unload(Hero hero) {
-			InventoryBullet item = new InventoryBullet();
-			if (!item.collect()) Dungeon.level.drop(item, hero.pos);
+			InventoryBullet item = get_inventory_bullet();
+			if (item != null) {
+				if (!item.collect()) Dungeon.level.drop(item, hero.pos);
+			}
 		}
 	}
 	
