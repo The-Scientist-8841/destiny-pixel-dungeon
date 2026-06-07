@@ -484,7 +484,6 @@ public class ArcaneFirearm extends Weapon {
 			if (gun != null && gun.enchantment != null) {
 				damage = gun.enchantment.proc(gun, attacker, defender, damage);
 			}
-			damage = onHit(attacker, defender, damage);
 			return super.proc(attacker, defender, damage);
 		}
 		
@@ -500,9 +499,8 @@ public class ArcaneFirearm extends Weapon {
 			else return super.STRReq(lvl);
 		}
 
-		public int onHit(Char attacker, Char defender, int damage) {
+		public void onHit(Char attacker, Char defender) {
 			//Default - do nothing.
-			return damage;
 		}
 
 		@Override

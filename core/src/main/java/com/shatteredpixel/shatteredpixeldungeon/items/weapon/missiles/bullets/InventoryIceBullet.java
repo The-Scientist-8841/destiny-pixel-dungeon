@@ -25,54 +25,72 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryFireBullet extends InventoryBullet {
+public class InventoryIceBullet extends InventoryBullet {
 
 	{
-		image = ItemSpriteSheet.BULLET_FIREBLOOM;
+		image = ItemSpriteSheet.BULLET_ICECAP;
 	}
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new FireBullet();
+		return new IceBullet();
 	}
 
-	public static class FireBullet extends ArcaneFirearm.Bullet {
+	public static class IceBullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
 			scalingFactorMax = 2f;
 			maxFactor = 2f;
-			parentClass = InventoryFireBullet.class;
+			parentClass = InventoryIceBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryFireBullet();
+			return new InventoryIceBullet();
 		}
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
-			if (defender != null && !defender.isImmune(Burning.class)) {
-				Buff.affect(defender, Burning.class).reignite(defender);
+			if (defender != null && !defender.isImmune(Chill.class)) {
+				if (defender.buff(Frost.class) != null){
+					Buff.affect(defender, Frost.class, 3f);
+				} else {
+					Chill chill = defender.buff(Chill.class);
+					float turnsToAdd = Dungeon.level.water[defender.pos] ? Chill.DURATION / 2 + 1f : Chill.DURATION;
+					if (chill != null){
+						float chillToCap = Chill.DURATION - chill.cooldown();
+						chillToCap /= defender.resist(Chill.class); //account for resistance to chill
+						turnsToAdd = Math.min(turnsToAdd, chillToCap);
+					}
+					if (turnsToAdd > 0f) {
+						Buff.affect(defender, Chill.class, turnsToAdd);
+					}
+					if (chill != null
+							&& chill.cooldown() >= Chill.DURATION &&
+							!defender.isImmune(Frost.class)){
+						Buff.affect(defender, Frost.class, Frost.DURATION);
+					}
+				}
 			}
 		}
 	}
 
-	public static class FireBulletCraft extends ToolboxRecipe {
+	public static class IceBulletCraft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Firebloom.Seed.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Icecap.Seed.class);
         }
 
 		@Override
@@ -84,7 +102,7 @@ public class InventoryFireBullet extends InventoryBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryFireBullet bullets = new InventoryFireBullet();
+			InventoryIceBullet bullets = new InventoryIceBullet();
 			bullets.quantity(3);
 			return bullets;
 		}
@@ -93,7 +111,7 @@ public class InventoryFireBullet extends InventoryBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryFireBullet bullets = new InventoryFireBullet();
+			InventoryIceBullet bullets = new InventoryIceBullet();
 			bullets.quantity(3);
 			return bullets;
 		}

@@ -78,9 +78,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFireBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryIceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
@@ -320,6 +322,10 @@ public class QuickToolboxRecipe extends Component {
 					ingredients.clear();
 					ingredients.add(new Firebloom.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryFireBullet.FireBulletCraft(), ingredients, new InventoryFireBullet().quantity(3)));
+
+					ingredients.clear();
+					ingredients.add(new Icecap.Seed());
+					result.add(new QuickToolboxRecipe(new InventoryIceBullet.IceBulletCraft(), ingredients, new InventoryIceBullet().quantity(3)));
 				}
 				break;
 			case 2:

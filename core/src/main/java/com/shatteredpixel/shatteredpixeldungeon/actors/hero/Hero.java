@@ -539,6 +539,9 @@ public class Hero extends Char {
 
 		if (belongings.attackingWeapon() instanceof MeleeWeapon) ((MeleeWeapon) belongings.attackingWeapon()).consumeLacing();
 		else if (belongings.attackingWeapon() instanceof ArcaneFirearm) ((ArcaneFirearm) belongings.attackingWeapon()).consumeLacing();
+		else if (belongings.attackingWeapon() instanceof ArcaneFirearm.Bullet) {
+			((ArcaneFirearm.Bullet) belongings.attackingWeapon()).onHit(this, enemy);
+		}
 
 		return result;
 	}
