@@ -1302,7 +1302,7 @@ public abstract class Mob extends Char {
 				debugThing4.collect();
 				debugThing4.identify();
 				debugThing4.cursed = false;
-				Icecap.Seed debugThing5 = new Icecap.Seed();
+				Swiftthistle.Seed debugThing5 = new Swiftthistle.Seed();
 				debugThing5.collect();
 			}
 		}

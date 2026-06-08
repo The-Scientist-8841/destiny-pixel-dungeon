@@ -21,61 +21,55 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 import java.util.ArrayList;
 
-public class InventoryRotBullet extends InventoryBullet {
+public class InventorySwiftBullet extends InventoryBullet {
 
 	{
-		image = ItemSpriteSheet.BULLET_ROTBERRY;
+		image = ItemSpriteSheet.BULLET_SWIFTTHISTLE;
 	}
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new RotBullet();
+		return new SwiftBullet();
 	}
 
-	public static class RotBullet extends ArcaneFirearm.Bullet {
+	public static class SwiftBullet extends ArcaneFirearm.Bullet {
 		{
-			baseDmg = 10;
-			scalingFactorMin = 3f;
-			scalingFactorMax = 5f;
-			maxFactor = 5f;
-			parentClass = InventoryRotBullet.class;
+			baseDmg = 3;
+			scalingFactorMin = 1f;
+			scalingFactorMax = 2f;
+			maxFactor = 2f;
+			parentClass = InventorySwiftBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryRotBullet();
+			return new InventorySwiftBullet();
 		}
 
 		@Override
-		public void onHit(Char attacker, Char defender) {
-			if (defender != null && !defender.isImmune(Corrosion.class)) {
-				Buff.affect(defender, Corrosion.class).set(5 + 2*gun.buffedLvl(), 5 + 2*gun.buffedLvl());
-			}
-		}
+		public float castDelay(Char user, int cell) { return 0f; }
 	}
 
-	public static class RotBulletCraft extends ToolboxRecipe {
+	public static class SwiftBulletCraft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Rotberry.Seed.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Swiftthistle.Seed.class);
         }
 
 		@Override
-		public int cost(ArrayList<Item> ingredients) { return 2; }
+		public int cost(ArrayList<Item> ingredients) { return 1; }
 
 		@Override
 		public Item craft(ArrayList<Item> ingredients) {
@@ -83,8 +77,8 @@ public class InventoryRotBullet extends InventoryBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryRotBullet bullets = new InventoryRotBullet();
-			bullets.quantity(4);
+			InventorySwiftBullet bullets = new InventorySwiftBullet();
+			bullets.quantity(3);
 			return bullets;
 		}
 
@@ -92,8 +86,8 @@ public class InventoryRotBullet extends InventoryBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryRotBullet bullets = new InventoryRotBullet();
-			bullets.quantity(4);
+			InventorySwiftBullet bullets = new InventorySwiftBullet();
+			bullets.quantity(3);
 			return bullets;
 		}
 	}
