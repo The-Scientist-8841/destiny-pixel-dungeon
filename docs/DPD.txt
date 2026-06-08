@@ -263,20 +263,34 @@ After the first reset:
 	Tengu's mask gives you an "Archetype" with more talents
 	The Dwarf King's Crown gives you a Heroic Weapon that has special abilities
 
+	Enemies have a 5% chance to be elite
+
 After the second reset:
 	You get a skill tree to spend levels on instead of talents
 	Tengu's Mask grants you another skill tree tab full of stuff related to your subclass and archetype
 	The Dwarf King's Crown gives you another skill tree tab full of stuff related to your Heroic Armour and Weapon
+
+	Enemies have a 10% chance to be elite
+	Come up with 10 Diablo-style modifiers to apply to enemies, each one has a 1% chance to apply to each spawned enemy
 
 After the third reset:
 	You get a "Boons" tree, basically a set of very powerful buffs/abilities. You only get one every 10 levels, or something similar, and you get to choose one of three options or something like that.
 	Tengu's Mask grants you another Boons tab full of thing related to your subclass and archetype
 	The Dwarf King's Crown gives you another Boons tab full of stuff related to your Heroic Armour and Weapon
 
+	Enemies have a 15% chance to be elite
+    Come up with 10 Diablo-style modifiers to apply to enemies, each one has a 1.5% chance to apply to each spawned enemy
+    Each floor contains a miniboss that must be summoned by clicking on the exit; you must kill it before the exit opens
+
 After the fourth reset:
 	You get a "Paragon" screen, which is a small set of buffs that you can just level and improve infinitely. You get one every level, but only after the skill tree is fully exhausted.
 	Tengu's Mask grants you a new set of Paragons for your subclass and archetype
 	The Dwarf King's Crown grants you a new set of Paragons for your Heroic Armour and Weapon
+
+	Enemies have a 20% chance to be elite
+    Come up with 10 Diablo-style modifiers to apply to enemies, each one has a 2% chance to apply to each spawned enemy
+    Each floor contains a miniboss that must be summoned by clicking on the exit; you must kill it before the exit opens
+    Apply the Badder Bosses challenge
 
 Problems:
 Allowing you to get every talent point kind of defeats the purpose of making a build.
