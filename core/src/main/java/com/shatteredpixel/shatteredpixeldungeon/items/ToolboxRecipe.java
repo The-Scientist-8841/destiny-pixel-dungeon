@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryIceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
@@ -109,7 +110,8 @@ public abstract class ToolboxRecipe {
 			new InventoryFireBullet.FireBulletCraft(),
 			new InventoryIceBullet.IceBulletCraft(),
 			new InventorySwiftBullet.SwiftBulletCraft(),
-			new InventorySunBullet.SunBulletCraft()
+			new InventorySunBullet.SunBulletCraft(),
+			new InventoryStormBullet.StormBulletCraft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{

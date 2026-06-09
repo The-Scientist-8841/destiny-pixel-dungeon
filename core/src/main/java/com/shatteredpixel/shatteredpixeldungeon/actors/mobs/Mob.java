@@ -116,6 +116,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -1303,7 +1304,7 @@ public abstract class Mob extends Char {
 				debugThing4.collect();
 				debugThing4.identify();
 				debugThing4.cursed = false;
-				Sungrass.Seed debugThing5 = new Sungrass.Seed();
+				Stormvine.Seed debugThing5 = new Stormvine.Seed();
 				debugThing5.collect();
 			}
 		}
