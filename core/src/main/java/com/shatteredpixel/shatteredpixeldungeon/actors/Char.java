@@ -135,6 +135,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocki
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -528,6 +529,8 @@ public abstract class Char extends Actor {
 			if (!enemy.isAlive()){
 				return true;
 			}
+
+			if (this instanceof Hero && ((Hero) this).belongings.attackingWeapon() instanceof InventorySunBullet.SunBullet) return false;
 
 			enemy.damage( effectiveDamage, this );
 
