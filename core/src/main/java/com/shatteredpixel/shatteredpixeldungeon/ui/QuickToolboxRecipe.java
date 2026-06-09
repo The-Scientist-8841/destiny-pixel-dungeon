@@ -80,12 +80,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryIceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -332,6 +334,10 @@ public class QuickToolboxRecipe extends Component {
 					ingredients.clear();
 					ingredients.add(new Swiftthistle.Seed());
 					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.SwiftBulletCraft(), ingredients, new InventorySwiftBullet().quantity(3)));
+
+					ingredients.clear();
+					ingredients.add(new Sungrass.Seed());
+					result.add(new QuickToolboxRecipe(new InventorySunBullet.SunBulletCraft(), ingredients, new InventorySunBullet().quantity(5)));
 				}
 				break;
 			case 2:
