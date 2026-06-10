@@ -70,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWea
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryIceBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryMageBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySorrowBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
@@ -107,12 +108,13 @@ public abstract class ToolboxRecipe {
 	};
 
 	private static ToolboxRecipe[] oneIngredientSeedRecipes = new ToolboxRecipe[]{
-			new InventoryRotBullet.RotBulletCraft(),
 			new InventoryFireBullet.FireBulletCraft(),
 			new InventoryIceBullet.IceBulletCraft(),
-			new InventorySwiftBullet.SwiftBulletCraft(),
 			new InventorySunBullet.SunBulletCraft(),
+			new InventoryMageBullet.MageBulletCraft(),
+			new InventorySwiftBullet.SwiftBulletCraft(),
 			new InventoryStormBullet.StormBulletCraft(),
+			new InventoryRotBullet.RotBulletCraft(),
 			new InventorySorrowBullet.SorrowBulletCraft()
 	};
 	

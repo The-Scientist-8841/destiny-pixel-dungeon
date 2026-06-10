@@ -79,6 +79,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWea
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryIceBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryMageBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySorrowBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
@@ -87,6 +88,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
@@ -324,10 +326,6 @@ public class QuickToolboxRecipe extends Component {
 				if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
 					result.add(null);
 					ArrayList<Item> ingredients = new ArrayList<Item>();
-					ingredients.add(new Rotberry.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryRotBullet.RotBulletCraft(), ingredients, new InventoryRotBullet().quantity(4)));
-
-					ingredients.clear();
 					ingredients.add(new Firebloom.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryFireBullet.FireBulletCraft(), ingredients, new InventoryFireBullet().quantity(3)));
 
@@ -336,16 +334,24 @@ public class QuickToolboxRecipe extends Component {
 					result.add(new QuickToolboxRecipe(new InventoryIceBullet.IceBulletCraft(), ingredients, new InventoryIceBullet().quantity(3)));
 
 					ingredients.clear();
-					ingredients.add(new Swiftthistle.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.SwiftBulletCraft(), ingredients, new InventorySwiftBullet().quantity(3)));
-
-					ingredients.clear();
 					ingredients.add(new Sungrass.Seed());
 					result.add(new QuickToolboxRecipe(new InventorySunBullet.SunBulletCraft(), ingredients, new InventorySunBullet().quantity(5)));
 
 					ingredients.clear();
+					ingredients.add(new Mageroyal.Seed());
+					result.add(new QuickToolboxRecipe(new InventoryMageBullet.MageBulletCraft(), ingredients, new InventoryMageBullet().quantity(4)));
+
+					ingredients.clear();
+					ingredients.add(new Swiftthistle.Seed());
+					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.SwiftBulletCraft(), ingredients, new InventorySwiftBullet().quantity(3)));
+
+					ingredients.clear();
 					ingredients.add(new Stormvine.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryStormBullet.StormBulletCraft(), ingredients, new InventoryStormBullet().quantity(3)));
+
+					ingredients.clear();
+					ingredients.add(new Rotberry.Seed());
+					result.add(new QuickToolboxRecipe(new InventoryRotBullet.RotBulletCraft(), ingredients, new InventoryRotBullet().quantity(4)));
 
 					ingredients.clear();
 					ingredients.add(new Sorrowmoss.Seed());
