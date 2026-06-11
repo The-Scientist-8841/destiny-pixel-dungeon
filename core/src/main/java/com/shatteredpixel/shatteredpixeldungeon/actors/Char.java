@@ -135,6 +135,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocki
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryEarthBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -398,6 +399,8 @@ public abstract class Char extends Actor {
 				if (h.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
 					dr = 0;
 				}
+
+				if (h.belongings.attackingWeapon() instanceof InventoryEarthBullet.EarthBullet) dr = 0;
 			}
 
 			//we use a float here briefly so that we don't have to constantly round while
