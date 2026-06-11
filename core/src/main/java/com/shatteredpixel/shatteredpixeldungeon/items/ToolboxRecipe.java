@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBlindingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryEarthBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFadeBullet;
@@ -120,7 +121,8 @@ public abstract class ToolboxRecipe {
 			new InventoryRotBullet.RotBulletCraft(),
 			new InventorySorrowBullet.SorrowBulletCraft(),
 			new InventoryStormBullet.StormBulletCraft(),
-			new InventoryFadeBullet.FadeBulletCraft()
+			new InventoryFadeBullet.FadeBulletCraft(),
+			new InventoryBlindingBullet.BlindingBulletCraft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
