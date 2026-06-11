@@ -74,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryMageBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySorrowBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStarBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
@@ -123,6 +124,10 @@ public abstract class ToolboxRecipe {
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
 			new HeavyBomb.HeavyBombCraft()
 	};
+
+	private static ToolboxRecipe[] twoIngredientSeedRecipes = new ToolboxRecipe[] {
+			new InventoryStarBullet.StarBulletCraft()
+	};
 	
 	private static ToolboxRecipe[] threeIngredientRecipes = new ToolboxRecipe[]{
 
@@ -156,6 +161,14 @@ public abstract class ToolboxRecipe {
 			for (ToolboxRecipe recipe : twoIngredientRecipes){
 				if (recipe.testIngredients(ingredients)){
 					result.add(recipe);
+				}
+			}
+
+			if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
+				for (ToolboxRecipe recipe : twoIngredientSeedRecipes){
+					if (recipe.testIngredients(ingredients)){
+						result.add(recipe);
+					}
 				}
 			}
 			

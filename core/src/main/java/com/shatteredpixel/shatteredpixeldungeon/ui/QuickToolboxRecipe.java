@@ -83,6 +83,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryMageBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryRotBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySorrowBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStarBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
@@ -94,6 +95,7 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
@@ -362,6 +364,10 @@ public class QuickToolboxRecipe extends Component {
 					ingredients.clear();
 					ingredients.add(new Stormvine.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryStormBullet.StormBulletCraft(), ingredients, new InventoryStormBullet().quantity(3)));
+
+					ingredients.clear();
+					ingredients.add(new Starflower.Seed().quantity(2));
+					result.add(new QuickToolboxRecipe(new InventoryStarBullet.StarBulletCraft(), ingredients, new InventoryStarBullet().quantity(1)));
 				}
 				break;
 			case 2:
