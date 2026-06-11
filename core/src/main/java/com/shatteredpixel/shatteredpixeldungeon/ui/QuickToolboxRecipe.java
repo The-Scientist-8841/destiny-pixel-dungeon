@@ -78,6 +78,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryEarthBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFadeBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryFireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryIceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryMageBullet;
@@ -89,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
@@ -367,7 +369,11 @@ public class QuickToolboxRecipe extends Component {
 
 					ingredients.clear();
 					ingredients.add(new Starflower.Seed().quantity(2));
-					result.add(new QuickToolboxRecipe(new InventoryStarBullet.StarBulletCraft(), ingredients, new InventoryStarBullet().quantity(1)));
+					result.add(new QuickToolboxRecipe(new InventoryStarBullet.StarBulletCraft(), ingredients, new InventoryStarBullet()));
+
+					ingredients.clear();
+					ingredients.add(new Fadeleaf.Seed());
+					result.add(new QuickToolboxRecipe(new InventoryFadeBullet.FadeBulletCraft(), ingredients, new InventoryFadeBullet().quantity(2)));
 				}
 				break;
 			case 2:
