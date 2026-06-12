@@ -220,11 +220,13 @@ public class ArcaneFirearm extends Weapon {
 
 		if (chamber.size() > 0) {
 			Bullet b = chamber.get(0);
-			info += "\n\n" + Messages.get(ArcaneFirearm.class, "bullet_stats",
-					b.name(),
-					Math.round(augment.damageFactor(b.min())),
-					Math.round(augment.damageFactor(b.max()))
-			);
+			if (b.isIdentified()) {
+				info += "\n\n" + Messages.get(ArcaneFirearm.class, "bullet_stats",
+						b.name(),
+						Math.round(augment.damageFactor(b.min())),
+						Math.round(augment.damageFactor(b.max()))
+				);
+			}
 		}
 		
 		switch (augment) {

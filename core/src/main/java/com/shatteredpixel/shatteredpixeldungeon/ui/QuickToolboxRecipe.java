@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
@@ -89,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
@@ -380,6 +382,17 @@ public class QuickToolboxRecipe extends Component {
 					ingredients.clear();
 					ingredients.add(new Blindweed.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryBlindingBullet.BlindingBulletCraft(), ingredients, new InventoryBlindingBullet().quantity(3)));
+
+					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
+						ingredients.clear();
+						PotionOfLiquidFlame potionOfLiquidFlame = new PotionOfLiquidFlame();
+						potionOfLiquidFlame.anonymize();
+						ingredients.add(potionOfLiquidFlame);
+						InventoryFlameBullet flameBullet = new InventoryFlameBullet();
+						flameBullet.anonymize();
+						flameBullet.quantity(5);
+						result.add(new QuickToolboxRecipe(new InventoryFlameBullet.FlameBulletCraft(), ingredients, flameBullet));
+					}
 				}
 				break;
 			case 2:

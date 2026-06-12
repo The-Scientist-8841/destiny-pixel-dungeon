@@ -80,6 +80,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.watabou.utils.Reflection;
 
@@ -124,6 +125,10 @@ public abstract class ToolboxRecipe {
 			new InventoryFadeBullet.FadeBulletCraft(),
 			new InventoryBlindingBullet.BlindingBulletCraft()
 	};
+
+	private static ToolboxRecipe[] oneIngredientPotionRecipes = new ToolboxRecipe[]{
+			new InventoryFlameBullet.FlameBulletCraft()
+	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
 			new HeavyBomb.HeavyBombCraft()
@@ -159,6 +164,14 @@ public abstract class ToolboxRecipe {
 						result.add(recipe);
 					}
 				}
+
+				if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
+					for (ToolboxRecipe recipe : oneIngredientPotionRecipes){
+						if (recipe.testIngredients(ingredients)){
+							result.add(recipe);
+						}
+					}
+				}
 			}
 			
 		} else if (ingredients.size() == 2){
@@ -192,6 +205,8 @@ public abstract class ToolboxRecipe {
 			return false;
 		} else if (item instanceof Wand) {
 			return false;
+		} else if (item instanceof Potion) {
+			return true;
 		} else {
 			return item.isIdentified() && (!item.unique || item instanceof Rotberry.Seed);
 		}
