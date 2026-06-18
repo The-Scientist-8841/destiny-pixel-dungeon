@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
@@ -93,6 +94,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHealingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
@@ -403,6 +405,15 @@ public class QuickToolboxRecipe extends Component {
 						frostBullet.anonymize();
 						frostBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryFrostBullet.FrostBulletCraft(), ingredients, frostBullet));
+
+						ingredients.clear();
+						PotionOfHealing potionOfHealing = new PotionOfHealing();
+						potionOfHealing.anonymize();
+						ingredients.add(potionOfHealing);
+						InventoryHealingBullet healingBullet = new InventoryHealingBullet();
+						healingBullet.anonymize();
+						healingBullet.quantity(5);
+						result.add(new QuickToolboxRecipe(new InventoryHealingBullet.HealingBulletCraft(), ingredients, healingBullet));
 					}
 				}
 				break;

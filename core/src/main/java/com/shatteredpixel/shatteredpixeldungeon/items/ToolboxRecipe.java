@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHealingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.watabou.utils.Reflection;
 
@@ -129,7 +130,8 @@ public abstract class ToolboxRecipe {
 
 	private static ToolboxRecipe[] oneIngredientPotionRecipes = new ToolboxRecipe[]{
 			new InventoryFlameBullet.FlameBulletCraft(),
-			new InventoryFrostBullet.FrostBulletCraft()
+			new InventoryFrostBullet.FrostBulletCraft(),
+			new InventoryHealingBullet.HealingBulletCraft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
