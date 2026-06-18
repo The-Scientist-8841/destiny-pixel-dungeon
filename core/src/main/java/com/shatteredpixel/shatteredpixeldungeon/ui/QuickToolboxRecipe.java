@@ -343,52 +343,52 @@ public class QuickToolboxRecipe extends Component {
 					ingredients.add(new Firebloom.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryFireBullet.FireBulletCraft(), ingredients, new InventoryFireBullet().quantity(3)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Icecap.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryIceBullet.IceBulletCraft(), ingredients, new InventoryIceBullet().quantity(3)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Sungrass.Seed());
 					result.add(new QuickToolboxRecipe(new InventorySunBullet.SunBulletCraft(), ingredients, new InventorySunBullet().quantity(5)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Mageroyal.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryMageBullet.MageBulletCraft(), ingredients, new InventoryMageBullet().quantity(4)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Swiftthistle.Seed());
 					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.SwiftBulletCraft(), ingredients, new InventorySwiftBullet().quantity(3)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Earthroot.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryEarthBullet.EarthBulletCraft(), ingredients, new InventoryEarthBullet().quantity(3)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Rotberry.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryRotBullet.RotBulletCraft(), ingredients, new InventoryRotBullet().quantity(4)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Sorrowmoss.Seed());
 					result.add(new QuickToolboxRecipe(new InventorySorrowBullet.SorrowBulletCraft(), ingredients, new InventorySorrowBullet().quantity(3)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Stormvine.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryStormBullet.StormBulletCraft(), ingredients, new InventoryStormBullet().quantity(3)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Starflower.Seed().quantity(2));
 					result.add(new QuickToolboxRecipe(new InventoryStarBullet.StarBulletCraft(), ingredients, new InventoryStarBullet()));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Fadeleaf.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryFadeBullet.FadeBulletCraft(), ingredients, new InventoryFadeBullet().quantity(2)));
 
-					ingredients.clear();
+					ingredients = new ArrayList<Item>();
 					ingredients.add(new Blindweed.Seed());
 					result.add(new QuickToolboxRecipe(new InventoryBlindingBullet.BlindingBulletCraft(), ingredients, new InventoryBlindingBullet().quantity(3)));
 
 					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
-						ingredients.clear();
+						ingredients = new ArrayList<Item>();
 						PotionOfLiquidFlame potionOfLiquidFlame = new PotionOfLiquidFlame();
 						potionOfLiquidFlame.anonymize();
 						ingredients.add(potionOfLiquidFlame);
@@ -397,7 +397,7 @@ public class QuickToolboxRecipe extends Component {
 						flameBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryFlameBullet.FlameBulletCraft(), ingredients, flameBullet));
 
-						ingredients.clear();
+						ingredients = new ArrayList<Item>();
 						PotionOfFrost potionOfFrost = new PotionOfFrost();
 						potionOfFrost.anonymize();
 						ingredients.add(potionOfFrost);
@@ -406,7 +406,7 @@ public class QuickToolboxRecipe extends Component {
 						frostBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryFrostBullet.FrostBulletCraft(), ingredients, frostBullet));
 
-						ingredients.clear();
+						ingredients = new ArrayList<Item>();
 						PotionOfHealing potionOfHealing = new PotionOfHealing();
 						potionOfHealing.anonymize();
 						ingredients.add(potionOfHealing);
