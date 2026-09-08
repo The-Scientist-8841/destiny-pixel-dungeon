@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -1304,7 +1305,7 @@ public abstract class Mob extends Char {
 				debugThing4.collect();
 				debugThing4.identify();
 				debugThing4.cursed = false;
-				Stormvine.Seed debugThing5 = new Stormvine.Seed();
+				PotionOfParalyticGas debugThing5 = new PotionOfParalyticGas();
 				debugThing5.collect();
 			}
 		}
