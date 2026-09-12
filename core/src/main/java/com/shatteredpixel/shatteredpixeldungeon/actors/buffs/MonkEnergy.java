@@ -485,7 +485,7 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 					range += 4;
 				}
 
-				if (Dungeon.hero.rooted){
+				if (Dungeon.hero.rooted  || Dungeon.hero.buff(Floating.class) != null){
 					PixelScene.shake( 1, 1f );
 					GLog.w(Messages.get(MeleeWeapon.class, "ability_target_range"));
 					return;

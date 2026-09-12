@@ -305,9 +305,9 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 
 				}
 
-				if (dest == -1 || PathFinder.distance[dest] == Integer.MAX_VALUE || Dungeon.hero.rooted){
+				if (dest == -1 || PathFinder.distance[dest] == Integer.MAX_VALUE || Dungeon.hero.rooted || Dungeon.hero.buff(Floating.class) != null){
 					GLog.w(Messages.get(Preparation.class, "out_of_reach"));
-					if (Dungeon.hero.rooted) PixelScene.shake( 1, 1f );
+					if (Dungeon.hero.rooted || Dungeon.hero.buff(Floating.class) != null) PixelScene.shake( 1, 1f );
 					return;
 				}
 				

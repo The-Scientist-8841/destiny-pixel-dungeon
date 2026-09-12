@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Floating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -56,6 +57,7 @@ public class Piranha extends Mob {
 		HUNTING = new Hunting();
 		
 		state = SLEEPING;
+		immunities.add(Floating.class);
 
 	}
 	
@@ -132,7 +134,7 @@ public class Piranha extends Mob {
 	@Override
 	protected boolean getCloser( int target ) {
 		
-		if (rooted) {
+		if (rooted || buff(Floating.class) != null) {
 			return false;
 		}
 		

@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Floating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
@@ -191,7 +192,7 @@ public class YogDzewa extends Mob {
 		} else {
 
 			//delay fire on a rooted hero
-			if (!targetedCells.isEmpty() && !Dungeon.hero.rooted) {
+			if (!targetedCells.isEmpty() && !Dungeon.hero.rooted && Dungeon.hero.buff(Floating.class) == null) {
 				boolean terrainAffected = false;
 				HashSet<Char> affected = new HashSet<>();
 				for (int i : targetedCells) {

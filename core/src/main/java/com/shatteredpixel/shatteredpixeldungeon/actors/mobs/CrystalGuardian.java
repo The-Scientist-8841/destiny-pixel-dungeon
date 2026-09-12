@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Floating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
@@ -204,7 +205,8 @@ public class CrystalGuardian extends Mob{
 	public float speed() {
 		//crystal guardians take up to 4 turns when moving through an enclosed space
 		if (!Dungeon.level.openSpace[pos]) {
-			return Math.max(0.25f, super.speed() / 4f);
+			if (buff(Floating.class) == null) return Math.max(0.25f, super.speed() / 4f);
+			else return 0f;
 		}
 		return super.speed();
 	}

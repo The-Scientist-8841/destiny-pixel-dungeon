@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
@@ -101,6 +102,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHasteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHealingBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryLevitationBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryParalyticBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryToxicBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -458,6 +460,15 @@ public class QuickToolboxRecipe extends Component {
 						experienceBullet.anonymize();
 						experienceBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryExperienceBullet.Craft(), ingredients, experienceBullet));
+
+						ingredients = new ArrayList<Item>();
+						PotionOfLevitation potionOfLevitation = new PotionOfLevitation();
+						potionOfLevitation.anonymize();
+						ingredients.add(potionOfLevitation);
+						InventoryLevitationBullet levitationBullet = new InventoryLevitationBullet();
+						levitationBullet.anonymize();
+						levitationBullet.quantity(5);
+						result.add(new QuickToolboxRecipe(new InventoryLevitationBullet.Craft(), ingredients, levitationBullet));
 					}
 				}
 				break;

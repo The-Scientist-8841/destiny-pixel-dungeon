@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Floating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -67,7 +68,7 @@ public class HeroicLeap extends ArmorAbility {
 	public void activate( ClassArmor armor, Hero hero, Integer target ) {
 		if (target != null) {
 
-			if (hero.rooted){
+			if (hero.rooted || hero.buff(Floating.class) != null){
 				PixelScene.shake( 1, 1f );
 				return;
 			}

@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Floating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TargetedCell;
@@ -143,7 +144,7 @@ public class RipperDemon extends Mob {
 
 				leapCooldown = Random.NormalIntRange(2, 4);
 
-				if (rooted){
+				if (rooted || buff(Floating.class) != null){
 					leapPos = -1;
 					return true;
 				}
@@ -232,7 +233,7 @@ public class RipperDemon extends Mob {
 					return true;
 				}
 
-				if (leapCooldown <= 0 && enemyInFOV && !rooted
+				if (leapCooldown <= 0 && enemyInFOV && !rooted && buff(Floating.class) == null
 						&& Dungeon.level.distance(pos, enemy.pos) >= 3) {
 
 					int targetPos = enemy.pos;

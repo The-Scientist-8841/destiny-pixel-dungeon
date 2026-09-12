@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Floating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HeroDisguise;
@@ -792,6 +793,8 @@ public class Hero extends Char {
 		}
 
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
+
+		if (buff(Floating.class) != null) speed = 0f;
 		
 		return speed;
 		
@@ -1041,7 +1044,7 @@ public class Hero extends Char {
 
 	private boolean canSelfTrample = false;
 	public boolean canSelfTrample(){
-		return canSelfTrample && !rooted && !flying &&
+		return canSelfTrample && !rooted && !flying && buff(Floating.class) == null &&
 				//standing in high grass
 				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS ||
 				//standing in furrowed grass and not huntress
@@ -1457,7 +1460,7 @@ public class Hero extends Char {
 		int stairs = action.dst;
 		LevelTransition transition = Dungeon.level.getTransition(stairs);
 
-		if (rooted) {
+		if (rooted || buff(Floating.class) != null) {
 			PixelScene.shake(1, 1f);
 			ready();
 			return false;
@@ -1938,7 +1941,7 @@ public class Hero extends Char {
 		if (target == pos)
 			return false;
 
-		if (rooted) {
+		if (rooted || buff(Floating.class) != null) {
 			PixelScene.shake( 1, 1f );
 			return false;
 		}
