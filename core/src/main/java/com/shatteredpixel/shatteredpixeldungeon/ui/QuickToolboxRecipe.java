@@ -52,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
@@ -106,6 +107,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryLevitationBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryMindBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryParalyticBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryPureBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryToxicBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
@@ -480,6 +482,15 @@ public class QuickToolboxRecipe extends Component {
 						mindBullet.anonymize();
 						mindBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryMindBullet.Craft(), ingredients, mindBullet));
+
+						ingredients = new ArrayList<Item>();
+						PotionOfPurity potionOfPurity = new PotionOfPurity();
+						potionOfPurity.anonymize();
+						ingredients.add(potionOfPurity);
+						InventoryPureBullet pureBullet = new InventoryPureBullet();
+						pureBullet.anonymize();
+						pureBullet.quantity(5);
+						result.add(new QuickToolboxRecipe(new InventoryPureBullet.Craft(), ingredients, pureBullet));
 					}
 				}
 				break;

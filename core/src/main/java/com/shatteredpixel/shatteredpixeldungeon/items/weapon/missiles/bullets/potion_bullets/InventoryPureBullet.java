@@ -21,35 +21,29 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.utils.PathFinder;
 
 import java.util.ArrayList;
 
-public class InventoryFlameBullet extends InventoryPotionBullet {
+public class InventoryPureBullet extends InventoryPotionBullet {
 
 	{
-		icon = ItemSpriteSheet.Icons.POTION_LIQFLAME;
+		icon = ItemSpriteSheet.Icons.POTION_TOXICGAS;
 	}
 
 	@Override
-	public Potion getPotion() { return new PotionOfLiquidFlame(); }
+	public Potion getPotion() { return new PotionOfPurity(); }
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
@@ -62,28 +56,27 @@ public class InventoryFlameBullet extends InventoryPotionBullet {
 			scalingFactorMin = 1.5f;
 			scalingFactorMax = 2.5f;
 			maxFactor = 2.5f;
-			parentClass = InventoryFlameBullet.class;
+			parentClass = InventoryPureBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryFlameBullet();
+			return new InventoryPureBullet();
 		}
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
-			if (defender != null && !defender.isImmune(Burning.class)) {
-				Buff.affect(defender, Burning.class).reignite(defender);
-
-				for (int offset : PathFinder.NEIGHBOURS8){
-					Mob m = Dungeon.level.findMob(defender.pos + offset);
-					if (m != null && m.alignment != attacker.alignment && !m.isImmune(Burning.class)) {
-						Buff.affect(m, Burning.class).reignite(m);
-					}
+			if (defender != null) {
+				ArrayList<Buff> toDetach = new ArrayList<>();
+				for (Buff b : defender.buffs()) {
+					if (b.type == Buff.buffType.POSITIVE) toDetach.add(b);
+				}
+				for (Buff b : toDetach) {
+					b.detach();
 				}
 
 				if (attacker instanceof Hero) {
-					PotionOfLiquidFlame p = new PotionOfLiquidFlame();
+					PotionOfPurity p = new PotionOfPurity();
 					p.identify(true);
 				}
 			}
@@ -93,7 +86,7 @@ public class InventoryFlameBullet extends InventoryPotionBullet {
 	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfLiquidFlame.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfPurity.class);
         }
 
 		@Override
@@ -105,7 +98,7 @@ public class InventoryFlameBullet extends InventoryPotionBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryFlameBullet bullets = new InventoryFlameBullet();
+			InventoryPureBullet bullets = new InventoryPureBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
@@ -114,7 +107,7 @@ public class InventoryFlameBullet extends InventoryPotionBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryFlameBullet bullets = new InventoryFlameBullet();
+			InventoryPureBullet bullets = new InventoryPureBullet();
 			bullets.quantity(5);
 			return bullets;
 		}

@@ -59,7 +59,7 @@ public class InventorySwiftBullet extends InventoryBullet {
 		}
 
 		@Override
-		public float castDelay(Char user, int cell) { return 0f; }
+		public float castDelay(Char user, int cell) { return super.castDelay(user, cell) / 2f; }
 	}
 
 	public static class Craft extends ToolboxRecipe {

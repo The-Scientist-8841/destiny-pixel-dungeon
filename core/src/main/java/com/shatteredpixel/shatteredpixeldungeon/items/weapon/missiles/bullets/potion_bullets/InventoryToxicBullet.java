@@ -68,7 +68,8 @@ public class InventoryToxicBullet extends InventoryPotionBullet {
 		@Override
 		public void onHit(Char attacker, Char defender) {
 			if (defender != null && !defender.isImmune(Poison.class)) {
-				Buff.affect(defender, Poison.class).set(6f);
+				int lvl = gun != null ? gun.buffedLvl() : 1;
+				Buff.affect(defender, Poison.class).set(6f + 1.5f*lvl);
 
 				if (attacker instanceof Hero) {
 					PotionOfToxicGas p = new PotionOfToxicGas();

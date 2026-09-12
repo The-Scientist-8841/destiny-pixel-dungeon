@@ -64,7 +64,7 @@ public class InventoryRotBullet extends InventoryBullet {
 		public void onHit(Char attacker, Char defender) {
 			int lvl = gun != null ? gun.buffedLvl() : 1;
 			if (defender != null && !defender.isImmune(Corrosion.class)) {
-				Buff.affect(defender, Corrosion.class).set(5 + 2*gun.buffedLvl(), 5 + 2*gun.buffedLvl());
+				Buff.affect(defender, Corrosion.class).set(5 + 2*lvl, 5 + 2*lvl);
 			}
 		}
 	}

@@ -64,7 +64,7 @@ public class InventorySorrowBullet extends InventoryBullet {
 		public void onHit(Char attacker, Char defender) {
 			int lvl = gun != null ? gun.buffedLvl() : 1;
 			if (defender != null && !defender.isImmune(Poison.class)) {
-				Buff.affect(defender, Poison.class).set(3+1.5f*lvl);
+				Buff.affect(defender, Poison.class).set(3f + lvl);
 			}
 		}
 	}

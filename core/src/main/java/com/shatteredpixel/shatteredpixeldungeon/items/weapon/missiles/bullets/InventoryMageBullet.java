@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -60,12 +61,16 @@ public class InventoryMageBullet extends InventoryBullet {
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
-			ArrayList<Buff> toDetach = new ArrayList<>();
-			for (Buff b : defender.buffs()) {
-				if (b.type == Buff.buffType.POSITIVE) toDetach.add(b);
-			}
-			for (Buff b : toDetach) {
-				b.detach();
+			if (defender != null) {
+				ArrayList<Buff> toDetach = new ArrayList<>();
+				for (Buff b : defender.buffs()) {
+					if (b.type == Buff.buffType.POSITIVE) toDetach.add(b);
+				}
+
+				if (toDetach.size() > 0) {
+					int i = Random.Int(toDetach.size());
+					toDetach.get(i).detach();
+				}
 			}
 		}
 	}
