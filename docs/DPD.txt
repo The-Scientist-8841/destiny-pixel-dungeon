@@ -248,9 +248,10 @@ New classes:
             Swarmkeeper: Crook can now summon multiple allies
             Drakewarden: Crook minion becomes a more powerful drake
 
-    Bard: Has a unique lute artifact that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies.
+    Bard: Has a unique lute artifact that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies. Many talents add more songs.
         Starts out knowing scrolls of lullaby (change Huntress to know scrolls of teleportation)
-        Has the special ability of being fleet of foot and has a chance to not trigger traps, even if he steps on them? Or being lucky with RNG stuff?
+        Starts with a Trusty Blade.
+        Has the special ability of being naturally lucky, so has a 25% chance to gain advantage on attack/damage reduction/evasion rolls while enemies have a 25% chance to get disadvantage.
         Gambler's Intuition: Automatically identifies one potion, scroll, and ring in the dungeon each time you take a level in the talent.
         Subclasses:
             Piper: Lute becomes a powerful panpipe that can charm enemies
