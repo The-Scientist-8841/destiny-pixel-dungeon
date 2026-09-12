@@ -400,7 +400,7 @@ public abstract class Char extends Actor {
 					dr = 0;
 				}
 
-				if (h.belongings.attackingWeapon() instanceof InventoryEarthBullet.EarthBullet) dr = 0;
+				if (h.belongings.attackingWeapon() instanceof InventoryEarthBullet.Bullet) dr = 0;
 			}
 
 			//we use a float here briefly so that we don't have to constantly round while
@@ -533,7 +533,7 @@ public abstract class Char extends Actor {
 				return true;
 			}
 
-			if (this instanceof Hero && ((Hero) this).belongings.attackingWeapon() instanceof InventorySunBullet.SunBullet) return false;
+			if (this instanceof Hero && ((Hero) this).belongings.attackingWeapon() instanceof InventorySunBullet.Bullet) return false;
 
 			enemy.damage( effectiveDamage, this );
 
