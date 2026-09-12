@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
@@ -103,6 +104,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHasteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHealingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryLevitationBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryMindBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryParalyticBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryToxicBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -469,6 +471,15 @@ public class QuickToolboxRecipe extends Component {
 						levitationBullet.anonymize();
 						levitationBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryLevitationBullet.Craft(), ingredients, levitationBullet));
+
+						ingredients = new ArrayList<Item>();
+						PotionOfMindVision potionOfMindVision = new PotionOfMindVision();
+						potionOfMindVision.anonymize();
+						ingredients.add(potionOfMindVision);
+						InventoryMindBullet mindBullet = new InventoryMindBullet();
+						mindBullet.anonymize();
+						mindBullet.quantity(5);
+						result.add(new QuickToolboxRecipe(new InventoryMindBullet.Craft(), ingredients, mindBullet));
 					}
 				}
 				break;

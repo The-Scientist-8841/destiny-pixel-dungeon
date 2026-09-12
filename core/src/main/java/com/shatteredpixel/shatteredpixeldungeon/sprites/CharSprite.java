@@ -84,7 +84,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS, GLOWING, AURA
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS, GLOWING, AURA, MIND_READ
 	}
 	
 	protected Animation idle;
@@ -104,6 +104,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter levitation;
 	protected Emitter healing;
 	protected Emitter hearts;
+	protected Emitter mindread;
 	
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
@@ -462,6 +463,11 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					aura.show(this, 0);
 				}
 				break;
+			case MIND_READ:
+				if (mindread != null) mindread.on = false;
+				mindread = emitter();
+				mindread.pour(Speck.factory(Speck.EYE), 0.5f);
+				break;
 		}
 	}
 
@@ -566,6 +572,12 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					aura = null;
 				}
 				break;
+			case MIND_READ:
+				if (mindread != null) {
+					mindread.on = false;
+					mindread = null;
+				}
+				break;
 		}
 	}
 	
@@ -619,6 +631,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		}
 		if (hearts != null) {
 			hearts.visible = visible;
+		}
+		if (mindread != null) {
+			mindread.visible = visible;
 		}
 		//shield fx updates its own visibility
 		if (aura != null) {

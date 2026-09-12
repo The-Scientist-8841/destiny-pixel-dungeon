@@ -50,6 +50,7 @@ public class Speck extends Image {
 	public static final int STEAM       = 13;
 	public static final int COIN        = 14;
 	public static final int DOWN        = 15;
+	public static final int EYE        = 16;
 	
 	public static final int DISCOVER    = 101;
 	public static final int EVOKE       = 102;
@@ -405,7 +406,13 @@ public class Speck extends Image {
 			acc.y = 256;
 			lifespan = -speed.y / acc.y * 2;
 			break;
+
+		case EYE:
+			lifespan = 0.4f;
+			break;
 		}
+
+
 		
 		left = lifespan;
 	}
@@ -530,6 +537,11 @@ public class Speck extends Image {
 				scale.x = (float)Math.cos( left * 5 );
 				rm = gm = bm = (Math.abs( scale.x ) + 1) * 0.5f;
 				am = p < 0.9f ? 1 : (1 - p) * 10;
+				break;
+
+			case EYE:
+				scale.set( 1 + p );
+				am = 1 - p;
 				break;
 			}
 		}

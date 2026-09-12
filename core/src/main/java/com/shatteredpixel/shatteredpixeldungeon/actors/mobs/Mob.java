@@ -84,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArm
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
@@ -1310,6 +1311,8 @@ public abstract class Mob extends Char {
 				debugThing4.cursed = false;
 				PotionOfLevitation debugThing5 = new PotionOfLevitation();
 				debugThing5.collect();
+				PotionOfMindVision debugThing6 = new PotionOfMindVision();
+				debugThing6.collect();
 			}
 		}
 		
