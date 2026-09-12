@@ -497,6 +497,11 @@ public abstract class Char extends Actor {
 					dmg *= 0.5f;
 				}
 			}
+
+			//Cleric takes 95% damage from undead and demonic enemies
+			if (enemy instanceof Hero && ((Hero) enemy).heroClass == HeroClass.CLERIC) {
+				if (properties.contains(Property.UNDEAD) || properties.contains(Property.DEMONIC)) dmg *= 0.95f;
+			}
 			
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );
 			//do not trigger on-hit logic if defenseProc returned a negative value

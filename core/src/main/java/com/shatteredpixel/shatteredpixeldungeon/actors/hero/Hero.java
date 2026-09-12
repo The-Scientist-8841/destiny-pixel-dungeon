@@ -695,7 +695,9 @@ public class Hero extends Char {
 
 		if (belongings.armor() != null) {
 			int armDr;
-			if (belongings.armor().bracing != null && belongings.armor().bracing.getClass() == ArmorBracing.class) armDr = belongings.armor().DRMax();
+			if (belongings.armor().bracing != null && belongings.armor().bracing.getClass() == ArmorBracing.class) {
+				armDr = belongings.armor().DRMax();
+			}
 			else armDr = Random.NormalIntRange( belongings.armor().DRMin(), belongings.armor().DRMax());
 			if (STR() < belongings.armor().STRReq()){
 				armDr -= 2*(belongings.armor().STRReq() - STR());

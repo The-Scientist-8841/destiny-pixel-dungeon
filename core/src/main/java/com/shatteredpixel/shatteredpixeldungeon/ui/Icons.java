@@ -87,6 +87,7 @@ public enum Icons {
 	CATALOG,
 	ALCHEMY,
 	GRASS,
+	SKELETON,
 
 	STAIRS,
 	STAIRS_CHASM,
@@ -296,6 +297,9 @@ public enum Icons {
 				break;
 			case GRASS:
 				icon.frame( icon.texture.uvRectBySize( 112, 48, 16, 16 ) );
+				break;
+			case SKELETON:
+				icon.frame( icon.texture.uvRectBySize( 128, 48, 12, 16 ) );
 				break;
 
 			case STAIRS:
