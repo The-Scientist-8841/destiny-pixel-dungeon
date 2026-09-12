@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -95,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryExperienceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHasteBullet;
@@ -447,6 +449,15 @@ public class QuickToolboxRecipe extends Component {
 						hasteBullet.anonymize();
 						hasteBullet.quantity(5);
 						result.add(new QuickToolboxRecipe(new InventoryHasteBullet.Craft(), ingredients, hasteBullet));
+
+						ingredients = new ArrayList<Item>();
+						PotionOfExperience potionOfExperience = new PotionOfExperience();
+						potionOfExperience.anonymize();
+						ingredients.add(potionOfExperience);
+						InventoryExperienceBullet experienceBullet = new InventoryExperienceBullet();
+						experienceBullet.anonymize();
+						experienceBullet.quantity(5);
+						result.add(new QuickToolboxRecipe(new InventoryExperienceBullet.Craft(), ingredients, experienceBullet));
 					}
 				}
 				break;

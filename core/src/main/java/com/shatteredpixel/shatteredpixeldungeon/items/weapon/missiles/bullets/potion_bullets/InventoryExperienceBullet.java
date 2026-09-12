@@ -29,22 +29,23 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryToxicBullet extends InventoryPotionBullet {
+public class InventoryExperienceBullet extends InventoryPotionBullet {
 
 	{
 		icon = ItemSpriteSheet.Icons.POTION_TOXICGAS;
 	}
 
 	@Override
-	public Potion getPotion() { return new PotionOfToxicGas(); }
+	public Potion getPotion() { return new PotionOfExperience(); }
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
@@ -53,35 +54,38 @@ public class InventoryToxicBullet extends InventoryPotionBullet {
 
 	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
-			baseDmg = 5;
-			scalingFactorMin = 1.5f;
-			scalingFactorMax = 2.5f;
-			maxFactor = 2.5f;
-			parentClass = InventoryToxicBullet.class;
+			baseDmg = 7;
+			scalingFactorMin = 2f;
+			scalingFactorMax = 3.5f;
+			maxFactor = 3.5f;
+			parentClass = InventoryExperienceBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryToxicBullet();
+			return new InventoryExperienceBullet();
 		}
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
-			if (defender != null && !defender.isImmune(Poison.class)) {
-				Buff.affect(defender, Poison.class).set(6f);
-
+			if (defender != null) {
 				if (attacker instanceof Hero) {
-					PotionOfToxicGas p = new PotionOfToxicGas();
+					PotionOfExperience p = new PotionOfExperience();
 					p.identify(true);
 				}
 			}
+		}
+
+		@Override
+		public float accuracyFactor(Char owner, Char target) {
+			return Float.POSITIVE_INFINITY;
 		}
 	}
 
 	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfToxicGas.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfExperience.class);
         }
 
 		@Override
@@ -93,7 +97,7 @@ public class InventoryToxicBullet extends InventoryPotionBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryToxicBullet bullets = new InventoryToxicBullet();
+			InventoryExperienceBullet bullets = new InventoryExperienceBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
@@ -102,7 +106,7 @@ public class InventoryToxicBullet extends InventoryPotionBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryToxicBullet bullets = new InventoryToxicBullet();
+			InventoryExperienceBullet bullets = new InventoryExperienceBullet();
 			bullets.quantity(5);
 			return bullets;
 		}

@@ -161,10 +161,10 @@ Talents:
 					+3: Can instantly swap wand and melee weapon, with a 75 turn cooldown
 					+4: Can instantly swap wand and melee weapon, with a 50 turn cooldown
 				Grenade Launcher:
-					+1: Can fire bombs out of the gun, and when fired this way, they explode on impact
-					+2: Can fire some of the fancier bombs (the ones that make sense) out of the gun, and they explode on impact when fired this way
-					+3: Bombs fired out of the gun also do impact damage equal to half the damage of a regular bullet in addition to the explosion damage
-					+4: Bombs fired out of the gun also do impact damage equal to the damage of a regular bullet in addition to the explosion damage
+					+1: Can fire bombs out of the gun, and when fired this way, they explode on impact and deal impact damage to the target equal to half the damage of a bullet
+					+2: Bombs fired out of the gun have an increased explosion radius
+					+3: Bombs fired out of the gun also do impact damage equal to the full damage of a regular bullet in addition to the explosion damage
+					+4: Bombs fired out of the gun also do impact damage equal to 1.5x the damage of a regular bullet in addition to the explosion damage
 				Built to Last:
 					+1: Weapon lacing and armor bracing have +1 uses.
 					+2: Weapon lacing and armor bracing have +2 uses.
@@ -312,6 +312,8 @@ Warrior: Archetype of the Mountain
 	Duelist: Archetype of the Knight
 	Cleric: Archetype of the Holy Warrior
 	Artificer: Archetype of the Armorer
+	Summoner: Archetype of the General
+	Bard: Archetype of the Battle Hymn
 Mage: Archetype of the Academy
 	Battlemage: Archetype of the Staff
 	Warlock: Archetype of Darkness
@@ -321,6 +323,8 @@ Mage: Archetype of the Academy
 	Duelist: Archetype of Bladesinging
 	Cleric: Archetype of the Divine
 	Artificer: Archetype of the Thaumaturge
+	Summoner: Archetype of the Many
+	Bard: Archetype of the Chant
 Rogue: Archetype of the Undercity
 	Assassin: Archetype of the Night
 	Freerunner: Archetype of Speed
@@ -329,6 +333,8 @@ Rogue: Archetype of the Undercity
 	Duelist: Archetype of the Scout
 	Cleric: Archetype of the Slayer
 	Artificer: Archetype of the Spy
+	Summoner: Archetype of the Rat
+	Bard: Archetype of Silence
 Huntress: Archetype of the Forest
 	Sniper: Archetype of the Bow
 	Warden: Archetype of Nature
@@ -336,17 +342,34 @@ Huntress: Archetype of the Forest
 	Duelist: Archetype of the Ranger
 	Cleric: Archetype of the Spirit
 	Artificer: Archetype of the Artillerist
+	Summoner: Archetype of the Beast
+	Bard: Archetype of the Wind
 Duelist: Archetype of the Wilderness
 	Champion: Archetype of the Master
 	Monk: Archetype of Tranquility
 	
 	Cleric: Archetype of the Crusader
 	Artificer: Archetype of the Battlesmith
+	Summoner: Archetype of the Pack
+	Bard: Archetype of History
 Cleric: Archetype of the Temple
 	Priest: Archetype of Faith
 	Paladin: Archetype of Devotion
 	
 	Artificer: Archetype of the Crucible
+	Summoner: Archetype of the Host
+	Bard: Archetype of the Word
 Artificer: Archetype of the Workshop
 	Alchemist: Archetype of Glass
 	Tinkerer: Archetype of Invention
+	
+	Summoner: Archetype of the Automaton
+	Bard: Archetype of Clockwork
+Summoner: Archetype of the Shepherd
+	Swarmkeeper: Archetype of the Horde
+	Drakewarden: Archetype of the Dragon
+	
+	Bard: Archetype of the Orchestra
+Bard: Archetype of the Song
+	Piper: Archetype of Charm
+	Shredder: Archetype of Metal
