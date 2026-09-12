@@ -44,19 +44,19 @@ public class InventorySunBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new SunBullet();
+		return new Bullet();
 	}
 
 	@Override
 	public String desc() {
-		SunBullet b = new SunBullet();
+		Bullet b = new Bullet();
 		ArcaneFirearm gun = Dungeon.hero == null ? null : Dungeon.hero.belongings.getItem(ArcaneFirearm.class);
 		int lvl = gun == null ? 1 : gun.buffedLvl();
 
 		return Messages.get(this, "desc", 3*b.min(lvl), 3*b.max(lvl), b.min(lvl), b.max(lvl));
 	}
 
-	public static class SunBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
@@ -83,7 +83,7 @@ public class InventorySunBullet extends InventoryBullet {
 		}
 	}
 
-	public static class SunBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Sungrass.Seed.class);

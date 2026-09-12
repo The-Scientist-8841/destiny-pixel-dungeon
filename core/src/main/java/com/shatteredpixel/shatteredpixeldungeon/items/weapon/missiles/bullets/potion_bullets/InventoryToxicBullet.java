@@ -48,15 +48,15 @@ public class InventoryToxicBullet extends InventoryPotionBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new ToxicBullet();
+		return new Bullet();
 	}
 
-	public static class ToxicBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
-			baseDmg = 4;
-			scalingFactorMin = 1.25f;
-			scalingFactorMax = 1.75f;
-			maxFactor = 1.5f;
+			baseDmg = 5;
+			scalingFactorMin = 1.5f;
+			scalingFactorMax = 2.5f;
+			maxFactor = 2.5f;
 			parentClass = InventoryToxicBullet.class;
 		}
 
@@ -78,7 +78,7 @@ public class InventoryToxicBullet extends InventoryPotionBullet {
 		}
 	}
 
-	public static class ToxicBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfToxicGas.class);

@@ -117,25 +117,25 @@ public abstract class ToolboxRecipe {
 	};
 
 	private static ToolboxRecipe[] oneIngredientSeedRecipes = new ToolboxRecipe[]{
-			new InventoryFireBullet.FireBulletCraft(),
-			new InventoryIceBullet.IceBulletCraft(),
-			new InventorySunBullet.SunBulletCraft(),
-			new InventoryMageBullet.MageBulletCraft(),
-			new InventorySwiftBullet.SwiftBulletCraft(),
-			new InventoryEarthBullet.EarthBulletCraft(),
-			new InventoryRotBullet.RotBulletCraft(),
-			new InventorySorrowBullet.SorrowBulletCraft(),
-			new InventoryStormBullet.StormBulletCraft(),
-			new InventoryFadeBullet.FadeBulletCraft(),
-			new InventoryBlindingBullet.BlindingBulletCraft()
+			new InventoryFireBullet.Craft(),
+			new InventoryIceBullet.Craft(),
+			new InventorySunBullet.Craft(),
+			new InventoryMageBullet.Craft(),
+			new InventorySwiftBullet.Craft(),
+			new InventoryEarthBullet.Craft(),
+			new InventoryRotBullet.Craft(),
+			new InventorySorrowBullet.Craft(),
+			new InventoryStormBullet.Craft(),
+			new InventoryFadeBullet.Craft(),
+			new InventoryBlindingBullet.Craft()
 	};
 
 	private static ToolboxRecipe[] oneIngredientPotionRecipes = new ToolboxRecipe[]{
-			new InventoryFlameBullet.FlameBulletCraft(),
-			new InventoryFrostBullet.FrostBulletCraft(),
-			new InventoryHealingBullet.HealingBulletCraft(),
-			new InventoryParalyticBullet.ParalyticBulletCraft(),
-			new InventoryToxicBullet.ToxicBulletCraft()
+			new InventoryFlameBullet.Craft(),
+			new InventoryFrostBullet.Craft(),
+			new InventoryHealingBullet.Craft(),
+			new InventoryParalyticBullet.Craft(),
+			new InventoryToxicBullet.Craft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
@@ -143,7 +143,7 @@ public abstract class ToolboxRecipe {
 	};
 
 	private static ToolboxRecipe[] twoIngredientSeedRecipes = new ToolboxRecipe[] {
-			new InventoryStarBullet.StarBulletCraft()
+			new InventoryStarBullet.Craft()
 	};
 	
 	private static ToolboxRecipe[] threeIngredientRecipes = new ToolboxRecipe[]{

@@ -345,51 +345,51 @@ public class QuickToolboxRecipe extends Component {
 					result.add(null);
 					ArrayList<Item> ingredients = new ArrayList<Item>();
 					ingredients.add(new Firebloom.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryFireBullet.FireBulletCraft(), ingredients, new InventoryFireBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventoryFireBullet.Craft(), ingredients, new InventoryFireBullet().quantity(3)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Icecap.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryIceBullet.IceBulletCraft(), ingredients, new InventoryIceBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventoryIceBullet.Craft(), ingredients, new InventoryIceBullet().quantity(3)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Sungrass.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySunBullet.SunBulletCraft(), ingredients, new InventorySunBullet().quantity(5)));
+					result.add(new QuickToolboxRecipe(new InventorySunBullet.Craft(), ingredients, new InventorySunBullet().quantity(5)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Mageroyal.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryMageBullet.MageBulletCraft(), ingredients, new InventoryMageBullet().quantity(4)));
+					result.add(new QuickToolboxRecipe(new InventoryMageBullet.Craft(), ingredients, new InventoryMageBullet().quantity(4)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Swiftthistle.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.SwiftBulletCraft(), ingredients, new InventorySwiftBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.Craft(), ingredients, new InventorySwiftBullet().quantity(3)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Earthroot.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryEarthBullet.EarthBulletCraft(), ingredients, new InventoryEarthBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventoryEarthBullet.Craft(), ingredients, new InventoryEarthBullet().quantity(3)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Rotberry.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryRotBullet.RotBulletCraft(), ingredients, new InventoryRotBullet().quantity(4)));
+					result.add(new QuickToolboxRecipe(new InventoryRotBullet.Craft(), ingredients, new InventoryRotBullet().quantity(4)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Sorrowmoss.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySorrowBullet.SorrowBulletCraft(), ingredients, new InventorySorrowBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventorySorrowBullet.Craft(), ingredients, new InventorySorrowBullet().quantity(3)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Stormvine.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryStormBullet.StormBulletCraft(), ingredients, new InventoryStormBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventoryStormBullet.Craft(), ingredients, new InventoryStormBullet().quantity(3)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Starflower.Seed().quantity(2));
-					result.add(new QuickToolboxRecipe(new InventoryStarBullet.StarBulletCraft(), ingredients, new InventoryStarBullet()));
+					result.add(new QuickToolboxRecipe(new InventoryStarBullet.Craft(), ingredients, new InventoryStarBullet()));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Fadeleaf.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryFadeBullet.FadeBulletCraft(), ingredients, new InventoryFadeBullet().quantity(2)));
+					result.add(new QuickToolboxRecipe(new InventoryFadeBullet.Craft(), ingredients, new InventoryFadeBullet().quantity(2)));
 
 					ingredients = new ArrayList<Item>();
 					ingredients.add(new Blindweed.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryBlindingBullet.BlindingBulletCraft(), ingredients, new InventoryBlindingBullet().quantity(3)));
+					result.add(new QuickToolboxRecipe(new InventoryBlindingBullet.Craft(), ingredients, new InventoryBlindingBullet().quantity(3)));
 
 					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
 						ingredients = new ArrayList<Item>();
@@ -399,7 +399,7 @@ public class QuickToolboxRecipe extends Component {
 						InventoryFlameBullet flameBullet = new InventoryFlameBullet();
 						flameBullet.anonymize();
 						flameBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryFlameBullet.FlameBulletCraft(), ingredients, flameBullet));
+						result.add(new QuickToolboxRecipe(new InventoryFlameBullet.Craft(), ingredients, flameBullet));
 
 						ingredients = new ArrayList<Item>();
 						PotionOfFrost potionOfFrost = new PotionOfFrost();
@@ -408,7 +408,7 @@ public class QuickToolboxRecipe extends Component {
 						InventoryFrostBullet frostBullet = new InventoryFrostBullet();
 						frostBullet.anonymize();
 						frostBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryFrostBullet.FrostBulletCraft(), ingredients, frostBullet));
+						result.add(new QuickToolboxRecipe(new InventoryFrostBullet.Craft(), ingredients, frostBullet));
 
 						ingredients = new ArrayList<Item>();
 						PotionOfHealing potionOfHealing = new PotionOfHealing();
@@ -417,7 +417,7 @@ public class QuickToolboxRecipe extends Component {
 						InventoryHealingBullet healingBullet = new InventoryHealingBullet();
 						healingBullet.anonymize();
 						healingBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryHealingBullet.HealingBulletCraft(), ingredients, healingBullet));
+						result.add(new QuickToolboxRecipe(new InventoryHealingBullet.Craft(), ingredients, healingBullet));
 
 						ingredients = new ArrayList<Item>();
 						PotionOfParalyticGas potionOfParalyticGas = new PotionOfParalyticGas();
@@ -426,7 +426,7 @@ public class QuickToolboxRecipe extends Component {
 						InventoryParalyticBullet paralyticBullet = new InventoryParalyticBullet();
 						paralyticBullet.anonymize();
 						paralyticBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryParalyticBullet.ParalyticBulletCraft(), ingredients, paralyticBullet));
+						result.add(new QuickToolboxRecipe(new InventoryParalyticBullet.Craft(), ingredients, paralyticBullet));
 
 						ingredients = new ArrayList<Item>();
 						PotionOfToxicGas potionOfToxicGas = new PotionOfToxicGas();
@@ -435,7 +435,7 @@ public class QuickToolboxRecipe extends Component {
 						InventoryToxicBullet toxicBullet = new InventoryToxicBullet();
 						toxicBullet.anonymize();
 						toxicBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryToxicBullet.ToxicBulletCraft(), ingredients, toxicBullet));
+						result.add(new QuickToolboxRecipe(new InventoryToxicBullet.Craft(), ingredients, toxicBullet));
 					}
 				}
 				break;

@@ -48,10 +48,10 @@ public class InventoryParalyticBullet extends InventoryPotionBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new ParalyticBullet();
+		return new Bullet();
 	}
 
-	public static class ParalyticBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 4;
 			scalingFactorMin = 1.25f;
@@ -78,7 +78,7 @@ public class InventoryParalyticBullet extends InventoryPotionBullet {
 		}
 	}
 
-	public static class ParalyticBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfParalyticGas.class);

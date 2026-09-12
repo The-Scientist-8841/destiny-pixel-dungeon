@@ -48,10 +48,10 @@ public class InventoryFrostBullet extends InventoryPotionBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new FrostBullet();
+		return new Bullet();
 	}
 
-	public static class FrostBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 5;
 			scalingFactorMin = 1.5f;
@@ -78,7 +78,7 @@ public class InventoryFrostBullet extends InventoryPotionBullet {
 		}
 	}
 
-	public static class FrostBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfFrost.class);

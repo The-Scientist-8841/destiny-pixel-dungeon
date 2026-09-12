@@ -19,28 +19,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryIceBullet extends InventoryBullet {
+public class InventoryHasteBullet extends InventoryPotionBullet {
 
 	{
-		image = ItemSpriteSheet.BULLET_ICECAP;
+		icon = ItemSpriteSheet.Icons.POTION_HASTE;
 	}
+
+	@Override
+	public Potion getPotion() { return new PotionOfHaste(); }
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
@@ -49,48 +55,36 @@ public class InventoryIceBullet extends InventoryBullet {
 
 	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
-			baseDmg = 3;
-			scalingFactorMin = 1f;
-			scalingFactorMax = 2f;
-			maxFactor = 2f;
-			parentClass = InventoryIceBullet.class;
+			baseDmg = 4;
+			scalingFactorMin = 1.25f;
+			scalingFactorMax = 1.75f;
+			maxFactor = 1.5f;
+			parentClass = InventoryHasteBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryIceBullet();
+			return new InventoryHasteBullet();
 		}
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
-			if (defender != null && !defender.isImmune(Chill.class)) {
-				if (defender.buff(Frost.class) != null){
-					Buff.affect(defender, Frost.class, 3f);
-				} else {
-					Chill chill = defender.buff(Chill.class);
-					float turnsToAdd = Dungeon.level.water[defender.pos] ? Chill.DURATION / 2 + 1f : Chill.DURATION;
-					if (chill != null){
-						float chillToCap = Chill.DURATION - chill.cooldown();
-						chillToCap /= defender.resist(Chill.class); //account for resistance to chill
-						turnsToAdd = Math.min(turnsToAdd, chillToCap);
-					}
-					if (turnsToAdd > 0f) {
-						Buff.affect(defender, Chill.class, turnsToAdd);
-					}
-					if (chill != null
-							&& chill.cooldown() >= Chill.DURATION &&
-							!defender.isImmune(Frost.class)){
-						Buff.affect(defender, Frost.class, Frost.DURATION);
-					}
+			if (defender != null) {
+				if (attacker instanceof Hero) {
+					PotionOfHaste p = new PotionOfHaste();
+					p.identify(true);
 				}
 			}
 		}
+
+		@Override
+		public float castDelay(Char user, int cell) { return 0f; }
 	}
 
 	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Icecap.Seed.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfHaste.class);
         }
 
 		@Override
@@ -102,8 +96,8 @@ public class InventoryIceBullet extends InventoryBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryIceBullet bullets = new InventoryIceBullet();
-			bullets.quantity(3);
+			InventoryHasteBullet bullets = new InventoryHasteBullet();
+			bullets.quantity(5);
 			return bullets;
 		}
 
@@ -111,8 +105,8 @@ public class InventoryIceBullet extends InventoryBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryIceBullet bullets = new InventoryIceBullet();
-			bullets.quantity(3);
+			InventoryHasteBullet bullets = new InventoryHasteBullet();
+			bullets.quantity(5);
 			return bullets;
 		}
 	}

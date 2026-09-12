@@ -41,10 +41,10 @@ public class InventorySwiftBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new SwiftBullet();
+		return new Bullet();
 	}
 
-	public static class SwiftBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
@@ -62,7 +62,7 @@ public class InventorySwiftBullet extends InventoryBullet {
 		public float castDelay(Char user, int cell) { return 0f; }
 	}
 
-	public static class SwiftBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Swiftthistle.Seed.class);

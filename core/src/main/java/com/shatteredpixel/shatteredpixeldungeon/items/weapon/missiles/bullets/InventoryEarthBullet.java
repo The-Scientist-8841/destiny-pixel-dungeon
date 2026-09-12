@@ -43,10 +43,10 @@ public class InventoryEarthBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new EarthBullet();
+		return new Bullet();
 	}
 
-	public static class EarthBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 4;
 			scalingFactorMin = 1.5f;
@@ -61,7 +61,7 @@ public class InventoryEarthBullet extends InventoryBullet {
 		}
 	}
 
-	public static class EarthBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Earthroot.Seed.class);

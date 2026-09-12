@@ -41,10 +41,10 @@ public class InventoryMageBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new MageBullet();
+		return new Bullet();
 	}
 
-	public static class MageBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
@@ -70,7 +70,7 @@ public class InventoryMageBullet extends InventoryBullet {
 		}
 	}
 
-	public static class MageBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Mageroyal.Seed.class);

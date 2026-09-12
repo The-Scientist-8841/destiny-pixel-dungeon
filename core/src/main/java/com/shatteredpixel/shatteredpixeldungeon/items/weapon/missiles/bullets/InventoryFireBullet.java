@@ -44,10 +44,10 @@ public class InventoryFireBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new FireBullet();
+		return new Bullet();
 	}
 
-	public static class FireBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
@@ -69,7 +69,7 @@ public class InventoryFireBullet extends InventoryBullet {
 		}
 	}
 
-	public static class FireBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Firebloom.Seed.class);

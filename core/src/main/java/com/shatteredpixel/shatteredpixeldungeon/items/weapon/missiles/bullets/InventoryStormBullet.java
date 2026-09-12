@@ -49,10 +49,10 @@ public class InventoryStormBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new StormBullet();
+		return new Bullet();
 	}
 
-	public static class StormBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
@@ -93,7 +93,7 @@ public class InventoryStormBullet extends InventoryBullet {
 		}
 	}
 
-	public static class StormBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Stormvine.Seed.class);

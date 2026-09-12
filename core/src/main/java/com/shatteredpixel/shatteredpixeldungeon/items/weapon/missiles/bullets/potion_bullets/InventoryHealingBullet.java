@@ -49,10 +49,10 @@ public class InventoryHealingBullet extends InventoryPotionBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new HealingBullet();
+		return new Bullet();
 	}
 
-	public static class HealingBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 5;
 			scalingFactorMin = 1.5f;
@@ -82,7 +82,7 @@ public class InventoryHealingBullet extends InventoryPotionBullet {
 		}
 	}
 
-	public static class HealingBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfHealing.class);

@@ -43,10 +43,10 @@ public class InventoryRotBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new RotBullet();
+		return new Bullet();
 	}
 
-	public static class RotBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 10;
 			scalingFactorMin = 3f;
@@ -69,7 +69,7 @@ public class InventoryRotBullet extends InventoryBullet {
 		}
 	}
 
-	public static class RotBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Rotberry.Seed.class);

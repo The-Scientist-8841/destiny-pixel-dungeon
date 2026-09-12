@@ -45,10 +45,10 @@ public class InventoryFadeBullet extends InventoryBullet {
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
-		return new FadeBullet();
+		return new Bullet();
 	}
 
-	public static class FadeBullet extends ArcaneFirearm.Bullet {
+	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
 			baseDmg = 3;
 			scalingFactorMin = 1f;
@@ -74,7 +74,7 @@ public class InventoryFadeBullet extends InventoryBullet {
 		}
 	}
 
-	public static class FadeBulletCraft extends ToolboxRecipe {
+	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
             return ingredients.size() == 1 && ingredients.get(0).getClass().equals(Fadeleaf.Seed.class);
