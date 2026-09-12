@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryInvisibilityBullet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
@@ -546,7 +547,8 @@ public class ArcaneFirearm extends Weapon {
 		@Override
 		public void onSelect( Integer target ) {
 			if (target != null) {
-				chamber.get(0).cast(curUser, target);
+				Bullet b = chamber.get(0);
+				b.cast(curUser, target);
 
 				Buff buff = curUser.buff(Talent.resourcefulMealTracker.class);
 				if (curUser.hasTalent(Talent.RESOURCEFUL_MEAL) && buff != null) {
@@ -563,11 +565,15 @@ public class ArcaneFirearm extends Weapon {
 				}
 
 				//Alert enemies within a large radius
-				int d = 7;
-				if (Dungeon.hero.hasTalent(Talent.TRUSTY_SIDEARM) && Dungeon.hero.pointsInTalent(Talent.TRUSTY_SIDEARM) == 4) d = 4;
-				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-					if (mob.alignment != Char.Alignment.ALLY) {
-						if (Dungeon.level.heroFOV[mob.pos] || Dungeon.level.distance(curUser.pos, mob.pos) <= d) mob.beckon( curUser.pos );
+				if (!(b instanceof InventoryInvisibilityBullet.Bullet)) {
+					int d = 7;
+					if (Dungeon.hero.hasTalent(Talent.TRUSTY_SIDEARM) && Dungeon.hero.pointsInTalent(Talent.TRUSTY_SIDEARM) == 4)
+						d = 4;
+					for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+						if (mob.alignment != Char.Alignment.ALLY) {
+							if (Dungeon.level.heroFOV[mob.pos] || Dungeon.level.distance(curUser.pos, mob.pos) <= d)
+								mob.beckon(curUser.pos);
+						}
 					}
 				}
 			}
