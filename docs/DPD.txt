@@ -240,17 +240,102 @@ Each reset allows you an additional trinket?
 Nix the scroll of metamorphosis...exotic transformation is just wilder transformation (can turn anything into anything).
 
 New classes:
-    Summoner: Has a unique crook melee weapon that can summon an ally. The crook levels with the class, and the minion improves.
+    Summoner: Has a unique crook melee weapon that can summon, direct, and heal allies (for 25% of their max HP). Healing and summoning take charges. The crook levels with the class, and the minion improves.
         Starts out knowing scrolls of mirror image (change duelist to know scrolls of retribution)
-        Has the special ability to "tame" certain enemies in the dungeon if he gets them to low health
-        Generalist's Intuition: identifies all items 75%/150%/225%/300% faster.
-        Summoner's Journey: Enemies have a chance to drop a Treat.
-        Foraging: An enemy on the next floor will drop a Treat (quick to eat for minion, will heal it to full)
-        Restoring Meal: Gain +1 charge to crook after eating.
-        Beekeeping: Bees are not hostile; bees are allied; pots release 2 bees; pots release 3 bees.
-        Subclasses:
-            Swarmkeeper: Crook can now summon multiple allies
-            Drakewarden: Crook minion becomes a more powerful drake
+        Has the special ability to "tame" bestial enemies in the dungeon if he gets them to below 10% health
+        Also starts with 3 treats, a sling with 3 rocks, cloth armor, a waterskin, a velvet pouch, and the Dark Grimoire.
+        
+        T1:
+        	Foraging:
+        		+1: The Summoner can find 1 Meal as he explores the next few floors of the dungeon.
+        		+2: The Summoner can find 2 Meals as he explores the next few floors of the dungeon.
+        		+3: The Summoner can find 3 Meals as he explores the next few floors of the dungeon.
+        		+4: The Summoner can find 4 Meals as he explores the next few floors of the dungeon.
+        		Meals take a longer time to eat, but heal all allies to full HP and restore a large amount of satiety.
+        	Generalist's Intuition:
+        		+1: Identifies all items 75% faster.
+        		+2: Identifies all items 150% faster.
+        		+3: Identifies all items 225% faster.
+        		+4: Identifies all items 300% faster.
+		Revenge:
+			+1: When one of the Summoner's allies dies, the Summoner's next melee attack will deal an additional +5 damage.
+			+2: When one of the Summoner's allies dies, the Summoner's next melee attack will deal an additional +8 damage.
+			+3: When one of the Summoner's allies dies, the Summoner's next melee attack will deal an additional +11 damage.
+			+4: When one of the Summoner's allies dies, the Summoner's next melee attack will deal an additional +14 damage.
+		Tag Team:
+			+1: When the Summoner summons an ally, he gains 2 shielding.
+			+2: When the Summoner summons an ally, he gains 4 shielding.
+			+3: When the Summoner summons an ally, he gains 6 shielding.
+			+4: When the Summoner summons an ally, he gains 8 shielding.
+		Travel Gear:
+			+1: The Summoner has a 10% reduced price for food, bags, and supplies like torches at the shop.
+			+2: The Summoner has a 20% reduced price for food, bags, and supplies like torches at the shop.
+			+3: The Summoner has a 30% reduced price for food, bags, and supplies like torches at the shop.
+			+4: The Summoner has a 40% reduced price for food, bags, and supplies like torches at the shop.
+		Summoner's Journey:
+			+1: Enemies have a 2% chance to drop a treat.
+			+2: Enemies have a 3% chance to drop a treat.
+			+3: Enemies have a 4% chance to drop a treat.
+			+4: Enemies have a 5% chance to drop a treat.
+	T2:
+		Restoring Meal:
+			+1: Eating takes the Summoner one less turn and grants him 0.5 charge on his Crook.
+			+2: Eating takes the Summoner one less turn and grants him 1 charges on his Crook.
+			+3: Eating takes the Summoner one less turn and grants him 1.5 charges on his Crook.
+			+4: Eating takes the Summoner one less turn and grants him 2 charges on his Crook.
+		Liquid Spirit:
+			+1: Drinking or throwing a potion, brew, or elixir will heal all allies for 5 HP.
+			+2: Drinking or throwing a potion, brew, or elixir will heal all allies for 10 HP.
+			+3: Drinking or throwing a potion, brew, or elixir will heal all allies for 15 HP.
+			+4: Drinking or throwing a potion, brew, or elixir will heal all allies for 20 HP.
+		Tend the Flock:
+			+1: You can now also summon, direct, and dispel magical sheep with your crook, at the cost of 1 charge.
+			+2: Summoning your ally now takes 1 charge instead of 2.
+			+3: Increase maximum charges on crook by 1.
+			+4: Healing allies with crook now heals for 37.5% of their maximum HP instead of 25%.
+		Beekeeping:
+			+1: Bees are no longer hostile to you nor your allies.
+			+2: Bees are now allied with you, though they cannot traverse through different floors of the dungeon.
+			+3: Smashing a honeypot now releases 2 bees.
+			+4: Smashing a honeypot now releases 3 bees.
+		Beast Tamer:
+			+1: You can now tame bestial enemies when they are at or below 15% of their maximum HP, up from 10%.
+			+2: You can now tame bestial enemies when they are at or below 20% of their maximum HP, up from 10%.
+			+3: You can now tame bestial enemies when they are at or below 25% of their maximum HP, up from 10%.
+			+4: You can now tame bestial enemies when they are at or below 30% of their maximum HP, up from 10%.
+		Hardy Blessing:
+			+1: When waterskin is full, can bless self with +5% damage reduction from armor.
+			+2: When waterskin has 19/20, can bless self with +5% damage reduction armor.
+			+3: When waterskin has 18/20, can bless self with +5% damage reduction armor.
+			+4: When waterskin has 17/20, can bless self with +5% damage reduction armor.
+		Summoner's Trial:
+			+1: When the Summoner resets the level, all of his allies heal for 10% of their maximum HP.
+			+2: When the Summoner resets the level, all of his allies heal for 15% of their maximum HP.
+			+3: When the Summoner resets the level, all of his allies heal for 20% of their maximum HP.
+			+4: When the Summoner resets the level, all of his allies heal for 25% of their maximum HP.
+	T3:
+		Tag Team:
+			+1: When the Summoner strikes an enemy with his crook, his allies deal an additional +2 damage to that enemy on their next turn.
+			+2: When the Summoner strikes an enemy with his crook, his allies deal an additional +4 damage to that enemy on their next turn.
+			+3: When the Summoner strikes an enemy with his crook, his allies deal an additional +6 damage to that enemy on their next turn.
+			+4: When the Summoner strikes an enemy with his crook, his allies deal an additional +8 damage to that enemy on their next turn.
+		Guard:
+			+1: While the Summoner is adjacent to an ally, he and all adjacent allies take 5% less damage from attacks.
+			+2: While the Summoner is adjacent to an ally, he and all adjacent allies take 7.5% less damage from attacks.
+			+3: While the Summoner is adjacent to an ally, he and all adjacent allies take 10% less damage from attacks.
+			+4: While the Summoner is adjacent to an ally, he and all adjacent allies take 12.5% less damage from attacks.
+		Summoner's Struggle:
+			+1: When the Dark Grimoire fails to drop bonus loot, there is a 1% chance that a honeypot will drop instead.
+			+2: When the Summoner kills an enemy, there is a 1% chance that a honeypot will drop.
+			+3: When the Summoner kills an enemy, there is a 1.5% chance that a honeypot will drop.
+			+4: When the Summoner kills an enemy, there is a 2% chance that a honeypot will drop.
+            	Swarmkeeper: Crook can now summon up to 3 allies at once.
+            		Pack Tactics:
+            			+1: The Swarmkeeper's allies gain +5% accuracy for every other ally adjacent to them.
+            			+1: The Swarmkeeper's allies gain +7.5% accuracy for every other ally adjacent to them.
+            			+1: The Swarmkeeper's allies gain +10% accuracy for every other ally adjacent to them.
+            			+1: The Swarmkeeper's allies gain +12.5% accuracy for every other ally adjacent to them.
+            	Drakewarden: Crook minion becomes a more powerful drake with more health, more damage, and a powerful breath attack.
 
     Bard: Has a unique lute artifact that can play songs, providing powerful passive buffs to himself and all allies, or debuffs to enemies. Many talents add more songs.
         Starts out knowing scrolls of lullaby (change Huntress to know scrolls of teleportation)
