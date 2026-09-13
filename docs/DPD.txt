@@ -244,6 +244,10 @@ New classes:
         Starts out knowing scrolls of mirror image (change duelist to know scrolls of retribution)
         Has the special ability to "tame" certain enemies in the dungeon if he gets them to low health
         Generalist's Intuition: identifies all items 75%/150%/225%/300% faster.
+        Summoner's Journey: Enemies have a chance to drop a Treat.
+        Foraging: An enemy on the next floor will drop a Treat (quick to eat for minion, will heal it to full)
+        Restoring Meal: Gain +1 charge to crook after eating.
+        Beekeeping: Bees are not hostile; bees are allied; pots release 2 bees; pots release 3 bees.
         Subclasses:
             Swarmkeeper: Crook can now summon multiple allies
             Drakewarden: Crook minion becomes a more powerful drake
@@ -253,6 +257,9 @@ New classes:
         Starts with a Trusty Blade.
         Has the special ability of being naturally lucky, so has a 25% chance to gain advantage on attack/damage reduction/evasion rolls while enemies have a 25% chance to get disadvantage.
         Gambler's Intuition: Automatically identifies one potion, scroll, and ring in the dungeon each time you take a level in the talent.
+        Bard's Journey: Enemies have a chance to drop extra XP.
+        Musical Meal: Next song gains +1 turn of duration.
+        Refreshing Meal: Gain +1 charge to instrument after eating.
         Subclasses:
             Piper: Lute becomes a powerful panpipe that can charm enemies
             Shredder: Lute becomes a more powerful guitar-like instrument that can double as a melee weapon
