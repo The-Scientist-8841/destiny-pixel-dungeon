@@ -28,7 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
@@ -36,14 +36,14 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryPureBullet extends InventoryPotionBullet {
+public class InventoryStrongBullet extends InventoryPotionBullet {
 
 	{
-		icon = ItemSpriteSheet.Icons.POTION_PURITY;
+		icon = ItemSpriteSheet.Icons.POTION_STRENGTH;
 	}
 
 	@Override
-	public Potion getPotion() { return new PotionOfPurity(); }
+	public Potion getPotion() { return new PotionOfStrength(); }
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
@@ -52,31 +52,23 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 
 	public static class Bullet extends ArcaneFirearm.Bullet {
 		{
-			baseDmg = 5;
-			scalingFactorMin = 1.5f;
-			scalingFactorMax = 2.5f;
-			maxFactor = 2.5f;
-			parentClass = InventoryPureBullet.class;
+			baseDmg = 8;
+			scalingFactorMin = 3f;
+			scalingFactorMax = 5f;
+			maxFactor = 5f;
+			parentClass = InventoryStrongBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryPureBullet();
+			return new InventoryStrongBullet();
 		}
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
 			if (defender != null) {
-				ArrayList<Buff> toDetach = new ArrayList<>();
-				for (Buff b : defender.buffs()) {
-					if (b.type == Buff.buffType.POSITIVE) toDetach.add(b);
-				}
-				for (Buff b : toDetach) {
-					b.detach();
-				}
-
 				if (attacker instanceof Hero) {
-					PotionOfPurity p = new PotionOfPurity();
+					PotionOfStrength p = new PotionOfStrength();
 					p.identify(true);
 				}
 			}
@@ -86,7 +78,7 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfPurity.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfStrength.class);
         }
 
 		@Override
@@ -98,7 +90,7 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryPureBullet bullets = new InventoryPureBullet();
+			InventoryStrongBullet bullets = new InventoryStrongBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
@@ -107,7 +99,7 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryPureBullet bullets = new InventoryPureBullet();
+			InventoryStrongBullet bullets = new InventoryStrongBullet();
 			bullets.quantity(5);
 			return bullets;
 		}

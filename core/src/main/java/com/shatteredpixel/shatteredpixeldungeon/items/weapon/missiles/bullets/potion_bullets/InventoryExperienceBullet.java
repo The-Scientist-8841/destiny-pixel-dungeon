@@ -41,7 +41,7 @@ import java.util.ArrayList;
 public class InventoryExperienceBullet extends InventoryPotionBullet {
 
 	{
-		icon = ItemSpriteSheet.Icons.POTION_TOXICGAS;
+		icon = ItemSpriteSheet.Icons.POTION_EXP;
 	}
 
 	@Override
