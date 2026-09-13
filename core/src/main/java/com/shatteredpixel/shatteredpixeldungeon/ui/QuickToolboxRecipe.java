@@ -325,7 +325,7 @@ public class QuickToolboxRecipe extends Component {
 			case 1:
 				result.add(new QuickToolboxRecipe(new InventoryBullet.BulletCraft(), new ArrayList<Item>(), new InventoryBullet().quantity(2)));
 
-				if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
+				if (Dungeon.hero == null || Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
 					result.add(null);
 
 					result.add(basicOneIngredientRecipeHelper(new InventoryFireBullet.Craft(), new InventoryFireBullet().quantity(3), new Firebloom.Seed()));
@@ -341,7 +341,7 @@ public class QuickToolboxRecipe extends Component {
 					result.add(basicOneIngredientRecipeHelper(new InventoryFadeBullet.Craft(), new InventoryFadeBullet().quantity(2), new Fadeleaf.Seed()));
 					result.add(basicOneIngredientRecipeHelper(new InventoryBlindingBullet.Craft(), new InventoryBlindingBullet().quantity(3), new Blindweed.Seed()));
 
-					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
+					if (Dungeon.hero == null || Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
 						result.add(potionRecipeHelper(new InventoryFlameBullet.Craft(), new InventoryFlameBullet(), new PotionOfLiquidFlame()));
 						result.add(potionRecipeHelper(new InventoryFrostBullet.Craft(), new InventoryFrostBullet(), new PotionOfFrost()));
 						result.add(potionRecipeHelper(new InventoryHealingBullet.Craft(), new InventoryHealingBullet(), new PotionOfHealing()));
@@ -356,7 +356,7 @@ public class QuickToolboxRecipe extends Component {
 						result.add(potionRecipeHelper(new InventoryStealthBullet.Craft(), new InventoryStealthBullet(), new PotionOfInvisibility()));
 					}
 
-					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 3) {
+					if (Dungeon.hero == null || Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 3) {
 						result.add(potionRecipeHelper(new InventoryCleansingBullet.Craft(), new InventoryCleansingBullet(), new PotionOfCleansing()));
 					}
 				}

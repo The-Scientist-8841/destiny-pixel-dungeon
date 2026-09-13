@@ -148,14 +148,14 @@ public abstract class ToolboxRecipe {
 					result.add(recipe);
 				}
 			}
-			if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
+			if (Dungeon.hero == null || Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
 				for (ToolboxRecipe recipe : oneIngredientSeedRecipes){
 					if (recipe.testIngredients(ingredients)){
 						result.add(recipe);
 					}
 				}
 
-				if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
+				if (Dungeon.hero == null || Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
 					for (ToolboxRecipe recipe : oneIngredientPotionRecipes){
 						if (recipe.testIngredients(ingredients)){
 							result.add(recipe);
@@ -163,7 +163,7 @@ public abstract class ToolboxRecipe {
 					}
 				}
 
-				if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 3) {
+				if (Dungeon.hero == null || Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 3) {
 					for (ToolboxRecipe recipe : oneIngredientExoticPotionRecipes){
 						if (recipe.testIngredients(ingredients)){
 							result.add(recipe);
@@ -179,7 +179,7 @@ public abstract class ToolboxRecipe {
 				}
 			}
 
-			if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
+			if (Dungeon.hero == null || Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
 				for (ToolboxRecipe recipe : twoIngredientSeedRecipes){
 					if (recipe.testIngredients(ingredients)){
 						result.add(recipe);
