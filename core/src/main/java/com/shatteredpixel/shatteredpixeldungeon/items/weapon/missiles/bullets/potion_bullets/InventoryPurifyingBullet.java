@@ -23,20 +23,18 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.p
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryPureBullet extends InventoryPotionBullet {
+public class InventoryPurifyingBullet extends InventoryPotionBullet {
 
 	{
 		icon = ItemSpriteSheet.Icons.POTION_PURITY;
@@ -56,12 +54,12 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 			scalingFactorMin = 1.5f;
 			scalingFactorMax = 2.5f;
 			maxFactor = 2.5f;
-			parentClass = InventoryPureBullet.class;
+			parentClass = InventoryPurifyingBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryPureBullet();
+			return new InventoryPurifyingBullet();
 		}
 
 		@Override
@@ -98,7 +96,7 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryPureBullet bullets = new InventoryPureBullet();
+			InventoryPurifyingBullet bullets = new InventoryPurifyingBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
@@ -107,7 +105,7 @@ public class InventoryPureBullet extends InventoryPotionBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryPureBullet bullets = new InventoryPureBullet();
+			InventoryPurifyingBullet bullets = new InventoryPurifyingBullet();
 			bullets.quantity(5);
 			return bullets;
 		}

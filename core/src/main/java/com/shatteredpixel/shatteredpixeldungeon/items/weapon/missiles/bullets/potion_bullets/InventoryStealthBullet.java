@@ -22,22 +22,18 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryInvisibilityBullet extends InventoryPotionBullet {
+public class InventoryStealthBullet extends InventoryPotionBullet {
 
 	{
 		icon = ItemSpriteSheet.Icons.POTION_INVIS;
@@ -57,12 +53,12 @@ public class InventoryInvisibilityBullet extends InventoryPotionBullet {
 			scalingFactorMin = 1.5f;
 			scalingFactorMax = 2.5f;
 			maxFactor = 2.5f;
-			parentClass = InventoryInvisibilityBullet.class;
+			parentClass = InventoryStealthBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryInvisibilityBullet();
+			return new InventoryStealthBullet();
 		}
 
 		@Override
@@ -91,7 +87,7 @@ public class InventoryInvisibilityBullet extends InventoryPotionBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryInvisibilityBullet bullets = new InventoryInvisibilityBullet();
+			InventoryStealthBullet bullets = new InventoryStealthBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
@@ -100,7 +96,7 @@ public class InventoryInvisibilityBullet extends InventoryPotionBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryInvisibilityBullet bullets = new InventoryInvisibilityBullet();
+			InventoryStealthBullet bullets = new InventoryStealthBullet();
 			bullets.quantity(5);
 			return bullets;
 		}

@@ -25,22 +25,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneMaterial;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ProximityBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
 import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -56,38 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.UnstableBrew;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBlindingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryEarthBullet;
@@ -106,42 +65,36 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHasteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryHealingBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryInvisibilityBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryStealthBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryLevitationBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryMindBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryParalyticBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryPureBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryPotionBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryPurifyingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryStrongBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryToxicBullet;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ToolboxCraftingScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoItem;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class QuickToolboxRecipe extends Component {
 
@@ -344,6 +297,21 @@ public class QuickToolboxRecipe extends Component {
 			if (text != null) text.hardlight(color);
 		}
 	}
+
+	private static QuickToolboxRecipe basicOneIngredientRecipeHelper(ToolboxRecipe craft, Item result, Item ingredient) {
+		ArrayList<Item> ingredients = new ArrayList<Item>();
+		ingredients.add(ingredient);
+		return new QuickToolboxRecipe(craft, ingredients, result);
+	}
+
+	private static QuickToolboxRecipe potionRecipeHelper(ToolboxRecipe craft, InventoryPotionBullet result, Potion ingredient) {
+		ArrayList<Item> ingredients = new ArrayList<Item>();
+		ingredient.anonymize();
+		ingredients.add(ingredient);
+		result.anonymize();
+		result.quantity(5);
+		return new QuickToolboxRecipe(craft, ingredients, result);
+	}
 	
 	//gets recipes for a particular alchemy guide page
 	//a null entry indicates a break in section
@@ -357,162 +325,33 @@ public class QuickToolboxRecipe extends Component {
 
 				if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.POTION_CRAFTING)) {
 					result.add(null);
-					ArrayList<Item> ingredients = new ArrayList<Item>();
-					ingredients.add(new Firebloom.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryFireBullet.Craft(), ingredients, new InventoryFireBullet().quantity(3)));
 
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Icecap.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryIceBullet.Craft(), ingredients, new InventoryIceBullet().quantity(3)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Sungrass.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySunBullet.Craft(), ingredients, new InventorySunBullet().quantity(5)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Mageroyal.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryMageBullet.Craft(), ingredients, new InventoryMageBullet().quantity(4)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Swiftthistle.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySwiftBullet.Craft(), ingredients, new InventorySwiftBullet().quantity(3)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Earthroot.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryEarthBullet.Craft(), ingredients, new InventoryEarthBullet().quantity(3)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Rotberry.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryRotBullet.Craft(), ingredients, new InventoryRotBullet().quantity(4)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Sorrowmoss.Seed());
-					result.add(new QuickToolboxRecipe(new InventorySorrowBullet.Craft(), ingredients, new InventorySorrowBullet().quantity(3)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Stormvine.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryStormBullet.Craft(), ingredients, new InventoryStormBullet().quantity(3)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Starflower.Seed().quantity(2));
-					result.add(new QuickToolboxRecipe(new InventoryStarBullet.Craft(), ingredients, new InventoryStarBullet()));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Fadeleaf.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryFadeBullet.Craft(), ingredients, new InventoryFadeBullet().quantity(2)));
-
-					ingredients = new ArrayList<Item>();
-					ingredients.add(new Blindweed.Seed());
-					result.add(new QuickToolboxRecipe(new InventoryBlindingBullet.Craft(), ingredients, new InventoryBlindingBullet().quantity(3)));
+					result.add(basicOneIngredientRecipeHelper(new InventoryFireBullet.Craft(), new InventoryFireBullet().quantity(3), new Firebloom.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryIceBullet.Craft(), new InventoryIceBullet().quantity(3), new Icecap.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventorySunBullet.Craft(), new InventorySunBullet().quantity(5), new Sungrass.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryMageBullet.Craft(), new InventoryMageBullet().quantity(4), new Mageroyal.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventorySwiftBullet.Craft(), new InventorySwiftBullet().quantity(3), new Swiftthistle.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryEarthBullet.Craft(), new InventoryEarthBullet().quantity(3), new Earthroot.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryRotBullet.Craft(), new InventoryRotBullet().quantity(4), new Rotberry.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventorySorrowBullet.Craft(), new InventorySorrowBullet().quantity(3), new Sorrowmoss.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryStormBullet.Craft(), new InventoryStormBullet().quantity(3), new Stormvine.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryStarBullet.Craft(), new InventoryStarBullet(), new Starflower.Seed().quantity(2)));
+					result.add(basicOneIngredientRecipeHelper(new InventoryFadeBullet.Craft(), new InventoryFadeBullet().quantity(2), new Fadeleaf.Seed()));
+					result.add(basicOneIngredientRecipeHelper(new InventoryBlindingBullet.Craft(), new InventoryBlindingBullet().quantity(3), new Blindweed.Seed()));
 
 					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
-						ingredients = new ArrayList<Item>();
-						PotionOfLiquidFlame potionOfLiquidFlame = new PotionOfLiquidFlame();
-						potionOfLiquidFlame.anonymize();
-						ingredients.add(potionOfLiquidFlame);
-						InventoryFlameBullet flameBullet = new InventoryFlameBullet();
-						flameBullet.anonymize();
-						flameBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryFlameBullet.Craft(), ingredients, flameBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfFrost potionOfFrost = new PotionOfFrost();
-						potionOfFrost.anonymize();
-						ingredients.add(potionOfFrost);
-						InventoryFrostBullet frostBullet = new InventoryFrostBullet();
-						frostBullet.anonymize();
-						frostBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryFrostBullet.Craft(), ingredients, frostBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfHealing potionOfHealing = new PotionOfHealing();
-						potionOfHealing.anonymize();
-						ingredients.add(potionOfHealing);
-						InventoryHealingBullet healingBullet = new InventoryHealingBullet();
-						healingBullet.anonymize();
-						healingBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryHealingBullet.Craft(), ingredients, healingBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfParalyticGas potionOfParalyticGas = new PotionOfParalyticGas();
-						potionOfParalyticGas.anonymize();
-						ingredients.add(potionOfParalyticGas);
-						InventoryParalyticBullet paralyticBullet = new InventoryParalyticBullet();
-						paralyticBullet.anonymize();
-						paralyticBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryParalyticBullet.Craft(), ingredients, paralyticBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfToxicGas potionOfToxicGas = new PotionOfToxicGas();
-						potionOfToxicGas.anonymize();
-						ingredients.add(potionOfToxicGas);
-						InventoryToxicBullet toxicBullet = new InventoryToxicBullet();
-						toxicBullet.anonymize();
-						toxicBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryToxicBullet.Craft(), ingredients, toxicBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfHaste potionOfHaste = new PotionOfHaste();
-						potionOfHaste.anonymize();
-						ingredients.add(potionOfHaste);
-						InventoryHasteBullet hasteBullet = new InventoryHasteBullet();
-						hasteBullet.anonymize();
-						hasteBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryHasteBullet.Craft(), ingredients, hasteBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfExperience potionOfExperience = new PotionOfExperience();
-						potionOfExperience.anonymize();
-						ingredients.add(potionOfExperience);
-						InventoryExperienceBullet experienceBullet = new InventoryExperienceBullet();
-						experienceBullet.anonymize();
-						experienceBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryExperienceBullet.Craft(), ingredients, experienceBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfLevitation potionOfLevitation = new PotionOfLevitation();
-						potionOfLevitation.anonymize();
-						ingredients.add(potionOfLevitation);
-						InventoryLevitationBullet levitationBullet = new InventoryLevitationBullet();
-						levitationBullet.anonymize();
-						levitationBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryLevitationBullet.Craft(), ingredients, levitationBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfMindVision potionOfMindVision = new PotionOfMindVision();
-						potionOfMindVision.anonymize();
-						ingredients.add(potionOfMindVision);
-						InventoryMindBullet mindBullet = new InventoryMindBullet();
-						mindBullet.anonymize();
-						mindBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryMindBullet.Craft(), ingredients, mindBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfPurity potionOfPurity = new PotionOfPurity();
-						potionOfPurity.anonymize();
-						ingredients.add(potionOfPurity);
-						InventoryPureBullet pureBullet = new InventoryPureBullet();
-						pureBullet.anonymize();
-						pureBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryPureBullet.Craft(), ingredients, pureBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfStrength potionOfStrength = new PotionOfStrength();
-						potionOfStrength.anonymize();
-						ingredients.add(potionOfStrength);
-						InventoryStrongBullet strongBullet = new InventoryStrongBullet();
-						strongBullet.anonymize();
-						strongBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryStrongBullet.Craft(), ingredients, strongBullet));
-
-						ingredients = new ArrayList<Item>();
-						PotionOfInvisibility potionOfInvisibility = new PotionOfInvisibility();
-						potionOfInvisibility.anonymize();
-						ingredients.add(potionOfInvisibility);
-						InventoryInvisibilityBullet invisibilityBullet = new InventoryInvisibilityBullet();
-						invisibilityBullet.anonymize();
-						invisibilityBullet.quantity(5);
-						result.add(new QuickToolboxRecipe(new InventoryInvisibilityBullet.Craft(), ingredients, invisibilityBullet));
+						result.add(potionRecipeHelper(new InventoryFlameBullet.Craft(), new InventoryFlameBullet(), new PotionOfLiquidFlame()));
+						result.add(potionRecipeHelper(new InventoryFrostBullet.Craft(), new InventoryFrostBullet(), new PotionOfFrost()));
+						result.add(potionRecipeHelper(new InventoryHealingBullet.Craft(), new InventoryHealingBullet(), new PotionOfHealing()));
+						result.add(potionRecipeHelper(new InventoryParalyticBullet.Craft(), new InventoryParalyticBullet(), new PotionOfParalyticGas()));
+						result.add(potionRecipeHelper(new InventoryToxicBullet.Craft(), new InventoryToxicBullet(), new PotionOfToxicGas()));
+						result.add(potionRecipeHelper(new InventoryHasteBullet.Craft(), new InventoryHasteBullet(), new PotionOfHaste()));
+						result.add(potionRecipeHelper(new InventoryExperienceBullet.Craft(), new InventoryExperienceBullet(), new PotionOfExperience()));
+						result.add(potionRecipeHelper(new InventoryLevitationBullet.Craft(), new InventoryLevitationBullet(), new PotionOfLevitation()));
+						result.add(potionRecipeHelper(new InventoryMindBullet.Craft(), new InventoryMindBullet(), new PotionOfMindVision()));
+						result.add(potionRecipeHelper(new InventoryPurifyingBullet.Craft(), new InventoryPurifyingBullet(), new PotionOfPurity()));
+						result.add(potionRecipeHelper(new InventoryStrongBullet.Craft(), new InventoryStrongBullet(), new PotionOfStrength()));
+						result.add(potionRecipeHelper(new InventoryStealthBullet.Craft(), new InventoryStealthBullet(), new PotionOfInvisibility()));
 					}
 				}
 				break;
