@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBlindingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
@@ -60,6 +61,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryCleansingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryExperienceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
@@ -352,6 +354,10 @@ public class QuickToolboxRecipe extends Component {
 						result.add(potionRecipeHelper(new InventoryPurifyingBullet.Craft(), new InventoryPurifyingBullet(), new PotionOfPurity()));
 						result.add(potionRecipeHelper(new InventoryStrongBullet.Craft(), new InventoryStrongBullet(), new PotionOfStrength()));
 						result.add(potionRecipeHelper(new InventoryStealthBullet.Craft(), new InventoryStealthBullet(), new PotionOfInvisibility()));
+					}
+
+					if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 3) {
+						result.add(potionRecipeHelper(new InventoryCleansingBullet.Craft(), new InventoryCleansingBullet(), new PotionOfCleansing()));
 					}
 				}
 				break;

@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.In
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryStormBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySunBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventorySwiftBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryCleansingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryExperienceBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFlameBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryFrostBullet;
@@ -112,7 +113,11 @@ public abstract class ToolboxRecipe {
 			new InventoryMindBullet.Craft(),
 			new InventoryPurifyingBullet.Craft(),
 			new InventoryStrongBullet.Craft(),
-			new InventoryStealthBullet.Craft()
+			new InventoryStealthBullet.Craft(),
+	};
+
+	private static ToolboxRecipe[] oneIngredientExoticPotionRecipes = new ToolboxRecipe[]{
+		new InventoryCleansingBullet.Craft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
@@ -152,6 +157,14 @@ public abstract class ToolboxRecipe {
 
 				if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 2) {
 					for (ToolboxRecipe recipe : oneIngredientPotionRecipes){
+						if (recipe.testIngredients(ingredients)){
+							result.add(recipe);
+						}
+					}
+				}
+
+				if (Dungeon.hero.pointsInTalent(Talent.POTION_CRAFTING) >= 3) {
+					for (ToolboxRecipe recipe : oneIngredientExoticPotionRecipes){
 						if (recipe.testIngredients(ingredients)){
 							result.add(recipe);
 						}

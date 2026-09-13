@@ -55,12 +55,6 @@ public class InventoryPotionBullet extends InventoryBullet {
 			put("ivory",ItemSpriteSheet.BULLET_IVORY);
 		}
 	};
-	public static final LinkedHashMap<Class<? extends InventoryPotionBullet>, Class<? extends Potion>> bulletToPotion = new LinkedHashMap<>();
-	public static final LinkedHashMap<Class<? extends Potion>, Class<? extends InventoryPotionBullet>> potionToBullet = new LinkedHashMap<>();
-	static {
-		bulletToPotion.put(InventoryFlameBullet.class, PotionOfLiquidFlame.class);
-		potionToBullet.put(PotionOfLiquidFlame.class, InventoryFlameBullet.class);
-	}
 
 	public InventoryPotionBullet() {
 		super();

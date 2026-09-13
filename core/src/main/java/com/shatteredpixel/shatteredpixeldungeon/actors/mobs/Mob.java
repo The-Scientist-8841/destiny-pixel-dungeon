@@ -89,6 +89,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShielding;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
@@ -1310,7 +1311,7 @@ public abstract class Mob extends Char {
 				debugThing4.collect();
 				debugThing4.identify();
 				debugThing4.cursed = false;
-				PotionOfLiquidFlame debugThing5 = new PotionOfLiquidFlame();
+				PotionOfCleansing debugThing5 = new PotionOfCleansing();
 				debugThing5.collect();
 			}
 		}
