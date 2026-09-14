@@ -57,6 +57,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryPurifyingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryStrongBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryToxicBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryCorrosiveBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryDivineBullet;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 
 import java.util.ArrayList;
@@ -117,7 +119,9 @@ public abstract class ToolboxRecipe {
 	};
 
 	private static ToolboxRecipe[] oneIngredientExoticPotionRecipes = new ToolboxRecipe[]{
-		new InventoryCleansingBullet.Craft()
+			new InventoryCleansingBullet.Craft(),
+			new InventoryCorrosiveBullet.Craft(),
+			new InventoryDivineBullet.Craft()
 	};
 	
 	private static ToolboxRecipe[] twoIngredientRecipes = new ToolboxRecipe[]{
