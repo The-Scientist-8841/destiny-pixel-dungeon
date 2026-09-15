@@ -96,7 +96,7 @@ public class InventoryCorrosiveBullet extends InventoryExoticPotionBullet {
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
 			InventoryCorrosiveBullet bullets = new InventoryCorrosiveBullet();
-			bullets.quantity(7);
+			bullets.quantity(5);
 			return bullets;
 		}
 
@@ -105,7 +105,7 @@ public class InventoryCorrosiveBullet extends InventoryExoticPotionBullet {
 			if (!testIngredients(ingredients)) return null;
 
 			InventoryCorrosiveBullet bullets = new InventoryCorrosiveBullet();
-			bullets.quantity(7);
+			bullets.quantity(5);
 			return bullets;
 		}
 	}

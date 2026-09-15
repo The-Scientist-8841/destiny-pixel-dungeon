@@ -97,7 +97,7 @@ public class InventoryDivineBullet extends InventoryExoticPotionBullet {
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
 			InventoryDivineBullet bullets = new InventoryDivineBullet();
-			bullets.quantity(7);
+			bullets.quantity(5);
 			return bullets;
 		}
 
@@ -106,7 +106,7 @@ public class InventoryDivineBullet extends InventoryExoticPotionBullet {
 			if (!testIngredients(ingredients)) return null;
 
 			InventoryDivineBullet bullets = new InventoryDivineBullet();
-			bullets.quantity(7);
+			bullets.quantity(5);
 			return bullets;
 		}
 	}

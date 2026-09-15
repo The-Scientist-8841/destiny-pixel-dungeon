@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TorchHalo;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.MagicalFlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -84,7 +85,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS, GLOWING, AURA, MIND_READ
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS, GLOWING, AURA, MIND_READ, MAGICAL_BURNING
 	}
 	
 	protected Animation idle;
@@ -105,6 +106,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter healing;
 	protected Emitter hearts;
 	protected Emitter mindread;
+	protected Emitter magical_burning;
 	
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
@@ -468,6 +470,14 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				mindread = emitter();
 				mindread.pour(Speck.factory(Speck.EYE), 0.5f);
 				break;
+			case MAGICAL_BURNING:
+				if (magical_burning != null) magical_burning.on = false;
+				magical_burning = emitter();
+				magical_burning.pour(MagicalFlameParticle.FACTORY, 0.06f);
+				if (visible) {
+					Sample.INSTANCE.play(Assets.Sounds.BURNING);
+				}
+				break;
 		}
 	}
 
@@ -578,6 +588,12 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					mindread = null;
 				}
 				break;
+			case MAGICAL_BURNING:
+				if (magical_burning != null) {
+					magical_burning.on = false;
+					magical_burning = null;
+				}
+				break;
 		}
 	}
 	
@@ -634,6 +650,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		}
 		if (mindread != null) {
 			mindread.visible = visible;
+		}
+		if (magical_burning != null) {
+			magical_burning.visible = visible;
 		}
 		//shield fx updates its own visibility
 		if (aura != null) {

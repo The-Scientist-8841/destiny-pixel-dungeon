@@ -23,27 +23,30 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.p
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalBurning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDragonsBreath;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.InventoryPotionBullet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 
-public class InventoryCleansingBullet extends InventoryExoticPotionBullet {
+public class InventoryDragonBullet extends InventoryExoticPotionBullet {
 
 	{
-		icon = ItemSpriteSheet.Icons.POTION_CLEANSE;
+		icon = ItemSpriteSheet.Icons.POTION_DRGBREATH;
 	}
 
 	@Override
-	public Potion getPotion() { return new PotionOfCleansing(); }
+	public Potion getPotion() { return new PotionOfDragonsBreath(); }
 
 	@Override
 	public ArcaneFirearm.Bullet get_bullet() {
@@ -56,36 +59,21 @@ public class InventoryCleansingBullet extends InventoryExoticPotionBullet {
 			scalingFactorMin = 1.75f;
 			scalingFactorMax = 2.75f;
 			maxFactor = 2.75f;
-			parentClass = InventoryCleansingBullet.class;
+			parentClass = InventoryDragonBullet.class;
 		}
 
 		@Override
 		public InventoryBullet get_inventory_bullet() {
-			return new InventoryCleansingBullet();
+			return new InventoryDragonBullet();
 		}
 
 		@Override
 		public void onHit(Char attacker, Char defender) {
-			if (defender != null) {
-				ArrayList<Buff> toDetach = new ArrayList<>();
-				for (Buff b : defender.buffs()) {
-					if (b.type == Buff.buffType.POSITIVE) toDetach.add(b);
-				}
-				for (Buff b : toDetach) {
-					b.detach();
-				}
-
-				ArrayList<Buff> toAttach = new ArrayList<>();
-				for (Buff b : attacker.buffs()) {
-					if (b.type == Buff.buffType.NEGATIVE) toAttach.add(b);
-				}
-				for (Buff b : toAttach) {
-					b.detach();
-					b.attachTo(defender);
-				}
+			if (defender != null && !defender.isImmune(MagicalBurning.class)) {
+				Buff.affect(defender, MagicalBurning.class).reignite(defender);
 
 				if (attacker instanceof Hero) {
-					PotionOfPurity p = new PotionOfPurity();
+					PotionOfLiquidFlame p = new PotionOfLiquidFlame();
 					p.identify(true);
 				}
 			}
@@ -95,7 +83,7 @@ public class InventoryCleansingBullet extends InventoryExoticPotionBullet {
 	public static class Craft extends ToolboxRecipe {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
-            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfCleansing.class);
+            return ingredients.size() == 1 && ingredients.get(0).getClass().equals(PotionOfDragonsBreath.class);
         }
 
 		@Override
@@ -107,7 +95,7 @@ public class InventoryCleansingBullet extends InventoryExoticPotionBullet {
 
 			for (Item i : ingredients) { i.quantity(i.quantity() - 1); }
 
-			InventoryCleansingBullet bullets = new InventoryCleansingBullet();
+			InventoryDragonBullet bullets = new InventoryDragonBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
@@ -116,7 +104,7 @@ public class InventoryCleansingBullet extends InventoryExoticPotionBullet {
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 
-			InventoryCleansingBullet bullets = new InventoryCleansingBullet();
+			InventoryDragonBullet bullets = new InventoryDragonBullet();
 			bullets.quantity(5);
 			return bullets;
 		}
