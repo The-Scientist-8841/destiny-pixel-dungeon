@@ -60,6 +60,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindProbe;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindRead;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
@@ -715,6 +716,11 @@ public abstract class Char extends Actor {
 			defender.sprite.showStatusWithIcon(CharSprite.NEGATIVE, Messages.get(MindRead.class, "msg"), FloatingText.HIT_EVA);
 		}
 
+		if (defender.buff(MindProbe.class) != null) {
+			if (defender.buff(MindProbe.class).read_by == attacker) defRoll = 0f;
+			defender.sprite.showStatusWithIcon(CharSprite.NEGATIVE, Messages.get(MindRead.class, "msg"), FloatingText.HIT_EVA);
+		}
+
 		if (acuRoll >= defRoll){
 			hitMissIcon = FloatingText.getHitReasonIcon(attacker, acuRoll, defender, defRoll);
 			return true;
@@ -757,6 +763,10 @@ public abstract class Char extends Actor {
 		for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
 			buff.onAttackProc( enemy );
 		}
+
+		MindProbe probe = enemy.buff(MindProbe.class);
+		if (probe != null && probe.read_by == this) damage += (int)(damage / 4f);
+
 		return damage;
 	}
 	
