@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCle
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDragonsBreath;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfEarthenArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBlindingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
@@ -81,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryCorrosiveBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryDivineBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryDragonBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryEarthenBullet;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
@@ -376,6 +378,7 @@ public class QuickToolboxRecipe extends Component {
 						result.add(exoticPotionRecipeHelper(new InventoryCorrosiveBullet.Craft(), new InventoryCorrosiveBullet(), new PotionOfCorrosiveGas()));
 						result.add(exoticPotionRecipeHelper(new InventoryDivineBullet.Craft(), new InventoryDivineBullet(), new PotionOfDivineInspiration()));
 						result.add(exoticPotionRecipeHelper(new InventoryDragonBullet.Craft(), new InventoryDragonBullet(), new PotionOfDragonsBreath()));
+						result.add(exoticPotionRecipeHelper(new InventoryEarthenBullet.Craft(), new InventoryEarthenBullet(), new PotionOfEarthenArmor()));
 					}
 				}
 				break;

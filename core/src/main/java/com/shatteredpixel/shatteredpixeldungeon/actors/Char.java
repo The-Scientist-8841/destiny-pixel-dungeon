@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BrokenArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
@@ -404,6 +405,8 @@ public abstract class Char extends Actor {
 
 				if (h.belongings.attackingWeapon() instanceof InventoryEarthBullet.Bullet) dr = 0;
 			}
+
+			if (enemy.buff(BrokenArmor.class) != null) dr = 0;
 
 			//we use a float here briefly so that we don't have to constantly round while
 			// potentially applying various multiplier effects
