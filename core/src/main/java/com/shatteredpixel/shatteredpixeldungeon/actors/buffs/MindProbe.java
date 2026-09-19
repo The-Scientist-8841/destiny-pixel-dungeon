@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
+import com.watabou.utils.Bundle;
 
 public class MindProbe extends FlavourBuff {
 
@@ -36,6 +37,22 @@ public class MindProbe extends FlavourBuff {
 	}
 
 	public Char read_by = null;
+
+	private static final String READ_BY = "read_by";
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		bundle.put(READ_BY, read_by);
+
+		super.storeInBundle(bundle);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		read_by = (Char)bundle.get(READ_BY);
+
+		super.restoreFromBundle(bundle);
+	}
 
 	@Override
 	public boolean attachTo(Char target) {
