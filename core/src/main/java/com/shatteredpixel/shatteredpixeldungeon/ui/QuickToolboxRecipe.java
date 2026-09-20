@@ -54,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfEar
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShielding;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBlindingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
@@ -86,6 +87,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.po
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryDivineBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryDragonBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryEarthenBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryFogBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryMasterBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventoryShieldingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.potion_bullets.exotic.InventorySightBullet;
@@ -388,6 +390,7 @@ public class QuickToolboxRecipe extends Component {
 						result.add(exoticPotionRecipeHelper(new InventorySightBullet.Craft(), new InventorySightBullet(), new PotionOfMagicalSight()));
 						result.add(exoticPotionRecipeHelper(new InventoryMasterBullet.Craft(), new InventoryMasterBullet(), new PotionOfMastery()));
 						result.add(exoticPotionRecipeHelper(new InventoryShieldingBullet.Craft(), new InventoryShieldingBullet(), new PotionOfShielding()));
+						result.add(exoticPotionRecipeHelper(new InventoryFogBullet.Craft(), new InventoryFogBullet(), new PotionOfShroudingFog()));
 					}
 				}
 				break;
