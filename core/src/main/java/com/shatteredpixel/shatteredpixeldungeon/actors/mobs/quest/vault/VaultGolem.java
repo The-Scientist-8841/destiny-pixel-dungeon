@@ -21,22 +21,17 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.quest.vault;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.RatSprite;
-import com.watabou.utils.Random;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Golem;
 
-public class VaultRat extends Rat {
+//currently does not teleport due to wandering AI state changes, only teleports enemies
+public class VaultGolem extends Golem {
+
+	//TODO stats
 
 	{
 		activateSteathGameplayBehaviour();
 
-		maxLvl = -2;
+		maxLvl -= 2;
 	}
 
-	@Override
-	public String description() {
-		return Messages.get(Rat.class, "desc") + "\n\n" + super.description();
-	}
 }

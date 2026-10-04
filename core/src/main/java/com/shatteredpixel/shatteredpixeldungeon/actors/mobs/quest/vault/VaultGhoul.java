@@ -21,22 +21,19 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.quest.vault;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.RatSprite;
-import com.watabou.utils.Random;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
 
-public class VaultRat extends Rat {
+//does not spawn or follow a partner due to overriding AI states and partnerID
+// but will still buddy up with nearby ghouls for the purposes of survival
+public class VaultGhoul extends Ghoul {
+
+	//TODO stats
 
 	{
 		activateSteathGameplayBehaviour();
+		partnerID = -2; //does not spawn a partner
 
 		maxLvl = -2;
 	}
 
-	@Override
-	public String description() {
-		return Messages.get(Rat.class, "desc") + "\n\n" + super.description();
-	}
 }

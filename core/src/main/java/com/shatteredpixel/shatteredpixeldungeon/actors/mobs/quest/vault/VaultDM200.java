@@ -21,13 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.quest.vault;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.RatSprite;
-import com.watabou.utils.Random;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM200;
 
-public class VaultRat extends Rat {
+public class VaultDM200 extends DM200 {
+
+	//TODO stats
 
 	{
 		activateSteathGameplayBehaviour();
@@ -35,8 +33,4 @@ public class VaultRat extends Rat {
 		maxLvl = -2;
 	}
 
-	@Override
-	public String description() {
-		return Messages.get(Rat.class, "desc") + "\n\n" + super.description();
-	}
 }
