@@ -37,7 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
-public class DM100 extends Mob implements Callback {
+public class DM100 extends Mob {
 
 	private static final float TIME_TO_ZAP	= 1f;
 	
@@ -93,43 +93,42 @@ public class DM100 extends Mob implements Callback {
 			
 			spend( TIME_TO_ZAP );
 
-			Invisibility.dispel(this);
-			if (hit( this, enemy, true )) {
-				int dmg = Random.NormalIntRange(3, 10);
-				dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
-				enemy.damage( dmg, new LightningBolt() );
-
-				if (enemy.sprite.visible) {
-					enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
-					enemy.sprite.flash();
-				}
-				
-				if (enemy == Dungeon.hero) {
-					
-					PixelScene.shake( 2, 0.3f );
-					
-					if (!enemy.isAlive()) {
-						Badges.validateDeathFromEnemyMagic();
-						Dungeon.fail( this );
-						GLog.n( Messages.get(this, "zap_kill") );
-					}
-				}
-			} else {
-				enemy.sprite.showStatus( CharSprite.NEUTRAL,  enemy.defenseVerb() );
-			}
-			
-			if (sprite != null && (sprite.visible || enemy.sprite.visible)) {
-				sprite.zap( enemy.pos );
-				return false;
-			} else {
-				return true;
-			}
+			return DM100Zap(this, enemy);
 		}
 	}
-	
-	@Override
-	public void call() {
-		next();
+
+	public static boolean DM100Zap(Char source, Char target){
+		Invisibility.dispel(source);
+		if (hit( source, target, true )) {
+			int dmg = Random.NormalIntRange(3, 10);
+			dmg = Math.round(dmg * AscensionChallenge.statModifier(source));
+			target.damage( dmg, new LightningBolt() );
+
+			if (target.sprite.visible) {
+				target.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+				target.sprite.flash();
+			}
+
+			if (target == Dungeon.hero) {
+
+				PixelScene.shake(2, 0.3f);
+
+				if (!target.isAlive()) {
+					Badges.validateDeathFromEnemyMagic();
+					Dungeon.fail(source);
+					GLog.n(Messages.get(DM100.class, "zap_kill"));
+				}
+			}
+		} else {
+			target.sprite.showStatus( CharSprite.NEUTRAL,  target.defenseVerb() );
+		}
+
+		if (source.sprite != null && (source.sprite.visible || target.sprite.visible)) {
+			source.sprite.zap( target.pos );
+			return false;
+		} else {
+			return true;
+		}
 	}
-	
+
 }

@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BannerSprites;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BlobEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.EmoIcon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
@@ -196,6 +197,7 @@ public class GameScene extends PixelScene {
 	private Group statuses;
 	private Group emoicons;
 	private Group overFogEffects;
+	private Group checkedCells;
 	private Group healthIndicators;
 
 	private InventoryPane inventory;
@@ -356,7 +358,10 @@ public class GameScene extends PixelScene {
 		add( spells );
 
 		add(overFogEffects);
-		
+
+		checkedCells = new Group();
+		add(checkedCells);
+
 		statuses = new Group();
 		add( statuses );
 		
@@ -1218,9 +1223,20 @@ public class GameScene extends PixelScene {
 	}
 
 	public static void effectOverFog( Visual effect ) {
-		scene.overFogEffects.add( effect );
+		if (scene != null) scene.overFogEffects.add( effect );
 	}
-	
+
+	public static CheckedCell checkedCell( int pos, int source ){
+		if (scene != null) {
+			CheckedCell check = (CheckedCell) scene.checkedCells.recycle(CheckedCell.class);
+			check.reset(pos, source);
+			return check;
+		} else {
+			return null;
+		}
+	}
+
+
 	public static Ripple ripple( int pos ) {
 		if (scene != null) {
 			Ripple ripple = (Ripple) scene.ripples.recycle(Ripple.class);

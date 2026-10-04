@@ -50,17 +50,19 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class MagicalBurning extends Buff implements Hero.Doom {
+public class MagicalBurning extends Buff implements Hero.Doom, Buff.DOTbuff {
 	
 	private static final float DURATION = 8f;
 
 	private float left;
 	private boolean acted = false; //whether the debuff has done any damage at all yet
 	private int burnIncrement = 0; //for tracking burning of hero items
+	private int nextHit = 0; //we pre-caulcate the incoming hit for a bit more accuracy in totalIncomingDMG()
 
 	private static final String LEFT	= "left";
 	private static final String ACTED	= "acted";
 	private static final String BURN	= "burnIncrement";
+	private static final String NEXT_DMG= "next_dmg";
 
 	{
 		type = buffType.NEGATIVE;
@@ -73,6 +75,7 @@ public class MagicalBurning extends Buff implements Hero.Doom {
 		bundle.put( LEFT, left );
 		bundle.put( ACTED, acted );
 		bundle.put( BURN, burnIncrement );
+		bundle.put( NEXT_DMG, nextHit );
 	}
 
 	@Override
@@ -81,6 +84,7 @@ public class MagicalBurning extends Buff implements Hero.Doom {
 		left = bundle.getFloat( LEFT );
 		acted = bundle.getBoolean( ACTED );
 		burnIncrement = bundle.getInt( BURN );
+		nextHit = bundle.getInt(NEXT_DMG);
 	}
 
 	@Override
@@ -97,7 +101,11 @@ public class MagicalBurning extends Buff implements Hero.Doom {
 		if (target.isAlive() && !target.isImmune(getClass())) {
 
 			acted = true;
-			int damage = Random.NormalIntRange( 3, 6 + Dungeon.scalingDepth()/2 );
+			if (nextHit == 0){
+				nextHit = Random.NormalIntRange( 3, 6 + Dungeon.scalingDepth()/2 );
+			}
+			int damage = nextHit;
+			nextHit = Random.NormalIntRange( 3, 6 + Dungeon.scalingDepth()/2 );
 			Buff.detach( target, Chill.class);
 			Buff.detach( target, Burning.class);
 
@@ -170,6 +178,7 @@ public class MagicalBurning extends Buff implements Hero.Doom {
 		if (left <= 0) {
 			detach();
 		}
+		target.needsIncomingDOTUpdate = true;
 		
 		return true;
 	}
@@ -240,5 +249,14 @@ public class MagicalBurning extends Buff implements Hero.Doom {
 		
 		Dungeon.fail( this );
 		GLog.n( Messages.get(this, "ondeath") );
+	}
+
+	@Override
+	public int totalIncomingDMG() {
+		if (nextHit == 0){
+			nextHit = Random.NormalIntRange( 3, 6 + Dungeon.scalingDepth()/2 );
+		}
+		float avgDmg = 4.5f + Dungeon.scalingDepth()/4f;
+		return (int)Math.round(nextHit + Math.ceil(left-1)*avgDmg);
 	}
 }

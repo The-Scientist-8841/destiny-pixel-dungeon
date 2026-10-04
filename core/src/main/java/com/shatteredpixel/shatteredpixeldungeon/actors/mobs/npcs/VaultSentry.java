@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.WardSprite;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 public class VaultSentry extends NPC {
 
@@ -85,7 +86,7 @@ public class VaultSentry extends NPC {
 						SFXLastPlayed = ShatteredPixelDungeon.realTime;
 					}
 					if (Dungeon.level.heroFOV[cell]) {
-						GameScene.effect(new CheckedCell(cell, pos));
+						GameScene.checkedCell(cell, pos);
 						visible = true;
 					}
 				}

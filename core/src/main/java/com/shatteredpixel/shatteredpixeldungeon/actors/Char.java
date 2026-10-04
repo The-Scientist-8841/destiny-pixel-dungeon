@@ -554,8 +554,8 @@ public abstract class Char extends Actor {
 
 			if (enemy.isAlive() && enemy.alignment != alignment && prep != null && prep.canKO(enemy)){
 				enemy.HP = 0;
-				if (enemy.buff(Brute.BruteRage.class) != null){
-					enemy.buff(Brute.BruteRage.class).detach();
+				for (Buff b : enemy.buffs(Brute.BruteRage.class)){
+					b.detach();
 				}
 				if (!enemy.isAlive()) {
 					enemy.die(this);
@@ -575,8 +575,8 @@ public abstract class Char extends Actor {
 						&& !Char.hasProp(enemy, Property.MINIBOSS) &&
 						(enemy.HP/(float)enemy.HT) <= 0.4f*((Hero)this).pointsInTalent(Talent.COMBINED_LETHALITY)/3f) {
 					enemy.HP = 0;
-					if (enemy.buff(Brute.BruteRage.class) != null){
-						enemy.buff(Brute.BruteRage.class).detach();
+					for (Buff b : enemy.buffs(Brute.BruteRage.class)){
+						b.detach();
 					}
 					if (!enemy.isAlive()) {
 						enemy.die(this);
@@ -854,6 +854,25 @@ public abstract class Char extends Actor {
 		needsShieldUpdate = false;
 		return cachedShield;
 	}
+
+	//just as above, used to avoid excess calls to buffs()
+	private int cachedIncomingDOT = 0;
+	public boolean needsIncomingDOTUpdate = true;
+
+	public int incomingDOT(){
+		if (!needsIncomingDOTUpdate){
+			return cachedIncomingDOT;
+		}
+
+		cachedIncomingDOT = 0;
+		for (Buff b : buffs()){
+			if (b instanceof Buff.DOTbuff){
+				cachedIncomingDOT += Math.round(resist(b.getClass()) * ((Buff.DOTbuff) b).totalIncomingDMG());
+			}
+		}
+		needsIncomingDOTUpdate = false;
+		return cachedIncomingDOT;
+	}
 	
 	public void damage( int dmg, Object src ) {
 		
@@ -947,7 +966,7 @@ public abstract class Char extends Actor {
 				b.announced = false;
 				b.set(dmg, Sickle.HarvestBleedTracker.class);
 				b.attachTo(this);
-				sprite.showStatus(CharSprite.WARNING, Messages.titleCase(b.name()) + " " + (int)b.level());
+				sprite.showStatus(CharSprite.WARNING, Messages.titleCase(b.name()) + " " + dmg);
 				return;
 			}
 		}
@@ -1125,6 +1144,10 @@ public abstract class Char extends Actor {
 	}
 	
 	public void die( Object src ) {
+		//something else is forcing death, so remove death mark to prevent conflicts
+		if (buff(DeathMark.DeathMarkTracker.class) != null){
+			buff(DeathMark.DeathMarkTracker.class).detachOnDeath();
+		}
 		destroy();
 		if (src != Chasm.class) {
 			sprite.die();

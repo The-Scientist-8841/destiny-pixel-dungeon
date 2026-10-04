@@ -32,9 +32,12 @@ public class CheckedCell extends Image {
 	private float alpha;
 	private float delay;
 	
-	public CheckedCell( int pos ) {
-		super( TextureCache.createSolid( 0xFF55AAFF ) );
+	public CheckedCell() {
+		super(TextureCache.createSolid(0xFF55AAFF));
+	}
 
+	public void reset( int pos, int visSource ){
+		revive();
 		origin.set( 0.5f );
 		
 		point( DungeonTilemap.tileToWorld( pos ).offset(
@@ -42,12 +45,10 @@ public class CheckedCell extends Image {
 			DungeonTilemap.SIZE / 2 ) );
 		
 		alpha = 0.8f;
-	}
+		scale.set( DungeonTilemap.SIZE * alpha );
 
-	public CheckedCell( int pos, int visSource ) {
-		this( pos );
 		delay = (Dungeon.level.trueDistance(pos, visSource)-1f);
-		//steadily accelerates as distance increases
+		//delay steadily accelerates as distance increases
 		if (delay > 0) {
 			delay = (float)Math.pow(delay, 0.67f)/10f;
 			alpha( 0 );
@@ -62,7 +63,7 @@ public class CheckedCell extends Image {
 			alpha( alpha );
 			scale.set( DungeonTilemap.SIZE * alpha );
 		} else {
-			killAndErase();
+			kill();
 		}
 	}
 }
