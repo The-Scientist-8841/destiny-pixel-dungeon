@@ -21,7 +21,9 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.quest.vault;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM100;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.DwarfToken;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.VaultDM100Sprite;
 
 public class VaultDM100 extends DM100 {
@@ -32,7 +34,16 @@ public class VaultDM100 extends DM100 {
 		activateSteathGameplayBehaviour();
 		spriteClass = VaultDM100Sprite.class;
 
-		maxLvl = -2;
+		defenseSkill = 18;
+
+		maxLvl = 30;
+		EXP = 0;
+		loot = DwarfToken.class;
+		lootChance = 1;
 	}
 
+	@Override
+	public int attackSkill( Char target ) {
+		return 25;
+	}
 }

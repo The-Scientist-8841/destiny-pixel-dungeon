@@ -103,6 +103,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogDzewa;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -136,6 +137,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -162,6 +164,7 @@ import com.watabou.utils.BArray;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -958,20 +961,22 @@ public abstract class Char extends Actor {
 			damage *= 1.25f;
 		}
 
-		if (buff(Sickle.HarvestBleedTracker.class) != null){
-			buff(Sickle.HarvestBleedTracker.class).detach();
-
+		//two separate things can convert dmg to bleed, we handle that here
+		//we do this before modifiers are applied back to dmg as we don't want to stack them twice (from this and bleed)
+		float bleedAmt = 0;
+		Class bleedSrc = null;
+		if (src instanceof Char && ((Char) src).buff(Sickle.HarvestBleedTracker.class) != null){
 			if (!isImmune(Bleeding.class)){
-				Bleeding b = buff(Bleeding.class);
-				if (b == null){
-					b = new Bleeding();
-				}
-				b.announced = false;
-				b.set(dmg, Sickle.HarvestBleedTracker.class);
-				b.attachTo(this);
-				sprite.showStatus(CharSprite.WARNING, Messages.titleCase(b.name()) + " " + dmg);
-				return;
+				bleedAmt = dmg;
+				bleedSrc = Sickle.HarvestBleedTracker.class;
 			}
+			((Char) src).buff(Sickle.HarvestBleedTracker.class).detach();
+		} else if (src instanceof Char && ((Char) src).buff(Vorpal.VorpalTracker.class) != null){
+			if (!isImmune(Bleeding.class)){
+				bleedAmt = ((Char) src).buff(Vorpal.VorpalTracker.class).powerMulti*(2+dmg/2f);
+				bleedSrc = Vorpal.class;
+			}
+			((Char) src).buff(Vorpal.VorpalTracker.class).detach();
 		}
 
 		Class<?> srcClass = src.getClass();
@@ -1013,14 +1018,32 @@ public abstract class Char extends Actor {
 			shield.activate();
 		}
 
+		//cancel bleed if the vorpal hit is going to kill
+		if (bleedSrc == Vorpal.class && dmg > (shielding() + HP)){
+			bleedAmt = 0;
+		}
+
+		if (bleedAmt > 0){
+			Bleeding b = buff(Bleeding.class);
+			if (b == null){
+				b = new Bleeding();
+			}
+			b.announced = false;
+			b.attachTo(this);
+			b.set(bleedAmt, bleedSrc);
+			sprite.showStatus(CharSprite.WARNING, Messages.titleCase(b.name()) + " " + dmg);
+			Splash.at( sprite.center(), -PointF.PI / 2, PointF.PI / 6, sprite.blood(), 10 );
+			return;
+		}
+
 		int shielded = dmg;
 		dmg = ShieldBuff.processDamage(this, dmg, src);
 		shielded -= dmg;
 		HP -= dmg;
 
-		if (HP > 0 && buff(Grim.GrimTracker.class) != null){
+		if (HP > 0 && src instanceof Char && ((Char) src).buff(Grim.GrimTracker.class) != null){
 
-			float finalChance = buff(Grim.GrimTracker.class).maxChance;
+			float finalChance = ((Char) src).buff(Grim.GrimTracker.class).maxChance;
 			finalChance *= (float)Math.pow( ((HT - HP) / (float)HT), 2);
 
 			if (Random.Float() < finalChance) {
@@ -1029,22 +1052,26 @@ public abstract class Char extends Actor {
 				HP -= extraDmg;
 
 				sprite.emitter().burst( ShadowParticle.UP, 5 );
-				if (!isAlive() && buff(Grim.GrimTracker.class).qualifiesForBadge){
+				if (!isAlive() && ((Char) src).buff(Grim.GrimTracker.class).qualifiesForBadge){
 					Badges.validateGrimWeapon();
 				}
 			}
 		}
 
-		if (HP < 0 && src instanceof Char && alignment == Alignment.ENEMY){
-			if (((Char) src).buff(Kinetic.KineticTracker.class) != null){
-				int dmgToAdd = -HP;
+		if (src instanceof Char && ((Char) src).buff(Kinetic.KineticTracker.class) != null){
+			int dmgToAdd = 0;
+			//hitting an ally can spend conserved dmg, but not build it
+			if (HP < 0 && alignment != ((Char) src).alignment){
+				dmgToAdd = -HP;
 				dmgToAdd -= ((Char) src).buff(Kinetic.KineticTracker.class).conservedDamage;
 				dmgToAdd = Math.round(dmgToAdd * Weapon.Enchantment.genericProcChanceMultiplier((Char) src));
-				if (dmgToAdd > 0) {
-					Buff.affect((Char) src, Kinetic.ConservedDamage.class).setBonus(dmgToAdd);
-				}
-				((Char) src).buff(Kinetic.KineticTracker.class).detach();
 			}
+			if (dmgToAdd > 0){
+				Buff.affect((Char) src, Kinetic.ConservedDamage.class).setBonus(dmgToAdd);
+			} else if (((Char) src).buff(Kinetic.ConservedDamage.class) != null){
+				((Char) src).buff(Kinetic.ConservedDamage.class).detach();
+			}
+			((Char) src).buff(Kinetic.KineticTracker.class).detach();
 		}
 		
 		if (sprite != null) {
