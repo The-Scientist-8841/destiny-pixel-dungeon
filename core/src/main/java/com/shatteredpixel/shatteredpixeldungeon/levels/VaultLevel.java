@@ -40,31 +40,27 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.builders.Builder;
 import com.shatteredpixel.shatteredpixeldungeon.levels.builders.GridBuilder;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.AlternatingTrapsRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultCircleRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultCrossRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultEnemyCenterRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultEntranceRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultFinalRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultLasersRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultLongRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultBookcaseTreasureRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultFlamePathRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultLaserTreasureRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultManyScansRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultQuadrantsRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultRingRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultRingsRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultSimpleEnemyTreasureRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultMultipleEnemyTreasureRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultSingleEnemyTreasureRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.VaultRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure.VaultTreasureRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.watabou.noosa.Game;
@@ -72,7 +68,6 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class VaultLevel extends CityLevel {
@@ -81,26 +76,9 @@ public class VaultLevel extends CityLevel {
 	protected boolean build() {
 		itemsToSpawn.clear();
 
-		for (int i = 0; i < 10; i++){
-			Item item = Generator.randomUsingDefaults(Random.oneOf(
-					Generator.Category.WEP_T2, Generator.Category.WEP_T2,
-					Generator.Category.ARMOR, Generator.Category.ARMOR,
-					Generator.Category.WAND,
-					Generator.Category.RING));
-			//regrowth is disallowed as it can be used to farm HP regen
-			if (item instanceof WandOfRegrowth){
-				continue;
-			}
-			if (item.cursed){
-				item.cursed = false;
-				if (item instanceof MeleeWeapon && ((MeleeWeapon) item).hasCurseEnchant()){
-					((MeleeWeapon) item).enchant(null);
-				} else if (item instanceof Armor && ((Armor) item).hasCurseGlyph()){
-					((Armor) item).inscribe(null);
-				}
-			}
-			//not true ID, prevents extra info about rings leaking to main game
-			item.levelKnown = item.cursedKnown = true;
+		for (int i = 0; i < 8; i++){
+			Item item = createEquipment(0);
+			//TODO consumables
 			addItemToSpawn(item);
 		}
 		addItemToSpawn(Generator.randomUsingDefaults(Generator.Category.FOOD));
@@ -116,34 +94,17 @@ public class VaultLevel extends CityLevel {
 
 		initRooms.add(roomEntrance = new VaultEntranceRoom());
 
-		initRooms.add(new VaultRingRoom());
-		initRooms.add(new VaultRingRoom());
-		initRooms.add(new VaultCircleRoom());
-		initRooms.add(new VaultCircleRoom());
-		initRooms.add(new VaultCrossRoom());
-		initRooms.add(new VaultCrossRoom());
-		initRooms.add(new VaultQuadrantsRoom());
-		initRooms.add(new VaultQuadrantsRoom());
-		initRooms.add(new VaultRingsRoom());
-		initRooms.add(new VaultRingsRoom());
+		int i = 0;
+		while (i < 12){
+			VaultRoom r = VaultRoom.createRoom();
+			i += r.sizeFactor();
+			initRooms.add(r);
+		}
 
-		initRooms.add(new VaultEnemyCenterRoom());
-		initRooms.add(new VaultEnemyCenterRoom());
-		initRooms.add(new VaultSimpleEnemyTreasureRoom());
-		initRooms.add(new AlternatingTrapsRoom());
-		initRooms.add(new VaultLasersRoom());
-
-		initRooms.add(new VaultLaserTreasureRoom());
-		initRooms.add(new VaultFlamePathRoom());
-
-		initRooms.add(new VaultBookcaseTreasureRoom());
-		initRooms.add(new VaultSingleEnemyTreasureRoom());
-
-		initRooms.add(new VaultMultipleEnemyTreasureRoom());
-		initRooms.add(new VaultManyScansRoom());
-
-		initRooms.add(new VaultLongRoom());
-		initRooms.add(new VaultLongRoom());
+		VaultTreasureRoom.generateRoomList();
+		for (i = 0; i < 6; i++){
+			initRooms.add(VaultTreasureRoom.nextRoom());
+		}
 
 		initRooms.add(new VaultFinalRoom());
 		return initRooms;
@@ -152,7 +113,7 @@ public class VaultLevel extends CityLevel {
 	@Override
 	public float levelExplorePercent(int depth) {
 		//very simple for now, we just look at all discoverable cells.
-		// Each 1% seen = 1.12% explored. 90% seem = 100% explored
+		// Each 1% seen = 1.12% explored. 90% seen = 100% explored
 		int seen = 0, total = 0;
 		for (int i = 0; i < length; i++){
 			if (discoverable[i]) total++;
@@ -175,6 +136,149 @@ public class VaultLevel extends CityLevel {
 	public boolean activateTransition(Hero hero, LevelTransition transition) {
 		//walking onto transitions does nothing, need to use crystal
 		return false;
+	}
+
+	//only occurs in levelgen, no need to bundle these
+	ArrayList<ArrayList<Item>> equipmentLoot = new ArrayList<>();
+	{
+		equipmentLoot.add(new ArrayList<>());
+		equipmentLoot.add(new ArrayList<>());
+		equipmentLoot.add(new ArrayList<>());
+		equipmentLoot.add(new ArrayList<>());
+	}
+
+	public Item createEquipment(int lootTier) {
+
+		ArrayList<Item> lootList = equipmentLoot.get(lootTier);
+
+		if (lootList.isEmpty()) {
+			Item loot;
+			//first weapon (lower tier, more upgrades)
+			switch (lootTier) {
+				default:
+				case 0:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T2);
+					break;
+				case 1:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T2);
+					break;
+				case 2:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T3);
+					break;
+				case 3:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T4);
+					break;
+			}
+			if (lootTier == 0) { //always +0 at T0
+				loot.level(lootTier);
+			} else {
+				loot.level(lootTier + Random.Int(2));
+			}
+			if (Random.Int(3) >= lootTier) {
+				((Weapon) loot).enchant(null);
+			} else {
+				((Weapon) loot).enchant();
+			}
+			lootList.add(loot);
+
+			//second weapon (higher tier, fewer upgrades)
+			switch (lootTier) {
+				default:
+				case 0:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T2);
+					break;
+				case 1:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T3);
+					break;
+				case 2:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T4);
+					break;
+				case 3:
+					loot = Generator.randomUsingDefaults(Generator.Category.WEP_T5);
+					break;
+			}
+			loot.level(Math.max(0, Random.Int(2) + lootTier - 1));
+			if (Random.Int(3) >= lootTier) {
+				((Weapon) loot).enchant(null);
+			} else {
+				((Weapon) loot).enchant();
+			}
+			lootList.add(loot);
+
+			//missile weapon (same level/tiering as 2nd weapon)
+			switch (lootTier) {
+				default:
+				case 0:
+					loot = Generator.randomUsingDefaults(Generator.Category.MIS_T2);
+					break;
+				case 1:
+					loot = Generator.randomUsingDefaults(Generator.Category.MIS_T3);
+					break;
+				case 2:
+					loot = Generator.randomUsingDefaults(Generator.Category.MIS_T4);
+					break;
+				case 3:
+					loot = Generator.randomUsingDefaults(Generator.Category.MIS_T5);
+					break;
+			}
+			loot.level(Math.max(0, Random.Int(2) + lootTier - 1));
+			if (Random.Int(3) >= lootTier) {
+				((Weapon) loot).enchant(null);
+			} else {
+				((Weapon) loot).enchant();
+			}
+			lootList.add(loot);
+
+			//armor (same level/tiering as 2nd weapon)
+			switch (lootTier) {
+				default:
+				case 0:
+					loot = new LeatherArmor();
+					break;
+				case 1:
+					loot = new MailArmor();
+					break;
+				case 2:
+					loot = new ScaleArmor();
+					break;
+				case 3:
+					loot = new PlateArmor();
+					break;
+			}
+			loot.level(Math.max(0, Random.Int(2) + lootTier - 1));
+			if (Random.Int(3) >= lootTier) {
+				((Armor) loot).inscribe(null);
+			} else {
+				((Armor) loot).inscribe();
+			}
+			lootList.add(loot);
+
+			//wand (some wands are banned)
+			do {
+				loot = Generator.randomUsingDefaults(Generator.Category.WAND);
+			} while (loot instanceof WandOfRegrowth || loot instanceof WandOfTransfusion || loot instanceof WandOfCorruption);
+			loot.level(Math.max(0, Random.Int(2) + lootTier - 1));
+			((Wand)loot).curCharges = ((Wand)loot).maxCharges;
+			lootList.add(loot);
+
+			//ring (no ring at T0, some rings are banned)
+			if (lootTier > 0) {
+				do {
+					loot = Generator.randomUsingDefaults(Generator.Category.RING);
+				} while (loot instanceof RingOfWealth || loot instanceof RingOfMight || loot instanceof RingOfForce);
+				loot.level(Math.max(0, Random.Int(2) + lootTier - 1));
+				lootList.add(loot);
+			}
+
+			Random.shuffle(lootList);
+		}
+
+		Item loot = lootList.remove(0);
+		if (loot != null) {
+			loot.cursed = false;
+			loot.identify(false);
+		}
+		return loot;
 	}
 
 	public static Class<?extends Mob>[] T1Mobs = new Class[]{
