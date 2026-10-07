@@ -22,11 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.vault.treasure;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.quest.vault.VaultRat;
-import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.VaultLevel;
@@ -36,41 +34,69 @@ import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
-public class VaultSingleEnemyTreasureRoom extends VaultTreasureRoom {
+public class VaultFlamesTreasureRoom extends VaultTreasureRoom {
 
 	@Override
 	public void paint(Level level) {
 		Painter.fill( level, this, Terrain.WALL );
 
-		Painter.fillEllipse( level, this, 3, Terrain.EMPTY );
+		Painter.fillEllipse( level, this, 2, Terrain.EMPTY );
 
-		Painter.drawInside(level, this, entrance(), 3, Terrain.EMPTY);
+		Point c = center();
 
-		Mob enemy = Reflection.newInstance(Random.oneOf(VaultLevel.T2Mobs));
-		enemy.pos = level.pointToCell(center());
-		level.mobs.add(enemy);
+		int[] treasurePositions = new int[]{
+				level.pointToCell(c)-3*level.width(),
+				level.pointToCell(c)+3,
+				level.pointToCell(c)+3*level.width(),
+				level.pointToCell(c)-3,
+				level.pointToCell(c)-3*level.width(),
+				level.pointToCell(c)+3,
+		};
 
-		int treasurePos;
+		int treasureIdx;
+		int consumablePos;
 		if (entrance().x == left){
-			treasurePos = enemy.pos+2;
+			treasureIdx = 1;
 		} else if (entrance().y == top){
-			treasurePos = enemy.pos+2*level.width();
+			treasureIdx = 2;
 		} else if (entrance().x == right){
-			treasurePos = enemy.pos-2;
+			treasureIdx = 3;
 		} else {
-			treasurePos = enemy.pos-2*level.width();
+			treasureIdx = 4;
 		}
+		Painter.set(level, treasurePositions[treasureIdx-1], Terrain.PEDESTAL);
+		Painter.set(level, treasurePositions[treasureIdx], Terrain.PEDESTAL);
+		Painter.set(level, treasurePositions[treasureIdx+1], Terrain.PEDESTAL);
 
 		Item treasureItem = ((VaultLevel)level).createEquipment(2);
-		level.drop(treasureItem, treasurePos).type = Heap.Type.CHEST;
+		level.drop(treasureItem, treasurePositions[treasureIdx]).type = Heap.Type.CHEST;
 
-		int i;
-		do {
-			i = PathFinder.NEIGHBOURS8[Random.Int(PathFinder.NEIGHBOURS8.length)];
-		} while (level.map[treasurePos+i] == Terrain.WALL);
+		for (int x = left + 2; x <= right - 2; x++){
+			for (int y = top + 2; y <= bottom - 2; y++){
+				int cell = x + level.width()*y;
+				if (level.map[cell] == Terrain.EMPTY) {
+					VaultLevel.VaultFlameTrap.setupTrap(level, x + level.width() * y, 1, 1, 1);
+				}
+			}
+		}
 
-		treasureItem = ((VaultLevel)level).createConsumabe(2);
-		level.drop(treasureItem, treasurePos+i);
+		if (Math.abs(c.x - entrance().x) <= 1 || Math.abs(c.y - entrance().y) <= 1){
+			Painter.drawInside(level, this, entrance(), 1, Terrain.EMPTY);
+		} else {
+			Painter.drawInside(level, this, entrance(), 2, Terrain.EMPTY);
+		}
+
+		treasureItem = ((VaultLevel) level).findT3SolveItem();
+		if (treasureItem == null) {
+			treasureItem = ((VaultLevel) level).createConsumabe(2);
+		}
+		if (Random.Int(2) == 0){
+			level.drop(treasureItem, treasurePositions[treasureIdx-1]);
+		} else {
+			level.drop(treasureItem, treasurePositions[treasureIdx+1]);
+		}
+
+		level.addItemToSpawn(new PotionOfPurity());
 
 		entrance().set(Door.Type.REGULAR);
 
@@ -86,4 +112,5 @@ public class VaultSingleEnemyTreasureRoom extends VaultTreasureRoom {
 		Point c = center();
 		return (Math.abs(c.x - p.x) <= 2 || Math.abs(c.y - p.y) <= 2) && super.canConnect(p);
 	}
+
 }
