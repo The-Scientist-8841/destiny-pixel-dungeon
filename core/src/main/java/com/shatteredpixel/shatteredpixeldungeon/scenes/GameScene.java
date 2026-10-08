@@ -91,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.tiles.GridTileMap;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.RaisedTerrainTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.TerrainFeaturesTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.WallBlockingTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.WallOcclusionTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Banner;
@@ -163,6 +164,7 @@ public class GameScene extends PixelScene {
 	private SkinnedBlock water;
 	private DungeonTerrainTilemap tiles;
 	private GridTileMap visualGrid;
+	private WallOcclusionTilemap occlusion;
 	private TerrainFeaturesTilemap terrainFeatures;
 	private RaisedTerrainTilemap raisedTerrain;
 	private DungeonWallsTilemap walls;
@@ -285,6 +287,9 @@ public class GameScene extends PixelScene {
 
 		visualGrid = new GridTileMap();
 		terrain.add( visualGrid );
+
+		occlusion = new WallOcclusionTilemap();
+		terrain.add( occlusion );
 
 		terrainFeatures = new TerrainFeaturesTilemap(Dungeon.level.plants, Dungeon.level.traps);
 		terrain.add(terrainFeatures);
@@ -1356,6 +1361,7 @@ public class GameScene extends PixelScene {
 	public static void resetMap() {
 		if (scene != null) {
 			scene.tiles.map(Dungeon.level.map, Dungeon.level.width() );
+			scene.occlusion.map(Dungeon.level.map, Dungeon.level.width() );
 			scene.visualGrid.map(Dungeon.level.map, Dungeon.level.width() );
 			scene.terrainFeatures.map(Dungeon.level.map, Dungeon.level.width() );
 			scene.raisedTerrain.map(Dungeon.level.map, Dungeon.level.width() );
@@ -1368,6 +1374,7 @@ public class GameScene extends PixelScene {
 	public static void updateMap() {
 		if (scene != null) {
 			scene.tiles.updateMap();
+			scene.occlusion.updateMap();
 			scene.visualGrid.updateMap();
 			scene.terrainFeatures.updateMap();
 			scene.raisedTerrain.updateMap();
@@ -1379,6 +1386,7 @@ public class GameScene extends PixelScene {
 	public static void updateMap( int cell ) {
 		if (scene != null) {
 			scene.tiles.updateMapCell( cell );
+			scene.occlusion.updateMapCell( cell );
 			scene.visualGrid.updateMapCell( cell );
 			scene.terrainFeatures.updateMapCell( cell );
 			scene.raisedTerrain.updateMapCell( cell );
@@ -1742,10 +1750,7 @@ public class GameScene extends PixelScene {
 	private static ArrayList<Object> getObjectsAtCell( int cell ){
 		ArrayList<Object> objects = new ArrayList<>();
 
-		if (cell == Dungeon.hero.pos) {
-			objects.add(Dungeon.hero);
-
-		} else if (Dungeon.level.heroFOV[cell]) {
+		if (Dungeon.level.heroFOV[cell] && cell != Dungeon.hero.pos) {
 			Mob mob = (Mob) Actor.findChar(cell);
 			if (mob != null) objects.add(mob);
 		}
@@ -1755,6 +1760,10 @@ public class GameScene extends PixelScene {
 
 		Plant plant = Dungeon.level.plants.get( cell );
 		if (plant != null) objects.add(plant);
+
+		if (cell == Dungeon.hero.pos) {
+			objects.add(Dungeon.hero);
+		}
 
 		Trap trap = Dungeon.level.traps.get( cell );
 		if (trap != null && trap.visible) objects.add(trap);
@@ -1848,7 +1857,7 @@ public class GameScene extends PixelScene {
 			if (objects.isEmpty()) {
 				textLines.add(0, Messages.get(GameScene.class, "go_here"));
 			} else if (objects.get(0) instanceof Hero) {
-				textLines.add(0, Messages.get(GameScene.class, "go_here"));
+				textLines.add(0, Messages.get(GameScene.class, "cancel"));
 			} else if (objects.get(0) instanceof Mob) {
 				if (((Mob) objects.get(0)).alignment != Char.Alignment.ENEMY) {
 					textLines.add(0, Messages.get(GameScene.class, "interact"));

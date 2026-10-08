@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwarmIntelTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
@@ -313,9 +314,11 @@ public abstract class Mob extends Char {
 			return true;
 		}
 
+		AiState curState = state;
 		boolean result = state.act( enemyInFOV, justAlerted );
 
-		processSwarmIntel( enemyInFOV );
+		//if we just swapped into hunting, this gets processed again
+		processSwarmIntel(enemyInFOV && state == curState);
 
 		//for updating hero FOV
 		if (buff(PowerOfMany.PowerBuff.class) != null){
@@ -348,9 +351,14 @@ public abstract class Mob extends Char {
 					mob.beckon(enemy.pos);
 				}
 			}
+			Buff.affect( Dungeon.hero, SwarmIntelTracker.class );
 		} else {
 			swarmDetectionRange = 0;
 		}
+	}
+
+	public int swarmAlertRange(){
+		return (int)swarmDetectionRange;
 	}
 	
 	//FIXME this is sort of a band-aid correction for allies needing more intelligent behaviour
