@@ -56,6 +56,7 @@ public class Assets {
 
 		public static final String TOOLBOX_BRICKS = "environment/toolbox_bricks.png";
 
+		public static final String CARPET           = "environment/custom_tiles/carpet.png";
 		public static final String WEAK_FLOOR       = "environment/custom_tiles/weak_floor.png";
 		public static final String SEWER_BOSS       = "environment/custom_tiles/sewer_boss.png";
 		public static final String PRISON_QUEST     = "environment/custom_tiles/prison_quest.png";
@@ -345,6 +346,8 @@ public class Assets {
 		public static final String FUNGAL_CORE      = "sprites/fungal_core.png";
 		public static final String SENTRIES			= "sprites/sentries.png";
 		public static final String VAULT_SKELETON	= "sprites/vault_skeleton.png";
-		public static final String VAULT_DM100   = "sprites/vault_dm100.png";
+		public static final String VAULT_DM100      = "sprites/vault_dm100.png";
+		public static final String VAULT_TOKENS_DOOR= "sprites/vault_tokens_door.png";
+		public static final String VAULT_MIRROR     = "sprites/vault_mirror.png";
 	}
 }

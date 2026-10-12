@@ -283,10 +283,6 @@ public class GameScene extends PixelScene {
 		customTiles = new Group();
 		terrain.add(customTiles);
 
-		for( CustomTilemap visual : Dungeon.level.customTiles){
-			addCustomTile(visual);
-		}
-
 		visualGrid = new GridTileMap();
 		terrain.add( visualGrid );
 
@@ -336,10 +332,6 @@ public class GameScene extends PixelScene {
 		customWalls = new Group();
 		add(customWalls);
 
-		for( CustomTilemap visual : Dungeon.level.customWalls){
-			addCustomWall(visual);
-		}
-
 		levelWallVisuals = Dungeon.level.addWallVisuals();
 		add( levelWallVisuals );
 
@@ -374,6 +366,15 @@ public class GameScene extends PixelScene {
 		for (TargetedCell cell : TargetedCell.cells.valueList()){
 			cell.reset(cell.pos, cell.time);
 			targetedCells.add(cell);
+		}
+
+		//set these up later so that they can influence previous tilemaps if needed
+		for( CustomTilemap visual : Dungeon.level.customTiles){
+			addCustomTile(visual);
+		}
+
+		for( CustomTilemap visual : Dungeon.level.customWalls){
+			addCustomWall(visual);
 		}
 
 		statuses = new Group();
@@ -1531,9 +1532,10 @@ public class GameScene extends PixelScene {
 				if (mob.sprite != null) {
 					if (mob instanceof Mimic && mob.state == mob.PASSIVE && ((Mimic) mob).stealthy() && Dungeon.level.visited[mob.pos]){
 						//mimics stay visible in fog of war after being first seen
+						//TODO can probably migrate this to Charsprite.visibleOutOfFFOV
 						mob.sprite.visible = true;
 					} else {
-						mob.sprite.visible = Dungeon.level.heroFOV[mob.pos];
+						mob.sprite.visible = mob.sprite.visibleOutOfFFOV || Dungeon.level.heroFOV[mob.pos];
 					}
 				}
 				if (mob instanceof Ghoul){

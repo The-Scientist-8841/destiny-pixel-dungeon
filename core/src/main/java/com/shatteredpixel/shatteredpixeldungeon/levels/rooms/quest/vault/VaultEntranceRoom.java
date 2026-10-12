@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.AmbitiousImpR
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.custom.Carpet;
 import com.watabou.noosa.Tilemap;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -55,12 +56,7 @@ public class VaultEntranceRoom extends VaultRoom {
 
 		for (Room.Door door : connected.values()) {
 			door.set( Room.Door.Type.REGULAR );
-			if ((door.x >= c.x-1 && door.x <= c.x+1)
-					|| (door.y >= c.y-1 && door.y <= c.y+1)){
-				Painter.drawInside(level, this, door, 3, Terrain.EMPTY_SP);
-			} else {
-				Painter.drawInside(level, this, door, 3, Terrain.EMPTY);
-			}
+			Painter.drawInside(level, this, door, 3, Terrain.EMPTY);
 		}
 
 		Painter.set(level, c.x-2, c.y-2, Terrain.REGION_DECO);
@@ -68,8 +64,16 @@ public class VaultEntranceRoom extends VaultRoom {
 		Painter.set(level, c.x-2, c.y+2, Terrain.REGION_DECO);
 		Painter.set(level, c.x+2, c.y+2, Terrain.REGION_DECO);
 
-		Painter.fill( level, left+2, top+4, 7, 3, Terrain.EMPTY_SP);
-		Painter.fill( level, left+4, top+2, 3, 7, Terrain.EMPTY_SP);
+		Painter.fill( level, left+2, top+4, 7, 3, Terrain.CUSTOM_DECO_EMPTY);
+		Painter.fill( level, left+4, top+2, 3, 7, Terrain.CUSTOM_DECO_EMPTY);
+
+		Carpet carpet = new Carpet();
+		carpet.setRect(left+2, top+4, 7, 3);
+		level.customTiles.add(carpet);
+
+		carpet = new Carpet();
+		carpet.setRect(left+4, top+2, 3, 7);
+		level.customTiles.add(carpet);
 
 		QuestEntranceInternal vis = new QuestEntranceInternal();
 		vis.pos(c.x - 1, c.y - 1);
@@ -98,14 +102,15 @@ public class VaultEntranceRoom extends VaultRoom {
 			}
 		}
 
-		Painter.set(level, furthest, Terrain.PEDESTAL);
+		//disabled pedestals for now, they don't look great with the new carpet
+		//Painter.set(level, furthest, Terrain.PEDESTAL);
 
 		int ofs = 0;
 		if (furthest.x == c.x){
-			Painter.fill(level, furthest.x-1, furthest.y, 3, 1, Terrain.PEDESTAL);
+			//Painter.fill(level, furthest.x-1, furthest.y, 3, 1, Terrain.PEDESTAL);
 			ofs = 1;
 		} else {
-			Painter.fill(level, furthest.x, furthest.y-1, 1, 3, Terrain.PEDESTAL);
+			//Painter.fill(level, furthest.x, furthest.y-1, 1, 3, Terrain.PEDESTAL);
 			ofs = level.width();
 		}
 
