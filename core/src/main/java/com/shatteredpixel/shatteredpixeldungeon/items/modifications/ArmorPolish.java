@@ -6,8 +6,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ToolboxRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.ArcaneFirearm;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -17,7 +15,7 @@ import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
-public class ArmorBracing extends Item {
+public class ArmorPolish extends Item {
 
     private static final String AC_APPLY = "APPLY";
     public int particle = Speck.YELLOW_LIGHT;
@@ -25,7 +23,7 @@ public class ArmorBracing extends Item {
 
     {
         stackable = true;
-        image = ItemSpriteSheet.ARMOR_BRACING;
+        image = ItemSpriteSheet.ARMOR_POLISH;
 
         defaultAction = AC_APPLY;
 
@@ -69,7 +67,7 @@ public class ArmorBracing extends Item {
 
         @Override
         public String textPrompt() {
-            return Messages.get(ArmorBracing.class, "apply_prompt");
+            return Messages.get(ArmorPolish.class, "apply_prompt");
         }
 
         @Override
@@ -85,10 +83,10 @@ public class ArmorBracing extends Item {
         public void onSelect( final Item item ) {
             if (item != null && item.isIdentified()) {
                 if (((Armor) item).bracing != null) {
-                    GLog.n(Messages.get(ArmorBracing.class, "already_braced"));
+                    GLog.n(Messages.get(ArmorPolish.class, "already_braced"));
                     return;
                 }
-                ((Armor) item).bracing = (ArmorBracing) curItem;
+                ((Armor) item).bracing = (ArmorPolish) curItem;
 
 
                 curUser.spend(1f);
@@ -97,7 +95,7 @@ public class ArmorBracing extends Item {
                 Sample.INSTANCE.play(Assets.Sounds.EAT, 1f, 0.6f);
                 updateQuickslot();
                 curItem.detach(curUser.belongings.backpack);
-            } else if (item != null && !item.isIdentified()) GLog.n(Messages.get(ArmorBracing.class, "not_identified"));
+            } else if (item != null && !item.isIdentified()) GLog.n(Messages.get(ArmorPolish.class, "not_identified"));
         }
     };
 
@@ -114,14 +112,14 @@ public class ArmorBracing extends Item {
         public Item craft(ArrayList<Item> ingredients) {
             if (!testIngredients(ingredients)) return null;
 
-            return new ArmorBracing();
+            return new ArmorPolish();
         }
 
         @Override
         public Item sampleOutput(ArrayList<Item> ingredients) {
             if (!testIngredients(ingredients)) return null;
 
-            return new ArmorBracing();
+            return new ArmorPolish();
         }
     }
 }

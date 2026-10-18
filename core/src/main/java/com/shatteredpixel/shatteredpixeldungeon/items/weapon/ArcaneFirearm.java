@@ -33,7 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.AmmoBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.Whetstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBullet;
@@ -59,7 +59,7 @@ public class ArcaneFirearm extends Weapon {
 	public float unloadTime = 1f;
 	public ArrayList<Bullet> bulletsToLoad = new ArrayList<>();
 
-	public WeaponLacing lacing = null;
+	public Whetstone lacing = null;
 	
 	{
 		image = ItemSpriteSheet.ARCANE_FIREARM;
@@ -110,7 +110,7 @@ public class ArcaneFirearm extends Weapon {
 			chamber.add(b);
 		}
 		unloadTime = bundle.getFloat(UNLOAD_TIME);
-		lacing = (WeaponLacing) bundle.get(LACING);
+		lacing = (Whetstone) bundle.get(LACING);
 	}
 	
 	@Override
@@ -276,13 +276,13 @@ public class ArcaneFirearm extends Weapon {
 	@Override
 	public int damageRoll(Char owner) { //For Melee, no augment
 		int damage;
-		if (lacing == null || lacing.getClass() != WeaponLacing.class) damage = super.damageRoll(owner);
+		if (lacing == null || lacing.getClass() != Whetstone.class) damage = super.damageRoll(owner);
 		else damage = max();
 
 		if (owner instanceof Hero) {
 			int exStr = ((Hero) owner).STR() - STRReq();
 			if (exStr > 0) {
-				if (lacing == null || lacing.getClass() != WeaponLacing.class) damage += Hero.heroDamageIntRange(0, exStr);
+				if (lacing == null || lacing.getClass() != Whetstone.class) damage += Hero.heroDamageIntRange(0, exStr);
 				else damage += exStr;
 			}
 

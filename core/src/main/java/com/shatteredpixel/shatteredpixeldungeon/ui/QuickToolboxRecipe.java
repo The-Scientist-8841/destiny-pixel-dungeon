@@ -31,8 +31,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ProximityBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
-import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorPolish;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.Whetstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
@@ -412,8 +412,8 @@ public class QuickToolboxRecipe extends Component {
 
 				break;
 			case 3:
-				result.add(new QuickToolboxRecipe(new WeaponLacing.WeaponLacingCraft(), new ArrayList<Item>(), new WeaponLacing()));
-				result.add(new QuickToolboxRecipe(new ArmorBracing.ArmorBracingCraft(), new ArrayList<Item>(), new ArmorBracing()));
+				result.add(new QuickToolboxRecipe(new Whetstone.WeaponLacingCraft(), new ArrayList<Item>(), new Whetstone()));
+				result.add(new QuickToolboxRecipe(new ArmorPolish.ArmorBracingCraft(), new ArrayList<Item>(), new ArmorPolish()));
 				break;
 		}
 

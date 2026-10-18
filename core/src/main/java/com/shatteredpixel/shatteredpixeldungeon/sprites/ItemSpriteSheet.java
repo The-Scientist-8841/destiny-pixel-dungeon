@@ -850,11 +850,11 @@ public class ItemSpriteSheet {
 		assignItemRect(HEAVY_BOMB, 10,13);
 	}
 
-	public static final int WEAPON_LACING = xy(13,33);
-	public static final int ARMOR_BRACING = WEAPON_LACING + 1;
+	public static final int WHETSTONE = xy(13,33);
+	public static final int ARMOR_POLISH = WHETSTONE + 1;
 	static {
-		assignItemRect(WEAPON_LACING, 13, 13);
-		assignItemRect(ARMOR_BRACING, 15, 11);
+		assignItemRect(WHETSTONE, 16, 8);
+		assignItemRect(ARMOR_POLISH, 15, 9);
 	}
 
 	private static final int SEED_BULLETS              =                           xy(1, 34);  //16 slots
@@ -1033,262 +1033,262 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int SEED_MODS              =                           xy(1, 42);  //16 slots
-	public static final int LACING_ROTBERRY       = SEED_MODS+0;
-	public static final int LACING_FIREBLOOM      = SEED_MODS+1;
-	public static final int BRACING_SWIFTTHISTLE   = SEED_MODS+2;
-	public static final int BRACING_SUNGRASS       = SEED_MODS+3;
-	public static final int LACING_ICECAP         = SEED_MODS+4;
-	public static final int BRACING_STORMVINE      = SEED_MODS+5;
-	public static final int LACING_SORROWMOSS     = SEED_MODS+6;
-	public static final int BRACING_MAGEROYAL = SEED_MODS+7;
-	public static final int BRACING_EARTHROOT      = SEED_MODS+8;
-	public static final int LACING_STARFLOWER     = SEED_MODS+9;
-	public static final int LACING_FADELEAF       = SEED_MODS+10;
-	public static final int BRACING_BLINDWEED      = SEED_MODS+11;
+	public static final int WHETSTONE_ROTBERRY       = SEED_MODS+0;
+	public static final int WHETSTONE_FIREBLOOM      = SEED_MODS+1;
+	public static final int POLISH_SWIFTTHISTLE   = SEED_MODS+2;
+	public static final int POLISH_SUNGRASS       = SEED_MODS+3;
+	public static final int WHETSTONE_ICECAP         = SEED_MODS+4;
+	public static final int POLISH_STORMVINE      = SEED_MODS+5;
+	public static final int WHETSTONE_SORROWMOSS     = SEED_MODS+6;
+	public static final int POLISH_MAGEROYAL = SEED_MODS+7;
+	public static final int POLISH_EARTHROOT      = SEED_MODS+8;
+	public static final int WHETSTONE_STARFLOWER     = SEED_MODS+9;
+	public static final int WHETSTONE_FADELEAF       = SEED_MODS+10;
+	public static final int POLISH_BLINDWEED      = SEED_MODS+11;
 	static{
-		assignItemRect(LACING_ROTBERRY, 13, 13);
-		assignItemRect(LACING_FIREBLOOM, 13, 13);
-		assignItemRect(BRACING_SWIFTTHISTLE, 15, 11);
-		assignItemRect(BRACING_SUNGRASS, 15, 11);
-		assignItemRect(LACING_ICECAP, 13, 13);
-		assignItemRect(BRACING_STORMVINE, 15, 11);
-		assignItemRect(LACING_SORROWMOSS, 13, 13);
-		assignItemRect(BRACING_MAGEROYAL, 15, 11);
-		assignItemRect(BRACING_EARTHROOT, 15, 11);
-		assignItemRect(LACING_STARFLOWER, 13, 13);
-		assignItemRect(LACING_FADELEAF, 13, 13);
-		assignItemRect(BRACING_BLINDWEED, 15, 11);
+		assignItemRect(WHETSTONE_ROTBERRY, 13, 13);
+		assignItemRect(WHETSTONE_FIREBLOOM, 13, 13);
+		assignItemRect(POLISH_SWIFTTHISTLE, 15, 11);
+		assignItemRect(POLISH_SUNGRASS, 15, 11);
+		assignItemRect(WHETSTONE_ICECAP, 13, 13);
+		assignItemRect(POLISH_STORMVINE, 15, 11);
+		assignItemRect(WHETSTONE_SORROWMOSS, 13, 13);
+		assignItemRect(POLISH_MAGEROYAL, 15, 11);
+		assignItemRect(POLISH_EARTHROOT, 15, 11);
+		assignItemRect(WHETSTONE_STARFLOWER, 13, 13);
+		assignItemRect(WHETSTONE_FADELEAF, 13, 13);
+		assignItemRect(POLISH_BLINDWEED, 15, 11);
 	}
 
-	private static final int POTION_LACINGS        =                               xy(1, 43);  //16 slots
-	public static final int LACING_CRIMSON  = POTION_LACINGS+0;
-	public static final int LACING_AMBER    = POTION_LACINGS+1;
-	public static final int LACING_GOLDEN   = POTION_LACINGS+2;
-	public static final int LACING_JADE     = POTION_LACINGS+3;
-	public static final int LACING_TURQUOISE= POTION_LACINGS+4;
-	public static final int LACING_AZURE    = POTION_LACINGS+5;
-	public static final int LACING_INDIGO   = POTION_LACINGS+6;
-	public static final int LACING_MAGENTA  = POTION_LACINGS+7;
-	public static final int LACING_BISTRE   = POTION_LACINGS+8;
-	public static final int LACING_CHARCOAL = POTION_LACINGS+9;
-	public static final int LACING_SILVER   = POTION_LACINGS+10;
-	public static final int LACING_IVORY    = POTION_LACINGS+11;
+	private static final int POTION_WHETSTONES        =                               xy(1, 43);  //16 slots
+	public static final int WHETSTONE_CRIMSON  = POTION_WHETSTONES+0;
+	public static final int WHETSTONE_AMBER    = POTION_WHETSTONES+1;
+	public static final int WHETSTONE_GOLDEN   = POTION_WHETSTONES+2;
+	public static final int WHETSTONE_JADE     = POTION_WHETSTONES+3;
+	public static final int WHETSTONE_TURQUOISE= POTION_WHETSTONES+4;
+	public static final int WHETSTONE_AZURE    = POTION_WHETSTONES+5;
+	public static final int WHETSTONE_INDIGO   = POTION_WHETSTONES+6;
+	public static final int WHETSTONE_MAGENTA  = POTION_WHETSTONES+7;
+	public static final int WHETSTONE_BISTRE   = POTION_WHETSTONES+8;
+	public static final int WHETSTONE_CHARCOAL = POTION_WHETSTONES+9;
+	public static final int WHETSTONE_SILVER   = POTION_WHETSTONES+10;
+	public static final int WHETSTONE_IVORY    = POTION_WHETSTONES+11;
 	static {
-		for (int i = POTION_LACINGS; i < POTION_LACINGS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = POTION_WHETSTONES; i < POTION_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
 	}
 
-	private static final int POTION_BRACINGS        =                               xy(1, 44);  //16 slots
-	public static final int BRACING_CRIMSON  = POTION_BRACINGS+0;
-	public static final int BRACING_AMBER    = POTION_BRACINGS+1;
-	public static final int BRACING_GOLDEN   = POTION_BRACINGS+2;
-	public static final int BRACING_JADE     = POTION_BRACINGS+3;
-	public static final int BRACING_TURQUOISE= POTION_BRACINGS+4;
-	public static final int BRACING_AZURE    = POTION_BRACINGS+5;
-	public static final int BRACING_INDIGO   = POTION_BRACINGS+6;
-	public static final int BRACING_MAGENTA  = POTION_BRACINGS+7;
-	public static final int BRACING_BISTRE   = POTION_BRACINGS+8;
-	public static final int BRACING_CHARCOAL = POTION_BRACINGS+9;
-	public static final int BRACING_SILVER   = POTION_BRACINGS+10;
-	public static final int BRACING_IVORY    = POTION_BRACINGS+11;
+	private static final int POTION_POLISHS        =                               xy(1, 44);  //16 slots
+	public static final int POLISH_CRIMSON  = POTION_POLISHS+0;
+	public static final int POLISH_AMBER    = POTION_POLISHS+1;
+	public static final int POLISH_GOLDEN   = POTION_POLISHS+2;
+	public static final int POLISH_JADE     = POTION_POLISHS+3;
+	public static final int POLISH_TURQUOISE= POTION_POLISHS+4;
+	public static final int POLISH_AZURE    = POTION_POLISHS+5;
+	public static final int POLISH_INDIGO   = POTION_POLISHS+6;
+	public static final int POLISH_MAGENTA  = POTION_POLISHS+7;
+	public static final int POLISH_BISTRE   = POTION_POLISHS+8;
+	public static final int POLISH_CHARCOAL = POTION_POLISHS+9;
+	public static final int POLISH_SILVER   = POTION_POLISHS+10;
+	public static final int POLISH_IVORY    = POTION_POLISHS+11;
 	static {
-		for (int i = POTION_BRACINGS; i < POTION_BRACINGS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = POTION_POLISHS; i < POTION_POLISHS+12; i++) assignItemRect(i, 13, 13);
 	}
 
-	private static final int EXOTIC_POTION_LACINGS        =                               xy(1, 45);  //16 slots
-	public static final int EXOTIC_LACING_CRIMSON  = EXOTIC_POTION_LACINGS+0;
-	public static final int EXOTIC_LACING_AMBER    = EXOTIC_POTION_LACINGS+1;
-	public static final int EXOTIC_LACING_GOLDEN   = EXOTIC_POTION_LACINGS+2;
-	public static final int EXOTIC_LACING_JADE     = EXOTIC_POTION_LACINGS+3;
-	public static final int EXOTIC_LACING_TURQUOISE= EXOTIC_POTION_LACINGS+4;
-	public static final int EXOTIC_LACING_AZURE    = EXOTIC_POTION_LACINGS+5;
-	public static final int EXOTIC_LACING_INDIGO   = EXOTIC_POTION_LACINGS+6;
-	public static final int EXOTIC_LACING_MAGENTA  = EXOTIC_POTION_LACINGS+7;
-	public static final int EXOTIC_LACING_BISTRE   = EXOTIC_POTION_LACINGS+8;
-	public static final int EXOTIC_LACING_CHARCOAL = EXOTIC_POTION_LACINGS+9;
-	public static final int EXOTIC_LACING_SILVER   = EXOTIC_POTION_LACINGS+10;
-	public static final int EXOTIC_LACING_IVORY    = EXOTIC_POTION_LACINGS+11;
+	private static final int EXOTIC_POTION_WHETSTONES        =                               xy(1, 45);  //16 slots
+	public static final int EXOTIC_WHETSTONE_CRIMSON  = EXOTIC_POTION_WHETSTONES+0;
+	public static final int EXOTIC_WHETSTONE_AMBER    = EXOTIC_POTION_WHETSTONES+1;
+	public static final int EXOTIC_WHETSTONE_GOLDEN   = EXOTIC_POTION_WHETSTONES+2;
+	public static final int EXOTIC_WHETSTONE_JADE     = EXOTIC_POTION_WHETSTONES+3;
+	public static final int EXOTIC_WHETSTONE_TURQUOISE= EXOTIC_POTION_WHETSTONES+4;
+	public static final int EXOTIC_WHETSTONE_AZURE    = EXOTIC_POTION_WHETSTONES+5;
+	public static final int EXOTIC_WHETSTONE_INDIGO   = EXOTIC_POTION_WHETSTONES+6;
+	public static final int EXOTIC_WHETSTONE_MAGENTA  = EXOTIC_POTION_WHETSTONES+7;
+	public static final int EXOTIC_WHETSTONE_BISTRE   = EXOTIC_POTION_WHETSTONES+8;
+	public static final int EXOTIC_WHETSTONE_CHARCOAL = EXOTIC_POTION_WHETSTONES+9;
+	public static final int EXOTIC_WHETSTONE_SILVER   = EXOTIC_POTION_WHETSTONES+10;
+	public static final int EXOTIC_WHETSTONE_IVORY    = EXOTIC_POTION_WHETSTONES+11;
 	static {
-		for (int i = EXOTIC_POTION_LACINGS; i < EXOTIC_POTION_LACINGS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = EXOTIC_POTION_WHETSTONES; i < EXOTIC_POTION_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
 	}
 
-	private static final int EXOTIC_POTION_BRACINGS        =                               xy(1, 46);  //16 slots
-	public static final int EXOTIC_BRACING_CRIMSON  = EXOTIC_POTION_BRACINGS+0;
-	public static final int EXOTIC_BRACING_AMBER    = EXOTIC_POTION_BRACINGS+1;
-	public static final int EXOTIC_BRACING_GOLDEN   = EXOTIC_POTION_BRACINGS+2;
-	public static final int EXOTIC_BRACING_JADE     = EXOTIC_POTION_BRACINGS+3;
-	public static final int EXOTIC_BRACING_TURQUOISE= EXOTIC_POTION_BRACINGS+4;
-	public static final int EXOTIC_BRACING_AZURE    = EXOTIC_POTION_BRACINGS+5;
-	public static final int EXOTIC_BRACING_INDIGO   = EXOTIC_POTION_BRACINGS+6;
-	public static final int EXOTIC_BRACING_MAGENTA  = EXOTIC_POTION_BRACINGS+7;
-	public static final int EXOTIC_BRACING_BISTRE   = EXOTIC_POTION_BRACINGS+8;
-	public static final int EXOTIC_BRACING_CHARCOAL = EXOTIC_POTION_BRACINGS+9;
-	public static final int EXOTIC_BRACING_SILVER   = EXOTIC_POTION_BRACINGS+10;
-	public static final int EXOTIC_BRACING_IVORY    = EXOTIC_POTION_BRACINGS+11;
+	private static final int EXOTIC_POTION_POLISHS        =                               xy(1, 46);  //16 slots
+	public static final int EXOTIC_POLISH_CRIMSON  = EXOTIC_POTION_POLISHS+0;
+	public static final int EXOTIC_POLISH_AMBER    = EXOTIC_POTION_POLISHS+1;
+	public static final int EXOTIC_POLISH_GOLDEN   = EXOTIC_POTION_POLISHS+2;
+	public static final int EXOTIC_POLISH_JADE     = EXOTIC_POTION_POLISHS+3;
+	public static final int EXOTIC_POLISH_TURQUOISE= EXOTIC_POTION_POLISHS+4;
+	public static final int EXOTIC_POLISH_AZURE    = EXOTIC_POTION_POLISHS+5;
+	public static final int EXOTIC_POLISH_INDIGO   = EXOTIC_POTION_POLISHS+6;
+	public static final int EXOTIC_POLISH_MAGENTA  = EXOTIC_POTION_POLISHS+7;
+	public static final int EXOTIC_POLISH_BISTRE   = EXOTIC_POTION_POLISHS+8;
+	public static final int EXOTIC_POLISH_CHARCOAL = EXOTIC_POTION_POLISHS+9;
+	public static final int EXOTIC_POLISH_SILVER   = EXOTIC_POTION_POLISHS+10;
+	public static final int EXOTIC_POLISH_IVORY    = EXOTIC_POTION_POLISHS+11;
 	static {
-		for (int i = EXOTIC_POTION_BRACINGS; i < EXOTIC_POTION_BRACINGS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = EXOTIC_POTION_POLISHS; i < EXOTIC_POTION_POLISHS+12; i++) assignItemRect(i, 13, 13);
 	}
 
 	private static final int STONE_MODS            =                           xy(1, 47);  //16 slots
-	public static final int BRACING_AGGRESSION    = STONE_MODS+0;
-	public static final int LACING_AUGMENTATION  = STONE_MODS+1;
-	public static final int BRACING_FEAR          = STONE_MODS+2;
-	public static final int LACING_BLAST         = STONE_MODS+3;
-	public static final int BRACING_BLINK         = STONE_MODS+4;
-	public static final int BRACING_CLAIRVOYANCE  = STONE_MODS+5;
-	public static final int LACING_SLEEP         = STONE_MODS+6;
-	public static final int BRACING_DETECT        = STONE_MODS+7;
-	public static final int LACING_ENCHANT       = STONE_MODS+8;
-	public static final int BRACING_FLOCK         = STONE_MODS+9;
-	public static final int LACING_INTUITION     = STONE_MODS+10;
-	public static final int LACING_SHOCK         = STONE_MODS+11;
+	public static final int POLISH_AGGRESSION    = STONE_MODS+0;
+	public static final int WHETSTONE_AUGMENTATION  = STONE_MODS+1;
+	public static final int POLISH_FEAR          = STONE_MODS+2;
+	public static final int WHETSTONE_BLAST         = STONE_MODS+3;
+	public static final int POLISH_BLINK         = STONE_MODS+4;
+	public static final int POLISH_CLAIRVOYANCE  = STONE_MODS+5;
+	public static final int WHETSTONE_SLEEP         = STONE_MODS+6;
+	public static final int POLISH_DETECT        = STONE_MODS+7;
+	public static final int WHETSTONE_ENCHANT       = STONE_MODS+8;
+	public static final int POLISH_FLOCK         = STONE_MODS+9;
+	public static final int WHETSTONE_INTUITION     = STONE_MODS+10;
+	public static final int WHETSTONE_SHOCK         = STONE_MODS+11;
 	static {
-		assignItemRect(BRACING_AGGRESSION,15,11);
-		assignItemRect(LACING_AUGMENTATION,13,13);
-		assignItemRect(BRACING_FEAR,15,11);
-		assignItemRect(LACING_BLAST,13,13);
-		assignItemRect(BRACING_BLINK,15,11);
-		assignItemRect(BRACING_CLAIRVOYANCE,15,11);
-		assignItemRect(LACING_SLEEP,13,13);
-		assignItemRect(BRACING_DETECT,15,11);
-		assignItemRect(LACING_ENCHANT,13,13);
-		assignItemRect(BRACING_FLOCK,15,11);
-		assignItemRect(LACING_INTUITION,13,13);
-		assignItemRect(LACING_SHOCK,13,13);
+		assignItemRect(POLISH_AGGRESSION,15,11);
+		assignItemRect(WHETSTONE_AUGMENTATION,13,13);
+		assignItemRect(POLISH_FEAR,15,11);
+		assignItemRect(WHETSTONE_BLAST,13,13);
+		assignItemRect(POLISH_BLINK,15,11);
+		assignItemRect(POLISH_CLAIRVOYANCE,15,11);
+		assignItemRect(WHETSTONE_SLEEP,13,13);
+		assignItemRect(POLISH_DETECT,15,11);
+		assignItemRect(WHETSTONE_ENCHANT,13,13);
+		assignItemRect(POLISH_FLOCK,15,11);
+		assignItemRect(WHETSTONE_INTUITION,13,13);
+		assignItemRect(WHETSTONE_SHOCK,13,13);
 	}
 
-	private static final int SCROLL_LACINGS        =                               xy(1, 48);  //16 slots
-	public static final int LACING_KAUNAN   = SCROLL_LACINGS+0;
-	public static final int LACING_SOWILO   = SCROLL_LACINGS+1;
-	public static final int LACING_LAGUZ    = SCROLL_LACINGS+2;
-	public static final int LACING_YNGVI    = SCROLL_LACINGS+3;
-	public static final int LACING_GYFU     = SCROLL_LACINGS+4;
-	public static final int LACING_RAIDO    = SCROLL_LACINGS+5;
-	public static final int LACING_ISAZ     = SCROLL_LACINGS+6;
-	public static final int LACING_MANNAZ   = SCROLL_LACINGS+7;
-	public static final int LACING_NAUDIZ   = SCROLL_LACINGS+8;
-	public static final int LACING_BERKANAN = SCROLL_LACINGS+9;
-	public static final int LACING_ODAL     = SCROLL_LACINGS+10;
-	public static final int LACING_TIWAZ    = SCROLL_LACINGS+11;
+	private static final int SCROLL_WHETSTONES        =                               xy(1, 48);  //16 slots
+	public static final int WHETSTONE_KAUNAN   = SCROLL_WHETSTONES+0;
+	public static final int WHETSTONE_SOWILO   = SCROLL_WHETSTONES+1;
+	public static final int WHETSTONE_LAGUZ    = SCROLL_WHETSTONES+2;
+	public static final int WHETSTONE_YNGVI    = SCROLL_WHETSTONES+3;
+	public static final int WHETSTONE_GYFU     = SCROLL_WHETSTONES+4;
+	public static final int WHETSTONE_RAIDO    = SCROLL_WHETSTONES+5;
+	public static final int WHETSTONE_ISAZ     = SCROLL_WHETSTONES+6;
+	public static final int WHETSTONE_MANNAZ   = SCROLL_WHETSTONES+7;
+	public static final int WHETSTONE_NAUDIZ   = SCROLL_WHETSTONES+8;
+	public static final int WHETSTONE_BERKANAN = SCROLL_WHETSTONES+9;
+	public static final int WHETSTONE_ODAL     = SCROLL_WHETSTONES+10;
+	public static final int WHETSTONE_TIWAZ    = SCROLL_WHETSTONES+11;
 	static {
-		for (int i = SCROLL_LACINGS; i < SCROLL_LACINGS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = SCROLL_WHETSTONES; i < SCROLL_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
 	}
 
-	private static final int SCROLL_BRACINGS        =                               xy(1, 49);  //16 slots
-	public static final int BRACING_KAUNAN   = SCROLL_BRACINGS+0;
-	public static final int BRACING_SOWILO   = SCROLL_BRACINGS+1;
-	public static final int BRACING_LAGUZ    = SCROLL_BRACINGS+2;
-	public static final int BRACING_YNGVI    = SCROLL_BRACINGS+3;
-	public static final int BRACING_GYFU     = SCROLL_BRACINGS+4;
-	public static final int BRACING_RAIDO    = SCROLL_BRACINGS+5;
-	public static final int BRACING_ISAZ     = SCROLL_BRACINGS+6;
-	public static final int BRACING_MANNAZ   = SCROLL_BRACINGS+7;
-	public static final int BRACING_NAUDIZ   = SCROLL_BRACINGS+8;
-	public static final int BRACING_BERKANAN = SCROLL_BRACINGS+9;
-	public static final int BRACING_ODAL     = SCROLL_BRACINGS+10;
-	public static final int BRACING_TIWAZ    = SCROLL_BRACINGS+11;
+	private static final int SCROLL_POLISHS        =                               xy(1, 49);  //16 slots
+	public static final int POLISH_KAUNAN   = SCROLL_POLISHS+0;
+	public static final int POLISH_SOWILO   = SCROLL_POLISHS+1;
+	public static final int POLISH_LAGUZ    = SCROLL_POLISHS+2;
+	public static final int POLISH_YNGVI    = SCROLL_POLISHS+3;
+	public static final int POLISH_GYFU     = SCROLL_POLISHS+4;
+	public static final int POLISH_RAIDO    = SCROLL_POLISHS+5;
+	public static final int POLISH_ISAZ     = SCROLL_POLISHS+6;
+	public static final int POLISH_MANNAZ   = SCROLL_POLISHS+7;
+	public static final int POLISH_NAUDIZ   = SCROLL_POLISHS+8;
+	public static final int POLISH_BERKANAN = SCROLL_POLISHS+9;
+	public static final int POLISH_ODAL     = SCROLL_POLISHS+10;
+	public static final int POLISH_TIWAZ    = SCROLL_POLISHS+11;
 	static {
-		for (int i = SCROLL_BRACINGS; i < SCROLL_BRACINGS+12; i++) assignItemRect(i, 15, 11);
+		for (int i = SCROLL_POLISHS; i < SCROLL_POLISHS+12; i++) assignItemRect(i, 15, 11);
 	}
 
-	private static final int EXOTIC_SCROLL_LACINGS        =                               xy(1, 50);  //16 slots
-	public static final int EXOTIC_LACING_KAUNAN   = EXOTIC_SCROLL_LACINGS+0;
-	public static final int EXOTIC_LACING_SOWILO   = EXOTIC_SCROLL_LACINGS+1;
-	public static final int EXOTIC_LACING_LAGUZ    = EXOTIC_SCROLL_LACINGS+2;
-	public static final int EXOTIC_LACING_YNGVI    = EXOTIC_SCROLL_LACINGS+3;
-	public static final int EXOTIC_LACING_GYFU     = EXOTIC_SCROLL_LACINGS+4;
-	public static final int EXOTIC_LACING_RAIDO    = EXOTIC_SCROLL_LACINGS+5;
-	public static final int EXOTIC_LACING_ISAZ     = EXOTIC_SCROLL_LACINGS+6;
-	public static final int EXOTIC_LACING_MANNAZ   = EXOTIC_SCROLL_LACINGS+7;
-	public static final int EXOTIC_LACING_NAUDIZ   = EXOTIC_SCROLL_LACINGS+8;
-	public static final int EXOTIC_LACING_BERKANAN = EXOTIC_SCROLL_LACINGS+9;
-	public static final int EXOTIC_LACING_ODAL     = EXOTIC_SCROLL_LACINGS+10;
-	public static final int EXOTIC_LACING_TIWAZ    = EXOTIC_SCROLL_LACINGS+11;
+	private static final int EXOTIC_SCROLL_WHETSTONES        =                               xy(1, 50);  //16 slots
+	public static final int EXOTIC_WHETSTONE_KAUNAN   = EXOTIC_SCROLL_WHETSTONES+0;
+	public static final int EXOTIC_WHETSTONE_SOWILO   = EXOTIC_SCROLL_WHETSTONES+1;
+	public static final int EXOTIC_WHETSTONE_LAGUZ    = EXOTIC_SCROLL_WHETSTONES+2;
+	public static final int EXOTIC_WHETSTONE_YNGVI    = EXOTIC_SCROLL_WHETSTONES+3;
+	public static final int EXOTIC_WHETSTONE_GYFU     = EXOTIC_SCROLL_WHETSTONES+4;
+	public static final int EXOTIC_WHETSTONE_RAIDO    = EXOTIC_SCROLL_WHETSTONES+5;
+	public static final int EXOTIC_WHETSTONE_ISAZ     = EXOTIC_SCROLL_WHETSTONES+6;
+	public static final int EXOTIC_WHETSTONE_MANNAZ   = EXOTIC_SCROLL_WHETSTONES+7;
+	public static final int EXOTIC_WHETSTONE_NAUDIZ   = EXOTIC_SCROLL_WHETSTONES+8;
+	public static final int EXOTIC_WHETSTONE_BERKANAN = EXOTIC_SCROLL_WHETSTONES+9;
+	public static final int EXOTIC_WHETSTONE_ODAL     = EXOTIC_SCROLL_WHETSTONES+10;
+	public static final int EXOTIC_WHETSTONE_TIWAZ    = EXOTIC_SCROLL_WHETSTONES+11;
 	static {
-		for (int i = EXOTIC_SCROLL_LACINGS; i < EXOTIC_SCROLL_LACINGS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = EXOTIC_SCROLL_WHETSTONES; i < EXOTIC_SCROLL_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
 	}
 
-	private static final int EXOTIC_SCROLL_BRACINGS        =                               xy(1, 51);  //16 slots
-	public static final int EXOTIC_BRACING_KAUNAN   = EXOTIC_SCROLL_BRACINGS+0;
-	public static final int EXOTIC_BRACING_SOWILO   = EXOTIC_SCROLL_BRACINGS+1;
-	public static final int EXOTIC_BRACING_LAGUZ    = EXOTIC_SCROLL_BRACINGS+2;
-	public static final int EXOTIC_BRACING_YNGVI    = EXOTIC_SCROLL_BRACINGS+3;
-	public static final int EXOTIC_BRACING_GYFU     = EXOTIC_SCROLL_BRACINGS+4;
-	public static final int EXOTIC_BRACING_RAIDO    = EXOTIC_SCROLL_BRACINGS+5;
-	public static final int EXOTIC_BRACING_ISAZ     = EXOTIC_SCROLL_BRACINGS+6;
-	public static final int EXOTIC_BRACING_MANNAZ   = EXOTIC_SCROLL_BRACINGS+7;
-	public static final int EXOTIC_BRACING_NAUDIZ   = EXOTIC_SCROLL_BRACINGS+8;
-	public static final int EXOTIC_BRACING_BERKANAN = EXOTIC_SCROLL_BRACINGS+9;
-	public static final int EXOTIC_BRACING_ODAL     = EXOTIC_SCROLL_BRACINGS+10;
-	public static final int EXOTIC_BRACING_TIWAZ    = EXOTIC_SCROLL_BRACINGS+11;
+	private static final int EXOTIC_SCROLL_POLISHS        =                               xy(1, 51);  //16 slots
+	public static final int EXOTIC_POLISH_KAUNAN   = EXOTIC_SCROLL_POLISHS+0;
+	public static final int EXOTIC_POLISH_SOWILO   = EXOTIC_SCROLL_POLISHS+1;
+	public static final int EXOTIC_POLISH_LAGUZ    = EXOTIC_SCROLL_POLISHS+2;
+	public static final int EXOTIC_POLISH_YNGVI    = EXOTIC_SCROLL_POLISHS+3;
+	public static final int EXOTIC_POLISH_GYFU     = EXOTIC_SCROLL_POLISHS+4;
+	public static final int EXOTIC_POLISH_RAIDO    = EXOTIC_SCROLL_POLISHS+5;
+	public static final int EXOTIC_POLISH_ISAZ     = EXOTIC_SCROLL_POLISHS+6;
+	public static final int EXOTIC_POLISH_MANNAZ   = EXOTIC_SCROLL_POLISHS+7;
+	public static final int EXOTIC_POLISH_NAUDIZ   = EXOTIC_SCROLL_POLISHS+8;
+	public static final int EXOTIC_POLISH_BERKANAN = EXOTIC_SCROLL_POLISHS+9;
+	public static final int EXOTIC_POLISH_ODAL     = EXOTIC_SCROLL_POLISHS+10;
+	public static final int EXOTIC_POLISH_TIWAZ    = EXOTIC_SCROLL_POLISHS+11;
 	static {
-		for (int i = EXOTIC_SCROLL_BRACINGS; i < EXOTIC_SCROLL_BRACINGS+12; i++) assignItemRect(i, 15, 11);
+		for (int i = EXOTIC_SCROLL_POLISHS; i < EXOTIC_SCROLL_POLISHS+12; i++) assignItemRect(i, 15, 11);
 	}
 
 	private static final int BREW_MODS          =                               xy(1, 52);  //8 slots
-	public static final int BRACING_INFERNAL   = BREW_MODS+0;
-	public static final int BRACING_BLIZZARD   = BREW_MODS+1;
-	public static final int BRACING_SHOCKING   = BREW_MODS+2;
-	public static final int LACING_CAUSTIC    = BREW_MODS+3;
-	public static final int LACING_AQUA_BREW       = BREW_MODS+4;
-	public static final int LACING_UNSTABLE_BREW   = BREW_MODS+5;
+	public static final int POLISH_INFERNAL   = BREW_MODS+0;
+	public static final int POLISH_BLIZZARD   = BREW_MODS+1;
+	public static final int POLISH_SHOCKING   = BREW_MODS+2;
+	public static final int WHETSTONE_CAUSTIC    = BREW_MODS+3;
+	public static final int WHETSTONE_AQUA_BREW       = BREW_MODS+4;
+	public static final int WHETSTONE_UNSTABLE_BREW   = BREW_MODS+5;
 	static{
-		assignItemRect(BRACING_INFERNAL, 15, 11);
-		assignItemRect(BRACING_BLIZZARD, 15, 11);
-		assignItemRect(BRACING_SHOCKING, 15, 11);
-		assignItemRect(LACING_CAUSTIC, 13, 13);
-		assignItemRect(LACING_AQUA_BREW, 13, 13);
-		assignItemRect(LACING_UNSTABLE_BREW, 13, 13);
+		assignItemRect(POLISH_INFERNAL, 15, 11);
+		assignItemRect(POLISH_BLIZZARD, 15, 11);
+		assignItemRect(POLISH_SHOCKING, 15, 11);
+		assignItemRect(WHETSTONE_CAUSTIC, 13, 13);
+		assignItemRect(WHETSTONE_AQUA_BREW, 13, 13);
+		assignItemRect(WHETSTONE_UNSTABLE_BREW, 13, 13);
 	}
 
 	private static final int ELIXIR_MODS        =                               xy(9, 53);  //8 slots
-	public static final int LACING_HONEY    = ELIXIR_MODS+0;
-	public static final int BRACING_AQUATIC_REJUVENATION     = ELIXIR_MODS+1;
-	public static final int LACING_MIGHT    = ELIXIR_MODS+2;
-	public static final int LACING_DRAGON   = ELIXIR_MODS+3;
-	public static final int BRACING_TOXIC    = ELIXIR_MODS+4;
-	public static final int LACING_ICY      = ELIXIR_MODS+5;
-	public static final int BRACING_ARCANE   = ELIXIR_MODS+6;
-	public static final int BRACING_FEATHER  = ELIXIR_MODS+7;
+	public static final int WHETSTONE_HONEY    = ELIXIR_MODS+0;
+	public static final int POLISH_AQUATIC_REJUVENATION     = ELIXIR_MODS+1;
+	public static final int WHETSTONE_MIGHT    = ELIXIR_MODS+2;
+	public static final int WHETSTONE_DRAGON   = ELIXIR_MODS+3;
+	public static final int POLISH_TOXIC    = ELIXIR_MODS+4;
+	public static final int WHETSTONE_ICY      = ELIXIR_MODS+5;
+	public static final int POLISH_ARCANE   = ELIXIR_MODS+6;
+	public static final int POLISH_FEATHER  = ELIXIR_MODS+7;
 	static{
-		assignItemRect(LACING_HONEY,13,13);
-		assignItemRect(BRACING_AQUATIC_REJUVENATION,15,11);
-		assignItemRect(LACING_MIGHT,13,13);
-		assignItemRect(LACING_DRAGON,13,13);
-		assignItemRect(BRACING_TOXIC,15,11);
-		assignItemRect(LACING_ICY,13,13);
-		assignItemRect(BRACING_ARCANE,15,11);
-		assignItemRect(BRACING_FEATHER,15,11);
+		assignItemRect(WHETSTONE_HONEY,13,13);
+		assignItemRect(POLISH_AQUATIC_REJUVENATION,15,11);
+		assignItemRect(WHETSTONE_MIGHT,13,13);
+		assignItemRect(WHETSTONE_DRAGON,13,13);
+		assignItemRect(POLISH_TOXIC,15,11);
+		assignItemRect(WHETSTONE_ICY,13,13);
+		assignItemRect(POLISH_ARCANE,15,11);
+		assignItemRect(POLISH_FEATHER,15,11);
 	}
 
 	private static final int SPELL_MODS         =                               xy(1, 54);  //16 slots
-	public static final int BRACING_WILD_ENERGY     = SPELL_MODS+0;
-	public static final int BRACING_PHASE_SHIFT     = SPELL_MODS+1;
-	public static final int LACING_TELE_GRAB       = SPELL_MODS+2;
-	public static final int BRACING_UNSTABLE_SPELL  = SPELL_MODS+3;
-	public static final int BRACING_CURSE_INFUSE   = SPELL_MODS+4;
-	public static final int LACING_CURSE_INFUSE    = SPELL_MODS+5;
-	public static final int LACING_MAGIC_INFUSE    = SPELL_MODS+6;
-	public static final int LACING_ALCHEMIZE       = SPELL_MODS+7;
-	public static final int BRACING_RECYCLE         = SPELL_MODS+8;
+	public static final int POLISH_WILD_ENERGY     = SPELL_MODS+0;
+	public static final int POLISH_PHASE_SHIFT     = SPELL_MODS+1;
+	public static final int WHETSTONE_TELE_GRAB       = SPELL_MODS+2;
+	public static final int POLISH_UNSTABLE_SPELL  = SPELL_MODS+3;
+	public static final int POLISH_CURSE_INFUSE   = SPELL_MODS+4;
+	public static final int WHETSTONE_CURSE_INFUSE    = SPELL_MODS+5;
+	public static final int WHETSTONE_MAGIC_INFUSE    = SPELL_MODS+6;
+	public static final int WHETSTONE_ALCHEMIZE       = SPELL_MODS+7;
+	public static final int POLISH_RECYCLE         = SPELL_MODS+8;
 
-	public static final int LACING_RECLAIM_TRAP    = SPELL_MODS+10;
-	public static final int BRACING_RETURN_BEACON   = SPELL_MODS+11;
-	public static final int LACING_SUMMON_ELE      = SPELL_MODS+12;
+	public static final int WHETSTONE_RECLAIM_TRAP    = SPELL_MODS+10;
+	public static final int POLISH_RETURN_BEACON   = SPELL_MODS+11;
+	public static final int WHETSTONE_SUMMON_ELE      = SPELL_MODS+12;
 
 	static{
-		assignItemRect(BRACING_WILD_ENERGY,     15, 11);
-		assignItemRect(BRACING_PHASE_SHIFT,     15, 11);
-		assignItemRect(LACING_TELE_GRAB,       13, 13);
-		assignItemRect(BRACING_UNSTABLE_SPELL,  15, 11);
-		assignItemRect(BRACING_CURSE_INFUSE,    15, 11);
-		assignItemRect(LACING_CURSE_INFUSE,    13, 13);
-		assignItemRect(LACING_MAGIC_INFUSE,    13, 13);
-		assignItemRect(LACING_ALCHEMIZE,       13, 13);
-		assignItemRect(BRACING_RECYCLE,         15, 11);
+		assignItemRect(POLISH_WILD_ENERGY,     15, 11);
+		assignItemRect(POLISH_PHASE_SHIFT,     15, 11);
+		assignItemRect(WHETSTONE_TELE_GRAB,       13, 13);
+		assignItemRect(POLISH_UNSTABLE_SPELL,  15, 11);
+		assignItemRect(POLISH_CURSE_INFUSE,    15, 11);
+		assignItemRect(WHETSTONE_CURSE_INFUSE,    13, 13);
+		assignItemRect(WHETSTONE_MAGIC_INFUSE,    13, 13);
+		assignItemRect(WHETSTONE_ALCHEMIZE,       13, 13);
+		assignItemRect(POLISH_RECYCLE,         15, 11);
 
-		assignItemRect(LACING_RECLAIM_TRAP,     13, 13);
-		assignItemRect(BRACING_RETURN_BEACON,    15, 11);
-		assignItemRect(LACING_SUMMON_ELE,       13, 13);
+		assignItemRect(WHETSTONE_RECLAIM_TRAP,     13, 13);
+		assignItemRect(POLISH_RETURN_BEACON,    15, 11);
+		assignItemRect(WHETSTONE_SUMMON_ELE,       13, 13);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite

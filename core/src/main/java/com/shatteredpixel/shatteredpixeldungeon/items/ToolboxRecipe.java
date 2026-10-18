@@ -27,8 +27,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HeavyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.MiniBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ProximityBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorBracing;
-import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.ArmorPolish;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.Whetstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.bullets.InventoryBlindingBullet;
@@ -86,8 +86,8 @@ public abstract class ToolboxRecipe {
 	private static ToolboxRecipe[] zeroIngredientRecipes = new ToolboxRecipe[]{
 			new InventoryBullet.BulletCraft(),
 			new Bomb.BombCraft(),
-			new WeaponLacing.WeaponLacingCraft(),
-			new ArmorBracing.ArmorBracingCraft()
+			new Whetstone.WeaponLacingCraft(),
+			new ArmorPolish.ArmorBracingCraft()
 	};
 	
 	private static ToolboxRecipe[] oneIngredientRecipes = new ToolboxRecipe[]{

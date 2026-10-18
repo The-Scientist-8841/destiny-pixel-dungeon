@@ -40,14 +40,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.modifications.WeaponLacing;
+import com.shatteredpixel.shatteredpixeldungeon.items.modifications.Whetstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Crystal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -64,7 +59,6 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
-import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -73,7 +67,7 @@ import java.util.ArrayList;
 public class MeleeWeapon extends Weapon {
 
 	public static String AC_ABILITY = "ABILITY";
-	public WeaponLacing lacing;
+	public Whetstone lacing;
 
 	@Override
 	public void activate(Char ch) {
@@ -320,13 +314,13 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public int damageRoll(Char owner) {
 		int damage;
-		if (lacing != null && lacing.getClass() == WeaponLacing.class) damage = max();
+		if (lacing != null && lacing.getClass() == Whetstone.class) damage = max();
 		else damage = augment.damageFactor(super.damageRoll( owner ));
 
 		if (owner instanceof Hero) {
 			int exStr = ((Hero)owner).STR() - STRReq();
 			if (exStr > 0) {
-				if (lacing != null && lacing.getClass() == WeaponLacing.class) damage += exStr;
+				if (lacing != null && lacing.getClass() == Whetstone.class) damage += exStr;
 				else damage += Hero.heroDamageIntRange( 0, exStr );
 			}
 		}
@@ -457,7 +451,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		lacing = (WeaponLacing) bundle.get(LACING);
+		lacing = (Whetstone) bundle.get(LACING);
 	}
 
 	public Emitter lacingEmitter() {
