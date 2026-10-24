@@ -1046,18 +1046,18 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_FADELEAF       = SEED_MODS+10;
 	public static final int POLISH_BLINDWEED      = SEED_MODS+11;
 	static{
-		assignItemRect(WHETSTONE_ROTBERRY, 13, 13);
-		assignItemRect(WHETSTONE_FIREBLOOM, 13, 13);
-		assignItemRect(POLISH_SWIFTTHISTLE, 15, 11);
-		assignItemRect(POLISH_SUNGRASS, 15, 11);
-		assignItemRect(WHETSTONE_ICECAP, 13, 13);
-		assignItemRect(POLISH_STORMVINE, 15, 11);
-		assignItemRect(WHETSTONE_SORROWMOSS, 13, 13);
-		assignItemRect(POLISH_MAGEROYAL, 15, 11);
-		assignItemRect(POLISH_EARTHROOT, 15, 11);
-		assignItemRect(WHETSTONE_STARFLOWER, 13, 13);
-		assignItemRect(WHETSTONE_FADELEAF, 13, 13);
-		assignItemRect(POLISH_BLINDWEED, 15, 11);
+		assignItemRect(WHETSTONE_ROTBERRY, 16, 8);
+		assignItemRect(WHETSTONE_FIREBLOOM, 16, 8);
+		assignItemRect(POLISH_SWIFTTHISTLE, 15, 9);
+		assignItemRect(POLISH_SUNGRASS, 15, 9);
+		assignItemRect(WHETSTONE_ICECAP, 16, 8);
+		assignItemRect(POLISH_STORMVINE, 15, 9);
+		assignItemRect(WHETSTONE_SORROWMOSS, 16, 8);
+		assignItemRect(POLISH_MAGEROYAL, 15, 9);
+		assignItemRect(POLISH_EARTHROOT, 15, 9);
+		assignItemRect(WHETSTONE_STARFLOWER, 16, 8);
+		assignItemRect(WHETSTONE_FADELEAF, 16, 8);
+		assignItemRect(POLISH_BLINDWEED, 15, 9);
 	}
 
 	private static final int POTION_WHETSTONES        =                               xy(1, 43);  //16 slots
@@ -1074,7 +1074,7 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_SILVER   = POTION_WHETSTONES+10;
 	public static final int WHETSTONE_IVORY    = POTION_WHETSTONES+11;
 	static {
-		for (int i = POTION_WHETSTONES; i < POTION_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
+		for (int i = POTION_WHETSTONES; i < POTION_WHETSTONES+12; i++) assignItemRect(i, 16, 8);
 	}
 
 	private static final int POTION_POLISHS        =                               xy(1, 44);  //16 slots
@@ -1091,7 +1091,7 @@ public class ItemSpriteSheet {
 	public static final int POLISH_SILVER   = POTION_POLISHS+10;
 	public static final int POLISH_IVORY    = POTION_POLISHS+11;
 	static {
-		for (int i = POTION_POLISHS; i < POTION_POLISHS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = POTION_POLISHS; i < POTION_POLISHS+12; i++) assignItemRect(i, 15, 9);
 	}
 
 	private static final int EXOTIC_POTION_WHETSTONES        =                               xy(1, 45);  //16 slots
@@ -1108,7 +1108,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_WHETSTONE_SILVER   = EXOTIC_POTION_WHETSTONES+10;
 	public static final int EXOTIC_WHETSTONE_IVORY    = EXOTIC_POTION_WHETSTONES+11;
 	static {
-		for (int i = EXOTIC_POTION_WHETSTONES; i < EXOTIC_POTION_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
+		for (int i = EXOTIC_POTION_WHETSTONES; i < EXOTIC_POTION_WHETSTONES+12; i++) assignItemRect(i, 16, 8);
 	}
 
 	private static final int EXOTIC_POTION_POLISHS        =                               xy(1, 46);  //16 slots
@@ -1125,7 +1125,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_POLISH_SILVER   = EXOTIC_POTION_POLISHS+10;
 	public static final int EXOTIC_POLISH_IVORY    = EXOTIC_POTION_POLISHS+11;
 	static {
-		for (int i = EXOTIC_POTION_POLISHS; i < EXOTIC_POTION_POLISHS+12; i++) assignItemRect(i, 13, 13);
+		for (int i = EXOTIC_POTION_POLISHS; i < EXOTIC_POTION_POLISHS+12; i++) assignItemRect(i, 15, 9);
 	}
 
 	private static final int STONE_MODS            =                           xy(1, 47);  //16 slots
@@ -1142,18 +1142,18 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_INTUITION     = STONE_MODS+10;
 	public static final int WHETSTONE_SHOCK         = STONE_MODS+11;
 	static {
-		assignItemRect(POLISH_AGGRESSION,15,11);
-		assignItemRect(WHETSTONE_AUGMENTATION,13,13);
-		assignItemRect(POLISH_FEAR,15,11);
-		assignItemRect(WHETSTONE_BLAST,13,13);
-		assignItemRect(POLISH_BLINK,15,11);
-		assignItemRect(POLISH_CLAIRVOYANCE,15,11);
-		assignItemRect(WHETSTONE_SLEEP,13,13);
-		assignItemRect(POLISH_DETECT,15,11);
-		assignItemRect(WHETSTONE_ENCHANT,13,13);
-		assignItemRect(POLISH_FLOCK,15,11);
-		assignItemRect(WHETSTONE_INTUITION,13,13);
-		assignItemRect(WHETSTONE_SHOCK,13,13);
+		assignItemRect(POLISH_AGGRESSION,15,9);
+		assignItemRect(WHETSTONE_AUGMENTATION, 16, 8);
+		assignItemRect(POLISH_FEAR,15,9);
+		assignItemRect(WHETSTONE_BLAST, 16, 8);
+		assignItemRect(POLISH_BLINK,15,9);
+		assignItemRect(POLISH_CLAIRVOYANCE,15,9);
+		assignItemRect(WHETSTONE_SLEEP, 16, 8);
+		assignItemRect(POLISH_DETECT,15,9);
+		assignItemRect(WHETSTONE_ENCHANT, 16, 8);
+		assignItemRect(POLISH_FLOCK,15,9);
+		assignItemRect(WHETSTONE_INTUITION, 16, 8);
+		assignItemRect(WHETSTONE_SHOCK, 16, 8);
 	}
 
 	private static final int SCROLL_WHETSTONES        =                               xy(1, 48);  //16 slots
@@ -1170,7 +1170,7 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_ODAL     = SCROLL_WHETSTONES+10;
 	public static final int WHETSTONE_TIWAZ    = SCROLL_WHETSTONES+11;
 	static {
-		for (int i = SCROLL_WHETSTONES; i < SCROLL_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
+		for (int i = SCROLL_WHETSTONES; i < SCROLL_WHETSTONES+12; i++) assignItemRect(i, 16, 8);
 	}
 
 	private static final int SCROLL_POLISHS        =                               xy(1, 49);  //16 slots
@@ -1187,7 +1187,7 @@ public class ItemSpriteSheet {
 	public static final int POLISH_ODAL     = SCROLL_POLISHS+10;
 	public static final int POLISH_TIWAZ    = SCROLL_POLISHS+11;
 	static {
-		for (int i = SCROLL_POLISHS; i < SCROLL_POLISHS+12; i++) assignItemRect(i, 15, 11);
+		for (int i = SCROLL_POLISHS; i < SCROLL_POLISHS+12; i++) assignItemRect(i, 15, 9);
 	}
 
 	private static final int EXOTIC_SCROLL_WHETSTONES        =                               xy(1, 50);  //16 slots
@@ -1204,7 +1204,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_WHETSTONE_ODAL     = EXOTIC_SCROLL_WHETSTONES+10;
 	public static final int EXOTIC_WHETSTONE_TIWAZ    = EXOTIC_SCROLL_WHETSTONES+11;
 	static {
-		for (int i = EXOTIC_SCROLL_WHETSTONES; i < EXOTIC_SCROLL_WHETSTONES+12; i++) assignItemRect(i, 13, 13);
+		for (int i = EXOTIC_SCROLL_WHETSTONES; i < EXOTIC_SCROLL_WHETSTONES+12; i++) assignItemRect(i, 16, 8);
 	}
 
 	private static final int EXOTIC_SCROLL_POLISHS        =                               xy(1, 51);  //16 slots
@@ -1221,7 +1221,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_POLISH_ODAL     = EXOTIC_SCROLL_POLISHS+10;
 	public static final int EXOTIC_POLISH_TIWAZ    = EXOTIC_SCROLL_POLISHS+11;
 	static {
-		for (int i = EXOTIC_SCROLL_POLISHS; i < EXOTIC_SCROLL_POLISHS+12; i++) assignItemRect(i, 15, 11);
+		for (int i = EXOTIC_SCROLL_POLISHS; i < EXOTIC_SCROLL_POLISHS+12; i++) assignItemRect(i, 15, 9);
 	}
 
 	private static final int BREW_MODS          =                               xy(1, 52);  //8 slots
@@ -1232,12 +1232,12 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_AQUA_BREW       = BREW_MODS+4;
 	public static final int WHETSTONE_UNSTABLE_BREW   = BREW_MODS+5;
 	static{
-		assignItemRect(POLISH_INFERNAL, 15, 11);
-		assignItemRect(POLISH_BLIZZARD, 15, 11);
-		assignItemRect(POLISH_SHOCKING, 15, 11);
-		assignItemRect(WHETSTONE_CAUSTIC, 13, 13);
-		assignItemRect(WHETSTONE_AQUA_BREW, 13, 13);
-		assignItemRect(WHETSTONE_UNSTABLE_BREW, 13, 13);
+		assignItemRect(POLISH_INFERNAL, 15, 9);
+		assignItemRect(POLISH_BLIZZARD, 15, 9);
+		assignItemRect(POLISH_SHOCKING, 15, 9);
+		assignItemRect(WHETSTONE_CAUSTIC,  16, 8);
+		assignItemRect(WHETSTONE_AQUA_BREW,  16, 8);
+		assignItemRect(WHETSTONE_UNSTABLE_BREW,  16, 8);
 	}
 
 	private static final int ELIXIR_MODS        =                               xy(9, 53);  //8 slots
@@ -1250,14 +1250,14 @@ public class ItemSpriteSheet {
 	public static final int POLISH_ARCANE   = ELIXIR_MODS+6;
 	public static final int POLISH_FEATHER  = ELIXIR_MODS+7;
 	static{
-		assignItemRect(WHETSTONE_HONEY,13,13);
-		assignItemRect(POLISH_AQUATIC_REJUVENATION,15,11);
-		assignItemRect(WHETSTONE_MIGHT,13,13);
-		assignItemRect(WHETSTONE_DRAGON,13,13);
-		assignItemRect(POLISH_TOXIC,15,11);
-		assignItemRect(WHETSTONE_ICY,13,13);
-		assignItemRect(POLISH_ARCANE,15,11);
-		assignItemRect(POLISH_FEATHER,15,11);
+		assignItemRect(WHETSTONE_HONEY, 16, 8);
+		assignItemRect(POLISH_AQUATIC_REJUVENATION,15,9);
+		assignItemRect(WHETSTONE_MIGHT, 16, 8);
+		assignItemRect(WHETSTONE_DRAGON, 16, 8);
+		assignItemRect(POLISH_TOXIC,15,9);
+		assignItemRect(WHETSTONE_ICY, 16, 8);
+		assignItemRect(POLISH_ARCANE,15,9);
+		assignItemRect(POLISH_FEATHER,15,9);
 	}
 
 	private static final int SPELL_MODS         =                               xy(1, 54);  //16 slots
@@ -1276,19 +1276,19 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_SUMMON_ELE      = SPELL_MODS+12;
 
 	static{
-		assignItemRect(POLISH_WILD_ENERGY,     15, 11);
-		assignItemRect(POLISH_PHASE_SHIFT,     15, 11);
-		assignItemRect(WHETSTONE_TELE_GRAB,       13, 13);
-		assignItemRect(POLISH_UNSTABLE_SPELL,  15, 11);
-		assignItemRect(POLISH_CURSE_INFUSE,    15, 11);
-		assignItemRect(WHETSTONE_CURSE_INFUSE,    13, 13);
-		assignItemRect(WHETSTONE_MAGIC_INFUSE,    13, 13);
-		assignItemRect(WHETSTONE_ALCHEMIZE,       13, 13);
-		assignItemRect(POLISH_RECYCLE,         15, 11);
+		assignItemRect(POLISH_WILD_ENERGY,     15, 9);
+		assignItemRect(POLISH_PHASE_SHIFT,     15, 9);
+		assignItemRect(WHETSTONE_TELE_GRAB,        16, 8);
+		assignItemRect(POLISH_UNSTABLE_SPELL,  15, 9);
+		assignItemRect(POLISH_CURSE_INFUSE,    15, 9);
+		assignItemRect(WHETSTONE_CURSE_INFUSE,     16, 8);
+		assignItemRect(WHETSTONE_MAGIC_INFUSE,     16, 8);
+		assignItemRect(WHETSTONE_ALCHEMIZE,        16, 8);
+		assignItemRect(POLISH_RECYCLE,         15, 9);
 
-		assignItemRect(WHETSTONE_RECLAIM_TRAP,     13, 13);
-		assignItemRect(POLISH_RETURN_BEACON,    15, 11);
-		assignItemRect(WHETSTONE_SUMMON_ELE,       13, 13);
+		assignItemRect(WHETSTONE_RECLAIM_TRAP,      16, 8);
+		assignItemRect(POLISH_RETURN_BEACON,    15, 9);
+		assignItemRect(WHETSTONE_SUMMON_ELE,        16, 8);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite
