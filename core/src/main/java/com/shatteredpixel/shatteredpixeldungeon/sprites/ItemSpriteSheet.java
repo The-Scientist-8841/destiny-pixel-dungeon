@@ -1276,13 +1276,13 @@ public class ItemSpriteSheet {
 	public static final int WHETSTONE_SUMMON_ELE      = SPELL_MODS+12;
 
 	static{
-		assignItemRect(POLISH_WILD_ENERGY,     15, 9);
-		assignItemRect(POLISH_PHASE_SHIFT,     15, 9);
+		assignItemRect(POLISH_WILD_ENERGY,     14, 12);
+		assignItemRect(POLISH_PHASE_SHIFT,     14, 12);
 		assignItemRect(WHETSTONE_TELE_GRAB,        16, 8);
 		assignItemRect(POLISH_UNSTABLE_SPELL,  15, 9);
-		assignItemRect(POLISH_CURSE_INFUSE,    15, 9);
+		assignItemRect(POLISH_CURSE_INFUSE,    16, 10);
 		assignItemRect(WHETSTONE_CURSE_INFUSE,     16, 8);
-		assignItemRect(WHETSTONE_MAGIC_INFUSE,     16, 8);
+		assignItemRect(WHETSTONE_MAGIC_INFUSE,     15, 8);
 		assignItemRect(WHETSTONE_ALCHEMIZE,        16, 8);
 		assignItemRect(POLISH_RECYCLE,         15, 9);
 
