@@ -775,6 +775,9 @@ public enum Talent {
 			if (hero.belongings.weapon() != null && !ShardOfOblivion.passiveIDDisabled()){
 				hero.belongings.weapon().identify();
 			}
+			if (hero.belongings.secondWep() != null && !ShardOfOblivion.passiveIDDisabled()){
+				hero.belongings.secondWep().identify();
+			}
 		}
 		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 3) {
 			for (Item item : hero.belongings) {
