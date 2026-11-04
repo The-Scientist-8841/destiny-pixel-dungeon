@@ -686,30 +686,36 @@ public class ItemSpriteSheet {
 	public static final int PHASE_SHIFT     = SPELLS+1;
 	public static final int TELE_GRAB       = SPELLS+2;
 	public static final int UNSTABLE_SPELL  = SPELLS+3;
-
-	public static final int CURSE_INFUSE    = SPELLS+5;
-	public static final int MAGIC_INFUSE    = SPELLS+6;
-	public static final int ALCHEMIZE       = SPELLS+7;
-	public static final int RECYCLE         = SPELLS+8;
-
-	public static final int RECLAIM_TRAP    = SPELLS+10;
-	public static final int RETURN_BEACON   = SPELLS+11;
-	public static final int SUMMON_ELE      = SPELLS+12;
+	public static final int CURSE_INFUSE    = SPELLS+4;
+	public static final int MAGIC_INFUSE    = SPELLS+5;
+	public static final int ALCHEMIZE       = SPELLS+6;
+	public static final int RECYCLE         = SPELLS+7;
+	public static final int RECLAIM_TRAP    = SPELLS+8;
+	public static final int RETURN_BEACON   = SPELLS+9;
+	public static final int SUMMON_ELE      = SPELLS+10;
+	public static final int SUMMON_ELE_FIRE = SPELLS+11;
+	public static final int SUMMON_ELE_FROST= SPELLS+12;
+	public static final int SUMMON_ELE_SHOCK= SPELLS+13;
+	public static final int SUMMON_ELE_CHAOS= SPELLS+14;
 
 	static{
-		assignItemRect(WILD_ENERGY,     12, 12);
+		assignItemRect(WILD_ENERGY,     10, 10);
 		assignItemRect(PHASE_SHIFT,     12, 10);
-		assignItemRect(TELE_GRAB,       10, 10);
+		assignItemRect(TELE_GRAB,       12, 12);
 		assignItemRect(UNSTABLE_SPELL,  12, 13);
 
 		assignItemRect(CURSE_INFUSE,    10, 16);
 		assignItemRect(MAGIC_INFUSE,    10, 14);
 		assignItemRect(ALCHEMIZE,       10, 16);
-		assignItemRect(RECYCLE,         10, 16);
+		assignItemRect(RECYCLE,         8, 16);
 
-		assignItemRect(RECLAIM_TRAP,     8, 16);
+		assignItemRect(RECLAIM_TRAP,     10, 16);
 		assignItemRect(RETURN_BEACON,    6, 16);
 		assignItemRect(SUMMON_ELE,       8, 16);
+		assignItemRect(SUMMON_ELE_FIRE,  8, 16);
+		assignItemRect(SUMMON_ELE_FROST, 8, 16);
+		assignItemRect(SUMMON_ELE_SHOCK, 8, 16);
+		assignItemRect(SUMMON_ELE_CHAOS, 8, 16);
 	}
 	
 	private static final int FOOD       =                                   xy(1, 28);  //16 slots
@@ -1006,15 +1012,17 @@ public class ItemSpriteSheet {
 	public static final int BULLET_PHASE_SHIFT     = SPELL_BULLETS+1;
 	public static final int BULLET_TELE_GRAB       = SPELL_BULLETS+2;
 	public static final int BULLET_UNSTABLE_SPELL  = SPELL_BULLETS+3;
-
-	public static final int BULLET_CURSE_INFUSE    = SPELL_BULLETS+5;
-	public static final int BULLET_MAGIC_INFUSE    = SPELL_BULLETS+6;
-	public static final int BULLET_ALCHEMIZE       = SPELL_BULLETS+7;
-	public static final int BULLET_RECYCLE         = SPELL_BULLETS+8;
-
-	public static final int BULLET_RECLAIM_TRAP    = SPELL_BULLETS+10;
-	public static final int BULLET_RETURN_BEACON   = SPELL_BULLETS+11;
-	public static final int BULLET_SUMMON_ELE      = SPELL_BULLETS+12;
+	public static final int BULLET_CURSE_INFUSE    = SPELL_BULLETS+4;
+	public static final int BULLET_MAGIC_INFUSE    = SPELL_BULLETS+5;
+	public static final int BULLET_ALCHEMIZE       = SPELL_BULLETS+6;
+	public static final int BULLET_RECYCLE         = SPELL_BULLETS+7;
+	public static final int BULLET_RECLAIM_TRAP    = SPELL_BULLETS+8;
+	public static final int BULLET_RETURN_BEACON   = SPELL_BULLETS+9;
+	public static final int BULLET_SUMMON_ELE      = SPELL_BULLETS+10;
+	public static final int BULLET_SUMMON_ELE_FIRE = SPELL_BULLETS+11;
+	public static final int BULLET_SUMMON_ELE_FROST= SPELL_BULLETS+12;
+	public static final int BULLET_SUMMON_ELE_SHOCK= SPELL_BULLETS+13;
+	public static final int BULLET_SUMMON_ELE_CHAOS= SPELL_BULLETS+14;
 
 	static{
 		assignItemRect(BULLET_WILD_ENERGY,     13, 13);
@@ -1030,6 +1038,10 @@ public class ItemSpriteSheet {
 		assignItemRect(BULLET_RECLAIM_TRAP,     15, 15);
 		assignItemRect(BULLET_RETURN_BEACON,    15, 15);
 		assignItemRect(BULLET_SUMMON_ELE,       15, 15);
+		assignItemRect(BULLET_SUMMON_ELE_FIRE,       15, 15);
+		assignItemRect(BULLET_SUMMON_ELE_FROST,       15, 15);
+		assignItemRect(BULLET_SUMMON_ELE_SHOCK,       15, 15);
+		assignItemRect(BULLET_SUMMON_ELE_CHAOS,       15, 15);
 	}
 
 	private static final int SEED_MODS              =                           xy(1, 42);  //16 slots
@@ -1261,34 +1273,38 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int SPELL_MODS         =                               xy(1, 54);  //16 slots
-	public static final int POLISH_WILD_ENERGY     = SPELL_MODS+0;
+	public static final int WHETSTONE_WILD_ENERGY     = SPELL_MODS+0;
 	public static final int POLISH_PHASE_SHIFT     = SPELL_MODS+1;
-	public static final int WHETSTONE_TELE_GRAB       = SPELL_MODS+2;
+	public static final int POLISH_TELE_GRAB       = SPELL_MODS+2;
 	public static final int POLISH_UNSTABLE_SPELL  = SPELL_MODS+3;
-	public static final int POLISH_CURSE_INFUSE   = SPELL_MODS+4;
-	public static final int WHETSTONE_CURSE_INFUSE    = SPELL_MODS+5;
-	public static final int WHETSTONE_MAGIC_INFUSE    = SPELL_MODS+6;
-	public static final int WHETSTONE_ALCHEMIZE       = SPELL_MODS+7;
-	public static final int POLISH_RECYCLE         = SPELL_MODS+8;
-
-	public static final int WHETSTONE_RECLAIM_TRAP    = SPELL_MODS+10;
-	public static final int POLISH_RETURN_BEACON   = SPELL_MODS+11;
-	public static final int WHETSTONE_SUMMON_ELE      = SPELL_MODS+12;
+	public static final int POLISH_CURSE_INFUSE    = SPELL_MODS+4;
+	public static final int WHETSTONE_MAGIC_INFUSE    = SPELL_MODS+5;
+	public static final int WHETSTONE_ALCHEMIZE       = SPELL_MODS+6;
+	public static final int WHETSTONE_RECYCLE         = SPELL_MODS+7;
+	public static final int POLISH_RECLAIM_TRAP    = SPELL_MODS+8;
+	public static final int POLISH_RETURN_BEACON   = SPELL_MODS+9;
+	public static final int WHETSTONE_SUMMON_ELE      = SPELL_MODS+10;
+	public static final int WHETSTONE_SUMMON_ELE_FIRE = SPELL_MODS+11;
+	public static final int WHETSTONE_SUMMON_ELE_FROST= SPELL_MODS+12;
+	public static final int WHETSTONE_SUMMON_ELE_SHOCK= SPELL_MODS+13;
+	public static final int WHETSTONE_SUMMON_ELE_CHAOS= SPELL_MODS+14;
 
 	static{
-		assignItemRect(POLISH_WILD_ENERGY,     14, 12);
+		assignItemRect(WHETSTONE_WILD_ENERGY,     16, 8);
 		assignItemRect(POLISH_PHASE_SHIFT,     14, 12);
-		assignItemRect(WHETSTONE_TELE_GRAB,        16, 8);
+		assignItemRect(POLISH_TELE_GRAB,        14, 12);
 		assignItemRect(POLISH_UNSTABLE_SPELL,  15, 9);
 		assignItemRect(POLISH_CURSE_INFUSE,    16, 10);
-		assignItemRect(WHETSTONE_CURSE_INFUSE,     16, 8);
-		assignItemRect(WHETSTONE_MAGIC_INFUSE,     15, 8);
+		assignItemRect(WHETSTONE_MAGIC_INFUSE,     16, 8);
 		assignItemRect(WHETSTONE_ALCHEMIZE,        16, 8);
-		assignItemRect(POLISH_RECYCLE,         15, 9);
-
-		assignItemRect(WHETSTONE_RECLAIM_TRAP,      16, 8);
+		assignItemRect(WHETSTONE_RECYCLE,         16, 8);
+		assignItemRect(POLISH_RECLAIM_TRAP,      15, 9);
 		assignItemRect(POLISH_RETURN_BEACON,    15, 9);
 		assignItemRect(WHETSTONE_SUMMON_ELE,        16, 8);
+		assignItemRect(WHETSTONE_SUMMON_ELE_FIRE,        16, 8);
+		assignItemRect(WHETSTONE_SUMMON_ELE_FROST,        16, 8);
+		assignItemRect(WHETSTONE_SUMMON_ELE_SHOCK,        16, 8);
+		assignItemRect(WHETSTONE_SUMMON_ELE_CHAOS,        16, 8);
 	}
 
 	//for smaller 8x8 icons that often accompany an item sprite

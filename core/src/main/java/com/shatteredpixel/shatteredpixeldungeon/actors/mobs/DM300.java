@@ -463,6 +463,7 @@ public class DM300 extends Mob {
 			}
 			float delay = GameMath.gate(TICK, (int)Math.ceil(target.cooldown()), 3*TICK);
 		}
+		float delay = GameMath.gate(TICK, (int)Math.ceil(target.cooldown()), 3*TICK);
 		for (int i : rockCells){
 			GameScene.targetedCell(i, delay);
 		}
