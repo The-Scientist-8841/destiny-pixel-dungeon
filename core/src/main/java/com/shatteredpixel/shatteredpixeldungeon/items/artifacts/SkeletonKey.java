@@ -144,7 +144,7 @@ public class SkeletonKey extends Artifact {
 						GLog.w(Messages.get(SkeletonKey.class, "wont_open"));
 						return;
 					}
-					if (Dungeon.level.map[target] == Terrain.LOCKED_DOOR){
+					if (Dungeon.level.locked || Dungeon.branch != 0){
 						if (Dungeon.level.locked){
 							GLog.w(Messages.get(SkeletonKey.class, "wont_open"));
 							return;
