@@ -185,6 +185,7 @@ public class GameScene extends PixelScene {
 	private Group terrain;
 	private Group customTiles;
 	private Group levelVisuals;
+	private Group customRaised;
 	private Group levelWallVisuals;
 	private Group customWalls;
 	private Group ripples;
@@ -326,6 +327,9 @@ public class GameScene extends PixelScene {
 		raisedTerrain = new RaisedTerrainTilemap();
 		add( raisedTerrain );
 
+		customRaised = new Group();
+		add(customRaised);
+
 		walls = new DungeonWallsTilemap();
 		add(walls);
 
@@ -371,6 +375,10 @@ public class GameScene extends PixelScene {
 		//set these up later so that they can influence previous tilemaps if needed
 		for( CustomTilemap visual : Dungeon.level.customTiles){
 			addCustomTile(visual);
+		}
+
+		for( CustomTilemap visual : Dungeon.level.customRaised){
+			addCustomRaised(visual);
 		}
 
 		for( CustomTilemap visual : Dungeon.level.customWalls){
@@ -1080,6 +1088,10 @@ public class GameScene extends PixelScene {
 
 	public void addCustomTile( CustomTilemap visual){
 		customTiles.add( visual.create() );
+	}
+
+	public void addCustomRaised( CustomTilemap visual){
+		customRaised.add( visual.create() );
 	}
 
 	public void addCustomWall( CustomTilemap visual){
