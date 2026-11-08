@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.AmbitiousImpRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.custom.Carpet;
@@ -81,7 +80,7 @@ public class VaultEntranceRoom extends VaultRoom {
 
 		AmbitiousImpRoom.WallBanners vis2 = new AmbitiousImpRoom.WallBanners();
 		vis2.pos(left+2, top+1);
-		level.customTiles.add(vis2);
+		level.customRaised.add(vis2);
 
 		ArrayList<Point> pedestalCandidates = new ArrayList<>();
 		pedestalCandidates.add(new Point(left+2, c.y));
@@ -158,7 +157,6 @@ public class VaultEntranceRoom extends VaultRoom {
 		if (direction == ALL) return 3;
 		return super.maxConnections(direction);
 	}
-
 
 	public static class QuestEntranceInternal extends CustomTilemap {
 

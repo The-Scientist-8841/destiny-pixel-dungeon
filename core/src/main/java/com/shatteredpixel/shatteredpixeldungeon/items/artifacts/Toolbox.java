@@ -22,12 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -38,17 +35,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.PowerOfMany;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Feint;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
-import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
-import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -57,8 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ToolboxCraftingScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.SentrySprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.WardSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ToolboxSentrySprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
@@ -740,7 +728,7 @@ public class Toolbox extends Artifact {
 		public int toolboxLevel = 1;
 
 		{
-			spriteClass = SentrySprite.class;
+			spriteClass = ToolboxSentrySprite.class;
 
 			alignment = Alignment.ALLY;
 
@@ -844,7 +832,7 @@ public class Toolbox extends Artifact {
 			}
 			HP = HT;
 			if (sprite != null) {
-				((SentrySprite) sprite).updateTier(tier);
+				((ToolboxSentrySprite) sprite).updateTier(tier);
 				sprite.place(pos);
 			}
 			GameScene.updateFog(pos, viewDistance+1);
@@ -873,7 +861,7 @@ public class Toolbox extends Artifact {
 
 		@Override
 		public CharSprite sprite() {
-			SentrySprite sprite = (SentrySprite) super.sprite();
+			ToolboxSentrySprite sprite = (ToolboxSentrySprite) super.sprite();
 			sprite.linkVisuals(this);
 			return sprite;
 		}
@@ -881,7 +869,7 @@ public class Toolbox extends Artifact {
 		@Override
 		public void updateSpriteState() {
 			super.updateSpriteState();
-			((SentrySprite)sprite).updateTier(tier);
+			((ToolboxSentrySprite)sprite).updateTier(tier);
 			sprite.place(pos);
 		}
 

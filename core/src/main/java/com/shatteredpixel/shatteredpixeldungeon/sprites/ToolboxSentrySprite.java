@@ -22,27 +22,21 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Toolbox;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
-import com.watabou.noosa.Game;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Callback;
 
-public class SentrySprite extends MobSprite {
+public class ToolboxSentrySprite extends MobSprite {
 
 	private Animation tierIdles[] = new Animation[5];
 	private Animation tierAttacks[] = new Animation[5];
 	private Animation tierZaps[] = new Animation[5];
 	private Animation tierDies[] = new Animation[5];
 
-	public SentrySprite(){
+	public ToolboxSentrySprite(){
 		super();
 
 		texture(Assets.Sprites.SENTRIES);
